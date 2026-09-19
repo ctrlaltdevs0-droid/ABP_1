@@ -18,7 +18,6 @@ A proposta é desenvolver uma página simples, intuitiva e responsiva, proporcio
 Desenvolver um site simples, intuitivo e informativo para:
 
 <ul> <li>Divulgar o curso de Scrum;</li> <li>Apresentar seus principais conteúdos e conceitos;</li> <li>Destacar os benefícios do curso;</li> <li>Facilitar o acesso às informações de inscrição.</li> </ul>
-Público-alvo
 
 <h3>O projeto é direcionado principalmente para:</h3>
 
