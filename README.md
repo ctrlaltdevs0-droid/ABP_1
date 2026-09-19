@@ -3,23 +3,10 @@ ABP_1
   
 Grupo: CTRL ALT DECVS
 </div>
-Participantes
+Participantes: Evellyn Silva Moreira; Júlio César Gregório Pereira; Luana Ferreira de Andrade; Miriele Freitas Vieira de Melo; Paloma Veloso da Silva; Rogiel Fernando Pereira Alves; Vitória Gabriely Ferreira da Conceição
 
-Evellyn Silva Moreira
+<h3>Site do Curso de Scrum</h3>
 
-Júlio César Gregório Pereira
-
-Luana Ferreira de Andrade
-
-Miriele Freitas Vieira de Melo
-
-Paloma Veloso da Silva
-
-Rogiel Fernando Pereira Alves
-
-Vitória Gabriely Ferreira da Conceição
-
-Site do Curso de Scrum
 Sobre o projeto
 
 Este projeto consiste na criação de um site para divulgação de um curso sobre Scrum, apresentando seus principais conceitos, conteúdos e benefícios.
