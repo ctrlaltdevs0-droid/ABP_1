@@ -7,31 +7,31 @@ Participantes: Evellyn Silva Moreira; Júlio César Gregório Pereira; Luana Fer
 
 <h3>Site do Curso de Scrum</h3>
 
-Sobre o projeto
+<h3>Sobre o projeto</h3>
 
 Este projeto consiste na criação de um site para divulgação de um curso sobre Scrum, apresentando seus principais conceitos, conteúdos e benefícios.
 
 A proposta é desenvolver uma página simples, intuitiva e responsiva, proporcionando uma boa experiência para usuários interessados em conhecer e aprender sobre Scrum e metodologias ágeis.
 
-Objetivo
+<h3>Objetivo</h3>
 
 Desenvolver um site simples, intuitivo e informativo para:
 
 <ul> <li>Divulgar o curso de Scrum;</li> <li>Apresentar seus principais conteúdos e conceitos;</li> <li>Destacar os benefícios do curso;</li> <li>Facilitar o acesso às informações de inscrição.</li> </ul>
 Público-alvo
 
-O projeto é direcionado principalmente para:
+<h3>O projeto é direcionado principalmente para:</h3>
 
 <ul> <li>Estudantes interessados em Scrum;</li> <li>Profissionais que desejam conhecer metodologias ágeis;</li> <li>Pessoas que buscam aprimorar seus conhecimentos em Scrum.</li> </ul>
 Tecnologias utilizadas
 
-O projeto foi desenvolvido utilizando:
+<h3>O projeto foi desenvolvido utilizando:</h3>
 
 <ul> <li><strong>HTML5</strong> — Estruturação da página;</li> <li><strong>CSS3</strong> — Estilização e responsividade;</li> <li><strong>JavaScript</strong> — Interatividade e funcionalidades.</li> </ul>
 Resultado esperado
 
 Criar uma página responsiva, moderna e informativa para divulgação do curso de Scrum, apresentando seus conteúdos e facilitando o acesso às informações para os interessados.
 
-Status do projeto
+<h3>Status do projeto</h3>
 
 Em desenvolvimento.
