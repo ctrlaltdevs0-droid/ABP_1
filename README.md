@@ -23,9 +23,10 @@ Desenvolver um site simples, intuitivo e informativo para:
   O projeto é direcionado principalmente para:
 
 <ul> <li>Estudantes interessados em Scrum;</li> <li>Profissionais que desejam conhecer metodologias ágeis;</li> <li>Pessoas que buscam aprimorar seus conhecimentos em Scrum.</li> </ul>
-Tecnologias utilizadas
 
-<h3>O projeto foi desenvolvido utilizando:</h3>
+<h3>Tecnologias utilizadas</h3>
+
+O projeto foi desenvolvido utilizando:
 
 <ul> <li><strong>HTML5</strong> — Estruturação da página;</li> <li><strong>CSS3</strong> — Estilização e responsividade;</li> <li><strong>JavaScript</strong> — Interatividade e funcionalidades.</li> </ul>
 Resultado esperado
