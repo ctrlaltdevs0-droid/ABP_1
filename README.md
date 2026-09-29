@@ -1,7 +1,7 @@
 <div align="center">
 ABP_1
   
-Grupo: CTRL ALT DECVS
+Grupo: CTRL ALT DEVS
 </div>
 Participantes: Evellyn Silva Moreira; Júlio César Gregório Pereira; Luana Ferreira de Andrade; Miriele Freitas Vieira de Melo; Paloma Veloso da Silva; Rogiel Fernando Pereira Alves; Vitória Gabriely Ferreira da Conceição
 
