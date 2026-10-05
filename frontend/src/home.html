@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÁgilCert | home</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-visual" aria-label="Apresentação ÁgilCert">
+      <img class="brand" src="assets/img/logo-agilcert.png" alt="ÁgilCert">
+      <div class="visual-copy">
+        <h3>Aprenda, pratique e certifique.</h3>
+        <p>Uma experiência simples para acompanhar conteúdos, responder questões e evoluir sua certificação.</p>
+      </div>
+      <img class="hero-character" src="assets/img/personagem-login.png" alt="Ilustração de estudante programando">
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-card">
+        <h4>Bem-vindo!</h4>
+        <p>Entre com seus dados para acessar sua conta.</p>
+
+        <div class="feedback" role="alert"></div>
+
+        <form data-auth-form="login">
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="senha">Senha</label>
+            <div class="password-wrap">
+              <input id="senha" name="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+              <button class="toggle-password" type="button" onclick="togglePassword('senha', this)">Mostrar</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="checkbox"><input type="checkbox" name="lembrar"> Lembrar de mim</label>
+            <a class="body-2" href="#">Esqueci minha senha</a>
+          </div>
+
+          <button class="btn btn-primary" type="submit">ENTRAR</button>
+        </form>
+
+        <p class="auth-footer">Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+      </div>
+    </section>
+  </main>
+  <script src="assets/js/auth.js"></script>
+</body>
+</html>

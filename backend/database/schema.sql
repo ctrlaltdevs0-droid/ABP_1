@@ -1,0 +1,9 @@
+BEGIN
+
+CREATE TABLE temas (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    ordem INTEGER NOT NULL
+);
+
+COMMIT;
