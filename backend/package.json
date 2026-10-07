@@ -5,10 +5,12 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node --env-file=../.env src/server.js",
+    "start": "node --env-file=.env src/server.js",
     "dev": "node --env-file=../.env --watch src/server.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
+    "dotenv": "^18.0.6",
     "express": "^5.2.1",
     "pg": "^8.23.1"
   }

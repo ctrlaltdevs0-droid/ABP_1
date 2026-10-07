@@ -1,11 +1,43 @@
+import "dotenv/config";
 import express from "express";
 import rotas from "./routes/temas.js";
+import supabase from "../database/config.js";;
 
-const porta = process.env.APP_PORT;
 const app = express();
+const porta = process.env.PORT || 3000;
 
+// Permite receber JSON nas requisições.
+app.use(express.json());
+
+// Rotas da aplicação.
 app.use("/api/temas", rotas);
 
-app.listen(porta, function(){
-    console.log(`Rodando em http://localhost:${porta}`);
+// Rota básica para verificar se a API está funcionando.
+app.get("/api", (req, res) => {
+  res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
+});
+
+// Rota temporária para testar a conexão com o Supabase.
+app.get("/api/teste-supabase", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("usuarios")
+      .select("*")
+      .limit(5);
+
+    if (error) {
+      return res.status(500).json({ erro: error.message });
+    }
+
+    return res.json(data);
+  } catch (erro) {
+    return res.status(500).json({
+      erro: "Erro ao conectar com o Supabase.",
+      detalhe: erro.message,
+    });
+  }
+});
+
+app.listen(porta, () => {
+  console.log(`Servidor rodando em http://localhost:${porta}`);
 });
