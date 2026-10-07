@@ -1,55 +1,208 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ÁgilCert | home</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>ÁgilCert - Início</title>
+
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/index.css">
+
 </head>
-<body>
-  <main class="auth-page">
-    <section class="auth-visual" aria-label="Apresentação ÁgilCert">
-      <img class="brand" src="assets/img/logo-agilcert.png" alt="ÁgilCert">
-      <div class="visual-copy">
-        <h3>Aprenda, pratique e certifique.</h3>
-        <p>Uma experiência simples para acompanhar conteúdos, responder questões e evoluir sua certificação.</p>
-      </div>
-      <img class="hero-character" src="assets/img/personagem-login.png" alt="Ilustração de estudante programando">
-    </section>
 
-    <section class="auth-panel">
-      <div class="auth-card">
-        <h4>Bem-vindo!</h4>
-        <p>Entre com seus dados para acessar sua conta.</p>
+<body class="home-page">
 
-        <div class="feedback" role="alert"></div>
 
-        <form data-auth-form="login">
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required>
-          </div>
+    <!-- HEADER -->
 
-          <div class="form-group">
-            <label for="senha">Senha</label>
-            <div class="password-wrap">
-              <input id="senha" name="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
-              <button class="toggle-password" type="button" onclick="togglePassword('senha', this)">Mostrar</button>
+    <header class="header">
+
+        <a href="home.html">
+
+            <img
+                src="img/logo.png"
+                alt="ÁgilCert"
+                class="header-logo">
+
+        </a>
+
+
+        <nav class="nav">
+
+            <a
+                href="home.html"
+                class="active">
+
+                INÍCIO
+
+            </a>
+
+            <a href="#">
+                ESTUDOS
+            </a>
+
+            <a href="certificacao.html">
+                CERTIFICAÇÃO
+            </a>
+
+            <a href="#">
+                HISTÓRICO
+            </a>
+
+        </nav>
+
+
+        <div class="user-area">
+
+            <div class="user-icon">
+                👤
             </div>
-          </div>
 
-          <div class="form-row">
-            <label class="checkbox"><input type="checkbox" name="lembrar"> Lembrar de mim</label>
-            <a class="body-2" href="#">Esqueci minha senha</a>
-          </div>
+            <span>
+                Olá, Ana⌄
+            </span>
 
-          <button class="btn btn-primary" type="submit">ENTRAR</button>
-        </form>
+        </div>
 
-        <p class="auth-footer">Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
-      </div>
-    </section>
-  </main>
-  <script src="assets/js/auth.js"></script>
+    </header>
+
+
+    <main class="home-container">
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <p class="hero-small-title">
+                    Seu futuro em tecnologia começa aqui
+                </p>
+
+                <h1>
+                    Certificação em metodologias
+                    ágeis
+                </h1>
+
+                <p>
+                    Teste seus conhecimentos em Scrum,
+                    Kanban e outras práticas ágeis.
+                </p>
+
+                <p>
+                    Faça a avaliação e conquiste
+                    seu certificado!
+                </p>
+
+                <a
+                    href="certificacao.html"
+                    class="btn-primary">
+
+                    Começar certificação
+
+                </a>
+
+            </div>
+
+
+            <img
+                src="img/ilustracao2.png"
+                alt="Estudante"
+                class="hero-image">
+
+        </section>
+
+
+        <!-- COMO FUNCIONA -->
+
+        <section class="how-section">
+
+            <h2 class="how-title">
+                Como funciona?
+            </h2>
+
+
+            <div class="steps">
+
+
+                <article class="step">
+
+                    <div class="step-icon">
+                        📖
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            1. Estude
+                        </h3>
+
+                        <p>
+                            Os 12 temas disponíveis
+                            na área de estudos
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="step">
+
+                    <div class="step-icon">
+                        ▶
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            2. Responda
+                        </h3>
+
+                        <p>
+                            12 questões, contemplando
+                            todos os temas estudados
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="step">
+
+                    <div class="step-icon">
+                        🏆
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            3. Conquiste
+                        </h3>
+
+                        <p>
+                            Seu certificado e valide
+                            com QR code
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
 </body>
+
 </html>
