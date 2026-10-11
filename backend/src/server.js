@@ -1,8 +1,10 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors";
 import rotas from "./routes/temas.js";
 import supabase from "../database/config.js";
 import rotasLogin from "./routes/login.js";
+
 
 const app = express();
 const porta = process.env.PORT || 3000;
@@ -10,6 +12,7 @@ const porta = process.env.PORT || 3000;
 // Permite receber JSON nas requisições.
 app.use(express.json());
 
+app.use(cors());
 app.use("/api/temas", rotas);
 app.use("/api/login", rotasLogin);
 

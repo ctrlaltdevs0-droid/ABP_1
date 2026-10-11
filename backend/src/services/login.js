@@ -1,12 +1,11 @@
-//SALVA NO SUPABASE
-
-import supabase from "../database/config.js";
+// SALVA E CONSULTA NO SUPABASE
+import supabase from "../../database/config.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-// CADASTRAR USUARIO
-export async function cadastrarUsuario(cpf, nome, senha) {
-  // Verifica se o CPF já existe
+// CADASTRAR USUÁRIO
+export async function cadastrarUsuario(cpf, nome, email, senha) {
+  // 1. Verifica se o CPF já está cadastrado
   const { data: existente, error: erroBusca } = await supabase
     .from("usuarios")
     .select("idusuarios")
@@ -14,29 +13,33 @@ export async function cadastrarUsuario(cpf, nome, senha) {
     .maybeSingle();
 
   if (erroBusca) {
-    throw new Error("Erro ao consultar usuário.");
+    console.error("Erro ao verificar CPF no Supabase:", erroBusca);
+    // Exibe o erro real vindo do Supabase
+    throw new Error(`Supabase erro: ${erroBusca.message || JSON.stringify(erroBusca)}`);
   }
 
   if (existente) {
     throw new Error("CPF já cadastrado.");
   }
 
-  // Transforma a senha em hash
+  // 2. Criptografa a senha com bcrypt
   const senhaHash = await bcrypt.hash(senha, 10);
 
-  // Salva no Supabase
+  // 3. Insere o novo registro na tabela 'usuarios' incluindo o email
   const { data, error } = await supabase
     .from("usuarios")
     .insert({
       cpf,
       nome,
+      email,
       senha_hash: senhaHash,
     })
-    .select("idusuarios, cpf, nome")
+    .select("idusuarios, cpf, nome, email")
     .single();
 
   if (error) {
-    throw new Error("Não foi possível cadastrar usuário.");
+    console.error("Erro ao inserir usuário no Supabase:", error);
+    throw new Error(`Supabase erro no cadastro: ${error.message || JSON.stringify(error)}`);
   }
 
   return data;
@@ -44,7 +47,7 @@ export async function cadastrarUsuario(cpf, nome, senha) {
 
 // FAZER LOGIN
 export async function fazerLogin(cpf, senha) {
-  // Procura o usuário pelo CPF
+  // 1. Busca o usuário pelo CPF
   const { data: usuario, error } = await supabase
     .from("usuarios")
     .select("idusuarios, cpf, nome, senha_hash")
@@ -52,30 +55,28 @@ export async function fazerLogin(cpf, senha) {
     .maybeSingle();
 
   if (error) {
-    throw new Error("Erro ao consultar usuário.");
+    console.error("Erro ao buscar usuário no Supabase:", error);
+    throw new Error(`Supabase erro no login: ${error.message || JSON.stringify(error)}`);
   }
 
   if (!usuario) {
     throw new Error("CPF ou senha inválidos.");
   }
 
-  // Compara a senha digitada com o hash salvo
-  const senhaCorreta = await bcrypt.compare(
-    senha,
-    usuario.senha_hash
-  );
+  // 2. Compara a senha informada com o hash salvo no banco
+  const senhaCorreta = await bcrypt.compare(senha, usuario.senha_hash);
 
   if (!senhaCorreta) {
     throw new Error("CPF ou senha inválidos.");
   }
 
-  // Gera o token JWT
+  // 3. Gera o token de autenticação JWT
   const token = jwt.sign(
     {
       id: usuario.idusuarios,
       cpf: usuario.cpf,
     },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || "sua_chave_secreta_aqui",
     { expiresIn: "2h" }
   );
 

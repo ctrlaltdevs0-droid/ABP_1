@@ -6,17 +6,19 @@ import {
 
 const rotas = express.Router();
 
-// ROTA DE CADASTRO
+// ROTA DE CADASTRO (POST /api/login/cadastro)
 rotas.post("/cadastro", async (req, res) => {
   try {
-    const { cpf, nome, senha } = req.body;
+    const { cpf, nome, email, senha } = req.body;
 
-    if (!cpf || !nome || !senha) {
+    // Validação de campos obrigatórios
+    if (!cpf || !nome || !email || !senha) {
       return res.status(400).json({
-        erro: "Preencha CPF, nome e senha.",
+        erro: "Preencha CPF, nome, e-mail e senha.",
       });
     }
 
+    // Limpa pontuações do CPF (deixa apenas números)
     const cpfLimpo = String(cpf).replace(/\D/g, "");
 
     if (!/^\d{11}$/.test(cpfLimpo)) {
@@ -37,9 +39,11 @@ rotas.post("/cadastro", async (req, res) => {
       });
     }
 
+    // Executa o cadastro passando o email
     const usuario = await cadastrarUsuario(
       cpfLimpo,
       nome.trim(),
+      email,
       senha
     );
 
@@ -52,15 +56,16 @@ rotas.post("/cadastro", async (req, res) => {
       return res.status(409).json({ erro: erro.message });
     }
 
-    console.error(erro);
+    console.error("Erro na rota de cadastro:", erro);
 
+    // Retorna a mensagem real do erro para podermos identificar no formulário
     return res.status(500).json({
-      erro: "Erro interno ao cadastrar usuário.",
+      erro: erro.message || "Erro interno ao cadastrar usuário.",
     });
   }
 });
 
-// ROTA DE LOGIN
+// ROTA DE LOGIN (POST /api/login/entrar)
 rotas.post("/entrar", async (req, res) => {
   try {
     const { cpf, senha } = req.body;
@@ -85,6 +90,7 @@ rotas.post("/entrar", async (req, res) => {
       });
     }
 
+    // Executa o login e gera o token
     const resultado = await fazerLogin(cpfLimpo, senha);
 
     return res.status(200).json({
@@ -96,10 +102,10 @@ rotas.post("/entrar", async (req, res) => {
       return res.status(401).json({ erro: erro.message });
     }
 
-    console.error(erro);
+    console.error("Erro na rota de login:", erro);
 
     return res.status(500).json({
-      erro: "Erro interno ao realizar login.",
+      erro: erro.message || "Erro interno ao realizar login.",
     });
   }
 });
