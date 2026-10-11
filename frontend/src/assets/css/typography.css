@@ -1,0 +1,71 @@
+.h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 103px;
+}
+
+.h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 64px;
+}
+
+.h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 51px;
+}
+
+.h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+}
+
+.h5 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 26px;
+}
+
+.h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 21px;
+}
+
+.subtitle {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+}
+
+.subtitle2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.body1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.body2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.caption {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+}
