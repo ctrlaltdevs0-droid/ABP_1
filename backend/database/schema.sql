@@ -4,6 +4,7 @@ CREATE TABLE usuarios (
     idusuarios INTEGER GENERATED ALWAYS AS IDENTITY, 
     cpf CHAR(11) NOT NULL,
     nome VARCHAR(50) NOT NULL,
+    email TEXT NOT NULL,
     senha_hash VARCHAR(100) NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 

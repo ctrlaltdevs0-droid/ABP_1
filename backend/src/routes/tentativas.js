@@ -42,7 +42,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         .from("tentativas")
         .insert({
           usuarios_idusuarios: body.usuarios_idusuarios,
-          iniciada_em: new Date().toISOString(),
+          iniciado_em: new Date().toISOString(),
           status: "EM_ANDAMENTO",
         })
         .select()
@@ -96,7 +96,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
       // Salva no banco as questões escolhidas para essa prova.
       if (selecionadas.length) {
         const { error: erroVinculo } = await supabase
-          .from("tentativa_questoes")
+          .from("tentativas_questoes")
           .insert(selecionadas);
 
         if (erroVinculo) {
@@ -144,7 +144,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
     const tentativaId = proximaMatch[1];
 
     const { data: vinculo, error } = await supabase
-      .from("tentativa_questoes")
+      .from("tentativas_questoes")
       .select("questoes_idquestoes")
       .eq("tentativas_idtentativas", tentativaId)
       .eq("respondida", false)
@@ -213,6 +213,17 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         });
       }
 
+      const { data: tentativa, error: erroTentativa } = await supabase.from('tentativas')
+        .select('status').eq('idtentativas', tentativaId).single();
+      if (erroTentativa || tentativa.status !== 'EM_ANDAMENTO') {
+        return responder(res, 409, { erro: 'Tentativa indisponível para respostas.' });
+      }
+      const { data: vinculo, error: erroVinculo } = await supabase.from('tentativas_questoes')
+        .select('questoes_idquestoes').eq('tentativas_idtentativas', tentativaId)
+        .eq('questoes_idquestoes', body.questoes_idquestoes).maybeSingle();
+      if (erroVinculo) return responder(res, 500, {});
+      if (!vinculo) return responder(res, 400, { erro: 'Questão não pertence à tentativa.' });
+
       // Busca a alternativa escolhida.
       const { data: alternativa, error: erroAlternativa } = await supabase
         .from("alternativas")
@@ -247,14 +258,14 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         .single();
 
       if (erroResposta) {
-        return responder(res, 400, {
-          erro: erroResposta.message,
+        return responder(res, erroResposta.code === '23505' ? 409 : 500, {
+          erro: 'Resposta já registrada.',
         });
       }
 
       // Marca a questão como respondida.
       const { error: erroAtualizacao } = await supabase
-        .from("tentativa_questoes")
+        .from("tentativas_questoes")
         .update({
           respondida: true,
         })
@@ -309,7 +320,13 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
     }
 
     // Calcula quantidade de respostas e acertos.
-    const total = respostas?.length ?? 0;
+    const { data: vinculos, error: erroVinculos } = await supabase.from('tentativas_questoes')
+      .select('questoes_idquestoes').eq('tentativas_idtentativas', tentativaId);
+    if (erroVinculos) return responder(res, 500, {});
+    const total = vinculos?.length ?? 0;
+    if (!total || respostas?.length !== total) {
+      return responder(res, 409, { erro: 'Responda todas as questões antes de finalizar.' });
+    }
 
     const acertos = (respostas ?? []).filter(
       (resposta) => resposta.correta === true
@@ -327,9 +344,9 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
     const { data: finalizada, error: erroFinalizar } = await supabase
       .from("tentativas")
       .update({
-        finalizada_em: new Date().toISOString(),
+        finalizado_em: new Date().toISOString(),
         status: "FINALIZADA",
-        score: acertos,
+        acertos: acertos,
         percentual,
         aprovado,
       })
@@ -347,25 +364,40 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
 
     // Se foi aprovado, cria um certificado.
     if (aprovado) {
+      const { data: existente, error: erroExistente } = await supabase.from('certificados')
+        .select('*').eq('tentativas_idtentativas', tentativaId).maybeSingle();
+      if (erroExistente) return responder(res, 500, {});
+      if (existente) {
+        return responder(res, 200, {
+          tentativa: finalizada,
+          resultado: { total, acertos, percentual, aprovado },
+          certificado: existente,
+        });
+      }
       const codigoValidacao = crypto.randomUUID();
 
       const { data, error } = await supabase
         .from("certificados")
-        .insert({
+        .upsert({
           usuarios_idusuarios: tentativa.usuarios_idusuarios,
-          idcertificados: Date.now(),
+          tentativas_idtentativas: tentativaId,
           emitido_em: new Date().toISOString(),
           score: acertos,
           percentual,
           ativo: true,
           revogado_em: null,
           codigo_validacao: codigoValidacao,
-        })
+        }, { onConflict: 'tentativas_idtentativas', ignoreDuplicates: true })
         .select()
-        .single();
+        .maybeSingle();
 
-      if (!error) {
-        certificado = data;
+      if (error) return responder(res, 500, {});
+      certificado = data;
+      if (!certificado) {
+        const resultado = await supabase.from('certificados').select('*')
+          .eq('tentativas_idtentativas', tentativaId).single();
+        if (resultado.error) return responder(res, 500, {});
+        certificado = resultado.data;
       }
     }
 

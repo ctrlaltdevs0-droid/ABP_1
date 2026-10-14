@@ -1,43 +1,48 @@
-import "dotenv/config";
 import express from "express";
-import rotas from "./routes/temas.js";
-import supabase from "../database/config.js";;
+import cors from "cors";
+import rotasLogin from "./routes/login.js";
+import { executarRotas } from "./routes/index.js";
+import { autorizarRota } from './middleware/autorizacao.js';
+import supabase from "../database/config.js";
 
 const app = express();
 const porta = process.env.PORT || 3000;
-
-// Permite receber JSON nas requisições.
 app.use(express.json());
-
-// Rotas da aplicação.
-app.use("/api/temas", rotas);
-
-// Rota básica para verificar se a API está funcionando.
+app.use(cors());
+app.use("/api/login", rotasLogin);
 app.get("/api", (req, res) => {
   res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
 });
 
-// Rota temporária para testar a conexão com o Supabase.
+// Verifica a conexão sem retornar registros ou informações pessoais.
 app.get("/api/teste-supabase", async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from("usuarios")
-      .select("*")
-      .limit(5);
-
-    if (error) {
-      return res.status(500).json({ erro: error.message });
-    }
-
-    return res.json(data);
-  } catch (erro) {
-    return res.status(500).json({
-      erro: "Erro ao conectar com o Supabase.",
-      detalhe: erro.message,
-    });
+    const { error } = await supabase
+      .from("temas")
+      .select("idtemas", { head: true })
+      .limit(1);
+    if (error) throw error;
+    res.json({ status: "ok" });
+  } catch {
+    res.status(503).json({ erro: "Banco de dados indisponível." });
   }
 });
 
-app.listen(porta, () => {
-  console.log(`Servidor rodando em http://localhost:${porta}`);
+app.use(async (req, res, next) => {
+  try {
+    const pathname = req.path;
+    if (!/^\/api\/(temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
+    if (!(await autorizarRota(req, res, pathname, supabase))) return;
+    if (!(await executarRotas(req, res, pathname, supabase))) next();
+  } catch (error) { next(error); }
+});
+app.use((req, res) => res.status(404).json({ erro: 'Rota não encontrada.' }));
+app.use((error, req, res, next) => {
+  if (res.headersSent) return next(error);
+  const status = error.type === 'entity.too.large' ? 413 : error.type === 'entity.parse.failed' ? 400 : 500;
+  res.status(status).json({ erro: status === 400 ? 'JSON inválido.' : status === 413 ? 'Conteúdo enviado muito grande.' : 'Erro interno do servidor.' });
+});
+
+export const server = app.listen(porta, () => {
+  console.log(`Servidor rodando em http://localhost:${server.address().port}`);
 });

@@ -1,5 +1,4 @@
 // Importa todos os arquivos de rotas.
-import { usuariosRoutes } from "./usuarios.js";
 import { temasRoutes } from "./temas.js";
 import { conteudosRoutes } from "./conteudos.js";
 import { questoesRoutes } from "./questoes.js";
@@ -9,7 +8,6 @@ import { certificadosRoutes } from "./certificados.js";
 
 // Lista com todas as rotas da aplicação.
 const rotas = [
-  usuariosRoutes,
   temasRoutes,
   conteudosRoutes,
   questoesRoutes,

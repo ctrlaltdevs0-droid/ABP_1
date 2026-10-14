@@ -1,4 +1,5 @@
 import { lerJson, responder, idDaRota, rotaExata } from "../utils/http.js";
+import listarTemas from '../services/temas.js';
 
 export async function temasRoutes(req, res, pathname, supabase) {
   const base = "/api/temas";
@@ -7,14 +8,12 @@ export async function temasRoutes(req, res, pathname, supabase) {
   // GET /api/temas
   // Lista todos os temas cadastrados.
   if (req.method === "GET" && rotaExata(pathname, base)) {
-    const { data, error } = await supabase
-      .from("temas")
-      .select("*")
-      .order("idtemas", { ascending: true });
-
-    if (error) return responder(res, 500, { erro: error.message });
-
-    return responder(res, 200, data);
+    try {
+      return responder(res, 200, await listarTemas());
+    } catch {
+      res.status(503).json({ erro: 'Não foi possível consultar os temas.' });
+      return;
+    }
   }
 
   // GET /api/temas/:id
@@ -24,6 +23,7 @@ export async function temasRoutes(req, res, pathname, supabase) {
       .from("temas")
       .select("*")
       .eq("idtemas", id)
+      .eq("ativo", true)
       .single();
 
     if (error) return responder(res, 404, { erro: "Tema não encontrado." });

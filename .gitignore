@@ -1,6 +1,7 @@
 # Variáveis de ambiente
 .env
 .env.*
+!.env.example
 
 # Dependências Node
 node_modules/
@@ -24,3 +25,4 @@ dist/
 build/
 coverage/
 .cache/
+supabase/.temp/
