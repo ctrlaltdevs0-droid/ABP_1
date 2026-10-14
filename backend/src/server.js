@@ -1,29 +1,43 @@
+import "dotenv/config";
 import express from "express";
 import rotas from "./routes/temas.js";
-import supabase from "../database/config.js";
+import supabase from "../database/config.js";;
 
 const app = express();
 const porta = process.env.PORT || 3000;
+
+// Permite receber JSON nas requisições.
 app.use(express.json());
+
+// Rotas da aplicação.
 app.use("/api/temas", rotas);
+
+// Rota básica para verificar se a API está funcionando.
 app.get("/api", (req, res) => {
   res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
 });
 
-// Verifica a conexão sem retornar registros ou informações pessoais.
+// Rota temporária para testar a conexão com o Supabase.
 app.get("/api/teste-supabase", async (req, res) => {
   try {
-    const { error } = await supabase
-      .from("temas")
-      .select("idtemas", { head: true })
-      .limit(1);
-    if (error) throw error;
-    res.json({ status: "ok" });
-  } catch {
-    res.status(503).json({ erro: "Banco de dados indisponível." });
+    const { data, error } = await supabase
+      .from("usuarios")
+      .select("*")
+      .limit(5);
+
+    if (error) {
+      return res.status(500).json({ erro: error.message });
+    }
+
+    return res.json(data);
+  } catch (erro) {
+    return res.status(500).json({
+      erro: "Erro ao conectar com o Supabase.",
+      detalhe: erro.message,
+    });
   }
 });
 
-export const server = app.listen(porta, () => {
-  console.log(`Servidor rodando em http://localhost:${server.address().port}`);
+app.listen(porta, () => {
+  console.log(`Servidor rodando em http://localhost:${porta}`);
 });
