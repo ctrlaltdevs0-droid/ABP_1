@@ -3,6 +3,11 @@ import supabase from "../../database/config.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const jwtSecret = process.env.JWT_SECRET?.trim();
+if (!jwtSecret || jwtSecret.length < 32 || jwtSecret === 'sua_chave_secreta_aqui') {
+  throw new Error('Defina JWT_SECRET com pelo menos 32 caracteres aleatórios no ambiente do servidor.');
+}
+
 // CADASTRAR USUÁRIO
 export async function cadastrarUsuario(cpf, nome, email, senha) {
   // 1. Verifica se o CPF já está cadastrado
@@ -76,7 +81,7 @@ export async function fazerLogin(cpf, senha) {
       id: usuario.idusuarios,
       cpf: usuario.cpf,
     },
-    process.env.JWT_SECRET || "sua_chave_secreta_aqui",
+    jwtSecret,
     { expiresIn: "2h" }
   );
 

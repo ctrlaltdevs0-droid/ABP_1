@@ -9,7 +9,7 @@ const rotas = express.Router();
 // ROTA DE CADASTRO (POST /api/login/cadastro)
 rotas.post("/cadastro", async (req, res) => {
   try {
-    const { cpf, nome, email, senha } = req.body;
+    const { cpf, nome, email, senha } = req.body ?? {};
 
     // Validação de campos obrigatórios
     if (!cpf || !nome || !email || !senha) {
@@ -27,15 +27,19 @@ rotas.post("/cadastro", async (req, res) => {
       });
     }
 
-    if (typeof nome !== "string" || !nome.trim()) {
+    if (typeof nome !== "string" || !nome.trim() || nome.trim().length > 50) {
       return res.status(400).json({
         erro: "Informe um nome válido.",
       });
     }
 
-    if (typeof senha !== "string" || senha.length < 8) {
+    if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      return res.status(400).json({ erro: "Informe um e-mail válido." });
+    }
+
+    if (typeof senha !== "string" || senha.length < 8 || Buffer.byteLength(senha, 'utf8') > 72) {
       return res.status(400).json({
-        erro: "A senha deve ter pelo menos 8 caracteres.",
+        erro: "A senha deve ter pelo menos 8 caracteres e no máximo 72 bytes.",
       });
     }
 
@@ -43,7 +47,7 @@ rotas.post("/cadastro", async (req, res) => {
     const usuario = await cadastrarUsuario(
       cpfLimpo,
       nome.trim(),
-      email,
+      email.trim().toLowerCase(),
       senha
     );
 
@@ -58,9 +62,8 @@ rotas.post("/cadastro", async (req, res) => {
 
     console.error("Erro na rota de cadastro:", erro);
 
-    // Retorna a mensagem real do erro para podermos identificar no formulário
     return res.status(500).json({
-      erro: erro.message || "Erro interno ao cadastrar usuário.",
+      erro: "Erro interno ao cadastrar usuário.",
     });
   }
 });
@@ -68,7 +71,7 @@ rotas.post("/cadastro", async (req, res) => {
 // ROTA DE LOGIN (POST /api/login/entrar)
 rotas.post("/entrar", async (req, res) => {
   try {
-    const { cpf, senha } = req.body;
+    const { cpf, senha } = req.body ?? {};
 
     if (!cpf || !senha) {
       return res.status(400).json({
@@ -84,7 +87,7 @@ rotas.post("/entrar", async (req, res) => {
       });
     }
 
-    if (typeof senha !== "string") {
+    if (typeof senha !== "string" || Buffer.byteLength(senha, 'utf8') > 72) {
       return res.status(400).json({
         erro: "Senha inválida.",
       });
@@ -105,7 +108,7 @@ rotas.post("/entrar", async (req, res) => {
     console.error("Erro na rota de login:", erro);
 
     return res.status(500).json({
-      erro: erro.message || "Erro interno ao realizar login.",
+      erro: "Erro interno ao realizar login.",
     });
   }
 });
