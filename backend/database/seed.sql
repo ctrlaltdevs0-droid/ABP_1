@@ -1,4 +1,4 @@
-schemas.sql:          seed:BEGIN;
+BEGIN;
 
 INSERT INTO temas (nome, descricao, ordem, ativo)
 VALUES

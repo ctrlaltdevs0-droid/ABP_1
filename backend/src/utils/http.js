@@ -25,6 +25,14 @@ export class ErroHttp extends Error {
 // Lê o JSON enviado pelo frontend.
 // O limite padrão é de 1.000.000 de bytes.
 export function lerJson(req, limite = 1_000_000) {
+  // express.json() pode já ter consumido o stream.
+  if (req.body !== undefined) {
+    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+      return Promise.reject(new ErroHttp(400, 'Envie um objeto JSON.'));
+    }
+    return Promise.resolve(req.body);
+  }
+  if (req.readableEnded) return Promise.resolve({});
   return new Promise((resolve, reject) => {
     let partes = [];
     let tamanho = 0;
@@ -103,6 +111,10 @@ export function lerJson(req, limite = 1_000_000) {
 // Envia uma resposta JSON para o frontend.
 export function responder(res, status, corpo, cabecalhos = {}) {
   if (res.destroyed || res.writableEnded) return;
+
+  // Erros das consultas não são parte do contrato público da API.
+  if (status >= 500) corpo = { erro: MENSAGENS_ERRO[status] ?? MENSAGENS_ERRO[500] };
+  if (status === 204) { res.writeHead(status, cabecalhos); res.end(); return; }
 
   // Serializa antes de enviar os cabeçalhos.
   const json = JSON.stringify(corpo);
