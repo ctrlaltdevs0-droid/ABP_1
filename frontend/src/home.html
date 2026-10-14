@@ -3,53 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ÁgilCert | home</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+  <title>ÁgilCert | Início</title>
+  <link rel="stylesheet" href="assets/css/home.css">
 </head>
 <body>
-  <main class="auth-page">
-    <section class="auth-visual" aria-label="Apresentação ÁgilCert">
-      <img class="brand" src="assets/img/logo-agilcert.png" alt="ÁgilCert">
-      <div class="visual-copy">
-        <h3>Aprenda, pratique e certifique.</h3>
-        <p>Uma experiência simples para acompanhar conteúdos, responder questões e evoluir sua certificação.</p>
+
+  <header class="site-header">
+    <!-- Logo -->
+    <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
+
+    <!-- Navegação -->
+    <nav class="header-nav">
+      <a class="nav-link active" href="#">Início</a>
+      <a class="nav-link" href="#">Estudos</a>
+      <a class="nav-link" href="#">Certificação</a>
+      <a class="nav-link" href="#">Histórico</a>
+    </nav>
+
+    <!-- Perfil -->
+    <div class="profile-menu" id="profileMenu">
+      <button class="profile-trigger" onclick="toggleProfile()">
+        <div class="profile-avatar">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+          </svg>
+        </div>
+        <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
+        <span class="chevron">▼</span>
+      </button>
+
+      <div class="dropdown">
+        <div class="dropdown-header">
+          <div class="profile-username" id="dropdownUserName">Usuário</div>
+          <div class="profile-greeting">Minha conta</div>
+        </div>
+        <div class="dropdown-body">
+          <a href="#">Meu Perfil</a>
+          <a href="#">Configurações</a>
+          <div class="divider"></div>
+          <button class="danger" onclick="logout()">Sair</button>
+        </div>
       </div>
-      <img class="hero-character" src="assets/img/personagem-login.png" alt="Ilustração de estudante programando">
-    </section>
+    </div>
+  </header>
 
-    <section class="auth-panel">
-      <div class="auth-card">
-        <h4>Bem-vindo!</h4>
-        <p>Entre com seus dados para acessar sua conta.</p>
+  <main class="site-main">
+    <div class="hero-card">
 
-        <div class="feedback" role="alert"></div>
+      <div class="hero-top">
+        <div class="hero-text">
+          <p class="subtitle-1" style="color: var(--primary);">Seu futuro em tecnologia começa aqui</p>
+          <h2 style="color: var(--text-secondary);">Certificação em metodologias ágeis</h2>
+          <p class="body-2">Teste seus conhecimentos em Scrum, Kanban e outras práticas ágeis.<br>Faça a avaliação e conquiste seu certificado!</p>
+          <a href="#" class="btn-hero">Começar certificação</a>
+        </div>
+        <div class="hero-image">
+          <img src="assets/img/jovem-estudando.png" alt="Jovem estudando">
+        </div>
+      </div>
 
-        <form data-auth-form="login">
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required>
-          </div>
+      <div class="how-it-works">
+        <p class="how-title">Como funciona?</p>
+        <div class="how-card">
 
-          <div class="form-group">
-            <label for="senha">Senha</label>
-            <div class="password-wrap">
-              <input id="senha" name="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
-              <button class="toggle-password" type="button" onclick="togglePassword('senha', this)">Mostrar</button>
+          <div class="how-item">
+            <div class="how-icon" style="background: var(--accent);">
+              <svg viewBox="0 0 24 24"><path d="M21 5c-1.1-.35-2.3-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg>
+            </div>
+            <div class="how-info">
+              <h6>1. Estude</h6>
+              <p class="body-2">Os 12 temas disponíveis na área de estudos.</p>
             </div>
           </div>
 
-          <div class="form-row">
-            <label class="checkbox"><input type="checkbox" name="lembrar"> Lembrar de mim</label>
-            <a class="body-2" href="#">Esqueci minha senha</a>
+          <div class="how-divider"></div>
+
+          <div class="how-item">
+            <div class="how-icon" style="background: var(--secondary);">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="how-info">
+              <h6>2. Responda</h6>
+              <p class="body-2">12 questões, contemplando todos os temas estudados.</p>
+            </div>
           </div>
 
-          <button class="btn btn-primary" type="submit">ENTRAR</button>
-        </form>
+          <div class="how-divider"></div>
 
-        <p class="auth-footer">Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+          <div class="how-item">
+            <div class="how-icon" style="background: var(--primary);">
+              <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V17H9v2h6v-2h-2v-2.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+            </div>
+            <div class="how-info">
+              <h6>3. Conquiste</h6>
+              <p class="body-2">Seu certificado e valide com QR code.</p>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </section>
+
+    </div>
   </main>
-  <script src="assets/js/auth.js"></script>
+
+  <script>
+    function toggleProfile() {
+      document.getElementById('profileMenu').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById('profileMenu');
+      if (!menu.contains(e.target)) menu.classList.remove('open');
+    });
+
+    function logout() {
+      window.location.href = 'home.html';
+    }
+  </script>
 </body>
 </html>
