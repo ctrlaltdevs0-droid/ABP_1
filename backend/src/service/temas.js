@@ -1,11 +1,8 @@
-import supabase from "../../database/config.js";
+import pool from "../config/database.js";
 
-export default async function listarTemas() {
-  const { data, error } = await supabase
-    .from("temas")
-    .select("idtemas,nome,descricao,ordem")
-    .eq("ativo", true)
-    .order("ordem");
-  if (error) throw error;
-  return data;
+async function listarTemas(){
+    const {rows} = await pool.query("SELECT * FROM temas ORDER BY ordem");
+    return rows;
 }
+
+export default listarTemas;
