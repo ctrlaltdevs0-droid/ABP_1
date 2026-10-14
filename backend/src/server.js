@@ -1,4 +1,5 @@
 import express from "express";
+import { fileURLToPath } from 'node:url';
 import cors from "cors";
 import rotasLogin from "./routes/login.js";
 import { executarRotas } from "./routes/index.js";
@@ -7,8 +8,8 @@ import supabase from "../database/config.js";
 
 const app = express();
 const porta = process.env.PORT || 3000;
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use("/api/login", rotasLogin);
 app.get("/api", (req, res) => {
   res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
@@ -27,6 +28,11 @@ app.get("/api/teste-supabase", async (req, res) => {
     res.status(503).json({ erro: "Banco de dados indisponível." });
   }
 });
+
+// Somente os arquivos públicos do frontend são servidos.
+const frontendPath = fileURLToPath(new URL('../../frontend/src/', import.meta.url));
+app.get('/', (req, res) => res.redirect('/login.html'));
+app.use(express.static(frontendPath, { index: false, dotfiles: 'deny' }));
 
 app.use(async (req, res, next) => {
   try {
