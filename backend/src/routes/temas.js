@@ -1,11 +1,89 @@
-import { Router } from "express";
-import listarTemas from "../service/temas.js";
+import { lerJson, responder, idDaRota, rotaExata } from "../utils/http.js";
 
-const rotas = Router();
+export async function temasRoutes(req, res, pathname, supabase) {
+  const base = "/api/temas";
+  const id = idDaRota(pathname, base);
 
-rotas.get("/", async function (req, res) {
-    const result = await listarTemas();
-    res.send(result);
-});
+  // GET /api/temas
+  // Lista todos os temas cadastrados.
+  if (req.method === "GET" && rotaExata(pathname, base)) {
+    const { data, error } = await supabase
+      .from("temas")
+      .select("*")
+      .order("idtemas", { ascending: true });
 
-export default rotas;
+    if (error) return responder(res, 500, { erro: error.message });
+
+    return responder(res, 200, data);
+  }
+
+  // GET /api/temas/:id
+  // Busca um tema específico pelo ID.
+  if (req.method === "GET" && id) {
+    const { data, error } = await supabase
+      .from("temas")
+      .select("*")
+      .eq("idtemas", id)
+      .single();
+
+    if (error) return responder(res, 404, { erro: "Tema não encontrado." });
+
+    return responder(res, 200, data);
+  }
+
+  // POST /api/temas
+  // Cadastra um novo tema.
+  if (req.method === "POST" && rotaExata(pathname, base)) {
+    try {
+      const body = await lerJson(req);
+
+      const { data, error } = await supabase
+        .from("temas")
+        .insert(body)
+        .select()
+        .single();
+
+      if (error) return responder(res, 400, { erro: error.message });
+
+      return responder(res, 201, data);
+    } catch (erro) {
+      return responder(res, 400, { erro: erro.message });
+    }
+  }
+
+  // PUT ou PATCH /api/temas/:id
+  // Atualiza um tema já cadastrado.
+  if ((req.method === "PUT" || req.method === "PATCH") && id) {
+    try {
+      const body = await lerJson(req);
+
+      const { data, error } = await supabase
+        .from("temas")
+        .update(body)
+        .eq("idtemas", id)
+        .select()
+        .single();
+
+      if (error) return responder(res, 400, { erro: error.message });
+
+      return responder(res, 200, data);
+    } catch (erro) {
+      return responder(res, 400, { erro: erro.message });
+    }
+  }
+
+  // DELETE /api/temas/:id
+  // Exclui um tema pelo ID.
+  if (req.method === "DELETE" && id) {
+    const { error } = await supabase
+      .from("temas")
+      .delete()
+      .eq("idtemas", id);
+
+    if (error) return responder(res, 400, { erro: error.message });
+
+    return responder(res, 204, {});
+  }
+
+  return false;
+}
