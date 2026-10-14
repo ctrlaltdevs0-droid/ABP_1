@@ -1,55 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ÁgilCert | Login</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+  <title>ÁgilCert - Login</title>
+  <link rel="stylesheet" href="./assets/css/typography.css">
+  <link rel="stylesheet" href="./assets/css/index.css">
 </head>
+
 <body>
+
   <main class="auth-page">
-    <section class="auth-visual" aria-label="Apresentação ÁgilCert">
-      <img class="brand" src="assets/img/logo-agilcert.png" alt="ÁgilCert">
-      <div class="visual-copy">
-        <h3>Aprenda, pratique e certifique.</h3>
-        <p>Uma experiência simples para acompanhar conteúdos, responder questões e evoluir sua certificação.</p>
+
+    <a href="home.html" class="auth-logo">
+      <img src="./assets/img/logo.png" alt="ÁgilCert" class="logo">
+    </a>
+
+    <section class="auth-content">
+
+      <!-- IMAGEM -->
+      <div class="auth-image-area">
+        <img src="./assets/img/ilustracao.png" alt="Pessoa estudando" class="auth-image">
       </div>
-      <img class="hero-character" src="assets/img/personagem-login.png" alt="Ilustração de estudante programando">
-    </section>
 
-    <section class="auth-panel">
-      <div class="auth-card">
-        <h4>Bem-vindo!</h4>
-        <p>Entre com seus dados para acessar sua conta.</p>
+      <!-- FORMULÁRIO -->
+      <div class="auth-form-area">
 
-        <div class="feedback" role="alert"></div>
+        <form class="auth-form" id="loginForm">
 
-        <form data-auth-form="login">
+          <h1 class="auth-title">
+            Bem vindo!
+          </h1>
+
+          <p class="auth-subtitle">
+            Faça login para continuar
+          </p>
+
+          <div class="feedback" role="alert"></div>
+
           <div class="form-group">
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required>
+            <label for="cpf">
+              CPF
+            </label>
+            <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required>
           </div>
 
           <div class="form-group">
-            <label for="senha">Senha</label>
-            <div class="password-wrap">
-              <input id="senha" name="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
-              <button class="toggle-password" type="button" onclick="togglePassword('senha', this)">Mostrar</button>
-            </div>
+            <label for="senha">
+              Senha:
+            </label>
+            <input type="password" id="senha" placeholder="Digite sua senha" required>
           </div>
 
-          <div class="form-row">
-            <label class="checkbox"><input type="checkbox" name="lembrar"> Lembrar de mim</label>
-            <a class="body-2" href="#">Esqueci minha senha</a>
-          </div>
+          <button type="submit" class="btn-primary auth-button">
+            Entrar
+          </button>
 
-          <button class="btn btn-primary" type="submit">ENTRAR</button>
+          <p class="auth-footer">
+            Não tem uma conta?
+            <a href="cadastro.html">
+              Cadastre - se
+            </a>
+          </p>
+
         </form>
 
-        <p class="auth-footer">Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
       </div>
+
     </section>
+
   </main>
-  <script src="assets/js/auth.js"></script>
+
+  <script src="./assets/js/auth.js"></script>
+
 </body>
+
 </html>

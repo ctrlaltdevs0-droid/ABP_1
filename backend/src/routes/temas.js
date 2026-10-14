@@ -1,5 +1,5 @@
 import { Router } from "express";
-import listarTemas from "../service/temas.js";
+import listarTemas from "../services/temas.js";
 
 const rotas = Router();
 rotas.get("/", async (req, res) => {

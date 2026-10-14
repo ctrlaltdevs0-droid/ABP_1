@@ -1,10 +1,14 @@
 import express from "express";
+import cors from "cors";
+import rotasLogin from "./routes/login.js";
 import rotas from "./routes/temas.js";
 import supabase from "../database/config.js";
 
 const app = express();
 const porta = process.env.PORT || 3000;
 app.use(express.json());
+app.use(cors());
+app.use("/api/login", rotasLogin);
 app.use("/api/temas", rotas);
 app.get("/api", (req, res) => {
   res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
