@@ -1,0 +1,729 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* =========================
+   RESET
+========================= */
+
+.home-page {
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+.home-container {
+    background: #f5f5f5;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #5d6875;
+    background: #ffffff;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+    width: 145px;
+    height: auto;
+}
+
+.logo-small {
+    width: 145px;
+}
+
+
+/* =========================
+   BOTÕES
+========================= */
+
+.btn-primary {
+    background: #0067b9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+    height: 40px;
+    padding: 0 25px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    background: #00549a;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   LOGIN / CADASTRO
+========================= */
+
+.auth-page {
+    min-height: 100vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-logo {
+    position: absolute;
+    top: 18px;
+    left: 40px;
+
+    z-index: 10;
+}
+
+.auth-content {
+    min-height: 100vh;
+
+    display: grid;
+    grid-template-columns: 58% 42%;
+
+    align-items: center;
+}
+
+.auth-image-area {
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px;
+}
+
+.auth-image {
+    width: min(90%, 600px);
+    max-height: 500px;
+
+    object-fit: contain;
+}
+
+.auth-form-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 330px;
+}
+
+.auth-title {
+    text-align: center;
+
+    color: #5d6875;
+
+    font-size: 25px;
+    font-weight: 400;
+
+    margin-bottom: 4px;
+}
+
+.auth-subtitle {
+    text-align: center;
+
+    font-size: 14px;
+    color: #718096;
+
+    margin-bottom: 28px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 12px;
+    color: #5d6875;
+
+    margin-bottom: 4px;
+}
+
+.form-group input {
+    width: 100%;
+    height: 26px;
+
+    border: 1px solid #7c8790;
+    border-radius: 5px;
+
+    padding: 4px 7px;
+
+    font-size: 11px;
+
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #0067b9;
+}
+
+.auth-button {
+    width: 120px;
+
+    display: block;
+    margin: 25px auto 10px;
+}
+
+.auth-footer {
+    text-align: center;
+
+    font-size: 11px;
+    color: #718096;
+}
+
+.auth-footer a {
+    color: #0067b9;
+    font-weight: 700;
+}
+
+
+/* =========================
+   CADASTRO
+========================= */
+
+.register-form .auth-subtitle {
+    margin-bottom: 18px;
+}
+
+.register-form .auth-button {
+    margin-top: 26px;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.home-page {
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+.header {
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 45px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.header-logo {
+    width: 130px;
+}
+
+.nav {
+    display: flex;
+    gap: 25px;
+
+    margin-left: 70px;
+}
+
+.nav a {
+    color: #657384;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+.nav a:hover,
+.nav a.active {
+    color: #0067b9;
+}
+
+.user-area {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #657384;
+    font-size: 13px;
+}
+
+.user-icon {
+    width: 28px;
+    height: 28px;
+
+    border: 2px solid #9ba4aa;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.home-container {
+    max-width: 1200px;
+    margin: auto;
+
+    padding: 0 40px;
+}
+
+.hero {
+    min-height: 270px;
+
+    background: #f7f7f7;
+
+    display: flex;
+    align-items: center;
+
+    padding: 30px 45px;
+
+    position: relative;
+}
+
+.hero-content {
+    max-width: 560px;
+}
+
+.hero-small-title {
+    color: #0067b9;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    margin-bottom: 3px;
+}
+
+.hero h1 {
+    color: #5d6875;
+
+    font-size: 27px;
+    font-weight: 400;
+
+    line-height: 1.1;
+
+    margin-bottom: 8px;
+}
+
+.hero p {
+    color: #718096;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    margin-bottom: 16px;
+}
+
+.hero-image {
+    width: 270px;
+
+    position: absolute;
+    right: 30px;
+    bottom: 0;
+}
+
+
+/* =========================
+   COMO FUNCIONA
+========================= */
+
+.how-section {
+    padding: 15px 45px 35px;
+}
+
+.how-title {
+    color: #0067b9;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+.steps {
+    background: white;
+
+    border-radius: 12px;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.step {
+    min-height: 150px;
+
+    padding: 10px 25px;
+
+    display: grid;
+    grid-template-columns: 85px 1fr;
+    align-items: center;
+
+    border-right: 2px solid #477fbd;
+}
+
+.step:last-child {
+    border-right: none;
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 35px;
+}
+
+.step:nth-child(1) .step-icon {
+    background: #f9b83f;
+}
+
+.step:nth-child(2) .step-icon {
+    background: #42c5a0;
+}
+
+.step:nth-child(3) .step-icon {
+    background: #4f82e8;
+}
+
+.step h3 {
+    color: #0067b9;
+
+    font-size: 14px;
+
+    margin-bottom: 2px;
+}
+
+.step p {
+    color: #718096;
+
+    font-size: 13px;
+    line-height: 1.25;
+}
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 700px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* -------------------------
+       LOGIN / CADASTRO
+    ------------------------- */
+
+    .auth-page {
+        min-height: 100vh;
+    }
+
+    .auth-logo {
+        position: relative;
+
+        top: auto;
+        left: auto;
+
+        margin: 25px 0 0 15px;
+    }
+
+    .auth-content {
+        min-height: calc(100vh - 90px);
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: flex-start;
+    }
+
+    .auth-form-area {
+        order: 1;
+
+        width: 100%;
+
+        padding: 35px 20px 0;
+    }
+
+    .auth-form {
+        max-width: 280px;
+    }
+
+    .auth-title {
+        font-size: 28px;
+    }
+
+    .auth-subtitle {
+        font-size: 14px;
+
+        margin-bottom: 27px;
+    }
+
+    .form-group {
+        margin-bottom: 7px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input {
+        height: 27px;
+    }
+
+    .auth-button {
+        margin-top: 25px;
+    }
+
+    .auth-image-area {
+        order: 2;
+
+        width: 100%;
+
+        padding: 35px 0 0;
+
+        height: auto;
+
+        align-items: flex-start;
+    }
+
+    .auth-image {
+        width: 310px;
+        max-width: 95%;
+
+        height: auto;
+    }
+
+
+    /* -------------------------
+       CADASTRO MOBILE
+    ------------------------- */
+
+    .register-form {
+        max-width: 290px;
+    }
+
+    .register-form .auth-title {
+        font-size: 27px;
+    }
+
+    .register-form .auth-subtitle {
+        margin-bottom: 30px;
+    }
+
+    .register-form .auth-button {
+        margin-top: 25px;
+    }
+
+
+    /* -------------------------
+       HEADER MOBILE
+    ------------------------- */
+
+    .header {
+        height: auto;
+
+        padding: 20px 15px 5px;
+
+        flex-wrap: wrap;
+    }
+
+    .header-logo {
+        width: 140px;
+
+        margin-bottom: 10px;
+    }
+
+    .nav {
+        width: 100%;
+
+        margin: 0;
+
+        gap: 15px;
+
+        overflow-x: auto;
+
+        padding-bottom: 5px;
+    }
+
+    .nav a {
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .user-area {
+        display: none;
+    }
+
+
+    /* -------------------------
+       HOME MOBILE
+    ------------------------- */
+
+    .home-container {
+        padding: 0 8px;
+    }
+
+    .hero {
+        min-height: 270px;
+
+        padding: 20px 10px;
+
+        display: block;
+
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-small-title {
+        font-size: 10px;
+    }
+
+    .hero h1 {
+        font-size: 17px;
+    }
+
+    .hero p {
+        font-size: 10px;
+
+        margin: 25px 0 8px;
+    }
+
+    .hero .btn-primary {
+        height: 38px;
+
+        font-size: 12px;
+    }
+
+    .hero-image {
+        position: relative;
+
+        display: block;
+
+        width: 125px;
+
+        margin: 15px auto 0;
+
+        right: auto;
+        bottom: auto;
+    }
+
+
+    /* -------------------------
+       STEPS MOBILE
+    ------------------------- */
+
+    .how-section {
+        padding: 20px 5px;
+    }
+
+    .how-title {
+        margin-bottom: 10px;
+    }
+
+    .steps {
+        background: transparent;
+
+        box-shadow: none;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+    .step {
+        min-height: 85px;
+
+        padding: 5px 0;
+
+        display: grid;
+
+        grid-template-columns: 70px 1fr;
+
+        border: none;
+    }
+
+    .step-icon {
+        width: 62px;
+        height: 62px;
+
+        font-size: 28px;
+    }
+
+    .step h3 {
+        font-size: 13px;
+    }
+
+    .step p {
+        font-size: 12px;
+    }
+}
+
+
+/* =========================
+   TELAS MUITO PEQUENAS
+========================= */
+
+@media (max-width: 350px) {
+
+    .auth-form {
+        max-width: 250px;
+    }
+
+    .auth-image {
+        width: 280px;
+    }
+
+    .nav {
+        gap: 10px;
+    }
+
+    .nav a {
+        font-size: 11px;
+    }
+}
