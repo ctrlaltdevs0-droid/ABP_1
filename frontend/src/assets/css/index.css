@@ -171,20 +171,20 @@ input {
 
 .form-group input {
     width: 100%;
-    height: 26px;
-
+    height: 38px;
     border: 1px solid #7c8790;
     border-radius: 5px;
-
-    padding: 4px 7px;
-
-    font-size: 11px;
-
+    padding: 7px 10px;
+    font-size: 12px;
     outline: none;
+
+    transition: border-color 0.25s ease,
+                box-shadow 0.25s ease;
 }
 
 .form-group input:focus {
     border-color: #0067b9;
+    box-shadow: 0 0 0 3px rgba(0, 103, 185, 0.12);
 }
 
 .auth-button {

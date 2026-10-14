@@ -2,115 +2,77 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>ÁgilCert - Login</title>
-
-    <link rel="stylesheet" href="./assets/css/typography.css">
-    <link rel="stylesheet" href="./assets/css/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÁgilCert - Login</title>
+  <link rel="stylesheet" href="./assets/css/typography.css">
+  <link rel="stylesheet" href="./assets/css/index.css">
 </head>
 
 <body>
 
-    <main class="auth-page">
+  <main class="auth-page">
 
-        <a href="index.html" class="auth-logo">
-            <img src="./assets/img/logo.png"
-                 alt="ÁgilCert"
-                 class="logo">
-        </a>
+    <a href="home.html" class="auth-logo">
+      <img src="./assets/img/logo.png" alt="ÁgilCert" class="logo">
+    </a>
 
-        <section class="auth-content">
+    <section class="auth-content">
 
-            <!-- IMAGEM -->
-            <div class="auth-image-area">
+      <!-- IMAGEM -->
+      <div class="auth-image-area">
+        <img src="./assets/img/ilustracao.png" alt="Pessoa estudando" class="auth-image">
+      </div>
 
-                <img
-                    src="./assets/img/ilustracao.png"
-                    alt="Pessoa estudando"
-                    class="auth-image">
+      <!-- FORMULÁRIO -->
+      <div class="auth-form-area">
 
-            </div>
+        <form class="auth-form" id="loginForm">
 
+          <h1 class="auth-title">
+            Bem vindo!
+          </h1>
 
-            <!-- FORMULÁRIO -->
-            <div class="auth-form-area">
+          <p class="auth-subtitle">
+            Faça login para continuar
+          </p>
 
-                <form
-                    class="auth-form"
-                    id="loginForm">
+          <div class="feedback" role="alert"></div>
 
-                    <h1 class="auth-title">
-                        Bem vindo!
-                    </h1>
+          <div class="form-group">
+            <label for="cpf">
+              CPF
+            </label>
+            <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required>
+          </div>
 
-                    <p class="auth-subtitle">
-                        Faça login para continuar
-                    </p>
+          <div class="form-group">
+            <label for="senha">
+              Senha:
+            </label>
+            <input type="password" id="senha" placeholder="Digite sua senha" required>
+          </div>
 
+          <button type="submit" class="btn-primary auth-button">
+            Entrar
+          </button>
 
-                    <div class="form-group">
+          <p class="auth-footer">
+            Não tem uma conta?
+            <a href="cadastro.html">
+              Cadastre - se
+            </a>
+          </p>
 
-                        <label for="email">
-                            E-mail:
-                        </label>
+        </form>
 
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Digite seu e-mail"
-                            required>
+      </div>
 
-                    </div>
+    </section>
 
+  </main>
 
-                    <div class="form-group">
-
-                        <label for="senha">
-                            Senha:
-                        </label>
-
-                        <input
-                            type="password"
-                            id="senha"
-                            placeholder="Digite sua senha"
-                            required>
-
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        class="btn-primary auth-button">
-
-                        Entrar
-
-                    </button>
-
-
-                    <p class="auth-footer">
-
-                        Não tem uma conta?
-
-                        <a href="cadastro.html">
-                            Cadastre - se
-                        </a>
-
-                    </p>
-
-                </form>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <script src="./login.html"></script>
+  <script src="./assets/js/auth.js"></script>
 
 </body>
 
