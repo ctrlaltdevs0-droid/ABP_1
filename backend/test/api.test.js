@@ -74,6 +74,23 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   if (!server.listening) await once(server, 'listening');
   const base = `http://127.0.0.1:${server.address().port}`;
 
+  const page = await originalFetch(base + '/');
+  assert.equal(page.status, 200);
+  assert.match(page.url, /\/login\.html$/);
+  assert.match(await page.text(), /assets\/js\/api\.js/);
+  for (const path of ['/cadastro.html', '/assets/js/config.js', '/assets/js/api.js', '/assets/js/auth.js', '/assets/css/index.css']) {
+    assert.equal((await originalFetch(base + path)).status, 200, path);
+  }
+  assert.equal((await originalFetch(base + '/.env')).status, 404);
+  assert.equal((await originalFetch(base + '/backend/.env')).status, 404);
+  const preflight = await originalFetch(base + '/api/login/entrar', { method: 'OPTIONS', headers: {
+    Origin: 'http://localhost:5500', 'Access-Control-Request-Method': 'POST',
+    'Access-Control-Request-Headers': 'content-type,authorization',
+  } });
+  assert.equal(preflight.status, 204);
+  assert.ok(preflight.headers.get('access-control-allow-origin'));
+  assert.match(preflight.headers.get('access-control-allow-headers'), /authorization/);
+
   const temas = await originalFetch(`${base}/api/temas`);
   assert.equal(temas.status, 200);
   assert.equal((await temas.json())[0].nome, 'Scrum');

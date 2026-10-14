@@ -5,7 +5,7 @@ de `database/config.js`; não há conexão direta com PostgreSQL na aplicação.
 
 ## Configuração
 
-1. Copie `.env.example` para `.env` na raiz do repositório.
+1. Copie `.env.example` para `backend/.env` (ou para `.env` na raiz).
 2. Preencha `SUPABASE_URL` com a URL base do seu projeto (sem `/rest/v1/`).
 3. Preencha `SUPABASE_SECRET_KEY` com a chave secreta do servidor.
 4. Defina `JWT_SECRET` com um segredo aleatório de pelo menos 32 caracteres.
@@ -13,9 +13,12 @@ de `database/config.js`; não há conexão direta com PostgreSQL na aplicação.
 5. Na pasta `backend`, execute `npm ci` e `npm start` (ou `npm run dev`).
    Todas as dependências ficam no backend; não é necessário instalar na raiz.
 
-O `.env` é carregado pela localização do módulo, sem depender da pasta do
-terminal. Variáveis do ambiente têm prioridade; hospedagens que as fornecem
-diretamente não precisam criar um `.env`.
+O carregador lê primeiro `backend/.env`, depois o `.env` da raiz para completar
+valores ausentes, sem depender da pasta do terminal. Variáveis do ambiente têm
+prioridade; hospedagens que as fornecem diretamente não precisam criar um `.env`.
+Abra `http://localhost:3000` (ou a porta de `PORT`) para usar o frontend servido
+pelo próprio backend. Apenas `frontend/src` é público; `.env` e código do
+backend não são servidos.
 
 ## Rotas
 

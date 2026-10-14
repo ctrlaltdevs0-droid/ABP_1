@@ -5,10 +5,10 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-  "start": "node --env-file=.env src/server.js",
-  "dev": "node --env-file=.env --watch src/server.js",
-  "test": "node --env-file=.env --test"
-},
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
     "bcrypt": "6.0.0",
