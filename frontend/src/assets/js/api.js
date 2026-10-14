@@ -3,9 +3,16 @@
     const configured = window.AGILCERT_API_BASE_URL?.trim();
     if (configured) return configured.replace(/\/+$/, '');
     if (!/^https?:$/.test(window.location.protocol)) {
+<<<<<<< HEAD
       throw new Error('Abra o site pelo endereço do backend, por exemplo http://localhost:3000/api.');
     }
     return `${window.location.origin}/api`;  }
+=======
+      throw new Error('Abra o site pelo endereço do backend, por exemplo http://localhost:3000.');
+    }
+    return `${window.location.origin}/api`;
+  }
+>>>>>>> 7899351 (fix: ajusta integracao frontend e backend)
 
   async function request(path, { method = 'GET', body, authenticated = true } = {}) {
     const headers = { Accept: 'application/json' };
@@ -38,4 +45,8 @@
     return data;
   }
   window.AgilCertAPI = { request };
+<<<<<<< HEAD
 })();
+=======
+})();
+>>>>>>> 7899351 (fix: ajusta integracao frontend e backend)

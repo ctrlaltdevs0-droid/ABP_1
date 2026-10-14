@@ -36,15 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const response = await fetch(`${API_BASE_URL}/cadastro`, {
+        const data = await window.AgilCertAPI.request('login/cadastro', {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cpf, nome, email, senha })
+          authenticated: false,
+          body: { cpf, nome, email, senha }
         });
 
-        const data = await response.json();
-
-        if (response.ok) {
+        {
           showFeedback(data.mensagem || "Conta criada com sucesso! Redirecionando...", "success");
           registerForm.reset();
 
@@ -53,12 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "login.html";
           }, 1500);
 
-        } else {
-          showFeedback(data.erro || data.mensagem || "Erro ao realizar cadastro.", "error");
         }
       } catch (error) {
         console.error("Erro no cadastro:", error);
-        showFeedback("Erro ao conectar com o servidor. Verifique se o backend está rodando.", "error");
+        showFeedback(error.message || "Erro ao realizar cadastro.", "error");
       }
     });
   }
@@ -76,15 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const senha = document.getElementById("senha")?.value || "";
 
       try {
-        const response = await fetch(`${API_BASE_URL}/entrar`, {
+        const data = await window.AgilCertAPI.request('login/entrar', {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cpf, senha }) // Apenas CPF e senha
+          authenticated: false,
+          body: { cpf, senha }
         });
 
-        const data = await response.json();
-
-        if (response.ok) {
+        {
+          if (!data.token) throw new Error('O servidor não retornou uma sessão válida.');
           showFeedback("Login realizado com sucesso! Redirecionando...", "success");
 
           if (data.token) {
@@ -96,12 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "home.html";
           }, 1200);
 
-        } else {
-          showFeedback(data.erro || data.mensagem || "CPF ou senha inválidos.", "error");
         }
       } catch (error) {
         console.error("Erro no login:", error);
-        showFeedback("Erro ao conectar com o servidor. Verifique se o backend está rodando.", "error");
+        showFeedback(error.message || "Erro ao realizar login.", "error");
       }
     });
   }
