@@ -19,6 +19,11 @@ diretamente não precisam criar um `.env`.
 
 ## Rotas
 
+Os handlers das páginas são conectados ao Express por `executarRotas`, que
+recebe o caminho completo e o cliente Supabase. `lerJson` reutiliza `req.body`
+quando o Express já leu o JSON; não tenta ler o mesmo stream duas vezes.
+Rotas desconhecidas retornam 404 em JSON.
+
 - `GET /api`: estado do servidor.
 - `GET /api/temas`: temas ativos, ordenados por `ordem`.
 - `POST /api/login/cadastro`: cadastro com CPF, nome, e-mail e senha.
@@ -33,6 +38,13 @@ implementadas. O JWT emitido é da aplicação, não uma sessão do Supabase Aut
 ele não concede acesso direto às tabelas via RLS. Novas rotas privadas precisam
 validar esse JWT no backend antes de consultar os dados do usuário.
 
+Envie `Authorization: Bearer <token>` nas rotas privadas. Temas ativos são
+públicos; conteúdos de estudo exigem login. Tentativas e certificados só podem
+ser acessados pelo dono (ou administrador). O usuário da nova tentativa vem do
+JWT, não do corpo enviado. Para administração do catálogo e leitura de gabaritos,
+configure `ADMIN_USER_IDS` com os IDs de usuários autorizados, separados por
+vírgula. Sem essa configuração, nenhum usuário tem acesso administrativo.
+
 O cadastro exige a coluna `usuarios.email`. Antes de implantar em um banco
 existente, execute `supabase/migrations/20261014155615_add_usuarios_email.sql`
 no SQL Editor do projeto. O script adiciona a coluna sem apagar registros ou
@@ -40,6 +52,13 @@ alterar RLS. Usuários antigos permanecem com e-mail nulo até a atualização d
 seus dados; novos cadastros exigem e-mail na API. Para um banco novo, utilize
 `backend/database/schema.sql`. Não execute esse schema inteiro sobre tabelas
 existentes.
+
+As rotas de tentativas e certificados também exigem
+`supabase/migrations/20261014171024_align_attempt_routes.sql` depois do schema
+base. A migração adiciona respostas vinculadas às questões da tentativa, impede
+respostas duplicadas e cria os campos de validação do certificado. A tabela de
+respostas mantém RLS ativa e acesso restrito ao backend. A migração não é
+executada automaticamente ao iniciar o servidor.
 
 ## Testes
 

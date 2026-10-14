@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import rotasLogin from "./routes/login.js";
-import rotas from "./routes/temas.js";
+import { executarRotas } from "./routes/index.js";
+import { autorizarRota } from './middleware/autorizacao.js';
 import supabase from "../database/config.js";
 
 const app = express();
@@ -9,7 +10,6 @@ const porta = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 app.use("/api/login", rotasLogin);
-app.use("/api/temas", rotas);
 app.get("/api", (req, res) => {
   res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
 });
@@ -26,6 +26,21 @@ app.get("/api/teste-supabase", async (req, res) => {
   } catch {
     res.status(503).json({ erro: "Banco de dados indisponível." });
   }
+});
+
+app.use(async (req, res, next) => {
+  try {
+    const pathname = req.path;
+    if (!/^\/api\/(temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
+    if (!(await autorizarRota(req, res, pathname, supabase))) return;
+    if (!(await executarRotas(req, res, pathname, supabase))) next();
+  } catch (error) { next(error); }
+});
+app.use((req, res) => res.status(404).json({ erro: 'Rota não encontrada.' }));
+app.use((error, req, res, next) => {
+  if (res.headersSent) return next(error);
+  const status = error.type === 'entity.too.large' ? 413 : error.type === 'entity.parse.failed' ? 400 : 500;
+  res.status(status).json({ erro: status === 400 ? 'JSON inválido.' : status === 413 ? 'Conteúdo enviado muito grande.' : 'Erro interno do servidor.' });
 });
 
 export const server = app.listen(porta, () => {

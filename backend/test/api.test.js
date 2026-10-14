@@ -9,10 +9,16 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   process.env.SUPABASE_SECRET_KEY = 'sb_secret_teste';
   process.env.PORT = '0';
   process.env.JWT_SECRET = 'segredo-apenas-para-testes-com-32-caracteres';
+  process.env.ADMIN_USER_IDS = '2';
   const originalFetch = globalThis.fetch;
   const requests = [];
   let fail = false;
   let usuario;
+  let provaMode = false;
+  let tentativa;
+  let vinculos = [];
+  let respostas = [];
+  let certificado;
   globalThis.fetch = async (input, options) => {
     const url = new URL(input);
     if (url.hostname !== 'teste.supabase.co') return originalFetch(input, options);
@@ -28,6 +34,33 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
       }
       return Response.json(usuario ? [usuario] : []);
     }
+    if (provaMode) {
+      const table = url.pathname.split('/').at(-1);
+      const body = options.body ? JSON.parse(options.body) : undefined;
+      const single = new Headers(options.headers).get('Accept')?.includes('vnd.pgrst.object');
+      const result = rows => Response.json(single ? rows[0] : rows);
+      if (table === 'tentativas') {
+        if (options.method === 'POST') tentativa = { idtentativas: 10, ...body };
+        if (options.method === 'PATCH') tentativa = { ...tentativa, ...body };
+        return result(tentativa ? [tentativa] : []);
+      }
+      if (table === 'questoes') return result([{ idquestoes: 5, enunciado: 'Questão' }]);
+      if (table === 'alternativas') return result([{ idalternativas: 7, correta: true }]);
+      if (table === 'tentativas_questoes') {
+        if (options.method === 'POST') vinculos = body;
+        if (options.method === 'PATCH') vinculos = vinculos.map(v => ({ ...v, ...body }));
+        return result(vinculos.filter(v => !url.searchParams.has('questoes_idquestoes') || url.searchParams.get('questoes_idquestoes') === `eq.${v.questoes_idquestoes}`));
+      }
+      if (table === 'respostas') {
+        if (options.method === 'POST') respostas.push({ idrespostas: 1, ...body });
+        return result(respostas);
+      }
+      if (table === 'certificados') {
+        if (options.method === 'POST') certificado = { idcertificados: 3, ...body };
+        return result(certificado ? [certificado] : []);
+      }
+    }
+    if (url.pathname === '/rest/v1/tentativas' && url.searchParams.get('idtentativas') === 'eq.999') return Response.json([]);
     return new Response(options.method === 'HEAD' ? null : JSON.stringify([
       { idtemas: 1, nome: 'Scrum', descricao: 'Introdução', ordem: 1 },
     ]), { status: 200, headers: { 'Content-Type': 'application/json' } });
@@ -95,4 +128,52 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   const claims = jwt.verify(session.token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
   assert.equal(claims.id, 1);
   assert.equal(claims.exp - claims.iat, 7200);
+
+  const admin = jwt.sign({ id: 2 }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const request = (path, method = 'GET', token, body) => originalFetch(base + path, {
+    method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    signal: AbortSignal.timeout(5000),
+  });
+  assert.equal((await request('/api/conteudos')).status, 401);
+  assert.equal((await request('/api/conteudos', 'GET', session.token)).status, 200);
+  assert.equal((await request('/api/temas', 'POST', session.token, { nome: 'Novo' })).status, 403);
+  const createdTheme = await request('/api/temas', 'POST', admin, { nome: 'Novo' });
+  assert.equal(createdTheme.status, 201);
+  assert.equal(JSON.parse(requests.at(-1).options.body).nome, 'Novo');
+  assert.equal((await request('/api/temas/1', 'PATCH', admin, { nome: 'Editado' })).status, 200);
+  const deleted = await request('/api/temas/1', 'DELETE', admin);
+  assert.equal(deleted.status, 204);
+  assert.equal(await deleted.text(), '');
+  assert.equal((await request('/api/questoes', 'GET', admin)).status, 200);
+  assert.equal((await request('/api/questoes/1/alternativas', 'GET', admin)).status, 200);
+  assert.equal((await request('/api/usuarios/1/certificados', 'GET', session.token)).status, 200);
+  assert.equal((await request('/api/usuarios/2/certificados', 'GET', session.token)).status, 403);
+  assert.equal((await request('/api/tentativas/999', 'GET', session.token)).status, 404);
+  assert.equal((await request('/api/inexistente')).status, 404);
+  const invalid = await originalFetch(base + '/api/temas', { method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${admin}` }, body: '{' });
+  assert.equal(invalid.status, 400);
+  assert.deepEqual(await invalid.json(), { erro: 'JSON inválido.' });
+
+  provaMode = true;
+  const started = await request('/api/tentativas', 'POST', session.token, { usuarios_idusuarios: 999 });
+  assert.equal(started.status, 201);
+  assert.equal((await started.json()).total_questoes, 1);
+  assert.equal(tentativa.usuarios_idusuarios, 1);
+  assert.ok(tentativa.iniciado_em);
+  assert.equal((await request('/api/tentativas/10/finalizar', 'POST', session.token, {})).status, 409);
+  assert.equal((await request('/api/tentativas/10/respostas', 'POST', session.token,
+    { questoes_idquestoes: 999, alternativas_idalternativas: 7 })).status, 400);
+  assert.equal((await request('/api/tentativas/10/respostas', 'POST', session.token,
+    { questoes_idquestoes: 5, alternativas_idalternativas: 7 })).status, 201);
+  const finished = await request('/api/tentativas/10/finalizar', 'POST', session.token, {});
+  assert.equal(finished.status, 200);
+  const outcome = await finished.json();
+  assert.equal(outcome.tentativa.acertos, 1);
+  assert.ok(outcome.tentativa.finalizado_em);
+  assert.equal(outcome.certificado.score, 1);
+  assert.equal(outcome.certificado.idcertificados, 3);
+  const repeat = await request('/api/tentativas/10/finalizar', 'POST', session.token, {});
+  assert.equal((await repeat.json()).certificado.codigo_validacao, outcome.certificado.codigo_validacao);
 });
