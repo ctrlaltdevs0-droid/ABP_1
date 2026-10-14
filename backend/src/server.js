@@ -1,4 +1,3 @@
-import "dotenv/config";
 import express from "express";
 import rotas from "./routes/temas.js";
 import supabase from "../database/config.js";
@@ -11,7 +10,7 @@ app.get("/api", (req, res) => {
   res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
 });
 
-// Verifica a conexÃ£o sem retornar registros ou informaÃ§Ãµes pessoais.
+// Verifica a conexão sem retornar registros ou informações pessoais.
 app.get("/api/teste-supabase", async (req, res) => {
   try {
     const { error } = await supabase
@@ -21,10 +20,10 @@ app.get("/api/teste-supabase", async (req, res) => {
     if (error) throw error;
     res.json({ status: "ok" });
   } catch {
-    res.status(503).json({ erro: "Banco de dados indisponÃ­vel." });
+    res.status(503).json({ erro: "Banco de dados indisponível." });
   }
 });
 
-app.listen(porta, () => {
-  console.log(`Servidor rodando em http://localhost:${porta}`);
+export const server = app.listen(porta, () => {
+  console.log(`Servidor rodando em http://localhost:${server.address().port}`);
 });
