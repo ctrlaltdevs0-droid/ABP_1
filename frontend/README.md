@@ -11,8 +11,16 @@ Estrutura criada em HTML, CSS e JavaScript puro.
 - `src/assets/img/`: logo e ilustração extraídas do material de padronização
 
 ## Executar
-Abra `src/login.html` com Live Server, usando `frontend/src` como raiz. O backend atual disponibiliza apenas a API e não serve estes arquivos estáticos.
+Na pasta `backend`, execute `npm start` e abra `http://localhost:3000` (ou a
+porta configurada em `PORT`). O backend serve o frontend e a API no mesmo
+endereço; `/` abre a tela de login.
 
-Os formulários usam `/api/login/cadastro` e `/api/login/entrar` no backend local
-em `http://localhost:3000`. Execute a API antes de testar. Para outro ambiente,
-configure `API_BASE_URL` em `src/assets/js/auth.js` com o endereço do backend.
+Os formulários usam `/api/login/cadastro` e `/api/login/entrar`. O cliente em
+`src/assets/js/api.js` envia JSON, interpreta erros e adiciona o token Bearer
+nas chamadas privadas. Login e cadastro não enviam token antigo.
+
+Para usar Live Server ou hospedar o frontend separado, configure
+`AGILCERT_API_BASE_URL` em `src/assets/js/config.js`, por exemplo
+`http://localhost:3000/api`. Em outro computador, use o endereço acessível do
+backend, pois `localhost` aponta para o próprio computador. Em produção HTTPS,
+use uma API HTTPS. Não abra os HTMLs diretamente com `file://`.
