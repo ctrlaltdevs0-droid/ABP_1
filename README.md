@@ -3,7 +3,7 @@ ABP_1
   
 Grupo: CTRL ALT DEVS
 </div>
-Participantes: Isabella Silva Andreotti; Evellyn Silva Moreira; Júlio César Gregório Pereira; Luana Ferreira de Andrade; Miriele Freitas Vieira de Melo; Paloma Veloso da Silva; Rogiel Fernando Pereira Alves; Vitória Gabriely Ferreira da Conceição
+Participantes: Evellyn Silva Moreira;Isabella Silva Andreotti; Júlio César Gregório Pereira; Luana Ferreira de Andrade; Miriele Freitas Vieira de Melo; Paloma Veloso da Silva; Rogiel Fernando Pereira Alves; Vitória Gabriely Ferreira da Conceição
 
 <h3>Site do Curso de Scrum</h3>
 
