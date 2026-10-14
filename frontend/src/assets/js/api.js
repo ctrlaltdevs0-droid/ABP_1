@@ -3,7 +3,7 @@
     const configured = window.AGILCERT_API_BASE_URL?.trim();
     if (configured) return configured.replace(/\/+$/, '');
     if (!/^https?:$/.test(window.location.protocol)) {
-      throw new Error('Abra o site pelo endereço do backend, por exemplo http://localhost:3000.');
+      throw new Error('Abra o site pelo endereço do backend, por exemplo http://localhost:3000/api.');
     }
     return `${window.location.origin}/api`;
   }
