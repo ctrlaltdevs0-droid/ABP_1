@@ -4,11 +4,15 @@
     if (configured) return configured.replace(/\/+$/, '');
     if (!/^https?:$/.test(window.location.protocol)) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       throw new Error('Abra o site pelo endereço do backend, por exemplo http://localhost:3000/api.');
     }
     return `${window.location.origin}/api`;  }
 =======
       throw new Error('Abra o site pelo endereço do backend, por exemplo http://localhost:3000.');
+=======
+      throw new Error('Abra o site pelo endereço do backend, por exemplo http://localhost:3000/api.');
+>>>>>>> 0bf8569 (caminho da api)
     }
     return `${window.location.origin}/api`;
   }
