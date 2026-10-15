@@ -12,7 +12,7 @@
     // Impede requisições quando o HTML é aberto via file://.
     if (!/^https?:$/.test(window.location.protocol)) {
       throw new Error(
-        'Abra o site pelo endereço do backend, por exemplo http://localhost:3000.'
+        'Abra o site pelo endereço do backend, por exemplo http://localhost:3000/api.'
       );
     }
 
