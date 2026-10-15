@@ -1,5 +1,3 @@
-const API_BASE_URL = "http://localhost:3000/api/login";
-
 // --- 1. Exibir mensagens de feedback ---
 function showFeedback(message, type = "error") {
   const box = document.querySelector(".feedback");
