@@ -228,8 +228,8 @@ Todos os itens marcados como **🟢 P0** sustentam esse fluxo ou representam req
 
 | Sprint | Período | Objetivo sugerido |
 |---|---|---|
-| **Sprint 1** | 28/09 a 22/10 | Arquitetura, Docker, PostgreSQL, modelo de dados, cadastro/login, página inicial, área de estudos e motor inicial |
-| **Sprint 2** | 23/10 a 05/11 | Questões, sorteio, timer, respostas, interrupção, retomada, progresso, histórico e cálculo da nota |
+| **Sprint 1** | 28/09 a 22/10 | Arquitetura, Docker, PostgreSQL, modelo de dados, cadastro/login e página inicial |
+| **Sprint 2** | 23/10 a 05/11 | Área de estudos, Questões, sorteio, timer, respostas, interrupção, retomada, progresso, histórico e cálculo da nota |
 | **Sprint 3** | 06/11 a 25/11 | Certificado, QR Code, validação pública, segurança, responsividade, testes, documentação e refinamentos |
 | **Apresentação** | 26/11 | Entrega final e demonstração do produto |
 
