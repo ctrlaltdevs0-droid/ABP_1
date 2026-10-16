@@ -727,3 +727,87 @@ input {
         font-size: 11px;
     }
 }
+/* --- Mensagens de Feedback (.feedback) --- */
+.feedback {
+  display: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+}
+
+.feedback.show {
+  display: block;
+}
+
+.feedback.error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.feedback.success {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+/* --- Estado de Sucesso Minimalista --- */
+.auth-success-state {
+  width: 100%;
+  max-width: 330px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.35s ease-out;
+}
+
+.success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #edf7f2;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.auth-success-state .auth-title {
+  color: #5d6875;
+  font-size: 25px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.auth-success-state .auth-subtitle {
+  color: #718096;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+.success-btn {
+  width: 100%;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

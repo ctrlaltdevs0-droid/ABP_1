@@ -1,16 +1,22 @@
 // --- 1. Exibir mensagens de feedback ---
 function showFeedback(message, type = "error") {
   const box = document.querySelector(".feedback");
-  if (!box) {
-    if (message) alert(message);
+  if (!box) return;
+
+  // Se a mensagem for vazia, esconde a caixa e limpa o conteúdo
+  if (!message) {
+    box.textContent = "";
+    box.className = "feedback"; 
     return;
   }
+
   box.textContent = message;
   box.className = `feedback show ${type}`;
 }
 
 // --- 2. Gerenciamento do Cadastro e Login ---
 document.addEventListener("DOMContentLoaded", () => {
+  const authFormArea = document.querySelector(".auth-form-area");
   const registerForm = document.getElementById("registerForm");
   const loginForm = document.getElementById("loginForm");
 
@@ -43,13 +49,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         {
-          showFeedback(data.mensagem || "Conta criada com sucesso! Redirecionando...", "success");
-          registerForm.reset();
-
-          // Redireciona para o login após cadastrar
+          if (authFormArea) {
+          authFormArea.innerHTML = `
+            <div class="auth-success-state">
+              <div class="success-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+        
+              <h2 class="auth-title">Conta criada!</h2>
+        
+              <p class="auth-subtitle">
+                Seu cadastro foi realizado com sucesso. Você será redirecionado para a tela de login.
+              </p>
+        
+              <a href="login.html" class="btn-primary auth-button success-btn">
+                Ir para o login
+              </a>
+            </div>
+          `;
+        
           setTimeout(() => {
             window.location.href = "login.html";
-          }, 1500);
+          }, 2000);
+        }
 
         }
       } catch (error) {
