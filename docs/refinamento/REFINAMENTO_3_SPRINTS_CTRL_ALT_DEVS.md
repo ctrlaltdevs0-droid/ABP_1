@@ -39,8 +39,8 @@
 
 | Sprint | Período | Meta | PBIs | SP previstos |
 |---|---|---|---:|---:|
-| **Sprint 1** | 28/09 a 22/10 | Disponibilizar a fundação, o acesso e a área inicial de estudos | 25 | 91 |
-| **Sprint 2** | 23/10 a 05/11 | Entregar o fluxo completo da prova, com persistência e resultado | 28 | 114 |
+| **Sprint 1** | 28/09 a 22/10 | Disponibilizar a fundação, o acesso e a área principal (home) | 25 | 91 |
+| **Sprint 2** | 23/10 a 05/11 | Entregar o fluxo completo dos exercícios e prova, com persistência e resultado | 28 | 114 |
 | **Sprint 3** | 06/11 a 25/11 | Emitir e validar certificados, proteger e estabilizar o produto | 18 | 89 |
 | **Total** | — | MVP completo | **71** | **294** |
 
