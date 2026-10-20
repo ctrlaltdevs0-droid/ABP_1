@@ -73,8 +73,7 @@ VALUES
     'Conheça boas práticas que contribuem para a organização, colaboração, qualidade e melhoria contínua em projetos ágeis.',
     12,
     TRUE
-);
-
+)
 ON CONFLICT (nome) DO NOTHING;
 
 COMMIT;   

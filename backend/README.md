@@ -72,7 +72,8 @@ Não comprovam o estado das permissões de um banco remoto.
 
 ## PostgreSQL opcional
 
-O `compose.yaml` serve apenas para experimentar os scripts SQL localmente.
+O serviço `database` do `compose.yaml` serve para experimentar os scripts SQL localmente.
+O serviço `app` executa este backend e serve o frontend; veja as instruções de Docker Compose no README da raiz.
 Defina `POSTGRES_PASSWORD` no `.env` e execute `docker compose up -d database`
 na raiz. A porta no computador é `5433`; dentro do contêiner é `5432`.
 A API continua usando Supabase. Os scripts de inicialização são executados
