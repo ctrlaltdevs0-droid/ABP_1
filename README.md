@@ -37,34 +37,15 @@ Criar uma página responsiva, moderna e informativa para divulgação do curso d
 
 Em desenvolvimento.
 
+<h3>Documentação</h3>
 
-<h3>Executar com Docker Compose</h3>
+A documentação está organizada por sprint, com os materiais compartilhados na pasta geral.
 
-Requer Docker com Compose 2.24 ou superior. Execute os comandos na raiz do repositório.
+| Pasta | Conteúdo |
+|---|---|
+| [Documentação geral](docs/geral/) | Backlog do produto, refinamento das três sprints, protótipo e requisitos |
+| [Sprint 1 — Fundação e acesso](docs/sprint-1/) | Planejamento, backlog e critérios de aceite da Sprint 1 |
+| [Sprint 2 — Motor da certificação](docs/sprint-2/) | Espaço para os documentos e registros da Sprint 2 |
+| [Sprint 3 — Certificação e entrega](docs/sprint-3/) | Espaço para os documentos e registros da Sprint 3 |
 
-1. Se ainda não existir, copie `.env.example` para `.env`.
-2. Preencha `SUPABASE_URL`, `SUPABASE_SECRET_KEY` e `JWT_SECRET` (ao menos 32 caracteres).
-3. Defina `POSTGRES_PASSWORD` para o banco local. `POSTGRES_DB` e `POSTGRES_USER` têm padrão `postgres`; essas credenciais são independentes do projeto Supabase.
-4. Execute:
-
-```bash
-docker compose config --quiet
-docker compose up -d --build
-docker compose ps
-```
-
-Abra `http://localhost:3000`. O serviço `app` serve frontend e API; `PORT` no `.env` da raiz altera a porta publicada. Dentro do contêiner, a aplicação usa a porta 3000.
-
-A aplicação lê as variáveis de `.env` da raiz e depois de `backend/.env`, quando presentes. Valores de `backend/.env` prevalecem; mantenha as credenciais atualizadas nesse arquivo se já o utiliza. Os arquivos `.env` não são copiados para a imagem.
-
-O serviço `database` disponibiliza PostgreSQL local em `localhost:5433`, com volume persistente, schema base e carga dos 12 temas. **A API continua conectada ao Supabase remoto**; o banco local não substitui a API HTTP do Supabase. As migrações em `supabase/migrations` devem ser aplicadas ao projeto remoto conforme o [README do backend](backend/README.md).
-
-Para subir somente a aplicação, use `docker compose up -d --build app`. Para subir somente o banco, use `docker compose up -d database`. A validação do Compose exige `POSTGRES_PASSWORD` nos dois casos.
-
-```bash
-docker compose logs --tail=100 app database
-docker compose exec database sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT count(*) FROM temas;"'
-docker compose down
-```
-
-A consulta deve retornar 12 em um banco recém-inicializado. `docker compose down` mantém os dados. Schema e seed executam apenas na primeira inicialização de um volume vazio; alterações nesses arquivos e nas credenciais não atualizam automaticamente um banco existente.
+O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
