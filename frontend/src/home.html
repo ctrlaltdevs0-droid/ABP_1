@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -16,8 +15,8 @@
     <a href="home.html">
       <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
     </a>
-
-    <!-- Navegação -->
+  
+    <!-- Navegação Principal (APENAS os links das páginas do site) -->
     <nav class="header-nav" aria-label="Navegação principal">
       <a class="nav-link active" href="home.html">Início</a>
       <a class="nav-link" href="#">Estudos</a>
@@ -25,34 +24,44 @@
       <a class="nav-link" href="#">Histórico</a>
       <a class="nav-link" href="#sobre-nos">Sobre nós</a>
     </nav>
-
-    <!-- Perfil -->
-    <div class="profile-menu" id="profileMenu">
-      <button class="profile-trigger" onclick="toggleProfile()">
-        <div class="profile-avatar">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-          </svg>
-        </div>
-        <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
-        <span class="chevron">▼</span>
-      </button>
-
-      <div class="dropdown">
-        <div class="dropdown-header">
-          <div class="profile-username" id="dropdownUserName">Usuário</div>
-          <div class="profile-greeting">Minha conta</div>
-        </div>
-
-        <div class="dropdown-body">
-          <a href="perfil.html">Meu Perfil</a>
-          <a href="#">Configurações</a>
-          <div class="divider"></div>
-          <button class="danger" onclick="logout()">Sair</button>
+  <!-- Área da Direita: Autenticação / Perfil (fixada no canto direito) -->
+    <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
+      
+      <!-- Quando DESLOGADO: Botões Entrar/Cadastrar -->
+      <div id="authButtons" style="display: none; gap: 16px; align-items: center;">
+        <a href="login.html" class="nav-link">Entrar</a>
+        <a href="cadastro.html" class="nav-link">Cadastrar</a>
+      </div>
+  
+      <!-- Quando LOGADO: Menu de Perfil -->
+      <div class="profile-menu" id="profileMenu" style="display: none;">
+        <button class="profile-trigger" onclick="toggleProfile()">
+          <div class="profile-avatar">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+            </svg>
+          </div>
+          <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
+          <span class="chevron">▼</span>
+        </button>
+  
+        <div class="dropdown">
+          <div class="dropdown-header">
+            <div class="profile-username" id="dropdownUserName">Usuário</div>
+            <div class="profile-greeting">Minha conta</div>
+          </div>
+  
+          <div class="dropdown-body">
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="#">Configurações</a>
+            <div class="divider"></div>
+            <button class="danger" onclick="logout()">Sair</button>
+          </div>
         </div>
       </div>
+  
     </div>
+  
   </header>
 
   <main class="site-main">
@@ -229,23 +238,84 @@
     </div>
   </footer>
 
-  <script>
-    function toggleProfile() {
-      document.getElementById('profileMenu').classList.toggle('open');
-    }
-
-    document.addEventListener('click', function (e) {
-      const menu = document.getElementById('profileMenu');
-
-      if (!menu.contains(e.target)) {
-        menu.classList.remove('open');
-      }
-    });
-
-    function logout() {
-      window.location.href = 'home.html';
-    }
-  </script>
+ <script src="assets/js/config.js"></script>
+ <script src="assets/js/api.js"></script>
+ <script>
+   function toggleProfile() {
+     const menu = document.getElementById('profileMenu');
+     if (menu) menu.classList.toggle('open');
+   }
+ 
+   document.addEventListener('click', function (e) {
+     const menu = document.getElementById('profileMenu');
+     if (menu && !menu.contains(e.target)) {
+       menu.classList.remove('open');
+     }
+   });
+ 
+   document.addEventListener('DOMContentLoaded', async function () {
+     const token = localStorage.getItem('token');
+     const usuarioSalvo = localStorage.getItem('usuario');
+ 
+     const authButtons = document.getElementById('authButtons');
+     const profileMenu = document.getElementById('profileMenu');
+     const userNameSpan = document.getElementById('userName');
+     const dropdownUserName = document.getElementById('dropdownUserName');
+ 
+     // Exibe o perfil e oculta botões de login
+     function exibirLogado(usuario) {
+       if (!usuario) return;
+       const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
+       const primeiroNome = nomeCompleto.trim().split(' ')[0];
+ 
+       if (userNameSpan) userNameSpan.textContent = primeiroNome;
+       if (dropdownUserName) dropdownUserName.textContent = nomeCompleto;
+ 
+       if (authButtons) authButtons.style.display = 'none';
+       if (profileMenu) profileMenu.style.display = 'flex';
+     }
+ 
+     // Exibe botões de login e oculta perfil
+     function exibirDeslogado() {
+       if (profileMenu) profileMenu.style.display = 'none';
+       if (authButtons) authButtons.style.display = 'flex';
+     }
+ 
+     // 1. Carrega dados salvos no localStorage instantaneamente
+     if (token && usuarioSalvo) {
+       try {
+         const u = JSON.parse(usuarioSalvo);
+         exibirLogado(u.usuario || u);
+       } catch (e) {
+         console.error('Erro no localStorage:', e);
+       }
+     } else if (!token) {
+       exibirDeslogado();
+       return;
+     }
+ 
+     // 2. Busca o nome atualizado do banco via API (/api/usuarios/me)
+     if (token && typeof AgilCertAPI !== 'undefined') {
+       try {
+         const res = await AgilCertAPI.request('usuarios/me');
+         const usuarioAtualizado = res.usuario || res;
+         if (usuarioAtualizado && usuarioAtualizado.nome) {
+           localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
+           exibirLogado(usuarioAtualizado);
+         }
+       } catch (err) {
+         console.warn('API indisponível, usando cache:', err);
+         if (!usuarioSalvo) exibirDeslogado();
+       }
+     }
+   });
+ 
+   function logout() {
+     localStorage.removeItem('token');
+     localStorage.removeItem('usuario');
+     window.location.href = 'login.html';
+   }
+ </script>
 
 </body>
 
