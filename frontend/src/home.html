@@ -230,22 +230,51 @@
   </footer>
 
   <script>
-    function toggleProfile() {
-      document.getElementById('profileMenu').classList.toggle('open');
+  function toggleProfile() {
+    document.getElementById('profileMenu').classList.toggle('open');
+  }
+
+  document.addEventListener('click', function (e) {
+    const menu = document.getElementById('profileMenu');
+    if (menu && !menu.contains(e.target)) {
+      menu.classList.remove('open');
     }
+  });
 
-    document.addEventListener('click', function (e) {
-      const menu = document.getElementById('profileMenu');
+  // Atualiza apenas os textos com as informações do usuário logado
+  document.addEventListener('DOMContentLoaded', function () {
+    const usuarioSalvo = localStorage.getItem('usuario');
+    const profileMenu = document.getElementById('profileMenu');
+    const userNameSpan = document.getElementById('userName');
+    const dropdownUserName = document.getElementById('dropdownUserName');
 
-      if (!menu.contains(e.target)) {
-        menu.classList.remove('open');
+    if (usuarioSalvo) {
+      try {
+        const usuario = JSON.parse(usuarioSalvo);
+
+        // Extrai o primeiro nome para não quebrar o layout do botão
+        const primeiroNome = usuario.nome ? usuario.nome.split(' ')[0] : 'Usuário';
+
+        if (userNameSpan) userNameSpan.textContent = primeiroNome;
+        if (dropdownUserName) dropdownUserName.textContent = usuario.nome;
+
+        if (profileMenu) profileMenu.style.display = 'block';
+      } catch (e) {
+        console.error('Erro ao ler dados do usuário:', e);
       }
-    });
-
-    function logout() {
-      window.location.href = 'home.html';
+    } else {
+      // Se não estiver logado, apenas oculta a caixa de perfil
+      if (profileMenu) profileMenu.style.display = 'none';
     }
-  </script>
+  });
+
+  // Função para fazer Logout (Sair)
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = 'home.html';
+  }
+</script>
 
 </body>
 
