@@ -67,20 +67,20 @@ Criar os seguintes campos no GitHub Projects:
 
 ### Critérios de aceite
 
-- [ ] Existem exatamente 12 temas.
-- [ ] Cada tema possui identificador.
-- [ ] Cada tema possui nome.
-- [ ] Cada tema possui descrição.
-- [ ] Cada tema possui ordem definida.
-- [ ] Os temas foram aprovados pela equipe.
+- [x] Existem exatamente 12 temas.
+- [x] Cada tema possui identificador.
+- [x] Cada tema possui nome.
+- [x] Cada tema possui descrição.
+- [x] Cada tema possui ordem definida.
+- [x] Os temas foram aprovados pela equipe.
 
 ### Tasks
 
-- [ ] Levantar os 12 temas oficiais.
-- [ ] Definir nome e descrição.
-- [ ] Definir ordem de apresentação.
-- [ ] Registrar os temas no banco.
-- [ ] Validar os temas com a equipe.
+- [x] Levantar os 12 temas oficiais.
+- [x] Definir nome e descrição.
+- [x] Definir ordem de apresentação.
+- [x] Registrar os temas no banco.
+- [x] Validar os temas com a equipe.
 
 ---
 
@@ -94,18 +94,18 @@ Criar os seguintes campos no GitHub Projects:
 
 ### Critérios de aceite
 
-- [ ] O projeto possui separação entre frontend, backend e infraestrutura.
-- [ ] A estrutura está versionada no GitHub.
-- [ ] Arquivos temporários e dependências não são versionados.
+- [x] O projeto possui separação entre frontend, backend e infraestrutura.
+- [x] A estrutura está versionada no GitHub.
+- [x] Arquivos temporários e dependências não são versionados.
 
 ### Tasks
 
-- [ ] Criar pasta `frontend`.
-- [ ] Criar pasta `backend`.
-- [ ] Criar estrutura de infraestrutura.
-- [ ] Criar `.gitignore`.
-- [ ] Criar `.env.example`.
-- [ ] Padronizar organização inicial do repositório.
+- [x] Criar pasta `frontend`.
+- [x] Criar pasta `backend`.
+- [x] Criar estrutura de infraestrutura.
+- [x] Criar `.gitignore`.
+- [x] Criar `.env.example`.
+- [x] Padronizar organização inicial do repositório.
 
 ---
 
@@ -119,10 +119,10 @@ Criar os seguintes campos no GitHub Projects:
 
 ### Critérios de aceite
 
-- [ ] PostgreSQL inicia corretamente.
-- [ ] Banco possui volume persistente.
-- [ ] Backend consegue acessar o banco.
-- [ ] Credenciais reais não estão no Git.
+- [x] PostgreSQL inicia corretamente.
+- [x] Banco possui volume persistente.
+- [x] Backend consegue acessar o banco.
+- [x] Credenciais reais não estão no Git.
 
 ### Tasks
 
@@ -130,7 +130,7 @@ Criar os seguintes campos no GitHub Projects:
 - [ ] Configurar banco da aplicação.
 - [ ] Configurar usuário e senha por variável de ambiente.
 - [ ] Criar volume persistente.
-- [ ] Testar conexão.
+- [x] Testar conexão.
 - [ ] Validar acesso pelo pgAdmin.
 
 ---
@@ -158,21 +158,21 @@ Criar os seguintes campos no GitHub Projects:
 
 ### Critérios de aceite
 
-- [ ] Todas as entidades principais estão modeladas.
-- [ ] Existem PKs.
-- [ ] Existem FKs.
-- [ ] Registros órfãos são impedidos.
-- [ ] Constraints essenciais estão configuradas.
-- [ ] Índices necessários foram definidos.
+- [x] Todas as entidades principais estão modeladas.
+- [x] Existem PKs.
+- [x] Existem FKs.
+- [x] Registros órfãos são impedidos.
+- [x] Constraints essenciais estão configuradas.
+- [x] Índices necessários foram definidos.
 
 ### Tasks
 
-- [ ] Criar tabelas.
-- [ ] Criar chaves primárias.
-- [ ] Criar chaves estrangeiras.
-- [ ] Criar constraints.
-- [ ] Criar índices.
-- [ ] Validar relacionamentos.
+- [x] Criar tabelas.
+- [x] Criar chaves primárias.
+- [x] Criar chaves estrangeiras.
+- [x] Criar constraints.
+- [x] Criar índices.
+- [x] Validar relacionamentos.
 
 ---
 
