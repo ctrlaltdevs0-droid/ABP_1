@@ -49,3 +49,13 @@ A documentação está organizada por sprint, com os materiais compartilhados na
 | [Sprint 3 — Certificação e entrega](docs/sprint-3/) | Espaço para os documentos e registros da Sprint 3 |
 
 O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
+
+
+## 📺 Nosso canal no YouTube
+
+ **Ctrl Alt Devs**!
+
+[▶️ Acesse nosso canal no YouTube](https://youtube.com/@ctrlaltdevs)
+
+
+
