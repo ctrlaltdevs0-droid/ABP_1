@@ -61,5 +61,11 @@ O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CT
 [▶️ PokerPlanning Sprint 1](https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
 
 
+## 🎨 Protótipo no Figma
+
+[🔗 Acessar o design do ÁgilCert — Ctrl Alt Devs](https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=0-1&t=N8xnhaVNicJx22sj-1)
+
+
+
 
 
