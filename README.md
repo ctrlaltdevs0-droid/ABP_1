@@ -51,13 +51,15 @@ A documentação está organizada por sprint, com os materiais compartilhados na
 O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
 
 
+
 ## 📺 Nosso canal no YouTube
 
- **Ctrl Alt Devs**!
+**Ctrl Alt Devs!**
 
 [▶️ Vídeo de apresentação | ABP-1 Sprint 1](https://youtu.be/mRPE58jU3zM?si=vkCz45VXcsh5eP7U)
 
-[▶️ PokerPlanning Sprint 1] (https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb) 
+[▶️ PokerPlanning Sprint 1](https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
+
 
 
 
