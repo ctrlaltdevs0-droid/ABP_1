@@ -36,6 +36,5 @@ SQL
 # Volume novo: schema antes das migrações. Não adotar automaticamente um banco legado.
 apply '000_schema.sql' /base/schema.sql
 for file in /migrations/*.sql; do apply "$(basename "$file")" "$file"; done
-apply 'seed_temas_v1.sql' /base/seed.sql
-apply 'seed_estudos_v1.sql' /base/seed-estudos.sql
-psql -X -v ON_ERROR_STOP=1 -f /base/validar-estudos.sql
+# A carga consolidada é idempotente também em volumes com as duas cargas antigas.
+apply 'seed_completo_v2.sql' /base/seed.sql

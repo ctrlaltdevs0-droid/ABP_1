@@ -85,9 +85,12 @@ O Compose NÃO lê nem sobrescreve `backend/.env`. O banco antigo
 
 1. `backend/database/schema.sql`;
 2. todos os arquivos de `supabase/migrations`, por ordem de nome;
-3. `backend/database/seed.sql`;
-4. `backend/database/seed-estudos.sql`;
-5. `backend/database/validar-estudos.sql`.
+3. `backend/database/seed.sql`, com temas, estudos, questões, alternativas e validação.
+
+A pasta `database` contém apenas `schema.sql` e `seed.sql`. A conexão fica em
+`backend/src/config/supabase.js`; a fonte de conteúdo em
+`backend/scripts/data/content-estudos.json`. A carga consolidada é registrada como
+`seed_completo_v2.sql`; os registros das cargas antigas são preservados no histórico.
 
 Cada etapa é registrada em `app_private.schema_migrations`, com checksum e data.
 Uma transação por etapa inclui a aplicação e seu registro; um advisory lock

@@ -1,7 +1,7 @@
 # API ÁgilCert
 
 Requer Node.js 22 ou superior. A API utiliza exclusivamente o cliente Supabase
-de `database/config.js`; não há conexão direta com PostgreSQL na aplicação.
+de `src/config/supabase.js`; não há conexão direta com PostgreSQL na aplicação.
 
 ## Configuração
 
@@ -88,24 +88,24 @@ Ambas exigem o JWT da aplicação. O proprietário vem exclusivamente do token;
 o corpo não pode selecionar outro candidato. Conclusões repetidas preservam a
 data original. Um tema inativo ou sem material publicado não pode ser concluído.
 
-Para atualizar um banco existente, executar no SQL Editor, na ordem:
+A pasta `backend/database` contém somente:
 
-1. `supabase/migrations/20261026220734_sprint2_studies_debt.sql`;
-2. `backend/database/seed.sql`;
-3. `backend/database/seed-estudos.sql`;
-4. `backend/database/validar-estudos.sql`.
+- `schema.sql`: estrutura inicial do banco;
+- `seed.sql`: temas, materiais, questões, alternativas e validação da carga.
 
-Para banco novo, executar primeiro `backend/database/schema.sql`. A migração
-usa os papéis padrão do Supabase (`anon`, `authenticated`, `service_role`).
-Não executar o schema sobre tabelas existentes. A inicialização por Compose
-não atualiza volumes existentes; os scripts acima devem ser aplicados explicitamente.
+As alterações de estrutura ficam em `supabase/migrations`. Para um banco vazio,
+aplique `schema.sql`, todas as migrações em ordem de nome e depois `seed.sql`.
+Para um banco existente, aplique somente as migrações pendentes e a carga quando
+necessário; não execute novamente o schema. As migrações usam os papéis padrão
+`anon`, `authenticated` e `service_role`. No Compose completo, o serviço `migrate`
+aplica e registra essas etapas automaticamente, inclusive em volumes existentes.
 
 A carga de temas atualiza descrição e ordem sem trocar IDs ou reativar temas
 desativados. As cargas de materiais e questões possuem códigos estáveis e
 preservam edições existentes ao serem repetidas. Materiais já cadastrados sem
 código continuam preservados: conferir sobreposição editorial antes da carga.
 
-A fonte editável é `backend/database/content-estudos.json`. Execute
+A fonte editável é `backend/scripts/data/content-estudos.json`. Execute
 `npm run seed:gerar` no backend após editar o conteúdo e versione o SQL gerado.
 Os materiais incluem links complementares. As questões possuem quatro
 alternativas e um gabarito, com posições variadas; entram com `status = false`
@@ -114,7 +114,7 @@ questões ativas e aprovadas; esses campos sozinhos não bloqueiam rascunhos.
 Essa correção é prioritária antes de usar a certificação.
 Após revisão cruzada, registrar `REVISAO`/`APROVADO` e ativar somente o conteúdo
 aprovado. O índice de alternativas impede duas corretas para a mesma questão;
-`validar-estudos.sql` verifica também ausência de gabarito e quantidade de opções.
+A validação incluída em `seed.sql` verifica também ausência de gabarito e quantidade de opções.
 O catálogo de questões e os gabaritos continuam restritos a administradores.
 
 ## Devolutiva: sessão e ambiente completo

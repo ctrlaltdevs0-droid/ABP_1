@@ -1,5 +1,5 @@
 // SALVA E CONSULTA NO SUPABASE
-import supabase from "../../database/config.js";
+import supabase from "../config/supabase.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { randomUUID } from "node:crypto";

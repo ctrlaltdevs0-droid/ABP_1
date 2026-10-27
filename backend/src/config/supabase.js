@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url';
 
 // Resolve o arquivo pela localização do módulo, independentemente do terminal.
 // Variáveis fornecidas pelo ambiente de execução têm prioridade.
-dotenv.config({ path: fileURLToPath(new URL('../.env', import.meta.url)), quiet: true });
 dotenv.config({ path: fileURLToPath(new URL('../../.env', import.meta.url)), quiet: true });
+dotenv.config({ path: fileURLToPath(new URL('../../../.env', import.meta.url)), quiet: true });
 
 const supabaseUrl = process.env.SUPABASE_URL?.trim();
 const supabaseKey = process.env.SUPABASE_SECRET_KEY?.trim();

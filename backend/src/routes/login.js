@@ -10,7 +10,7 @@ import { revogarToken } from '../services/sessoes.js';
 const rotas = express.Router();
 rotas.post('/sair', async (req, res, next) => {
   try {
-    const { default: db } = await import('../../database/config.js');
+    const { default: db } = await import('../config/supabase.js');
     if (!(await autorizarRota(req, res, '/api/login/sair', db))) return;
     await revogarToken(db, req.token, req.usuario.exp);
     res.status(204).end();

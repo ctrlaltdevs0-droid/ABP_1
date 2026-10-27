@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { gerarSeed } from '../scripts/gerar-seed-estudos.js';
 import { progressoRoutes } from '../src/routes/progresso.js';
 import { autorizarRota } from '../src/middleware/autorizacao.js';
@@ -42,7 +42,8 @@ function database() {
   };
 }
 test('carga contém 12 materiais, 48 questões e quatro alternativas distintas; SQL gerado está atualizado', async () => {
-  const data = JSON.parse(await readFile(new URL('../database/content-estudos.json', import.meta.url)));
+  assert.deepEqual((await readdir(new URL('../database/', import.meta.url))).sort(), ['schema.sql', 'seed.sql']);
+  const data = JSON.parse(await readFile(new URL('../scripts/data/content-estudos.json', import.meta.url)));
   assert.equal(data.length, 12);
   assert.equal(data.flatMap(t => t.questoes).length, 48);
   for (const tema of data) {
@@ -50,7 +51,7 @@ test('carga contém 12 materiais, 48 questões e quatro alternativas distintas; 
     assert.equal(tema.questoes.length, 4);
     for (const q of tema.questoes) assert.equal(new Set(q.slice(1)).size, 4);
   }
-  assert.equal(await gerarSeed(), await readFile(new URL('../database/seed-estudos.sql', import.meta.url), 'utf8'));
+  assert.equal(await gerarSeed(), await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8'));
 });
 test('progresso persiste, é idempotente e pertence ao JWT, inclusive em novo acesso', async () => {
   const db = database();

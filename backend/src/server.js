@@ -4,7 +4,7 @@ import cors from "cors";
 import rotasLogin from "./routes/login.js";
 import { executarRotas } from "./routes/index.js";
 import { autorizarRota } from './middleware/autorizacao.js';
-import supabase from "../database/config.js";
+import supabase from "./config/supabase.js";
 
 const app = express();
 const porta = process.env.PORT || 3000;
