@@ -74,6 +74,7 @@ VALUES
     12,
     TRUE
 )
-ON CONFLICT (nome) DO NOTHING;
+ON CONFLICT (nome) DO UPDATE
+SET descricao = EXCLUDED.descricao, ordem = EXCLUDED.ordem;
 
 COMMIT;   

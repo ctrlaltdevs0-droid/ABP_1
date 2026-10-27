@@ -496,16 +496,15 @@
   </svg>
   <div class="page">
     <header class="topbar">
-      <a class="brand" href="#inicio" aria-label="ÁgilCert — início"><svg viewBox="0 0 40 40" aria-hidden="true">
+      <a class="brand" href="home.html" aria-label="ÁgilCert — início"><svg viewBox="0 0 40 40" aria-hidden="true">
           <path fill="#147cc0" d="M20 1 0 38h14Z" />
           <path fill="#075ba1" d="m20 1 10 19-10 8Z" />
           <path fill="#20bdc5" d="m30 20 10 18H26l-6-10Z" />
           <path fill="#00a4b3" d="m10 20 10 8-6 10H0Z" />
           <path fill="#80d5d6" d="m20 28 6 10H14Z" />
         </svg>ÁgilCert</a>
-      <nav class="nav" aria-label="Navegação principal"><a href="#inicio">INÍCIO</a><a href="#jornada">ESTUDOS</a><a
-          href="#certificacoes" data-modal="certificacoes">CERTIFICAÇÃO</a><a href="#historico"
-          data-modal="historico">HISTÓRICO</a><a href="#sobre" data-modal="sobre">SOBRE NÓS</a></nav>
+      <nav class="nav" aria-label="Navegação principal"><a href="home.html">INÍCIO</a><a href="estudos.html">ESTUDOS</a><a
+          href="home.html#certificacao">CERTIFICAÇÃO</a><a href="estudos.html">PROGRESSO</a><a href="home.html#sobre-nos">SOBRE NÓS</a></nav>
       <div class="account"><a class="account-icon" href="#informacoes" aria-label="Minha conta"><svg fill="none"
             stroke="currentColor" stroke-width="2.4">
             <use href="#user" />
@@ -645,7 +644,7 @@
   </dialog>
   <script>
     const messages = { certificacoes: ['Minhas certificações', 'Nenhuma certificação foi vinculada a esta página demonstrativa.'], historico: ['Histórico', 'O histórico será exibido após a integração com os dados da sua conta.'], sobre: ['Sobre a ÁgilCert', 'Uma jornada de estudos e certificação ágil.'], logout: ['Sair da conta', 'Esta é uma página demonstrativa, sem sessão de login ativa.'] };
-    document.querySelectorAll('[data-modal]:not([data-modal="certificacoes"])').forEach(button => button.addEventListener('click', event => { event.preventDefault(); const [title, text] = messages[button.dataset.modal]; document.getElementById('dialog-title').textContent = title; document.getElementById('dialog-text').textContent = text; document.getElementById('info-dialog').showModal(); }));
+    document.querySelectorAll('[data-modal]:not([data-modal="certificacoes"]):not([data-modal="logout"])').forEach(button => button.addEventListener('click', event => { event.preventDefault(); const [title, text] = messages[button.dataset.modal]; document.getElementById('dialog-title').textContent = title; document.getElementById('dialog-text').textContent = text; document.getElementById('info-dialog').showModal(); }));
   </script>
 
   <script src="assets/js/config.js"></script>

@@ -10,3 +10,7 @@
 Esta pasta reúne os documentos e registros específicos da Sprint 1.
 
 [Voltar ao README principal](../../README.md)
+
+- [Aplicação da devolutiva da equipe](CORRECOES_DEVOLUTIVA.md)
+- [Registro técnico e roteiro de Review, retrospectiva e DoD](REVIEW_RETROSPECTIVA_DOD.md)
+- [Foto original da devolutiva](evidencias/devolutiva-equipe.jpeg)

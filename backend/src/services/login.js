@@ -2,6 +2,7 @@
 import supabase from "../../database/config.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { randomUUID } from "node:crypto";
 
 const jwtSecret = process.env.JWT_SECRET?.trim();
 if (!jwtSecret || jwtSecret.length < 32 || jwtSecret === 'sua_chave_secreta_aqui') {
@@ -78,6 +79,7 @@ export async function fazerLogin(cpf, senha) {
   // 3. Gera o token de autenticação JWT
   const token = jwt.sign(
     {
+      jti: randomUUID(),
       id: usuario.idusuarios,
       cpf: usuario.cpf,
     },
@@ -87,6 +89,7 @@ export async function fazerLogin(cpf, senha) {
 
   return {
     usuario: {
+      jti: randomUUID(),
       id: usuario.idusuarios,
       cpf: usuario.cpf,
       nome: usuario.nome,

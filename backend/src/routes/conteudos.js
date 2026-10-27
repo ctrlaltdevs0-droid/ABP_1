@@ -15,7 +15,8 @@ export async function conteudosRoutes(req, res, pathname, supabase) {
 
     const { data, error } = await supabase
       .from("conteudos")
-      .select("*")
+      .select("idconteudo,temas_idtemas,titulo,descricao,recurso_url")
+      .eq("status", true)
       .eq("temas_idtemas", temaId)
       .order("idconteudo", { ascending: true });
 
@@ -29,7 +30,8 @@ export async function conteudosRoutes(req, res, pathname, supabase) {
   if (req.method === "GET" && rotaExata(pathname, base)) {
     const { data, error } = await supabase
       .from("conteudos")
-      .select("*")
+      .select("idconteudo,temas_idtemas,titulo,descricao,recurso_url")
+      .eq("status", true)
       .order("idconteudo", { ascending: true });
 
     if (error) return responder(res, 500, { erro: error.message });
@@ -42,7 +44,8 @@ export async function conteudosRoutes(req, res, pathname, supabase) {
   if (req.method === "GET" && id) {
     const { data, error } = await supabase
       .from("conteudos")
-      .select("*")
+      .select("idconteudo,temas_idtemas,titulo,descricao,recurso_url")
+      .eq("status", true)
       .eq("idconteudo", id)
       .single();
 

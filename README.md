@@ -69,3 +69,17 @@ O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CT
 
 
 
+
+## Executar o projeto completo localmente
+
+```bash
+node scripts/preparar-compose.mjs
+docker compose --env-file .env.compose up --build -d
+```
+
+Abra `http://localhost:3000/home.html`. O ambiente local inclui banco,
+provisionamento com migrações e cargas, API de dados, backend e frontend.
+O `.env` do Supabase remoto e o banco local antigo não são alterados.
+Veja [arquitetura e reprodução](docs/geral/ARQUITETURA_EXECUCAO.md),
+[correções da devolutiva](docs/sprint-1/CORRECOES_DEVOLUTIVA.md) e
+[Review, retrospectiva e DoD](docs/sprint-1/REVIEW_RETROSPECTIVA_DOD.md).

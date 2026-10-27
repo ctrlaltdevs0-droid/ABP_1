@@ -78,3 +78,54 @@ Defina `POSTGRES_PASSWORD` no `.env` e execute `docker compose up -d database`
 na raiz. A porta no computador é `5433`; dentro do contêiner é `5432`.
 A API continua usando Supabase. Os scripts de inicialização são executados
 somente na criação de um volume vazio e não migram um banco existente.
+
+## Estudos e dívida da Sprint 2
+
+A página `/estudos.html` lista temas, abre os materiais e registra conclusão
+no servidor. `GET /api/estudos/progresso` retorna as conclusões do candidato;
+`PUT /api/temas/:id/conclusao` marca o tema como concluído, de forma idempotente.
+Ambas exigem o JWT da aplicação. O proprietário vem exclusivamente do token;
+o corpo não pode selecionar outro candidato. Conclusões repetidas preservam a
+data original. Um tema inativo ou sem material publicado não pode ser concluído.
+
+Para atualizar um banco existente, executar no SQL Editor, na ordem:
+
+1. `supabase/migrations/20261026220734_sprint2_studies_debt.sql`;
+2. `backend/database/seed.sql`;
+3. `backend/database/seed-estudos.sql`;
+4. `backend/database/validar-estudos.sql`.
+
+Para banco novo, executar primeiro `backend/database/schema.sql`. A migração
+usa os papéis padrão do Supabase (`anon`, `authenticated`, `service_role`).
+Não executar o schema sobre tabelas existentes. A inicialização por Compose
+não atualiza volumes existentes; os scripts acima devem ser aplicados explicitamente.
+
+A carga de temas atualiza descrição e ordem sem trocar IDs ou reativar temas
+desativados. As cargas de materiais e questões possuem códigos estáveis e
+preservam edições existentes ao serem repetidas. Materiais já cadastrados sem
+código continuam preservados: conferir sobreposição editorial antes da carga.
+
+A fonte editável é `backend/database/content-estudos.json`. Execute
+`npm run seed:gerar` no backend após editar o conteúdo e versione o SQL gerado.
+Os materiais incluem links complementares. As questões possuem quatro
+alternativas e um gabarito, com posições variadas; entram com `status = false`
+e `status_editorial = 'RASCUNHO'`. Atenção: o sorteio atual ainda precisa filtrar
+questões ativas e aprovadas; esses campos sozinhos não bloqueiam rascunhos.
+Essa correção é prioritária antes de usar a certificação.
+Após revisão cruzada, registrar `REVISAO`/`APROVADO` e ativar somente o conteúdo
+aprovado. O índice de alternativas impede duas corretas para a mesma questão;
+`validar-estudos.sql` verifica também ausência de gabarito e quantidade de opções.
+O catálogo de questões e os gabaritos continuam restritos a administradores.
+
+## Devolutiva: sessão e ambiente completo
+
+O logout agora exige `POST /api/login/sair` com Bearer JWT e revoga o token no
+banco. Aplicar `20261026225026_logout_revocation_and_api_grants.sql` no Supabase
+antes de atualizar o backend. Ela também habilita RLS e restringe as tabelas da
+aplicação ao papel de servidor, compatível com o JWT próprio do projeto.
+Sem acesso ao registro de revogação, rotas privadas falham com 503.
+
+Para reproduzir tudo sem Supabase remoto, seguir o Compose completo descrito em
+`docs/geral/ARQUITETURA_EXECUCAO.md`. Ele substitui o experimento anterior de
+PostgreSQL isolado por um ambiente que integra a Data API utilizada pelo backend.
+O provisionamento ocorre em serviço próprio, não apenas no primeiro boot do volume.

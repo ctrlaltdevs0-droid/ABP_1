@@ -115,5 +115,16 @@
   }
 
   // Disponibiliza a função para outras páginas.
-  window.AgilCertAPI = { request };
+  async function logout() {
+    if (localStorage.getItem('token')) {
+      try { await request('login/sair', { method: 'POST', body: {} }); }
+      catch (error) {
+        if (localStorage.getItem('token')) throw error;
+      }
+    }
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.assign('login.html');
+  }
+  window.AgilCertAPI = { request, logout };
 })();

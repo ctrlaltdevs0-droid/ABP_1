@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { tokenRevogado } from '../services/sessoes.js';
 
 // A chave Supabase do servidor ignora RLS; a autorização acontece antes da consulta.
 export async function autorizarRota(req, res, pathname, supabase) {
@@ -7,12 +8,28 @@ export async function autorizarRota(req, res, pathname, supabase) {
   let usuario;
   try {
     usuario = jwt.verify(token ?? '', process.env.JWT_SECRET.trim(), { algorithms: ['HS256'] });
-    if (!Number.isSafeInteger(usuario.id) || usuario.id < 1) throw new Error();
+    if (!Number.isSafeInteger(usuario.id) || usuario.id < 1 || !Number.isSafeInteger(usuario.exp)) throw new Error();
   } catch {
     res.status(401).json({ erro: 'Autenticação necessária.' });
     return false;
   }
+  try {
+    if (await tokenRevogado(supabase, token)) {
+      res.status(401).json({ erro: 'Sessão encerrada. Entre novamente.' });
+      return false;
+    }
+  } catch {
+    res.status(503).json({ erro: 'Não foi possível verificar a sessão.' });
+    return false;
+  }
   req.usuario = usuario;
+  req.token = token;
+  if (req.method === 'POST' && pathname === '/api/login/sair') return true;
+  if (/^\/api\/usuarios\/me(?:\/senha)?\/?$/.test(pathname)) {
+    if (req.method === 'GET' || req.method === 'PATCH') return true;
+  }
+  if (req.method === 'GET' && /^\/api\/estudos\/progresso\/?$/.test(pathname)) return true;
+  if (req.method === 'PUT' && /^\/api\/temas\/[1-9]\d*\/conclusao\/?$/.test(pathname)) return true;
   const admins = (process.env.ADMIN_USER_IDS ?? '').split(',').map(x => x.trim());
   if (admins.includes(String(usuario.id))) return true;
 

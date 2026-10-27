@@ -37,7 +37,7 @@ app.use(express.static(frontendPath, { index: false, dotfiles: 'deny' }));
 app.use(async (req, res, next) => {
   try {
     const pathname = req.path;
-    if (!/^\/api\/(temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
+    if (!/^\/api\/(estudos|temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
     if (!(await autorizarRota(req, res, pathname, supabase))) return;
     if (!(await executarRotas(req, res, pathname, supabase))) next();
   } catch (error) { next(error); }

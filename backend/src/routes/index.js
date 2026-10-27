@@ -1,3 +1,6 @@
+import { perfilRoutes } from './perfil.js';
+import { progressoRoutes } from "./progresso.js";
+
 // Importa todos os arquivos de rotas.
 import { temasRoutes } from "./temas.js";
 import { conteudosRoutes } from "./conteudos.js";
@@ -8,6 +11,8 @@ import { certificadosRoutes } from "./certificados.js";
 
 // Lista com todas as rotas da aplicação.
 const rotas = [
+  perfilRoutes,
+  progressoRoutes,
   temasRoutes,
   conteudosRoutes,
   questoesRoutes,

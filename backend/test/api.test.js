@@ -19,6 +19,7 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   let vinculos = [];
   let respostas = [];
   let certificado;
+  const revogados = new Set();
   globalThis.fetch = async (input, options) => {
     const url = new URL(input);
     if (url.hostname !== 'teste.supabase.co') return originalFetch(input, options);
@@ -26,6 +27,11 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
     if (fail) return new Response(JSON.stringify({ message: 'SEGREDO_INTERNO', code: '42501' }), {
       status: 403, headers: { 'Content-Type': 'application/json' },
     });
+    if (url.pathname === '/rest/v1/sessoes_revogadas') {
+      if (options.method === 'POST') { revogados.add(JSON.parse(options.body).token_hash); return new Response(null, { status: 201 }); }
+      const hash = url.searchParams.get('token_hash')?.replace('eq.', '');
+      return Response.json(revogados.has(hash) ? { token_hash: hash } : null);
+    }
     if (url.pathname === '/rest/v1/usuarios') {
       if (options.method === 'POST') {
         usuario = { idusuarios: 1, ...JSON.parse(options.body) };
@@ -173,6 +179,17 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   assert.equal(invalid.status, 400);
   assert.deepEqual(await invalid.json(), { erro: 'JSON inválido.' });
 
+  assert.equal((await request('/estudos.html')).status, 200);
+  assert.equal((await request('/api/estudos/progresso')).status, 401);
+  assert.equal((await request('/api/temas/1/conclusao', 'PUT', undefined, {})).status, 401);
+  assert.equal((await request('/api/estudos/progresso', 'GET', session.token)).status, 200);
+  assert.equal(requests.at(-1).url.searchParams.get('usuarios_idusuarios'), 'eq.1');
+  assert.equal((await request('/api/temas/1/conclusao', 'PUT', session.token, { usuarios_idusuarios: 999 })).status, 200);
+  assert.equal(JSON.parse(requests.at(-1).options.body).usuarios_idusuarios, 1);
+  assert.equal(requests.at(-1).url.searchParams.get('on_conflict'), 'usuarios_idusuarios,temas_idtemas');
+  assert.equal((await request('/api/temas/1/conteudos', 'GET', session.token)).status, 200);
+  assert.equal(requests.at(-1).url.searchParams.get('status'), 'eq.true');
+
   provaMode = true;
   const started = await request('/api/tentativas', 'POST', session.token, { usuarios_idusuarios: 999 });
   assert.equal(started.status, 201);
@@ -193,4 +210,10 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   assert.equal(outcome.certificado.idcertificados, 3);
   const repeat = await request('/api/tentativas/10/finalizar', 'POST', session.token, {});
   assert.equal((await repeat.json()).certificado.codigo_validacao, outcome.certificado.codigo_validacao);
+  assert.equal((await request('/api/login/sair', 'POST', session.token, {})).status, 204);
+  assert.equal((await request('/api/estudos/progresso', 'GET', session.token)).status, 401);
+  assert.equal((await request('/api/conteudos', 'GET', session.token)).status, 401);
+  const outraSessao = await (await post('entrar', cadastro)).json();
+  assert.notEqual(outraSessao.token, session.token);
+  assert.equal((await request('/api/estudos/progresso', 'GET', outraSessao.token)).status, 200);
 });
