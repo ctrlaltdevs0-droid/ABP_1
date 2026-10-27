@@ -111,22 +111,20 @@ CREATE TABLE tentativas (
 CREATE TABLE tentativas_questoes (
     tentativas_idtentativas INTEGER NOT NULL,
     questoes_idquestoes INTEGER NOT NULL,
+    resposta_escolhida CHAR(1), -- 'A', 'B', 'C', 'D' ou NULL se o tempo esgotou
+    acertou BOOLEAN DEFAULT FALSE,
+    respondido_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT pk_tentativas_questoes
-        PRIMARY KEY (
-            tentativas_idtentativas,
-            questoes_idquestoes
-        ),
+        PRIMARY KEY (tentativas_idtentativas, questoes_idquestoes),
 
     CONSTRAINT fk_tentativas_questoes_tentativa
         FOREIGN KEY (tentativas_idtentativas)
-        REFERENCES tentativas(idtentativas)
-        ON DELETE CASCADE,
+        REFERENCES tentativas(idtentativas) ON DELETE CASCADE,
 
     CONSTRAINT fk_tentativas_questoes_questao
         FOREIGN KEY (questoes_idquestoes)
-        REFERENCES questoes(idquestoes)
-        ON DELETE CASCADE
+        REFERENCES questoes(idquestoes) ON DELETE CASCADE
 );
 
 CREATE TABLE certificados (
