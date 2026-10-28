@@ -5,6 +5,7 @@ import rotasLogin from "./routes/login.js";
 import { executarRotas } from "./routes/index.js";
 import { autorizarRota } from './middleware/autorizacao.js';
 import supabase from "./config/supabase.js";
+import { questoesRoutes } from "./routes/questoes.js";
 
 const app = express();
 const porta = process.env.PORT || 3000;
@@ -39,6 +40,7 @@ app.use(async (req, res, next) => {
     const pathname = req.path;
     if (!/^\/api\/(estudos|temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
     if (!(await autorizarRota(req, res, pathname, supabase))) return;
+    if (await questoesRoutes(req, res, pathname, supabase)) return;
     if (!(await executarRotas(req, res, pathname, supabase))) next();
   } catch (error) { next(error); }
 });

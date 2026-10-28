@@ -71,10 +71,10 @@
     informar('Carregando estudos…');
 
     try {
-      // 1. Carrega a lista de temas (se falhar, cai no catch geral)
+      // 1. Carrega a lista de temas
       temas = await api.request('temas');
 
-      // 2. Carrega o progresso (se falhar/503, não trava os temas)
+      // 2. Carrega o progresso
       let progresso = [];
       try {
         progresso = await api.request('estudos/progresso');
@@ -94,22 +94,30 @@
       temaAtual = temas.find(t => String(t.idtemas) === temaParam);
       if (!temaAtual) throw new Error('Tema não encontrado. Volte à área de estudos.');
 
+      // 3. Carrega conteúdos e questões do tema selecionado da API
       const conteudos = await api.request(`temas/${temaAtual.idtemas}/conteudos`);
+      
+      let questoes = [];
+      try {
+        questoes = await api.request(`temas/${temaAtual.idtemas}/questoes`);
+      } catch (err) {
+        console.warn('Não foi possível carregar as questões deste tema:', err);
+      }
+
       el('titulo-tema').textContent = temaAtual.nome;
       el('texto-tema').replaceChildren();
 
+      // Renderiza os blocos de conteúdo/aulas
       for (const item of conteudos) {
         const titulo = document.createElement('h3');
         titulo.textContent = item.titulo || temaAtual.nome;
 
-        // Suporte para HTML (tabelas e formatações)
         const texto = document.createElement('div');
         texto.className = 'bloco-conteudo';
         texto.innerHTML = item.descricao || '';
 
         el('texto-tema').append(titulo, texto);
 
-        // Suporte a URLs de imagem ou links complementares
         try {
           const url = new URL(item.recurso_url);
           if (url.protocol === 'https:') {
@@ -128,7 +136,56 @@
               el('texto-tema').append(link);
             }
           }
-        } catch { /* Recurso complementar é opcional. */ }
+        } catch { /* Recurso complementar opcional. */ }
+      }
+
+      // Renderiza as perguntas dinâmicas dentro de #quiz-tema
+      const quizContainer = el('quiz-tema');
+      if (quizContainer) {
+        quizContainer.replaceChildren();
+
+        if (questoes && questoes.length > 0) {
+          const tituloQuiz = document.createElement('h3');
+          tituloQuiz.textContent = '✍️ Quiz de Fixação';
+
+          const instrucao = document.createElement('p');
+          instrucao.className = 'quiz-instrucao';
+          instrucao.textContent = 'Responda às perguntas abaixo para fixar o conteúdo antes de concluir o tema:';
+
+          quizContainer.append(tituloQuiz, instrucao);
+
+          questoes.forEach((q, index) => {
+            const div = document.createElement('div');
+            div.className = 'pergunta-quiz';
+
+            const p = document.createElement('p');
+            const strong = document.createElement('strong');
+            strong.textContent = `${index + 1}. ${q.enunciado}`;
+            p.append(strong);
+            div.append(p);
+
+            const opcoes = [
+              { chave: 'A', valor: q.opcao_a },
+              { chave: 'B', valor: q.opcao_b },
+              { chave: 'C', valor: q.opcao_c }
+            ];
+
+            opcoes.forEach(op => {
+              if (op.valor) {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `q_${q.idquestoes}`;
+                input.value = op.chave;
+
+                label.append(input, ` ${op.chave}) ${op.valor}`);
+                div.append(label, document.createElement('br'));
+              }
+            });
+
+            quizContainer.append(div);
+          });
+        }
       }
 
       el('conteudo').hidden = false;
