@@ -1,27 +1,315 @@
-.study-header { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.5rem 5%; border-bottom:1px solid var(--border); flex-wrap:wrap; }
-.study-header nav { display:flex; gap:1.2rem; flex-wrap:wrap; }
-.study-header a { color:var(--primary); }
-.study-main { max-width:1200px; margin:auto; padding:3rem 1.5rem; }
-.study-main h1 { font-size:clamp(2rem,5vw,3rem); margin:.5rem 0 1rem; }
-.eyebrow { color:var(--primary); font-size:.8rem; letter-spacing:.1em; }
-.study-summary { background:var(--background); padding:1.5rem; border:1px solid var(--border); border-radius:1rem; margin:2rem 0; }
-progress { display:block; width:100%; height:1rem; margin-top:1rem; accent-color:var(--secondary); }
-#mensagem { margin:1rem 0; }
-#busca { display:block; width:100%; padding:.9rem; margin:.5rem 0 1.5rem; border:1px solid var(--border); border-radius:.5rem; font:inherit; }
-.study-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; }
-.study-card { display:flex; flex-direction:column; gap:1rem; padding:1.5rem; border:1px solid var(--border); border-radius:.8rem; overflow-wrap:anywhere; }
-.study-card h2 { font-size:1.15rem; }
-.study-card p { color:#475569; line-height:1.6; }
-.study-card a { color:var(--primary); margin-top:auto; font-weight:600; }
-.study-state { font-size:.85rem; color:#475569; }
-.study-state.done { color:#047857; }
-.study-content { max-width:800px; padding:2rem; border:1px solid var(--border); border-radius:1rem; }
-.study-content h2, .study-content h3 { margin:1.5rem 0 1rem; }
-.study-content p { white-space:pre-line; line-height:1.8; margin-bottom:1.2rem; overflow-wrap:anywhere; }
-.study-content a { color:var(--primary); text-decoration:underline; }
-button { border:1px solid var(--primary); border-radius:.5rem; padding:.8rem 1.2rem; background:var(--primary); color:white; font:inherit; cursor:pointer; }
-button:disabled { opacity:.65; cursor:default; }
-a:focus-visible, button:focus-visible, input:focus-visible { outline:3px solid #F59E0B; outline-offset:4px; }
-[hidden] { display:none !important; }
-@media(max-width:900px) { .study-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media(max-width:480px) { .study-main { padding:2rem 1rem; } .study-content { padding:1rem; } .study-header nav { gap:.8rem; } .study-grid { grid-template-columns:1fr; } }
+/* ==========================================================================
+   ÁGILCERT - ÁREA DE ESTUDOS (estudos.css)
+   ========================================================================== */
+
+/* --- Variáveis Globais (Reserva se não declaradas em home.css) --- */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #10b981;
+  --background: #ffffff;
+  --border: #e2e8f0;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+}
+
+/* --- Cabeçalho (Header) --- */
+.study-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 5%;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  background-color: var(--background);
+}
+
+.study-header nav {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.study-header a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.study-header a:hover {
+  text-decoration: underline;
+}
+
+/* --- Conteúdo Principal (Main) --- */
+.study-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.study-main h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--text-main);
+  margin: 0.5rem 0 0.5rem;
+}
+
+.study-main p {
+  color: var(--text-muted);
+}
+
+/* --- Card de Progresso (Resumo) --- */
+.study-summary {
+  background: var(--background);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  margin: 2rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.study-summary label {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+progress {
+  display: block;
+  width: 100%;
+  height: 0.85rem;
+  margin-top: 1rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  accent-color: var(--secondary);
+}
+
+#mensagem {
+  margin: 1rem 0;
+  font-weight: 500;
+}
+
+/* --- Campo de Busca --- */
+#busca {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin: 0.5rem 0 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#busca:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* --- Grade dos 12 Temas (Quadradinhos) --- */
+.study-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.study-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  overflow-wrap: anywhere;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.study-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+.study-card h2 {
+  font-size: 1.15rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.study-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.study-card a {
+  color: var(--primary);
+  margin-top: auto;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.study-card a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Indicadores de Status (Pendente / Concluído) */
+.study-state {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 1rem;
+  background: #f1f5f9;
+  color: var(--text-muted);
+}
+
+.study-state.done {
+  background: #dcfce7;
+  color: #047857;
+}
+
+/* --- Artigo de Exibição do Conteúdo (Quando abre um tema) --- */
+.study-content {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+.study-content h2 {
+  font-size: 1.8rem;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+
+.study-content h3 {
+  font-size: 1.3rem;
+  color: #334155;
+  margin: 1.8rem 0 0.8rem;
+}
+
+.study-content p {
+  white-space: pre-wrap; /* MÁGICA: Mantém os parágrafos e quebras de linha do banco */
+  line-height: 1.8;
+  color: #334155;
+  margin-bottom: 1.2rem;
+  overflow-wrap: anywhere;
+}
+
+.study-content a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* Imagens no meio do texto do tema */
+.study-content img,
+.imagem-conteudo {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.2rem 0;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+/* --- Seção de Quiz de Fixação e Linha Divisória --- */
+.study-content hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+#quiz-tema {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+}
+
+.pergunta-quiz {
+  margin-top: 1rem;
+}
+
+.pergunta-quiz p {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.pergunta-quiz label {
+  display: block;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  color: #475569;
+}
+
+/* --- Botões e Acessibilidade --- */
+button {
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  background: var(--primary);
+  color: white;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid #F59E0B;
+  outline-offset: 4px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --- Responsividade (Celulares e Tablets) --- */
+@media (max-width: 900px) {
+  .study-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .study-main {
+    padding: 2rem 1rem;
+  }
+  .study-content {
+    padding: 1.25rem;
+  }
+  .study-header nav {
+    gap: 0.8rem;
+  }
+  .study-grid {
+    grid-template-columns: 1fr;
+  }
+}

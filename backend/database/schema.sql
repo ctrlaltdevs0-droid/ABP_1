@@ -36,6 +36,7 @@ CREATE TABLE conteudos (
     descricao VARCHAR(400),
     status BOOLEAN DEFAULT TRUE,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    recurso_url TEXT,
 
     CONSTRAINT pk_conteudos
         PRIMARY KEY (idconteudo),
