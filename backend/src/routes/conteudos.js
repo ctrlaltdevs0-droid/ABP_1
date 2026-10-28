@@ -1,6 +1,6 @@
 import { lerJson, responder, idDaRota, rotaExata } from "../utils/http.js";
 
-export async function estudosRoutes(req, res, pathname, supabase) {
+export async function conteudosRoutes(req, res, pathname, supabase) {
   // 1. GET /api/estudos/progresso
   // Retorna a lista de temas que o usuário autenticado já concluiu
   if (req.method === "GET" && rotaExata(pathname, "/api/estudos/progresso")) {
