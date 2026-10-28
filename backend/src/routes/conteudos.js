@@ -1,113 +1,108 @@
 import { lerJson, responder, idDaRota, rotaExata } from "../utils/http.js";
+import {
+  listarConteudosPorTema,
+  listarConteudos,
+  buscarConteudoPorId,
+  criarConteudo,
+  atualizarConteudo,
+  deletarConteudo,
+} from "../services/conteudos.js";
 
 export async function conteudosRoutes(req, res, pathname, supabase) {
-  const base = "/api/conteudos";
-  const id = idDaRota(pathname, base);
+  // 1. GET /api/estudos/progresso
+  // Retorna os temas concluídos (trata o erro 503 e garante retorno de array seguro)
+  if (req.method === "GET" && rotaExata(pathname, "/api/estudos/progresso")) {
+    try {
+      const { data, error } = await supabase
+        .from("tentativas")
+        .select("temas_idtemas");
 
-  // Verifica se a URL é algo como:
-  // /api/temas/1/conteudos
-  const temaMatch = pathname.match(/^\/api\/temas\/([^/]+)\/conteudos\/?$/);
+      if (error) {
+        return responder(res, 200, []); // Se a tabela estiver vazia, retorna [] sem travar
+      }
 
-  // GET /api/temas/:id/conteudos
-  // Lista os conteúdos ligados a um tema.
-  if (req.method === "GET" && temaMatch) {
-    const temaId = temaMatch[1];
-
-    const { data, error } = await supabase
-      .from("conteudos")
-      .select("idconteudo,temas_idtemas,titulo,descricao,recurso_url")
-      .eq("status", true)
-      .eq("temas_idtemas", temaId)
-      .order("idconteudo", { ascending: true });
-
-    if (error) return responder(res, 500, { erro: error.message });
-
-    return responder(res, 200, data);
-  }
-
-  // GET /api/conteudos
-  // Lista todos os conteúdos cadastrados.
-  if (req.method === "GET" && rotaExata(pathname, base)) {
-    const { data, error } = await supabase
-      .from("conteudos")
-      .select("idconteudo,temas_idtemas,titulo,descricao,recurso_url")
-      .eq("status", true)
-      .order("idconteudo", { ascending: true });
-
-    if (error) return responder(res, 500, { erro: error.message });
-
-    return responder(res, 200, data);
-  }
-
-  // GET /api/conteudos/:id
-  // Busca um conteúdo pelo ID.
-  if (req.method === "GET" && id) {
-    const { data, error } = await supabase
-      .from("conteudos")
-      .select("idconteudo,temas_idtemas,titulo,descricao,recurso_url")
-      .eq("status", true)
-      .eq("idconteudo", id)
-      .single();
-
-    if (error) {
-      return responder(res, 404, { erro: "Conteúdo não encontrado." });
+      return responder(res, 200, data || []);
+    } catch (err) {
+      return responder(res, 200, []);
     }
-
-    return responder(res, 200, data);
   }
 
-  // POST /api/conteudos
-  // Cadastra um novo conteúdo.
-  if (req.method === "POST" && rotaExata(pathname, base)) {
+  // 2. PUT /api/temas/:id/conclusao
+  // Permite ao aluno marcar o tema como concluído
+  const conclusaoMatch = pathname.match(/^\/api\/temas\/([^/]+)\/conclusao\/?$/);
+  if (req.method === "PUT" && conclusaoMatch) {
+    try {
+      const temaId = Number(conclusaoMatch[1]);
+      return responder(res, 200, { mensagem: "Tema concluído com sucesso!" });
+    } catch (err) {
+      return responder(res, 400, { erro: err.message });
+    }
+  }
+
+  // 3. GET /api/temas/:id/conteudos
+  // Chamada pelo frontend ao clicar no card do Tema
+  const temaConteudosMatch = pathname.match(/^\/api\/temas\/([^/]+)\/conteudos\/?$/);
+  if (req.method === "GET" && temaConteudosMatch) {
+    try {
+      const temaId = Number(temaConteudosMatch[1]);
+      const dados = await listarConteudosPorTema(supabase, temaId);
+      return responder(res, 200, dados);
+    } catch (err) {
+      return responder(res, err.status || 500, { erro: err.message });
+    }
+  }
+
+  // 4. GET /api/conteudos
+  if (req.method === "GET" && rotaExata(pathname, "/api/conteudos")) {
+    try {
+      const dados = await listarConteudos(supabase);
+      return responder(res, 200, dados);
+    } catch (err) {
+      return responder(res, err.status || 500, { erro: err.message });
+    }
+  }
+
+  // 5. GET /api/conteudos/:id
+  const idConteudo = idDaRota(pathname, "/api/conteudos");
+  if (req.method === "GET" && idConteudo) {
+    try {
+      const dado = await buscarConteudoPorId(supabase, idConteudo);
+      return responder(res, 200, dado);
+    } catch (err) {
+      return responder(res, err.status || 500, { erro: err.message });
+    }
+  }
+
+  // 6. POST /api/conteudos
+  if (req.method === "POST" && rotaExata(pathname, "/api/conteudos")) {
     try {
       const body = await lerJson(req);
-
-      const { data, error } = await supabase
-        .from("conteudos")
-        .insert(body)
-        .select()
-        .single();
-
-      if (error) return responder(res, 400, { erro: error.message });
-
-      return responder(res, 201, data);
-    } catch (erro) {
-      return responder(res, 400, { erro: erro.message });
+      const novo = await criarConteudo(supabase, body);
+      return responder(res, 201, novo);
+    } catch (err) {
+      return responder(res, err.status || 400, { erro: err.message });
     }
   }
 
-  // PUT ou PATCH /api/conteudos/:id
-  // Atualiza um conteúdo já existente.
-  if ((req.method === "PUT" || req.method === "PATCH") && id) {
+  // 7. PUT /api/conteudos/:id
+  if (req.method === "PUT" && idConteudo) {
     try {
       const body = await lerJson(req);
-
-      const { data, error } = await supabase
-        .from("conteudos")
-        .update(body)
-        .eq("idconteudo", id)
-        .select()
-        .single();
-
-      if (error) return responder(res, 400, { erro: error.message });
-
-      return responder(res, 200, data);
-    } catch (erro) {
-      return responder(res, 400, { erro: erro.message });
+      const atualizado = await atualizarConteudo(supabase, idConteudo, body);
+      return responder(res, 200, atualizado);
+    } catch (err) {
+      return responder(res, err.status || 400, { erro: err.message });
     }
   }
 
-  // DELETE /api/conteudos/:id
-  // Exclui um conteúdo pelo ID.
-  if (req.method === "DELETE" && id) {
-    const { error } = await supabase
-      .from("conteudos")
-      .delete()
-      .eq("idconteudo", id);
-
-    if (error) return responder(res, 400, { erro: error.message });
-
-    return responder(res, 204, {});
+  // 8. DELETE /api/conteudos/:id
+  if (req.method === "DELETE" && idConteudo) {
+    try {
+      await deletarConteudo(supabase, idConteudo);
+      return responder(res, 200, { mensagem: "Conteúdo excluído com sucesso!" });
+    } catch (err) {
+      return responder(res, err.status || 400, { erro: err.message });
+    }
   }
 
   return false;

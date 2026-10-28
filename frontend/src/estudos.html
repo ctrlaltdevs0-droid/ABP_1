@@ -11,33 +11,65 @@
   <script defer src="assets/js/estudos.js"></script>
 </head>
 <body>
+
+  <!-- CABEÇALHO -->
   <header class="study-header">
-    <a href="home.html"><img src="assets/img/logo-transparente.png" alt="ÁgilCert" width="130"></a>
-    <nav aria-label="Navegação principal"><a href="home.html">Início</a><a href="estudos.html" aria-current="page">Estudos</a><a href="perfil.html">Meu perfil</a></nav>
+    <a href="home.html">
+      <img src="assets/img/logo-transparente.png" alt="ÁgilCert" width="130">
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="home.html">Início</a>
+      <a href="estudos.html" aria-current="page">Estudos</a>
+      <a href="perfil.html">Meu perfil</a>
+    </nav>
     <button id="sair" type="button">Sair</button>
   </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
   <main class="study-main">
     <p class="eyebrow">SEU PERCURSO DE APRENDIZADO</p>
     <h1>Área de estudos</h1>
     <p>Explore os 12 temas e prepare-se para a certificação.</p>
+
+    <!-- BARRA DE PROGRESSO -->
     <section class="study-summary" aria-label="Progresso de estudo">
       <label for="progresso" id="resumo">Carregando progresso…</label>
       <progress id="progresso" value="0" max="12">0 de 12</progress>
     </section>
+
+    <!-- MENSAGENS E BOTÃO RECARREGAR -->
     <p id="mensagem" role="status" aria-live="polite">Carregando temas…</p>
     <button id="tentar" type="button" hidden>Tentar novamente</button>
-    <div id="lista-estudos">
+
+    <!-- GRADE DOS 12 TEMAS (CATÁLOGO) -->
+    <div id="lista-estudos" hidden>
       <label for="busca">Buscar tema</label>
       <input id="busca" type="search" placeholder="Nome do tema" autocomplete="off">
       <div id="temas" class="study-grid"></div>
     </div>
+
+    <!-- PAINEL DE LEITURA DO TEMA SELECIONADO -->
     <article id="conteudo" class="study-content" hidden aria-labelledby="titulo-tema">
-      <a href="estudos.html">← Todos os temas</a>
+      <a href="estudos.html" class="voltar-link">← Todos os temas</a>
+      
       <h2 id="titulo-tema"></h2>
+      
+      <!-- O JavaScript injetará os textos e imagens da API aqui dinamicamente -->
       <div id="texto-tema"></div>
+
+      <hr>
+
+      <!-- CONTAINER DINÂMICO DO QUIZ DO TEMA -->
+      <section id="quiz-tema"></section>
+
+      <hr>
+
+      <!-- BOTÃO DE CONCLUSÃO -->
       <button id="concluir" type="button" disabled>Marcar tema como concluído</button>
     </article>
+
     <noscript>Ative o JavaScript para carregar os temas e registrar seu progresso.</noscript>
   </main>
+
 </body>
 </html>
