@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste da Avaliação - ÁgilCert</title>
+  <style>
+    /* Estilos simples para visualização do teste */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .card-avaliacao {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 600px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Caixa do Cronômetro (RF10) */
+    .caixa-timer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #eef2f5;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .caixa-timer span {
+      font-size: 14px;
+      color: #536169;
+      font-weight: 600;
+    }
+
+    .caixa-timer strong {
+      font-size: 22px;
+      color: #2c3e50;
+      font-family: monospace;
+      transition: color 0.3s;
+    }
+
+    /* Pergunta e Imagem */
+    .enunciado {
+      font-size: 18px;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    .imagem-questao {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+
+    /* Alternativas */
+    .opcao-resposta {
+      display: block;
+      background-color: #f8f9fa;
+      border: 2px solid #e9ecef;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .opcao-resposta:hover {
+      background-color: #e9ecef;
+    }
+
+    .opcao-resposta input {
+      margin-right: 10px;
+    }
+
+    /* Botões */
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+
+    /* Área de Feedback (RF11 / RF12) */
+    .painel-feedback {
+      display: none; /* Inicia oculto */
+      margin-top: 25px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+    }
+
+    .mensagem-status {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .botoes-navegacao {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn-secundario {
+      background-color: #7f8c8d;
+    }
+
+    .btn-secundario:hover {
+      background-color: #95a5a6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card-avaliacao">
+    <!-- CAIXA DO CRONÔMETRO -->
+    <div class="caixa-timer">
+      <span>⏱️ Tempo restante:</span>
+      <strong id="cronometro">02:30</strong>
+    </div>
+
+    <!-- QUESTÃO E IMAGEM (RF08) -->
+    <h2 class="enunciado">Questão 1: No Framework Scrum, qual é a principal responsabilidade do Scrum Master?</h2>
+    
+    <!-- Placeholder de Imagem Obrigatoria -->
+    <img class="imagem-questao" src="https://via.placeholder.com/600x200?text=Analise+da+Questao" alt="Imagem Ilustrativa">
+
+    <!-- FORMULÁRIO DE ALTERNATIVAS -->
+    <form id="form-questao">
+      <label class="opcao-resposta">
+        <input type="radio" name="resposta" value="A">
+        A) Gerenciar o orçamento do projeto e definir os prazos de entrega.
+      </label>
+      <label class="opcao-resposta">
+        <input type="radio" name="resposta" value="B">
+        B) Atuar como líder servidor, removendo impedimentos e garantindo os valores do Scrum.
+      </label>
+      <label class="opcao-resposta">
+        <input type="radio" name="resposta" value="C">
+        C) Escrever todo o código-fonte da aplicação sozinho.
+      </label>
+      <label class="opcao-resposta">
+        <input type="radio" name="resposta" value="D">
+        D) Priorizar o Product Backlog diretamente com o cliente final.
+      </label>
+
+      <button type="submit" id="btn-confirmar">Confirmar Resposta</button>
+    </form>
+
+    <!-- ÁREA DE FEEDBACK (SÓ APARECE AO FECHAR A QUESTÃO OU ESGOTAR O TEMPO) -->
+    <div id="painel-feedback" class="painel-feedback">
+      <div id="mensagem-status" class="mensagem-status"></div>
+      <div id="resposta-correta-texto"></div>
+
+      <div class="botoes-navegacao">
+        <button type="button" id="btn-proximo">Próxima Questão / Tema</button>
+        <button type="button" class="btn-secundario" onclick="reiniciarTeste()">Reiniciar Teste (150s)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT DO CRONÔMETRO -->
+  <script>
+    // 1. Configuração do Cronômetro
+    let tempoRestante = 150; // 150 segundos
+    let temporizador = null;
+    const alternativaCorretaGabarito = 'B'; // Exemplo para o teste
+    const textoCorretoGabarito = 'B) Atuar como líder servidor, removendo impedimentos e garantindo os valores do Scrum.';
+
+    // Elementos do DOM
+    const elCronometro = document.getElementById('cronometro');
+    const formQuestao = document.getElementById('form-questao');
+    const btnConfirmar = document.getElementById('btn-confirmar');
+    const painelFeedback = document.getElementById('painel-feedback');
+    const msgStatus = document.getElementById('mensagem-status');
+    const msgGabarito = document.getElementById('resposta-correta-texto');
+
+    // 2. Inicia o Cronômetro
+    function iniciarCronometro() {
+      clearInterval(temporizador);
+      tempoRestante = 150;
+      atualizarTelaTimer();
+
+      temporizador = setInterval(() => {
+        tempoRestante--;
+        atualizarTelaTimer();
+
+        // Se o tempo acabar (RF11)
+        if (tempoRestante <= 0) {
+          clearInterval(temporizador);
+          encerrarPorTempoEsgotado();
+        }
+      }, 1000);
+    }
+
+    // 3. Atualiza o número na tela (MM:SS)
+    function atualizarTelaTimer() {
+      const minutos = Math.floor(tempoRestante / 60);
+      const segundos = tempoRestante % 60;
+
+      const minStr = String(minutos).padStart(2, '0');
+      const segStr = String(segundos).padStart(2, '0');
+
+      elCronometro.textContent = `${minStr}:${segStr}`;
+
+      // Alerta visual quando faltar 30 segundos
+      if (tempoRestante <= 30) {
+        elCronometro.style.color = '#e74c3c';
+      } else {
+        elCronometro.style.color = '#2c3e50';
+      }
+    }
+
+    // 4. Ação quando o tempo de 150 segundos acaba (RF11)
+    function encerrarPorTempoEsgotado() {
+      bloquearFormulario();
+
+      painelFeedback.style.backgroundColor = '#f8d7da';
+      painelFeedback.style.borderColor = '#f5c6cb';
+      painelFeedback.style.display = 'block';
+
+      msgStatus.textContent = '⏱️ Tempo de 150 segundos esgotado! A questão foi considerada incorreta.';
+      msgStatus.style.color = '#721c24';
+
+      msgGabarito.innerHTML = `<strong>Gabarito:</strong> ${textoCorretoGabarito}`;
+    }
+
+    // 5. Envio manual da resposta
+    formQuestao.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Para o relógio imediatamente ao clicar em responder
+      clearInterval(temporizador);
+
+      const opcaoSelecionada = document.querySelector('input[name="resposta"]:checked')?.value;
+      if (!opcaoSelecionada) {
+        alert('Selecione uma opção antes de confirmar!');
+        return;
+      }
+
+      bloquearFormulario();
+
+      painelFeedback.style.display = 'block';
+
+      if (opcaoSelecionada === alternativaCorretaGabarito) {
+        painelFeedback.style.backgroundColor = '#d4edda';
+        painelFeedback.style.borderColor = '#c3e6cb';
+        msgStatus.textContent = '✅ Resposta correta!';
+        msgStatus.style.color = '#155724';
+      } else {
+        painelFeedback.style.backgroundColor = '#f8d7da';
+        painelFeedback.style.borderColor = '#f5c6cb';
+        msgStatus.textContent = '❌ Resposta incorreta!';
+        msgStatus.style.color = '#721c24';
+      }
+
+      msgGabarito.innerHTML = `<strong>Gabarito:</strong> ${textoCorretoGabarito}`;
+    });
+
+    // Função para desabilitar os campos após responder ou esgotar o tempo
+    function bloquearFormulario() {
+      const radios = document.querySelectorAll('input[name="resposta"]');
+      radios.forEach(r => r.disabled = true);
+      btnConfirmar.disabled = true;
+    }
+
+    // Função para reiniciar e testar novamente
+    function reiniciarTeste() {
+      const radios = document.querySelectorAll('input[name="resposta"]');
+      radios.forEach(r => {
+        r.disabled = false;
+        r.checked = false;
+      });
+      btnConfirmar.disabled = false;
+      painelFeedback.style.display = 'none';
+      iniciarCronometro();
+    }
+
+    // Inicia a contagem assim que abre a página
+    window.onload = iniciarCronometro;
+  </script>
+</body>
+</html>
