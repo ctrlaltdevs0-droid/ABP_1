@@ -222,9 +222,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // 5. Botão de Logout
-  logoutBtn?.addEventListener('click', () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    window.location.href = 'login.html';
+  logoutBtn?.addEventListener('click', async () => {
+    logoutBtn.disabled = true;
+    try { await AgilCertAPI.logout(); }
+    catch (error) {
+      if (profileStatus) profileStatus.textContent = error.message;
+      logoutBtn.disabled = false;
+    }
   });
 });

@@ -4,7 +4,18 @@ import {
   fazerLogin,
 } from "../services/login.js";
 
+import { autorizarRota } from '../middleware/autorizacao.js';
+import { revogarToken } from '../services/sessoes.js';
+
 const rotas = express.Router();
+rotas.post('/sair', async (req, res, next) => {
+  try {
+    const { default: db } = await import('../config/supabase.js');
+    if (!(await autorizarRota(req, res, '/api/login/sair', db))) return;
+    await revogarToken(db, req.token, req.usuario.exp);
+    res.status(204).end();
+  } catch (error) { next(error); }
+});
 
 // ROTA DE CADASTRO (POST /api/login/cadastro)
 rotas.post("/cadastro", async (req, res) => {

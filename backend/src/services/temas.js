@@ -1,4 +1,4 @@
-import supabase from "../../database/config.js";
+import supabase from "../config/supabase.js";
 
 export default async function listarTemas() {
   const { data, error } = await supabase

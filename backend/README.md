@@ -1,7 +1,7 @@
 # API ÁgilCert
 
 Requer Node.js 22 ou superior. A API utiliza exclusivamente o cliente Supabase
-de `database/config.js`; não há conexão direta com PostgreSQL na aplicação.
+de `src/config/supabase.js`; não há conexão direta com PostgreSQL na aplicação.
 
 ## Configuração
 
@@ -78,3 +78,54 @@ Defina `POSTGRES_PASSWORD` no `.env` e execute `docker compose up -d database`
 na raiz. A porta no computador é `5433`; dentro do contêiner é `5432`.
 A API continua usando Supabase. Os scripts de inicialização são executados
 somente na criação de um volume vazio e não migram um banco existente.
+
+## Estudos e dívida da Sprint 2
+
+A página `/estudos.html` lista temas, abre os materiais e registra conclusão
+no servidor. `GET /api/estudos/progresso` retorna as conclusões do candidato;
+`PUT /api/temas/:id/conclusao` marca o tema como concluído, de forma idempotente.
+Ambas exigem o JWT da aplicação. O proprietário vem exclusivamente do token;
+o corpo não pode selecionar outro candidato. Conclusões repetidas preservam a
+data original. Um tema inativo ou sem material publicado não pode ser concluído.
+
+A pasta `backend/database` contém somente:
+
+- `schema.sql`: estrutura inicial do banco;
+- `seed.sql`: temas, materiais, questões, alternativas e validação da carga.
+
+As alterações de estrutura ficam em `supabase/migrations`. Para um banco vazio,
+aplique `schema.sql`, todas as migrações em ordem de nome e depois `seed.sql`.
+Para um banco existente, aplique somente as migrações pendentes e a carga quando
+necessário; não execute novamente o schema. As migrações usam os papéis padrão
+`anon`, `authenticated` e `service_role`. No Compose completo, o serviço `migrate`
+aplica e registra essas etapas automaticamente, inclusive em volumes existentes.
+
+A carga de temas atualiza descrição e ordem sem trocar IDs ou reativar temas
+desativados. As cargas de materiais e questões possuem códigos estáveis e
+preservam edições existentes ao serem repetidas. Materiais já cadastrados sem
+código continuam preservados: conferir sobreposição editorial antes da carga.
+
+A fonte editável é `backend/scripts/data/content-estudos.json`. Execute
+`npm run seed:gerar` no backend após editar o conteúdo e versione o SQL gerado.
+Os materiais incluem links complementares. As questões possuem quatro
+alternativas e um gabarito, com posições variadas; entram com `status = false`
+e `status_editorial = 'RASCUNHO'`. Atenção: o sorteio atual ainda precisa filtrar
+questões ativas e aprovadas; esses campos sozinhos não bloqueiam rascunhos.
+Essa correção é prioritária antes de usar a certificação.
+Após revisão cruzada, registrar `REVISAO`/`APROVADO` e ativar somente o conteúdo
+aprovado. O índice de alternativas impede duas corretas para a mesma questão;
+A validação incluída em `seed.sql` verifica também ausência de gabarito e quantidade de opções.
+O catálogo de questões e os gabaritos continuam restritos a administradores.
+
+## Devolutiva: sessão e ambiente completo
+
+O logout agora exige `POST /api/login/sair` com Bearer JWT e revoga o token no
+banco. Aplicar `20261026225026_logout_revocation_and_api_grants.sql` no Supabase
+antes de atualizar o backend. Ela também habilita RLS e restringe as tabelas da
+aplicação ao papel de servidor, compatível com o JWT próprio do projeto.
+Sem acesso ao registro de revogação, rotas privadas falham com 503.
+
+Para reproduzir tudo sem Supabase remoto, seguir o Compose completo descrito em
+`docs/geral/ARQUITETURA_EXECUCAO.md`. Ele substitui o experimento anterior de
+PostgreSQL isolado por um ambiente que integra a Data API utilizada pelo backend.
+O provisionamento ocorre em serviço próprio, não apenas no primeiro boot do volume.

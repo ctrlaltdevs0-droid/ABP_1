@@ -509,3 +509,49 @@ body {
   color: var(--text-secondary);
   margin-top: 20px;
 }
+
+/* Adaptação da home ao protótipo mobile, sem esconder conteúdo excedente. */
+.nav-toggle { display:none; border:1px solid var(--border); border-radius:8px; background:white; padding:10px 14px; font:inherit; color:var(--primary); }
+#certificacao { margin-top:32px; scroll-margin-top:120px; }
+a:focus-visible, button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+@media(max-width:1200px) {
+  .header-nav { margin-left:0; gap:4px; }
+  .nav-link { padding:10px; font-size:15px; }
+  .hero-card, .footer-card { padding:32px; }
+  .how-item { padding:0 16px; }
+}
+@media(max-width:900px) {
+  .site-header { height:auto; min-height:80px; padding:8px 16px; flex-wrap:wrap; }
+  .header-logo { height:64px; }
+  .nav-toggle { display:block; margin-left:auto; cursor:pointer; }
+  .header-actions { margin-left:0 !important; }
+  .header-nav { display:none; order:4; width:100%; flex-wrap:wrap; padding:8px 0; }
+  .header-nav.is-open { display:flex; }
+  .site-main { padding:24px 16px; }
+  .hero-top { flex-direction:column; align-items:stretch; gap:24px; }
+  .hero-image img { width:min(320px,100%); margin:auto; }
+  .hero-text { max-width:none; }
+  .hero-text h2 { font-size:clamp(28px,7vw,48px); }
+  .hero-text .subtitle-1 { font-size:18px; }
+  .how-card { padding:24px 16px; flex-direction:column; gap:24px; }
+  .how-item { width:100%; padding:0; flex-direction:row; text-align:left; }
+  .how-icon { width:64px; height:64px; }
+  .how-icon svg { width:32px; height:32px; }
+  .how-divider { display:none; }
+  .sobre-nos-equipe { font-size:18px; padding:12px 16px; letter-spacing:1px; }
+  .sobre-nos-stats { padding:20px 12px; gap:8px; }
+  .stat-number { font-size:26px; }
+  .stat-label { font-size:12px; }
+  .site-footer { padding:0 16px 24px; }
+  .footer-card { flex-direction:column; align-items:center; gap:24px; }
+  .footer-divider { height:1px; width:100%; margin:0; }
+  .footer-right { margin-top:0; }
+  .footer-contact li { overflow-wrap:anywhere; }
+}
+@media(max-width:480px) {
+  .hero-card, .footer-card { padding:24px 16px; gap:28px; border-radius:16px; }
+  .profile-name { display:none; }
+  .profile-trigger { padding:6px; gap:4px; }
+  .btn-hero { max-width:100%; text-align:center; }
+  .hero-text .body-2 { font-size:15px; }
+}

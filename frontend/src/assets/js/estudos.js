@@ -1,0 +1,231 @@
+(() => {
+  const el = id => document.getElementById(id);
+
+  if (!localStorage.getItem('token')) { 
+    window.location.replace('login.html'); 
+    return; 
+  }
+
+  const api = window.AgilCertAPI;
+  const temaParam = new URLSearchParams(window.location.search).get('tema');
+  let temas = [];
+  let concluidos = new Set();
+  let temaAtual;
+
+  function informar(texto) { 
+    el('mensagem').textContent = texto; 
+  }
+
+  function erro(error) {
+    if (!localStorage.getItem('token')) { 
+      window.location.replace('login.html'); 
+      return; 
+    }
+    informar(error.message || 'Não foi possível carregar os estudos.');
+  }
+
+  function resumo() {
+    const total = temas.filter(t => concluidos.has(t.idtemas)).length;
+    el('resumo').textContent = `${total} de ${temas.length} temas concluídos`;
+    el('progresso').max = temas.length || 12;
+    el('progresso').value = total;
+    el('progresso').textContent = `${total} de ${temas.length}`;
+  }
+
+  function listar() {
+    const busca = el('busca').value.toLocaleLowerCase('pt-BR');
+    const visiveis = temas.filter(t => t.nome.toLocaleLowerCase('pt-BR').includes(busca));
+    el('temas').replaceChildren();
+
+    for (const tema of visiveis) {
+      const card = document.createElement('section');
+      card.className = 'study-card';
+
+      const estado = document.createElement('span');
+      const feito = concluidos.has(tema.idtemas);
+      estado.className = `study-state${feito ? ' done' : ''}`;
+      estado.textContent = feito ? '✓ Concluído' : 'Pendente';
+
+      const titulo = document.createElement('h2');
+      titulo.textContent = `${tema.ordem}. ${tema.nome}`;
+
+      const descricao = document.createElement('p');
+      descricao.textContent = tema.descricao || '';
+
+      const link = document.createElement('a');
+      link.href = `estudos.html?tema=${encodeURIComponent(tema.idtemas)}`;
+      link.textContent = feito ? 'Revisar tema →' : 'Estudar →';
+
+      card.append(estado, titulo, descricao, link);
+      el('temas').append(card);
+    }
+
+    informar(visiveis.length ? '' : 'Nenhum tema encontrado.');
+  }
+
+  async function carregar() {
+    el('tentar').hidden = true;
+    el('concluir').disabled = true;
+    el('lista-estudos').hidden = true;
+    el('conteudo').hidden = true;
+    informar('Carregando estudos…');
+
+    try {
+      // 1. Carrega a lista de temas
+      temas = await api.request('temas');
+
+      // 2. Carrega o progresso
+      let progresso = [];
+      try {
+        progresso = await api.request('estudos/progresso');
+      } catch (err) {
+        console.warn('Não foi possível carregar o progresso do usuário:', err);
+      }
+
+      concluidos = new Set((progresso || []).map(p => p.temas_idtemas));
+      resumo();
+
+      if (temaParam === null) {
+        el('lista-estudos').hidden = false;
+        listar();
+        return;
+      }
+
+      temaAtual = temas.find(t => String(t.idtemas) === temaParam);
+      if (!temaAtual) throw new Error('Tema não encontrado. Volte à área de estudos.');
+
+      // 3. Carrega conteúdos e questões do tema selecionado da API
+      const conteudos = await api.request(`temas/${temaAtual.idtemas}/conteudos`);
+      
+      let questoes = [];
+      try {
+        questoes = await api.request(`temas/${temaAtual.idtemas}/questoes`);
+      } catch (err) {
+        console.warn('Não foi possível carregar as questões deste tema:', err);
+      }
+
+      el('titulo-tema').textContent = temaAtual.nome;
+      el('texto-tema').replaceChildren();
+
+      // Renderiza os blocos de conteúdo/aulas
+      for (const item of conteudos) {
+        const titulo = document.createElement('h3');
+        titulo.textContent = item.titulo || temaAtual.nome;
+
+        const texto = document.createElement('div');
+        texto.className = 'bloco-conteudo';
+        texto.innerHTML = item.descricao || '';
+
+        el('texto-tema').append(titulo, texto);
+
+        try {
+          const url = new URL(item.recurso_url);
+          if (url.protocol === 'https:') {
+            if (/\.(png|jpg|jpeg|webp|gif)($|\?)/i.test(url.pathname)) {
+              const img = document.createElement('img');
+              img.src = url.href;
+              img.alt = item.titulo || 'Imagem do conteúdo';
+              img.className = 'imagem-conteudo';
+              el('texto-tema').append(img);
+            } else {
+              const link = document.createElement('a');
+              link.href = url.href;
+              link.target = '_blank';
+              link.rel = 'noopener noreferrer';
+              link.textContent = 'Consultar recurso complementar';
+              el('texto-tema').append(link);
+            }
+          }
+        } catch { /* Recurso complementar opcional. */ }
+      }
+
+      // Renderiza as perguntas dinâmicas dentro de #quiz-tema
+      const quizContainer = el('quiz-tema');
+      if (quizContainer) {
+        quizContainer.replaceChildren();
+
+        if (questoes && questoes.length > 0) {
+          const tituloQuiz = document.createElement('h3');
+          tituloQuiz.textContent = '✍️ Quiz de Fixação';
+
+          const instrucao = document.createElement('p');
+          instrucao.className = 'quiz-instrucao';
+          instrucao.textContent = 'Responda às perguntas abaixo para fixar o conteúdo antes de concluir o tema:';
+
+          quizContainer.append(tituloQuiz, instrucao);
+
+          questoes.forEach((q, index) => {
+            const div = document.createElement('div');
+            div.className = 'pergunta-quiz';
+
+            const p = document.createElement('p');
+            const strong = document.createElement('strong');
+            strong.textContent = `${index + 1}. ${q.enunciado}`;
+            p.append(strong);
+            div.append(p);
+
+            const opcoes = [
+              { chave: 'A', valor: q.opcao_a },
+              { chave: 'B', valor: q.opcao_b },
+              { chave: 'C', valor: q.opcao_c }
+            ];
+
+            opcoes.forEach(op => {
+              if (op.valor) {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `q_${q.idquestoes}`;
+                input.value = op.chave;
+
+                label.append(input, ` ${op.chave}) ${op.valor}`);
+                div.append(label, document.createElement('br'));
+              }
+            });
+
+            quizContainer.append(div);
+          });
+        }
+      }
+
+      el('conteudo').hidden = false;
+      const feito = concluidos.has(temaAtual.idtemas);
+      el('concluir').textContent = feito ? 'Tema concluído ✓' : 'Marcar tema como concluído';
+      el('concluir').disabled = feito || !conteudos.length;
+      informar(conteudos.length ? '' : 'O material deste tema ainda não está disponível.');
+
+    } catch (error) {
+      erro(error);
+      el('tentar').hidden = false;
+    }
+  }
+
+  el('concluir').addEventListener('click', async () => {
+    el('concluir').disabled = true;
+    informar('Salvando progresso…');
+    try {
+      await api.request(`temas/${temaAtual.idtemas}/conclusao`, { method: 'PUT', body: {} });
+      concluidos.add(temaAtual.idtemas);
+      resumo();
+      el('concluir').textContent = 'Tema concluído ✓';
+      informar('Progresso salvo. Você pode continuar os estudos depois.');
+    } catch (error) {
+      erro(error);
+      el('concluir').disabled = false;
+    }
+  });
+
+  el('busca').addEventListener('input', listar);
+  el('tentar').addEventListener('click', carregar);
+  el('sair').addEventListener('click', async () => {
+    el('sair').disabled = true;
+    try {
+      await api.logout();
+    } catch (error) {
+      erro(error);
+      el('sair').disabled = false;
+    }
+  });
+
+  carregar();
+})();

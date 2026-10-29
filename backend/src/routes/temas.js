@@ -1,23 +1,21 @@
 import { lerJson, responder, idDaRota, rotaExata } from "../utils/http.js";
-import listarTemas from '../services/temas.js';
+import listarTemas from "../services/temas.js"; // 👈 Import sem chaves (export default)
 
 export async function temasRoutes(req, res, pathname, supabase) {
   const base = "/api/temas";
   const id = idDaRota(pathname, base);
 
-  // GET /api/temas
-  // Lista todos os temas cadastrados.
+  // 1. GET /api/temas - Lista todos os temas ativos
   if (req.method === "GET" && rotaExata(pathname, base)) {
     try {
-      return responder(res, 200, await listarTemas());
-    } catch {
-      res.status(503).json({ erro: 'Não foi possível consultar os temas.' });
-      return;
+      const dados = await listarTemas(); // 👈 Chama sem argumentos (já usa o supabase interno do service)
+      return responder(res, 200, dados);
+    } catch (err) {
+      return responder(res, 503, { erro: 'Não foi possível consultar os temas.' });
     }
   }
 
-  // GET /api/temas/:id
-  // Busca um tema específico pelo ID.
+  // 2. GET /api/temas/:id - Busca tema por ID
   if (req.method === "GET" && id) {
     const { data, error } = await supabase
       .from("temas")
@@ -31,12 +29,10 @@ export async function temasRoutes(req, res, pathname, supabase) {
     return responder(res, 200, data);
   }
 
-  // POST /api/temas
-  // Cadastra um novo tema.
+  // 3. POST /api/temas
   if (req.method === "POST" && rotaExata(pathname, base)) {
     try {
       const body = await lerJson(req);
-
       const { data, error } = await supabase
         .from("temas")
         .insert(body)
@@ -44,19 +40,16 @@ export async function temasRoutes(req, res, pathname, supabase) {
         .single();
 
       if (error) return responder(res, 400, { erro: error.message });
-
       return responder(res, 201, data);
     } catch (erro) {
       return responder(res, 400, { erro: erro.message });
     }
   }
 
-  // PUT ou PATCH /api/temas/:id
-  // Atualiza um tema já cadastrado.
+  // 4. PUT ou PATCH /api/temas/:id
   if ((req.method === "PUT" || req.method === "PATCH") && id) {
     try {
       const body = await lerJson(req);
-
       const { data, error } = await supabase
         .from("temas")
         .update(body)
@@ -65,15 +58,13 @@ export async function temasRoutes(req, res, pathname, supabase) {
         .single();
 
       if (error) return responder(res, 400, { erro: error.message });
-
       return responder(res, 200, data);
     } catch (erro) {
       return responder(res, 400, { erro: erro.message });
     }
   }
 
-  // DELETE /api/temas/:id
-  // Exclui um tema pelo ID.
+  // 5. DELETE /api/temas/:id
   if (req.method === "DELETE" && id) {
     const { error } = await supabase
       .from("temas")
@@ -81,7 +72,6 @@ export async function temasRoutes(req, res, pathname, supabase) {
       .eq("idtemas", id);
 
     if (error) return responder(res, 400, { erro: error.message });
-
     return responder(res, 204, {});
   }
 

@@ -33,3 +33,32 @@ test('cliente web usa a origem atual, configuração externa e token nas rotas p
   await assert.rejects(api.request('conteudos'), /Autenticação necessária/);
   assert.equal(storage.has('token'), false);
 });
+
+test('configuração pública é JavaScript válido e usa mesma origem por padrão', async () => {
+  const source = await readFile(new URL('../../frontend/src/assets/js/config.js', import.meta.url), 'utf8');
+  const context = vm.createContext({ window: {} });
+  vm.runInContext(source, context);
+  assert.equal(context.window.AGILCERT_API_BASE_URL, '');
+});
+
+test('logout chama o servidor antes de apagar a sessão e preserva token se houver falha', async () => {
+  const source = await readFile(new URL('../../frontend/src/assets/js/api.js', import.meta.url), 'utf8');
+  const storage = new Map([['token','teste'],['usuario','{}']]);
+  const calls=[];
+  let result=Response.json({erro:'Indisponível'},{status:503});
+  const context=vm.createContext({
+    window:{location:{protocol:'http:',origin:'http://localhost',assign:url=>calls.push(url)}},
+    localStorage:{getItem:key=>storage.get(key),removeItem:key=>storage.delete(key)},AbortSignal,
+    fetch:async(url,options)=>{calls.push({url,options}); return result;},
+  });
+  vm.runInContext(source,context);
+  await assert.rejects(context.window.AgilCertAPI.logout(),/Indisponível/);
+  assert.equal(storage.get('token'),'teste');
+  result=new Response(null,{status:204});
+  await context.window.AgilCertAPI.logout();
+  assert.equal(storage.has('token'),false);
+  assert.equal(storage.has('usuario'),false);
+  assert.equal(calls.at(-1),'login.html');
+  assert.equal(calls[0].options.headers.Authorization,'Bearer teste');
+  assert.equal(calls[0].url,'http://localhost/api/login/sair');
+});

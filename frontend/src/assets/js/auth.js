@@ -122,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         showFeedback("Login realizado com sucesso! Redirecionando...", "success");
         localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
         // Redireciona para home.html após o login.
         setTimeout(() => {
