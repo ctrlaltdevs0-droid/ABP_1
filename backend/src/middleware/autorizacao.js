@@ -1,56 +1,122 @@
+
 import jwt from 'jsonwebtoken';
 import { tokenRevogado } from '../services/sessoes.js';
 
-// A chave Supabase do servidor ignora RLS; a autorização acontece antes da consulta.
+// A chave Supabase do servidor ignora RLS;
+// por isso, a autorização acontece antes das consultas.
 export async function autorizarRota(req, res, pathname, supabase) {
-  // 1. Rota pública de leitura de temas (para listar na home/estudos)
-  if (req.method === 'GET' && /^\/api\/temas(?:\/\d+)?\/?$/.test(pathname)) {
+  // 1. Leitura pública dos temas.
+  if (
+    req.method === 'GET' &&
+    /^\/api\/temas(?:\/\d+)?\/?$/.test(pathname)
+  ) {
     return true;
   }
 
-  // 2. Extração e validação do Token JWT
+  // 2. Extração e validação do token JWT.
   const token = req.headers.authorization?.match(/^Bearer (\S+)$/i)?.[1];
   let usuario;
 
   try {
-    usuario = jwt.verify(token ?? '', process.env.JWT_SECRET.trim(), { algorithms: ['HS256'] });
-    if (!Number.isSafeInteger(usuario.id) || usuario.id < 1 || !Number.isSafeInteger(usuario.exp)) {
+    usuario = jwt.verify(
+      token ?? '',
+      process.env.JWT_SECRET.trim(),
+      { algorithms: ['HS256'] }
+    );
+
+    if (
+      !Number.isSafeInteger(usuario.id) ||
+      usuario.id < 1 ||
+      !Number.isSafeInteger(usuario.exp)
+    ) {
       throw new Error();
     }
   } catch {
-    res.status(401).json({ erro: 'Autenticação necessária.' });
+    res.status(401).json({
+      erro: 'Autenticação necessária.'
+    });
     return false;
   }
 
-  // 3. Verificação de revogação de sessão (tratada com segurança)
+  // 3. Verifica se a sessão foi revogada.
   try {
     const revogado = await tokenRevogado(supabase, token);
+
     if (revogado) {
-      res.status(401).json({ erro: 'Sessão encerrada. Entre novamente.' });
+      res.status(401).json({
+        erro: 'Sessão encerrada. Entre novamente.'
+      });
       return false;
     }
   } catch (err) {
-    console.warn('Aviso: Não foi possível verificar a revogação da sessão:', err.message);
+    console.warn(
+      'Aviso: Não foi possível verificar a revogação da sessão:',
+      err.message
+    );
   }
 
   req.usuario = usuario;
   req.token = token;
 
-  // 4. Rotas do usuário logado
-  if (req.method === 'POST' && pathname === '/api/login/sair') return true;
-
-  if (/^\/api\/usuarios\/me(?:\/senha)?\/?$/.test(pathname)) {
-    if (req.method === 'GET' || req.method === 'PATCH') return true;
+  // 4. Rotas do usuário autenticado.
+  if (req.method === 'POST' && pathname === '/api/login/sair') {
+    return true;
   }
 
-  if (req.method === 'GET' && /^\/api\/estudos\/progresso\/?$/.test(pathname)) return true;
-  if (req.method === 'PUT' && /^\/api\/temas\/[1-9]\d*\/conclusao\/?$/.test(pathname)) return true;
+  if (/^\/api\/usuarios\/me(?:\/senha)?\/?$/.test(pathname)) {
+    if (req.method === 'GET' || req.method === 'PATCH') {
+      return true;
+    }
+  }
 
-  // 5. Permissão de Administrador
-  const admins = (process.env.ADMIN_USER_IDS ?? '').split(',').map(x => x.trim());
-  if (admins.includes(String(usuario.id))) return true;
+  if (
+    req.method === 'GET' &&
+    /^\/api\/estudos\/progresso\/?$/.test(pathname)
+  ) {
+    return true;
+  }
 
-  // 6. Conteúdos e Questões são leitura liberada para qualquer usuário autenticado
+  if (
+    req.method === 'PUT' &&
+    /^\/api\/temas\/[1-9]\d*\/conclusao\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+
+  // Permite consultar as respostas do próprio aluno.
+  if (
+    req.method === 'GET' &&
+    /^\/api\/temas\/[1-9]\d*\/respostas\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+
+  // Permite reiniciar o quiz do próprio aluno em um tema.
+  if (
+    req.method === 'DELETE' &&
+    /^\/api\/temas\/[1-9]\d*\/respostas\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+
+  // Permite responder aos quizzes de estudo.
+  if (
+    req.method === 'POST' &&
+    /^\/api\/questoes\/[1-9]\d*\/responder\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+
+  // 5. Permissões de administrador.
+  const admins = (process.env.ADMIN_USER_IDS ?? '')
+    .split(',')
+    .map(x => x.trim());
+
+  if (admins.includes(String(usuario.id))) {
+    return true;
+  }
+
+  // 6. Leitura de conteúdos e questões.
   const ehLeituraConteudoOuQuestao =
     req.method === 'GET' &&
     (
@@ -59,16 +125,26 @@ export async function autorizarRota(req, res, pathname, supabase) {
       /^\/api\/temas\/\d+\/(?:conteudos|questoes)\/?$/.test(pathname)
     );
 
-  if (ehLeituraConteudoOuQuestao) return true;
-
-  // 7. Tentativas de Provas
-  const inicio = /^\/api\/tentativas\/?$/.test(pathname);
-  if (inicio && req.method === 'POST') {
-    req.body = { ...(req.body ?? {}), usuarios_idusuarios: usuario.id };
+  if (ehLeituraConteudoOuQuestao) {
     return true;
   }
 
-  const tentativa = pathname.match(/^\/api\/tentativas\/(\d+)(?:\/(?:proxima-questao|respostas|finalizar))?\/?$/);
+  // 7. Tentativas de provas.
+  const inicio = /^\/api\/tentativas\/?$/.test(pathname);
+
+  if (inicio && req.method === 'POST') {
+    req.body = {
+      ...(req.body ?? {}),
+      usuarios_idusuarios: usuario.id
+    };
+
+    return true;
+  }
+
+  const tentativa = pathname.match(
+    /^\/api\/tentativas\/(\d+)(?:\/(?:proxima-questao|respostas|finalizar))?\/?$/
+  );
+
   if (tentativa) {
     const { data, error } = await supabase
       .from('tentativas')
@@ -78,16 +154,33 @@ export async function autorizarRota(req, res, pathname, supabase) {
       .maybeSingle();
 
     if (error) throw error;
+
     if (data) return true;
-    res.status(404).json({ erro: 'Tentativa não encontrada.' });
+
+    res.status(404).json({
+      erro: 'Tentativa não encontrada.'
+    });
+
     return false;
   }
 
-  // 8. Certificados
-  const lista = pathname.match(/^\/api\/usuarios\/(\d+)\/certificados\/?$/);
-  if (req.method === 'GET' && lista && Number(lista[1]) === usuario.id) return true;
+  // 8. Certificados.
+  const lista = pathname.match(
+    /^\/api\/usuarios\/(\d+)\/certificados\/?$/
+  );
 
-  const certificado = pathname.match(/^\/api\/certificados\/(\d+)\/?$/);
+  if (
+    req.method === 'GET' &&
+    lista &&
+    Number(lista[1]) === usuario.id
+  ) {
+    return true;
+  }
+
+  const certificado = pathname.match(
+    /^\/api\/certificados\/(\d+)\/?$/
+  );
+
   if (req.method === 'GET' && certificado) {
     const { data, error } = await supabase
       .from('certificados')
@@ -97,11 +190,19 @@ export async function autorizarRota(req, res, pathname, supabase) {
       .maybeSingle();
 
     if (error) throw error;
+
     if (data) return true;
-    res.status(404).json({ erro: 'Certificado não encontrado.' });
+
+    res.status(404).json({
+      erro: 'Certificado não encontrado.'
+    });
+
     return false;
   }
 
-  res.status(403).json({ erro: 'Acesso negado.' });
+  res.status(403).json({
+    erro: 'Acesso negado.'
+  });
+
   return false;
 }
