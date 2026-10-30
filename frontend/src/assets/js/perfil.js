@@ -206,11 +206,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
 
       if (passwordStatus) {
-        passwordStatus.textContent = 'Senha alterada com sucesso!';
+        passwordStatus.textContent = 'Senha alterada. Entre novamente com a nova senha.';
         passwordStatus.style.color = '#2ecc71';
       }
 
       passwordForm.reset();
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      window.location.assign('login.html');
       if (savePasswordBtn) savePasswordBtn.disabled = true;
     } catch (err) {
       if (passwordStatus) {

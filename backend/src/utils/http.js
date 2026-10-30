@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 const MENSAGENS_ERRO = {
   400: "Requisição inválida.",
   401: "Autenticação necessária.",
@@ -153,29 +154,13 @@ export function responderErro(
 
 // Trata os erros capturados pelo catch.
 export function tratarErro(res, erro) {
-  const conhecido = erro instanceof ErroHttp;
-
-  if (!conhecido || erro.status >= 500) {
-    console.error("Erro no servidor:", erro);
-  }
-
   if (res.destroyed || res.writableEnded) return;
-
-  // Se a resposta já começou, não é possível mudar seu status.
-  if (res.headersSent) {
-    res.destroy();
-    return;
-  }
-
-  if (conhecido && erro.status < 500) {
+  if (res.headersSent) { res.destroy(); return; }
+  if (erro instanceof ErroHttp && erro.status < 500)
     return responderErro(res, erro.status, erro.message);
-  }
-
-  // Não expõe detalhes de erros internos ao frontend.
-  return responderErro(
-    res,
-    conhecido ? erro.status : 500
-  );
+  const id = randomUUID();
+  console.error('Erro no servidor', { id, code: erro.code ?? 'INTERNAL' });
+  return responder(res, erro instanceof ErroHttp ? erro.status : 500, {}, { 'X-Request-ID': id });
 }
 
 // Extrai o ID após a rota.
@@ -202,4 +187,13 @@ export function rotaExata(pathname, rota) {
     pathname === base ||
     (base !== "/" && pathname === `${base}/`)
   );
+}
+
+// Detalhes SQL ficam fora da resposta e do log; o identificador permite correlação.
+export function falhaBanco(res, error) {
+  const id = randomUUID();
+  console.error('Falha de banco', { id, code: error.code ?? 'INTERNAL' });
+  const status = error.code === '23505' ? 409
+    : ['23502', '23503', '23514', '22P02', '22001'].includes(error.code) ? 400 : 500;
+  return responder(res, status, { erro: status === 409 ? 'Conflito com os dados existentes.' : 'Dados inválidos.' }, { 'X-Request-ID': id });
 }

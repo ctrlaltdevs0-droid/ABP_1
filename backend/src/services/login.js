@@ -19,9 +19,7 @@ export async function cadastrarUsuario(cpf, nome, email, senha) {
     .maybeSingle();
 
   if (erroBusca) {
-    console.error("Erro ao verificar CPF no Supabase:", erroBusca);
-    // Exibe o erro real vindo do Supabase
-    throw new Error(`Supabase erro: ${erroBusca.message || JSON.stringify(erroBusca)}`);
+    throw erroBusca;
   }
 
   if (existente) {
@@ -44,8 +42,7 @@ export async function cadastrarUsuario(cpf, nome, email, senha) {
     .single();
 
   if (error) {
-    console.error("Erro ao inserir usuário no Supabase:", error);
-    throw new Error(`Supabase erro no cadastro: ${error.message || JSON.stringify(error)}`);
+    throw error;
   }
 
   return data;
@@ -56,13 +53,12 @@ export async function fazerLogin(cpf, senha) {
   // 1. Busca o usuário pelo CPF
   const { data: usuario, error } = await supabase
     .from("usuarios")
-    .select("idusuarios, cpf, nome, senha_hash")
+    .select("idusuarios, cpf, nome, senha_hash, versao_sessao")
     .eq("cpf", cpf)
     .maybeSingle();
 
   if (error) {
-    console.error("Erro ao buscar usuário no Supabase:", error);
-    throw new Error(`Supabase erro no login: ${error.message || JSON.stringify(error)}`);
+    throw error;
   }
 
   if (!usuario) {
@@ -81,6 +77,7 @@ export async function fazerLogin(cpf, senha) {
     {
       jti: randomUUID(),
       id: usuario.idusuarios,
+      ver: usuario.versao_sessao,
       cpf: usuario.cpf,
     },
     jwtSecret,

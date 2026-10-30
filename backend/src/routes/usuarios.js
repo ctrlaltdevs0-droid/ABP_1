@@ -34,7 +34,9 @@ export async function alterarSenha(db, id, body) {
   if (!data) throw new ErroHttp(404, 'Usuário não encontrado.');
   if (!(await bcrypt.compare(senhaAtual, data.senha_hash))) throw new ErroHttp(400, 'Senha atual incorreta.');
   const hash = await bcrypt.hash(novaSenha, 10);
-  const result = await db.from('usuarios').update({ senha_hash: hash }).eq('idusuarios', id).eq('senha_hash', data.senha_hash).select('idusuarios').maybeSingle();
-  if (result.error) throw new ErroHttp(500);
-  if (!result.data) throw new ErroHttp(409, 'A senha foi alterada em outra sessão. Tente novamente.');
+  const { data: alterada, error: erroTroca } = await db.rpc('alterar_senha_segura', {
+    p_usuario: id, p_hash_atual: data.senha_hash, p_hash_novo: hash,
+  });
+  if (erroTroca) throw new ErroHttp(500);
+  if (alterada !== true) throw new ErroHttp(409, 'A senha foi alterada em outra sessão. Tente novamente.');
 }

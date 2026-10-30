@@ -13,18 +13,22 @@ function response() {
 function database() {
   const rows = [];
   const calls = [];
-  let active = true, content = true, fail = false;
+  let active = true, content = true, fail = false, correctCount = 3;
   return {
     rows, calls,
+    set acertos(value) { correctCount = value; },
     set active(value) { active = value; }, set content(value) { content = value; }, set fail(value) { fail = value; },
     from(table) {
       const filters = {};
       let operation, payload, options;
       const result = () => {
         if (fail) return { error: { message: 'SEGREDO_INTERNO' } };
+        if (table === 'usuarios') return { data: { versao_sessao: 0 } };
         if (table === 'sessoes_revogadas') return { data: null };
         if (table === 'temas') return { data: active ? { idtemas: 5 } : null };
         if (table === 'conteudos') return { data: content ? [{ idconteudo: 1 }] : [] };
+        if (table === 'questoes') return { data: content ? [1,2,3].map(idquestoes => ({idquestoes})) : [] };
+        if (table === 'respostas_estudos') return { data: [1,2,3].map(questoes_idquestoes => ({questoes_idquestoes,acertou:questoes_idquestoes <= correctCount})) };
         if (operation === 'upsert') {
           assert.equal(options.onConflict, 'usuarios_idusuarios,temas_idtemas');
           assert.equal(options.ignoreDuplicates, true);
@@ -34,7 +38,8 @@ function database() {
         return { data: rows.filter(r => Object.entries(filters).every(([k,v]) => r[k] === v)) };
       };
       const q = { select() { return q; }, eq(k,v) { filters[k] = v; calls.push([table,k,v]); return q; },
-        limit() { return q; }, maybeSingle: async () => result(),
+        limit() { return q; }, maybeSingle: async () => { const value=result(); return Array.isArray(value.data) ? {data:value.data[0] ?? null,error:value.error} : value; },
+        in() { return q; }, order() { return q; },
         upsert(p,o) { operation = 'upsert'; payload = p; options = o; return q; },
         then(resolve,reject) { return Promise.resolve(result()).then(resolve,reject); } };
       return q;
@@ -76,7 +81,11 @@ test('progresso persiste, é idempotente e pertence ao JWT, inclusive em novo ac
   db.active = false;
   assert.equal((await put(1)).statusCode, 404);
   db.active = true; db.content = false;
-  assert.equal((await put(1)).statusCode, 409);
+  assert.equal((await put(3)).statusCode, 409);
+  db.content = true; db.acertos = 2;
+  assert.equal((await put(3)).statusCode, 409);
+  db.acertos = 3;
+  assert.equal((await put(3)).statusCode, 200);
   db.fail = true;
   const failed = await put(1);
   assert.equal(failed.statusCode, 503);

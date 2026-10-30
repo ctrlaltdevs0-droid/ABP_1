@@ -109,9 +109,8 @@ A fonte editável é `backend/scripts/data/content-estudos.json`. Execute
 `npm run seed:gerar` no backend após editar o conteúdo e versione o SQL gerado.
 Os materiais incluem links complementares. As questões possuem quatro
 alternativas e um gabarito, com posições variadas; entram com `status = false`
-e `status_editorial = 'RASCUNHO'`. Atenção: o sorteio atual ainda precisa filtrar
-questões ativas e aprovadas; esses campos sozinhos não bloqueiam rascunhos.
-Essa correção é prioritária antes de usar a certificação.
+e `status_editorial = 'RASCUNHO'`. A prova exige 12 temas ativos, cada um com
+pelo menos quatro questões ativas/APROVADO e quatro alternativas/um gabarito.
 Após revisão cruzada, registrar `REVISAO`/`APROVADO` e ativar somente o conteúdo
 aprovado. O índice de alternativas impede duas corretas para a mesma questão;
 A validação incluída em `seed.sql` verifica também ausência de gabarito e quantidade de opções.
@@ -129,3 +128,48 @@ Para reproduzir tudo sem Supabase remoto, seguir o Compose completo descrito em
 `docs/geral/ARQUITETURA_EXECUCAO.md`. Ele substitui o experimento anterior de
 PostgreSQL isolado por um ambiente que integra a Data API utilizada pelo backend.
 O provisionamento ocorre em serviço próprio, não apenas no primeiro boot do volume.
+
+## Segurança da prova e das sessões
+
+Aplicar `supabase/migrations/20261030005054_security_exam_sessions.sql` **antes**
+de iniciar esta versão do backend, depois das migrações anteriores. O Compose
+executa as etapas novas no serviço `migrate`; para atualizar um ambiente local:
+
+```sh
+docker compose --env-file .env.compose up --build -d
+```
+
+Não reaplicar schema, nem editar migrações já registradas. Esta entrega foi
+validada em banco descartável; não representa aplicação no Supabase remoto.
+
+- A API chama RPCs transacionais para iniciar, abrir questão, responder e finalizar.
+  O dono vem do JWT, a ordem é persistida e cada questão tem 150 segundos contados
+  pelo banco após a primeira abertura. Reabrir preserva o prazo; expiração conta
+  como erro. O certificado usa sempre 12 questões e é emitido na mesma transação
+  da finalização, sem duplicar em requisições simultâneas.
+- Tentativas legadas sem ordem persistida são recusadas; iniciar nova prova.
+- Login: até 30 chamadas/IP e 10/conta por janela de 15 minutos. Cadastro:
+  até 10/IP e 10/conta na mesma janela. Todas as chamadas contam, inclusive as
+  bem-sucedidas. Ao exceder, a API responde 429 e `Retry-After`.
+  Contadores ficam no banco e usam HMAC, sem CPF/IP em texto. Falha no limitador
+  responde 503 antes de consultar senha ou executar bcrypt. O logout não é limitado.
+- A API usa o endereço da conexão e não confia em `X-Forwarded-For`. Atrás de
+  proxy, configurar explicitamente os proxies confiáveis antes de usar IP do
+  cliente; sem isso, clientes do mesmo proxy compartilham o limite por IP.
+- Troca de senha incrementa a versão de sessão atomicamente. Todas as sessões
+  anteriores recebem 401; o frontend apaga a sessão atual e direciona ao login.
+- Erros SQL não são enviados ao cliente. Falhas internas possuem identificador
+  para correlação no log, com o código do erro, sem mensagem SQL ou credenciais.
+
+Verificação:
+
+```sh
+cd backend && npm test
+# Na raiz, requer Docker e a imagem postgres:17.11-bookworm:
+bash scripts/validar-seguranca.sh
+```
+
+O segundo comando cria e remove seu próprio PostgreSQL efêmero, sem portas
+publicadas, sem rede e sem acesso aos volumes do ambiente existente. Inclui
+concorrência, timeout, rollback, permissões, senha e recuperação do limitador.
+Os testes de banco ficam explicitamente ignorados no `npm test` comum.

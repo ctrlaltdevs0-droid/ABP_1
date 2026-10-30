@@ -43,3 +43,10 @@ Textos e questões autorais de apoio didático; links complementares por tema:
 
 As questões entram como rascunho inativo. As imagens da prova (PB-054) e o
 motor da certificação são escopo novo, fora dos seis débitos solicitados.
+
+## Correções de segurança posteriores
+
+As correções S01–S06 estão descritas em
+[CORRECOES_SEGURANCA.md](CORRECOES_SEGURANCA.md), com migração e testes próprios.
+Elas não substituem revisão editorial, conciliação com a issue #22, demonstração
+com candidatos ou aceite do PO. Esses aceites permanecem pendentes.
