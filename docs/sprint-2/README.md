@@ -10,3 +10,4 @@ O planejamento inicial está no [refinamento das três sprints](../geral/refinam
 [Voltar ao README principal](../../README.md)
 
 - [Dívida técnica da Sprint 1: implementação e validação](DIVIDA_TECNICA.md)
+- [Correções S01–S06: prova, autenticação e erros](CORRECOES_SEGURANCA.md)
