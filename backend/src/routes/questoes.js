@@ -1,5 +1,5 @@
 
-import { tratarErro, falhaBanco,
+import {
   lerJson,
   responder,
   idDaRota,
@@ -140,7 +140,9 @@ export async function questoesRoutes(req, res, pathname, supabase) {
       const dados = await listarQuestoesPorTema(supabase, temaId);
       return responder(res, 200, dados);
     } catch (err) {
-      return tratarErro(res, err);
+      return responder(res, err.status || 500, {
+        erro: err.message
+      });
     }
   }
 
@@ -363,7 +365,9 @@ export async function questoesRoutes(req, res, pathname, supabase) {
       const dados = await listarQuestoes(supabase);
       return responder(res, 200, dados);
     } catch (err) {
-      return tratarErro(res, err);
+      return responder(res, err.status || 500, {
+        erro: err.message
+      });
     }
   }
 
@@ -373,7 +377,9 @@ export async function questoesRoutes(req, res, pathname, supabase) {
       const dado = await buscarQuestaoPorId(supabase, id);
       return responder(res, 200, dado);
     } catch (err) {
-      return tratarErro(res, err);
+      return responder(res, err.status || 500, {
+        erro: err.message
+      });
     }
   }
 
@@ -384,7 +390,9 @@ export async function questoesRoutes(req, res, pathname, supabase) {
       const novo = await criarQuestao(supabase, body);
       return responder(res, 201, novo);
     } catch (err) {
-      return tratarErro(res, err);
+      return responder(res, err.status || 400, {
+        erro: err.message
+      });
     }
   }
 
@@ -395,7 +403,9 @@ export async function questoesRoutes(req, res, pathname, supabase) {
       const atualizado = await atualizarQuestao(supabase, id, body);
       return responder(res, 200, atualizado);
     } catch (err) {
-      return tratarErro(res, err);
+      return responder(res, err.status || 400, {
+        erro: err.message
+      });
     }
   }
 
@@ -408,7 +418,9 @@ export async function questoesRoutes(req, res, pathname, supabase) {
         mensagem: "Questão excluída com sucesso."
       });
     } catch (err) {
-      return tratarErro(res, err);
+      return responder(res, err.status || 400, {
+        erro: err.message
+      });
     }
   }
 
