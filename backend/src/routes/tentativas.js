@@ -125,7 +125,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
 
     const { data, error } = await supabase
       .from("tentativas")
-      .select("*")
+      .select("idquestoes, temas_idtemas, enunciado, imagem_url")
       .eq("idtentativas", tentativaId)
       .single();
 

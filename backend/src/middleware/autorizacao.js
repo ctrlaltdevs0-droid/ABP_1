@@ -129,6 +129,14 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return true;
   }
 
+  // Permite iniciar a prova final
+  if (
+    req.method === "POST" &&
+    /^\/api\/prova\/iniciar\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+
   // 7. Tentativas de provas.
   const inicio = /^\/api\/tentativas\/?$/.test(pathname);
 
