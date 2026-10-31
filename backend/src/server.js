@@ -1,6 +1,7 @@
 import express from "express";
 import { fileURLToPath } from 'node:url';
 import cors from "cors";
+import { limitarAutenticacao } from "./middleware/limite-autenticacao.js";
 import rotasLogin from "./routes/login.js";
 import { executarRotas } from "./routes/index.js";
 import { autorizarRota } from './middleware/autorizacao.js';
@@ -11,7 +12,7 @@ const app = express();
 const porta = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
-app.use("/api/login", rotasLogin);
+app.use("/api/login", limitarAutenticacao(supabase), rotasLogin);
 app.get("/api", (req, res) => {
   res.json({ mensagem: "API Ctrl Alt Devs funcionando." });
 });
@@ -39,6 +40,11 @@ app.use(async (req, res, next) => {
   try {
     const pathname = req.path;
     if (!/^\/api\/(estudos|temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
+    console.log("[AUTORIZAÇÃO]", {
+      method: req.method,
+      pathname,
+      originalUrl: req.originalUrl
+    });
     if (!(await autorizarRota(req, res, pathname, supabase))) return;
     if (await questoesRoutes(req, res, pathname, supabase)) return;
     if (!(await executarRotas(req, res, pathname, supabase))) next();

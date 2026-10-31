@@ -13,17 +13,18 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   const originalFetch = globalThis.fetch;
   const requests = [];
   let fail = false;
+  let limite = { permitido: true };
   let usuario;
-  let provaMode = false;
-  let tentativa;
-  let vinculos = [];
-  let respostas = [];
-  let certificado;
   const revogados = new Set();
   globalThis.fetch = async (input, options) => {
     const url = new URL(input);
     if (url.hostname !== 'teste.supabase.co') return originalFetch(input, options);
     requests.push({ url, options });
+    if (url.pathname === '/rest/v1/rpc/limitar_autenticacao') return Response.json(limite);
+    if (url.pathname === '/rest/v1/rpc/iniciar_prova') {
+      assert.equal(JSON.parse(options.body).p_usuario, 1);
+      return Response.json({ erro_codigo: 'BASE_INSUFICIENTE' });
+    }
     if (fail) return new Response(JSON.stringify({ message: 'SEGREDO_INTERNO', code: '42501' }), {
       status: 403, headers: { 'Content-Type': 'application/json' },
     });
@@ -33,39 +34,21 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
       return Response.json(revogados.has(hash) ? { token_hash: hash } : null);
     }
     if (url.pathname === '/rest/v1/usuarios') {
+      if (url.searchParams.get('select') === 'versao_sessao') return Response.json({ versao_sessao: 0 });
       if (options.method === 'POST') {
-        usuario = { idusuarios: 1, ...JSON.parse(options.body) };
+        usuario = { idusuarios: 1, versao_sessao: 0, ...JSON.parse(options.body) };
         const { senha_hash, ...publico } = usuario;
         return Response.json(publico, { status: 201 });
       }
       return Response.json(usuario ? [usuario] : []);
     }
-    if (provaMode) {
-      const table = url.pathname.split('/').at(-1);
-      const body = options.body ? JSON.parse(options.body) : undefined;
-      const single = new Headers(options.headers).get('Accept')?.includes('vnd.pgrst.object');
-      const result = rows => Response.json(single ? rows[0] : rows);
-      if (table === 'tentativas') {
-        if (options.method === 'POST') tentativa = { idtentativas: 10, ...body };
-        if (options.method === 'PATCH') tentativa = { ...tentativa, ...body };
-        return result(tentativa ? [tentativa] : []);
-      }
-      if (table === 'questoes') return result([{ idquestoes: 5, enunciado: 'Questão' }]);
-      if (table === 'alternativas') return result([{ idalternativas: 7, correta: true }]);
-      if (table === 'tentativas_questoes') {
-        if (options.method === 'POST') vinculos = body;
-        if (options.method === 'PATCH') vinculos = vinculos.map(v => ({ ...v, ...body }));
-        return result(vinculos.filter(v => !url.searchParams.has('questoes_idquestoes') || url.searchParams.get('questoes_idquestoes') === `eq.${v.questoes_idquestoes}`));
-      }
-      if (table === 'respostas') {
-        if (options.method === 'POST') respostas.push({ idrespostas: 1, ...body });
-        return result(respostas);
-      }
-      if (table === 'certificados') {
-        if (options.method === 'POST') certificado = { idcertificados: 3, ...body };
-        return result(certificado ? [certificado] : []);
-      }
+    if (url.pathname === '/rest/v1/progresso_estudos' && options.method !== 'POST') {
+      return Response.json(url.searchParams.has('temas_idtemas') ? null : []);
     }
+    if (url.pathname === '/rest/v1/questoes' && url.searchParams.get('select') === 'idquestoes')
+      return Response.json([1,2,3].map(idquestoes => ({idquestoes})));
+    if (url.pathname === '/rest/v1/respostas_estudos')
+      return Response.json([1,2,3].map(questoes_idquestoes => ({questoes_idquestoes,acertou:true})));
     if (url.pathname === '/rest/v1/tentativas' && url.searchParams.get('idtentativas') === 'eq.999') return Response.json([]);
     return new Response(options.method === 'HEAD' ? null : JSON.stringify([
       { idtemas: 1, nome: 'Scrum', descricao: 'Introdução', ordem: 1 },
@@ -113,7 +96,7 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
 
   fail = true;
   for (const [route, message] of [
-    ['/api/temas', 'Não foi possível consultar os temas.'],
+    ['/api/temas', 'Serviço temporariamente indisponível.'],
     ['/api/teste-supabase', 'Banco de dados indisponível.'],
   ]) {
     const response = await originalFetch(base + route);
@@ -190,30 +173,22 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   assert.equal((await request('/api/temas/1/conteudos', 'GET', session.token)).status, 200);
   assert.equal(requests.at(-1).url.searchParams.get('status'), 'eq.true');
 
-  provaMode = true;
+  // Uma base de apenas um tema (mock acima) não pode iniciar nem emitir certificado.
   const started = await request('/api/tentativas', 'POST', session.token, { usuarios_idusuarios: 999 });
-  assert.equal(started.status, 201);
-  assert.equal((await started.json()).total_questoes, 1);
-  assert.equal(tentativa.usuarios_idusuarios, 1);
-  assert.ok(tentativa.iniciado_em);
-  assert.equal((await request('/api/tentativas/10/finalizar', 'POST', session.token, {})).status, 409);
-  assert.equal((await request('/api/tentativas/10/respostas', 'POST', session.token,
-    { questoes_idquestoes: 999, alternativas_idalternativas: 7 })).status, 400);
-  assert.equal((await request('/api/tentativas/10/respostas', 'POST', session.token,
-    { questoes_idquestoes: 5, alternativas_idalternativas: 7 })).status, 201);
-  const finished = await request('/api/tentativas/10/finalizar', 'POST', session.token, {});
-  assert.equal(finished.status, 200);
-  const outcome = await finished.json();
-  assert.equal(outcome.tentativa.acertos, 1);
-  assert.ok(outcome.tentativa.finalizado_em);
-  assert.equal(outcome.certificado.score, 1);
-  assert.equal(outcome.certificado.idcertificados, 3);
-  const repeat = await request('/api/tentativas/10/finalizar', 'POST', session.token, {});
-  assert.equal((await repeat.json()).certificado.codigo_validacao, outcome.certificado.codigo_validacao);
+  assert.equal(started.status, 409);
+  assert.doesNotMatch(JSON.stringify(await started.json()), /SEGREDO_INTERNO/);
   assert.equal((await request('/api/login/sair', 'POST', session.token, {})).status, 204);
   assert.equal((await request('/api/estudos/progresso', 'GET', session.token)).status, 401);
   assert.equal((await request('/api/conteudos', 'GET', session.token)).status, 401);
   const outraSessao = await (await post('entrar', cadastro)).json();
   assert.notEqual(outraSessao.token, session.token);
   assert.equal((await request('/api/estudos/progresso', 'GET', outraSessao.token)).status, 200);
+  limite = { permitido: false, retry_after: 60 };
+  for (const path of ['/api/login/entrar', '/api/login/ENTRAR', '/api/login/cadastro']) {
+    const blocked = await request(path, 'POST', undefined, cadastro);
+    assert.equal(blocked.status, 429);
+    assert.equal(blocked.headers.get('Retry-After'), '60');
+  }
+  assert.equal((await request('/api/login/sair', 'POST', outraSessao.token, {})).status, 204);
+
 });

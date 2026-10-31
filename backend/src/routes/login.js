@@ -1,4 +1,5 @@
 import express from "express";
+import { randomUUID } from "node:crypto";
 import {
   cadastrarUsuario,
   fazerLogin,
@@ -71,7 +72,9 @@ rotas.post("/cadastro", async (req, res) => {
       return res.status(409).json({ erro: erro.message });
     }
 
-    console.error("Erro na rota de cadastro:", erro);
+    const id = randomUUID();
+    console.error("Erro no cadastro", { id, code: erro.code ?? "INTERNAL" });
+    res.set("X-Request-ID", id);
 
     return res.status(500).json({
       erro: "Erro interno ao cadastrar usuário.",
@@ -116,7 +119,9 @@ rotas.post("/entrar", async (req, res) => {
       return res.status(401).json({ erro: erro.message });
     }
 
-    console.error("Erro na rota de login:", erro);
+    const id = randomUUID();
+    console.error("Erro no login", { id, code: erro.code ?? "INTERNAL" });
+    res.set("X-Request-ID", id);
 
     return res.status(500).json({
       erro: "Erro interno ao realizar login.",

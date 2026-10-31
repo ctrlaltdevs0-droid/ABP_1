@@ -1,20 +1,56 @@
 import { ErroHttp } from "../utils/http.js";
 
-// Lista as questões filtradas por um tema específico
+
 export async function listarQuestoesPorTema(db, temaId) {
   if (!Number.isInteger(Number(temaId)) || Number(temaId) < 1) {
     throw new ErroHttp(400, "ID do tema inválido.");
   }
 
-  const { data, error } = await db
+  // 1. Busca as questões do tema
+  const { data: questoes, error: erroQuestoes } = await db
     .from("questoes")
-    .select("*")
-    .eq("temas_idtemas", temaId)
+    .select("idquestoes, temas_idtemas, enunciado, imagem_url, status")
+    .eq("temas_idtemas", Number(temaId))
+    .eq("status", true)
     .order("idquestoes", { ascending: true });
 
-  if (error) throw new ErroHttp(500, "Erro ao buscar questões do tema.");
-  return data;
+  if (erroQuestoes) {
+    console.error("Erro ao buscar questões:", erroQuestoes);
+    throw new ErroHttp(500, "Erro ao buscar questões do tema.");
+  }
+
+  // Se não houver questões, retorna uma lista vazia
+  if (!questoes || questoes.length === 0) {
+    return [];
+  }
+
+  // 2. Pega os IDs das questões encontradas
+  const idsQuestoes = questoes.map(q => q.idquestoes);
+
+  // 3. Busca as alternativas dessas questões
+  const { data: alternativas, error: erroAlternativas } = await db
+    .from("alternativas")
+    .select("idalternativas, questoes_idquestoes, letra, texto")
+    .in("questoes_idquestoes", idsQuestoes)
+    .order("letra", { ascending: true });
+
+  if (erroAlternativas) {
+    console.error("Erro ao buscar alternativas:", erroAlternativas);
+    throw new ErroHttp(500, "Erro ao buscar alternativas das questões.");
+  }
+
+  // 4. Junta cada questão com suas alternativas
+  return questoes.map(questao => ({
+    ...questao,
+    alternativas: (alternativas || [])
+      .filter(a => a.questoes_idquestoes === questao.idquestoes)
+      .map(a => ({
+        letra: a.letra.trim(),
+        texto: a.texto
+      }))
+  }));
 }
+
 
 // Lista todas as questões cadastradas no banco
 export async function listarQuestoes(db) {

@@ -1,4 +1,4 @@
-import { responder } from "../utils/http.js";
+import { falhaBanco, tratarErro, responder } from "../utils/http.js";
 
 export async function certificadosRoutes(req, res, pathname, supabase) {
 
@@ -28,7 +28,7 @@ export async function certificadosRoutes(req, res, pathname, supabase) {
       .eq("usuarios_idusuarios", usuarioId)
       .order("emitido_em", { ascending: false });
 
-    if (error) return responder(res, 500, { erro: error.message });
+    if (error) return falhaBanco(res, error);
 
     return responder(res, 200, data);
   }
@@ -46,7 +46,7 @@ export async function certificadosRoutes(req, res, pathname, supabase) {
       .is("revogado_em", null)
       .maybeSingle();
 
-    if (error) return responder(res, 500, { erro: error.message });
+    if (error) return falhaBanco(res, error);
 
     // Se não encontrou certificado válido.
     if (!data) {
