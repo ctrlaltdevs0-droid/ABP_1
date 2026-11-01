@@ -56,7 +56,10 @@ test('carga contém 12 materiais, 48 questões e quatro alternativas distintas; 
     assert.equal(tema.questoes.length, 4);
     for (const q of tema.questoes) assert.equal(new Set(q.slice(1)).size, 4);
   }
-  assert.equal(await gerarSeed(), await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8'));
+  // No Windows o Git pode trocar a quebra de linha do seed.sql (\n vira \r\n).
+  // O conteúdo continua igual, então a comparação ignora essa diferença.
+  const seedSalvo = await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8');
+  assert.equal(await gerarSeed(), seedSalvo.replaceAll('\r\n', '\n'));
 });
 test('progresso persiste, é idempotente e pertence ao JWT, inclusive em novo acesso', async () => {
   const db = database();
