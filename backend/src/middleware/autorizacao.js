@@ -48,13 +48,25 @@ export async function autorizarRota(req, res, pathname, supabase) {
       });
       return false;
     }
-  } catch (err) {
-    console.warn(
-      'Aviso: Não foi possível verificar a revogação da sessão:',
-      err.message
-    );
+  } catch {
+    res.status(503).json({ erro: 'Não foi possível verificar a sessão.' });
+    return false;
   }
 
+  try {
+    const { data, error } = await supabase.from('usuarios').select('versao_sessao')
+      .eq('idusuarios', usuario.id).maybeSingle();
+    if (error) throw error;
+    // Tokens legados sem ver equivalem à versão inicial. A primeira troca os revoga.
+    const versao = usuario.ver ?? 0;
+    if (!data || !Number.isSafeInteger(versao) || versao < 0 || versao !== data.versao_sessao) {
+      res.status(401).json({ erro: 'Sessão encerrada. Entre novamente.' });
+      return false;
+    }
+  } catch {
+    res.status(503).json({ erro: 'Não foi possível verificar a sessão.' });
+    return false;
+  }
   req.usuario = usuario;
   req.token = token;
 
