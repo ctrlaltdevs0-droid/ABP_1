@@ -227,7 +227,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
       // Busca a alternativa escolhida.
       const { data: alternativa, error: erroAlternativa } = await supabase
         .from("alternativas")
-        .select("idalternativas, correta")
+        .select("idalternativas, correta, letra")
         .eq("idalternativas", body.alternativas_idalternativas)
         .eq("questoes_idquestoes", body.questoes_idquestoes)
         .single();
@@ -263,11 +263,13 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         });
       }
 
-      // Marca a questão como respondida.
+      // Marca a questão como respondida e guarda a letra escolhida.
       const { error: erroAtualizacao } = await supabase
         .from("tentativas_questoes")
         .update({
           respondida: true,
+          acertou: correta,
+          resposta_escolhida: alternativa.letra,
         })
         .eq("tentativas_idtentativas", tentativaId)
         .eq("questoes_idquestoes", body.questoes_idquestoes);
