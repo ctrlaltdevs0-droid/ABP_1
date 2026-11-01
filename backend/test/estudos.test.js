@@ -54,7 +54,7 @@ test('carga contém 12 materiais, 48 questões e quatro alternativas distintas; 
   for (const tema of data) {
     assert.ok(tema.texto.length > 400, tema.nome);
     assert.equal(tema.questoes.length, 4);
-    for (const q of tema.questoes) assert.equal(new Set(q.slice(1)).size, 4);
+    for (const q of tema.questoes) assert.equal(new Set(q.alternativas).size, 4);
   }
   assert.equal(await gerarSeed(), await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8'));
 });

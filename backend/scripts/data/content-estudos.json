@@ -4,10 +4,46 @@
     "texto": "Agilidade é aprender com entregas frequentes e adaptar o trabalho conforme as necessidades das pessoas. Um plano orienta decisões, mas deve ser revisto quando surgem evidências.\n\nUma equipe pode entregar primeiro uma inscrição simples, observar dificuldades reais e então melhorar o formulário. Essa sequência reduz o risco de construir funcionalidades sem utilidade. Documentar decisões e conversar com usuários ajuda a manter o aprendizado acessível.\n\nPara praticar: escolha uma necessidade pequena, descreva o resultado esperado, entregue uma primeira solução e combine como obter feedback. Não confunda trabalhar de forma ágil com trabalhar sem qualidade ou sem planejamento.",
     "recurso": "https://agilemanifesto.org/iso/ptbr/manifesto.html",
     "questoes": [
-      ["Qual atitude favorece a adaptação em um projeto?", "Revisar decisões usando feedback das entregas", "Ignorar usuários após o início", "Manter todo plano mesmo sem valor", "Entregar apenas no último dia"],
-      ["Qual é a utilidade de entregar uma parte pequena do produto?", "Validar uma necessidade com menor investimento inicial", "Eliminar toda comunicação", "Garantir que nunca haverá mudanças", "Dispensar testes"],
-      ["Uma equipe recebe evidências de que a solução não atende ao usuário. O que fazer?", "Investigar o problema e ajustar o trabalho", "Ocultar as evidências", "Aumentar o escopo sem discussão", "Proibir novas conversas"],
-      ["O que caracteriza um planejamento adaptativo?", "Atualizar o plano conforme o aprendizado", "Ausência de objetivo", "Prometer precisão absoluta", "Registrar um plano e nunca consultá-lo"]
+      {
+        "enunciado": "Qual situação esteve associada à chamada Crise do Software?",
+        "alternativas": [
+          "Os computadores deixaram de utilizar softwares.",
+          "Projetos apresentavam atrasos, custos elevados e dificuldades para atender às necessidades dos usuários.",
+          "Todos os softwares começaram a ser desenvolvidos utilizando métodos ágeis.",
+          "Os sistemas se tornaram simples demais."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "Qual é uma característica comum do Modelo Cascata?",
+        "alternativas": [
+          "O desenvolvimento ocorre em ciclos curtos e contínuos.",
+          "Não existe planejamento.",
+          "O projeto segue etapas sequenciais previamente definidas.",
+          "O produto precisa ser entregue diariamente."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "O que significa ser ágil no desenvolvimento de software?",
+        "alternativas": [
+          "Desenvolver o máximo de funcionalidades possível, independentemente da necessidade do usuário.",
+          "Trabalhar sem planejamento para entregar mais rápido.",
+          "Evitar qualquer mudança depois que o projeto começar.",
+          "Trabalhar de maneira adaptável, colaborativa e com entregas e feedbacks frequentes."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Qual dos seguintes é um benefício das abordagens ágeis?",
+        "alternativas": [
+          "Identificar problemas e mudanças mais cedo por meio de entregas e feedbacks frequentes.",
+          "Eliminar completamente os testes de software.",
+          "Garantir que os requisitos nunca sejam alterados.",
+          "Desenvolver todo o sistema antes de receber qualquer feedback."
+        ],
+        "correta": "A"
+      }
     ]
   },
   {
@@ -15,10 +51,46 @@
     "texto": "Scrum oferece uma estrutura para equipes enfrentarem problemas complexos. O trabalho avança em ciclos chamados Sprints, nos quais a equipe busca um objetivo e inspeciona os resultados. O uso de Scrum não garante sucesso: decisões continuam dependendo do contexto e das evidências.\n\nEm um portal de estudos, uma Sprint pode buscar permitir a leitura de um tema completo. A equipe acompanha o trabalho, demonstra o resultado e decide o próximo passo com base no que aprendeu.\n\nPara praticar: descreva um objetivo verificável e identifique qual pequena entrega permitiria avaliar seu avanço. Evite tratar a Sprint como uma lista de tarefas sem propósito compartilhado.",
     "recurso": "https://scrumguides.org/scrum-guide.html",
     "questoes": [
-      ["Em que contexto Scrum pode ajudar uma equipe?", "Problemas complexos que exigem aprendizado", "Somente tarefas totalmente previsíveis", "Apenas projetos sem usuários", "Trabalhos sem colaboração"],
-      ["O que é uma Sprint?", "Um ciclo de trabalho com duração limitada", "Um cargo gerencial", "Uma ferramenta de mensagens", "Um documento de contratação"],
-      ["Qual prática ajuda uma equipe a aprender com uma entrega?", "Inspecionar o resultado e adaptar o próximo passo", "Evitar demonstrações", "Esconder dificuldades", "Ignorar resultados"],
-      ["Como avaliar se um objetivo de Sprint foi alcançado?", "Observar o resultado verificável que foi combinado", "Contar apenas reuniões", "Comparar horas individuais", "Considerar qualquer tarefa iniciada como pronta"]
+      {
+        "enunciado": "Por que o Scrum é considerado um framework?",
+        "alternativas": [
+          "Porque determina exatamente como cada tarefa deve ser executada.",
+          "Porque fornece uma estrutura de trabalho, permitindo que as equipes utilizem práticas adequadas à sua realidade.",
+          "Porque é uma linguagem utilizada para desenvolver sistemas.",
+          "Porque elimina a necessidade de planejamento."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "O que significa empirismo no contexto do Scrum?",
+        "alternativas": [
+          "Tomar decisões somente com base no planejamento inicial.",
+          "Evitar mudanças durante o desenvolvimento.",
+          "Adquirir conhecimento por meio da experiência e tomar decisões com base no que é observado.",
+          "Desenvolver todo o produto antes de analisar os resultados."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "Quais são os três pilares do empirismo no Scrum?",
+        "alternativas": [
+          "Planejamento, desenvolvimento e entrega.",
+          "Velocidade, produtividade e qualidade.",
+          "Comunicação, documentação e planejamento.",
+          "Transparência, inspeção e adaptação."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Uma equipe percebeu, durante a inspeção, que uma funcionalidade não está funcionando como esperado e decidiu modificar a solução. Qual pilar está sendo aplicado ao realizar essa mudança?",
+        "alternativas": [
+          "Adaptação.",
+          "Transparência.",
+          "Planejamento.",
+          "Documentação."
+        ],
+        "correta": "A"
+      }
     ]
   },
   {
@@ -26,10 +98,46 @@
     "texto": "No Scrum Team, Product Owner, Scrum Master e Developers assumem responsabilidades complementares. O Product Owner orienta o valor do produto; o Scrum Master ajuda a equipe a usar Scrum; os Developers constroem a entrega.\n\nNo portal, o Product Owner pode esclarecer a necessidade de retomar os estudos, enquanto os Developers decidem como implementar a solução. O Scrum Master ajuda a tornar impedimentos visíveis e promove melhorias na colaboração. Nenhuma dessas responsabilidades substitui o diálogo entre todos.\n\nPara praticar: diante de uma dúvida de prioridade, converse sobre valor. Diante de uma decisão técnica, envolva quem construirá e manterá a solução. Evite concentrar toda decisão em uma única pessoa.",
     "recurso": "https://scrumguides.org/scrum-guide.html",
     "questoes": [
-      ["Quem responde pela maximização do valor do produto?", "Product Owner", "Somente o cliente final", "Um avaliador externo", "O administrador da rede"],
-      ["Qual contribuição é esperada do Scrum Master?", "Ajudar a equipe a compreender e aplicar Scrum", "Distribuir toda tarefa individual obrigatoriamente", "Substituir o Product Owner", "Aprovar sozinho cada linha de código"],
-      ["Quem organiza como construir o trabalho selecionado na Sprint?", "Developers", "Somente investidores", "Somente fornecedores", "Um usuário escolhido ao acaso"],
-      ["Como esclarecer uma dúvida sobre prioridade de produto?", "Discutir o valor esperado com o Product Owner", "Decidir apenas pela cor do cartão", "Excluir a necessidade sem conversar", "Esperar o projeto acabar"]
+      {
+        "enunciado": "Qual é a principal responsabilidade do Product Owner?",
+        "alternativas": [
+          "Desenvolver sozinho todas as funcionalidades do sistema.",
+          "Maximizar o valor do produto e gerenciar o Product Backlog.",
+          "Controlar os horários de todos os colaboradores.",
+          "Realizar exclusivamente os testes do software."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "Qual é uma das responsabilidades do Scrum Master?",
+        "alternativas": [
+          "Definir sozinho todas as funcionalidades do produto.",
+          "Substituir os Developers durante a programação.",
+          "Ajudar a equipe a aplicar o Scrum e superar impedimentos.",
+          "Aprovar obrigatoriamente todas as linhas de código."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "Quem é responsável por criar o Sprint Backlog e organizar o trabalho necessário para a Sprint?",
+        "alternativas": [
+          "Os Developers.",
+          "Apenas o Product Owner.",
+          "Os clientes.",
+          "Apenas o Scrum Master."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Como deve funcionar a interação entre os integrantes do Scrum Team?",
+        "alternativas": [
+          "Cada integrante trabalha isoladamente.",
+          "O Scrum Master toma todas as decisões técnicas.",
+          "O Product Owner desenvolve todas as funcionalidades.",
+          "Todos colaboram, respeitando suas responsabilidades e buscando o mesmo objetivo."
+        ],
+        "correta": "D"
+      }
     ]
   },
   {
@@ -37,10 +145,46 @@
     "texto": "Os eventos criam momentos para alinhar intenções, acompanhar o trabalho e aprender. O planejamento inicia a Sprint; a Daily ajuda a ajustar o plano diário; a Review examina o resultado; a Retrospectiva procura melhorias na forma de trabalhar.\n\nUma Review pode revelar que estudantes não encontram o botão de continuar. Uma Retrospectiva pode identificar que faltou testar a navegação no celular. O primeiro aprendizado trata do produto; o segundo trata do processo da equipe.\n\nPara praticar: termine cada conversa com uma decisão útil ou um próximo passo claro. Reuniões sem propósito não substituem colaboração durante o trabalho.",
     "recurso": "https://scrumguides.org/scrum-guide.html",
     "questoes": [
-      ["Qual evento ajuda a organizar o início da Sprint?", "Sprint Planning", "Auditoria anual", "Cerimônia de contratação", "Encerramento do contrato"],
-      ["Qual é um uso adequado da Daily Scrum?", "Ajustar o plano de trabalho em direção ao objetivo", "Fazer uma avaliação salarial", "Substituir todos os testes", "Demonstrar o produto a todos os clientes"],
-      ["Qual evento é adequado para discutir uma entrega com interessados?", "Sprint Review", "Reunião de compras", "Entrevista de seleção", "Auditoria fiscal"],
-      ["Onde a equipe pode discutir como melhorar sua colaboração?", "Sprint Retrospective", "Somente no lançamento final", "No contrato de licença", "No cadastro de usuários"]
+      {
+        "enunciado": "Qual é a duração máxima de uma Sprint?",
+        "alternativas": [
+          "Uma semana.",
+          "Três meses.",
+          "Um mês.",
+          "Um ano."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "Qual é o principal objetivo do Sprint Planning?",
+        "alternativas": [
+          "Planejar o trabalho que será realizado durante a Sprint.",
+          "Avaliar exclusivamente o desempenho individual dos colaboradores.",
+          "Apresentar o produto final ao cliente.",
+          "Encerrar o projeto."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Para que serve a Daily Scrum?",
+        "alternativas": [
+          "Aprovar todas as funcionalidades do sistema.",
+          "Substituir o Sprint Planning.",
+          "Definir o orçamento anual do projeto.",
+          "Inspecionar o progresso em direção ao Sprint Goal e adaptar o planejamento."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Qual é a diferença entre Sprint Review e Sprint Retrospective?",
+        "alternativas": [
+          "Ambas possuem exatamente a mesma finalidade.",
+          "A Review analisa o resultado do produto, enquanto a Retrospective busca melhorar a forma de trabalhar.",
+          "A Review é realizada diariamente e a Retrospective ocorre antes do planejamento.",
+          "A Retrospective serve exclusivamente para apresentar funcionalidades aos clientes."
+        ],
+        "correta": "B"
+      }
     ]
   },
   {
@@ -48,10 +192,46 @@
     "texto": "Artefatos tornam o trabalho e o resultado observáveis. O Product Backlog reúne necessidades do produto; o Sprint Backlog mostra o plano da Sprint; o Incremento representa uma entrega que atende ao padrão de qualidade combinado.\n\nNo portal, uma necessidade de salvar progresso pode entrar no Product Backlog. Quando selecionada, é detalhada no plano da Sprint. Só existe uma entrega utilizável quando interface, API e armazenamento funcionam juntos.\n\nPara praticar: mostre claramente o que ainda é intenção, o que está em execução e o que está utilizável. Marcar uma tarefa como concluída sem validar a experiência inteira cria uma impressão enganosa de avanço.",
     "recurso": "https://scrumguides.org/scrum-guide.html",
     "questoes": [
-      ["Onde são organizadas as necessidades do produto?", "Product Backlog", "Lista de presença", "Folha de pagamento", "Inventário de computadores"],
-      ["O que o Sprint Backlog ajuda a tornar visível?", "O plano de trabalho da Sprint", "A senha dos usuários", "O faturamento anual", "A estrutura jurídica da empresa"],
-      ["O que deve caracterizar um Incremento?", "Uma entrega utilizável conforme o padrão de qualidade", "Um conjunto de ideias sem implementação", "Qualquer código que não executa", "Uma promessa comercial"],
-      ["Uma tela sem integração necessária com a API representa o quê?", "Trabalho ainda incompleto para o fluxo integrado", "Entrega automaticamente validada", "Prova de aprovação do usuário", "Dispensa de verificar persistência"]
+      {
+        "enunciado": "Qual é a finalidade do Product Backlog?",
+        "alternativas": [
+          "Registrar exclusivamente as tarefas já concluídas.",
+          "Substituir todas as reuniões da equipe.",
+          "Organizar uma lista ordenada das necessidades de melhoria do produto.",
+          "Armazenar somente os erros encontrados no sistema."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "O que compõe o Sprint Backlog?",
+        "alternativas": [
+          "Sprint Goal, itens selecionados do Product Backlog e plano de trabalho.",
+          "Apenas o nome dos Developers.",
+          "Somente o orçamento do projeto.",
+          "Exclusivamente os resultados das Sprints anteriores."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "O que representa o Incremento no Scrum?",
+        "alternativas": [
+          "Uma lista de ideias que ainda não foram analisadas.",
+          "Uma reunião realizada antes do desenvolvimento.",
+          "Um documento de planejamento financeiro.",
+          "Um resultado utilizável do produto que atende à Definition of Done."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Qual é a finalidade da Definition of Done?",
+        "alternativas": [
+          "Determinar quem será o Product Owner.",
+          "Estabelecer um entendimento comum sobre os critérios de qualidade para considerar um Incremento concluído.",
+          "Definir a duração de todas as Sprints.",
+          "Organizar exclusivamente as prioridades do Product Backlog."
+        ],
+        "correta": "B"
+      }
     ]
   },
   {
@@ -59,10 +239,46 @@
     "texto": "Uma User Story descreve uma necessidade pela perspectiva de quem usa o produto. Uma forma comum é indicar pessoa, ação e benefício. O texto inicia uma conversa; critérios de aceite tornam o resultado verificável. Essa técnica pode apoiar equipes ágeis, mas não é uma obrigação do Scrum.\n\nExemplo: como estudante, quero marcar um tema como concluído para retomar meu percurso. Um critério de aceite é entrar novamente e ainda visualizar a conclusão. Outro é impedir que a conclusão de uma pessoa apareça para outra.\n\nPara praticar: escreva uma história pequena e acrescente exemplos de sucesso e falha. Evite transformar cada detalhe técnico em uma história sem benefício identificável.",
     "recurso": "https://www.agilealliance.org/glossary/user-stories/",
     "questoes": [
-      ["Qual informação ajuda a explicar o valor de uma User Story?", "O benefício esperado para a pessoa usuária", "A cor do editor de código", "O número de reuniões do mês", "O modelo do computador"],
-      ["Para que servem critérios de aceite?", "Definir condições verificáveis para aceitar a entrega", "Substituir toda conversa", "Garantir ausência de defeitos futuros", "Excluir casos de erro"],
-      ["Qual exemplo verifica a persistência do progresso?", "Entrar novamente e recuperar a conclusão do tema", "Fechar um cartão sem abrir a tela", "Contar cliques sem consultar o servidor", "Trocar o título da página"],
-      ["Qual história é mais fácil de discutir com um estudante?", "Salvar um tema concluído para retomar os estudos", "Criar uma variável sem contexto", "Renomear um arquivo sem objetivo", "Instalar qualquer ferramenta disponível"]
+      {
+        "enunciado": "Qual é a principal finalidade de uma User Story?",
+        "alternativas": [
+          "Descrever uma necessidade sob a perspectiva do usuário.",
+          "Substituir todos os testes do sistema.",
+          "Registrar exclusivamente o código-fonte.",
+          "Definir o salário dos integrantes da equipe."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Qual alternativa apresenta a estrutura mais utilizada de uma User Story?",
+        "alternativas": [
+          "Quando... Onde... Quanto...",
+          "Problema... Código... Entrega...",
+          "Como... Quero... Para...",
+          "Início... Meio... Fim..."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "Para que servem os critérios de aceitação?",
+        "alternativas": [
+          "Determinar a duração obrigatória de uma Sprint.",
+          "Definir condições que permitem verificar se a história atende ao comportamento esperado.",
+          "Substituir o Product Owner.",
+          "Escolher a linguagem de programação."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "Qual alternativa apresenta uma User Story bem estruturada?",
+        "alternativas": [
+          "Criar tabela no banco de dados.",
+          "Corrigir arquivos do sistema.",
+          "Desenvolver três botões azuis.",
+          "Como cliente, quero acompanhar meus pedidos, para saber quando serão entregues."
+        ],
+        "correta": "D"
+      }
     ]
   },
   {
@@ -70,10 +286,46 @@
     "texto": "Gerir o Product Backlog é manter necessidades compreensíveis e ordenadas para apoiar decisões. Valor, risco, dependências e aprendizado podem orientar essa ordem. Refinar é esclarecer e dividir itens conforme necessário; não significa congelar todo o escopo.\n\nAntes de oferecer uma prova aleatória, o portal precisa de temas e questões válidas. Essa dependência pode justificar priorizar a base de dados. Já um detalhe visual pode esperar se não comprometer o uso da primeira entrega.\n\nPara praticar: escolha três necessidades e explique a ordem com critérios explícitos. Reavalie quando surgir uma dependência ou uma evidência nova. Não confunda prioridade com pressão de quem fala mais alto.",
     "recurso": "https://scrumguides.org/scrum-guide.html",
     "questoes": [
-      ["Qual critério pode orientar a ordem do backlog?", "Valor esperado e dependências", "Ordem alfabética obrigatória", "Quantidade de cores no cartão", "Preferência sem justificativa"],
-      ["O que significa refinar um item?", "Esclarecer e dividir o trabalho quando necessário", "Impedir mudanças para sempre", "Marcar tudo como pronto", "Excluir critérios de aceite"],
-      ["Por que preparar temas antes do sorteio de questões?", "O sorteio depende de uma base coerente de temas", "Para dispensar a validação das questões", "Para substituir o login", "Para reduzir o número de usuários"],
-      ["Quando reavaliar a ordem do backlog?", "Quando novas evidências alterarem valor, risco ou dependências", "Somente depois de encerrar o produto", "Nunca após a primeira reunião", "Apenas ao mudar o logotipo"]
+      {
+        "enunciado": "Quem é responsável pela gestão do Product Backlog no Scrum?",
+        "alternativas": [
+          "Exclusivamente os clientes.",
+          "O Scrum Master.",
+          "Apenas os Developers.",
+          "O Product Owner."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "O que significa priorizar os itens do Product Backlog?",
+        "alternativas": [
+          "Desenvolver todos os itens simultaneamente.",
+          "Avaliar a importância dos itens e definir sua ordem.",
+          "Remover todas as funcionalidades complexas.",
+          "Organizar as atividades somente por ordem alfabética."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "Qual é a finalidade do refinamento do Product Backlog?",
+        "alternativas": [
+          "Detalhar e melhorar a compreensão dos itens para facilitar o trabalho futuro.",
+          "Encerrar automaticamente a Sprint.",
+          "Substituir os testes do sistema.",
+          "Impedir que novas necessidades sejam adicionadas."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Por que o Product Backlog deve evoluir durante o projeto?",
+        "alternativas": [
+          "Porque todos os itens precisam ser alterados diariamente.",
+          "Porque o planejamento inicial deve ser ignorado.",
+          "Porque novas necessidades e informações podem surgir ao longo do desenvolvimento.",
+          "Porque não é permitido concluir os itens existentes."
+        ],
+        "correta": "C"
+      }
     ]
   },
   {
@@ -81,10 +333,46 @@
     "texto": "Kanban ajuda a observar e melhorar o fluxo do trabalho. Um quadro torna visíveis as etapas, enquanto políticas explícitas esclarecem como os itens avançam. Controlar o trabalho iniciado favorece a conclusão antes de assumir novas demandas.\n\nExemplo de quadro: A fazer → Em execução → Em validação → Concluído. Se muitos itens aguardam validação, iniciar mais trabalho pode aumentar a fila. A equipe deve investigar o bloqueio e ajudar a concluir o que já começou.\n\nPara praticar: desenhe o fluxo real da sua equipe, identifique onde os itens se acumulam e combine uma política para limitar novas entradas. O quadro deve refletir a realidade, inclusive bloqueios.",
     "recurso": "https://kanbanguides.org/the-kanban-guide/2025.5/",
     "questoes": [
-      ["Qual é a utilidade de um quadro Kanban?", "Tornar o fluxo de trabalho visível", "Eliminar a necessidade de colaboração", "Garantir prazo sem dados", "Substituir os usuários"],
-      ["O que significa limitar trabalho em progresso?", "Controlar quantos itens estão iniciados simultaneamente", "Impedir qualquer entrega", "Limitar a quantidade total de clientes", "Contar apenas reuniões"],
-      ["Muitos itens aguardam validação. Qual ação ajuda o fluxo?", "Investigar a fila e colaborar na validação", "Iniciar sempre mais itens", "Ocultar a coluna de validação", "Marcar todos como concluídos"],
-      ["Por que explicitar políticas de passagem entre etapas?", "Criar entendimento comum sobre como o trabalho avança", "Dispensar qualquer inspeção", "Impedir aprendizado", "Permitir estados sem significado"]
+      {
+        "enunciado": "Qual é a principal finalidade de um quadro Kanban?",
+        "alternativas": [
+          "Substituir todas as ferramentas de programação.",
+          "Visualizar as atividades e seu andamento no fluxo de trabalho.",
+          "Definir os salários da equipe.",
+          "Registrar somente as tarefas concluídas."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "O que significa WIP?",
+        "alternativas": [
+          "Work in Progress, ou trabalho em andamento.",
+          "Work in Planning, ou trabalho em planejamento.",
+          "Weekly Information Process.",
+          "Workflow Internal Program."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "O que pode indicar um gargalo em um quadro Kanban?",
+        "alternativas": [
+          "Todas as atividades estão concluídas.",
+          "A equipe possui poucas solicitações.",
+          "Os cards mudam normalmente entre as etapas.",
+          "Muitas atividades ficam acumuladas em uma determinada etapa."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Qual prática ajuda a melhorar o fluxo de trabalho no Kanban?",
+        "alternativas": [
+          "Iniciar o máximo possível de atividades ao mesmo tempo.",
+          "Ignorar tarefas que estão bloqueadas.",
+          "Limitar o trabalho em andamento e analisar os gargalos.",
+          "Evitar acompanhar o tempo de execução."
+        ],
+        "correta": "C"
+      }
     ]
   },
   {
@@ -92,10 +380,46 @@
     "texto": "Planejar de forma ágil é escolher um resultado, considerar a capacidade disponível e ajustar o caminho com o aprendizado. Estimativas apoiam a conversa sobre incerteza; não são garantias. Itens menores facilitam observar resultados e corrigir decisões.\n\nNo portal, entregar primeiro a leitura e conclusão de um tema permite verificar o fluxo antes de expandir o conteúdo. Dependências de banco, autenticação e revisão devem aparecer no plano. Transportar pendências de uma Sprint não significa que toda a estimativa original ainda está por fazer.\n\nPara praticar: identifique o esforço restante de uma pendência e uma entrega pequena que possa ser demonstrada. Registre premissas e revise o plano quando elas deixarem de valer.",
     "recurso": "https://www.agilealliance.org/glossary/iteration-planning/",
     "questoes": [
-      ["Qual é a função de uma estimativa?", "Apoiar decisões diante da incerteza", "Garantir duração exata de qualquer tarefa", "Substituir critérios de aceite", "Definir automaticamente o salário"],
-      ["O que considerar ao selecionar trabalho para um ciclo?", "Objetivo, capacidade e dependências", "Somente o total de ideias", "Apenas o maior item", "Todas as solicitações sem análise"],
-      ["Como planejar uma pendência transportada?", "Verificar o que existe e estimar o esforço restante", "Repetir obrigatoriamente todo o trabalho", "Contar novamente pontos já concluídos", "Esconder a pendência"],
-      ["Por que dividir uma entrega grande em partes utilizáveis?", "Obter feedback mais cedo e ajustar o plano", "Eliminar toda integração", "Evitar validar resultados", "Aumentar o trabalho sem benefício"]
+      {
+        "enunciado": "Qual é uma característica do planejamento ágil?",
+        "alternativas": [
+          "Definir todo o projeto sem permitir alterações.",
+          "Eliminar a necessidade de estimativas.",
+          "Planejar continuamente e adaptar decisões conforme novas informações.",
+          "Realizar planejamento somente após concluir o produto."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "O que os Story Points representam?",
+        "alternativas": [
+          "Uma estimativa relativa de esforço, complexidade e incerteza.",
+          "A quantidade exata de horas de uma atividade.",
+          "O número de colaboradores da equipe.",
+          "O valor financeiro de uma funcionalidade."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Qual é a finalidade do Planning Poker?",
+        "alternativas": [
+          "Escolher o Product Owner.",
+          "Definir os salários da equipe.",
+          "Substituir todos os testes do sistema.",
+          "Estimar atividades de forma colaborativa, discutindo diferentes percepções."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "O que é considerado no planejamento de Releases?",
+        "alternativas": [
+          "Apenas a quantidade de reuniões realizadas.",
+          "Quais funcionalidades poderão ser disponibilizadas em determinadas versões ou períodos.",
+          "Somente os erros encontrados no código.",
+          "Exclusivamente a distribuição de tarefas diárias."
+        ],
+        "correta": "B"
+      }
     ]
   },
   {
@@ -103,10 +427,46 @@
     "texto": "Métricas ajudam a formular perguntas sobre o trabalho. Tempo de ciclo acompanha quanto um item leva entre início e término. Vazão conta itens concluídos em um intervalo. Trabalho em progresso mostra itens iniciados ainda não finalizados.\n\nSe a fila de validação cresce e o tempo de ciclo aumenta, a equipe pode investigar falta de capacidade nessa etapa. Uma métrica isolada não explica a causa e não deve ser usada para ranquear pessoas. Comparações exigem definições consistentes.\n\nPara praticar: registre início e término de alguns itens, calcule sua duração e procure variações. Em um burndown, mantenha o histórico diário e registre mudanças de escopo; o estado atual dos cartões não reconstrói os dias anteriores.",
     "recurso": "https://kanbanguides.org/the-kanban-guide/2025.5/",
     "questoes": [
-      ["O que o tempo de ciclo mede?", "O tempo entre início e término de um item", "A duração do contrato do cliente", "O número de integrantes", "O total de servidores"],
-      ["O que a vazão representa?", "A quantidade de itens concluídos em um período", "O total de itens apenas planejados", "A velocidade da conexão", "A quantidade de mensagens"],
-      ["Como interpretar o crescimento do trabalho em progresso?", "Investigar possíveis filas e dificuldade de conclusão", "Concluir automaticamente que houve mais valor", "Premiar quem iniciou mais tarefas", "Dispensar a observação do fluxo"],
-      ["O que é necessário para um burndown histórico confiável?", "Registros diários e mudanças de escopo identificadas", "Somente o estado final das issues", "Apenas uma estimativa inicial", "Uma curva ideal sem dados reais"]
+      {
+        "enunciado": "O que a Velocity normalmente representa?",
+        "alternativas": [
+          "O tempo necessário para abrir o sistema.",
+          "A quantidade de trabalho concluído por uma equipe em uma Sprint.",
+          "A quantidade de colaboradores contratados.",
+          "O número de reuniões realizadas no projeto."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "Qual gráfico mostra a quantidade de trabalho restante ao longo do tempo?",
+        "alternativas": [
+          "Burnup Chart.",
+          "Gráfico de organograma.",
+          "Gráfico financeiro.",
+          "Burndown Chart."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Qual é uma diferença importante entre Lead Time e Cycle Time?",
+        "alternativas": [
+          "Lead Time pode incluir o período de espera antes do início do trabalho, enquanto Cycle Time mede a partir do início efetivo.",
+          "Ambos representam obrigatoriamente a mesma duração.",
+          "Cycle Time mede somente o tempo de reuniões.",
+          "Lead Time representa a quantidade de Story Points."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Qual é a forma mais adequada de utilizar métricas ágeis?",
+        "alternativas": [
+          "Comparar individualmente os funcionários sem considerar o contexto.",
+          "Aumentar os números independentemente da qualidade.",
+          "Analisar tendências e dificuldades para apoiar decisões e melhorias.",
+          "Substituir completamente a comunicação entre os integrantes."
+        ],
+        "correta": "C"
+      }
     ]
   },
   {
@@ -114,10 +474,46 @@
     "texto": "Ferramentas apoiam organização, comunicação e rastreabilidade. Um quadro digital organiza itens; um repositório registra alterações; uma integração contínua executa verificações. Escolha a ferramenta pelo problema que ela ajuda a resolver, e não apenas por popularidade.\n\nNo portal, um item do backlog pode referenciar uma alteração no repositório e seus testes. Isso permite entender por que a mudança existe e como foi verificada. Informações sensíveis, como senhas e chaves do servidor, não devem ser publicadas em cartões ou arquivos versionados.\n\nPara praticar: conecte uma necessidade a uma alteração pequena e registre a evidência de validação. Mantenha instruções para que outra pessoa consiga executar o projeto.",
     "recurso": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects",
     "questoes": [
-      ["Como escolher uma ferramenta para a equipe?", "Avaliar qual problema de colaboração ela resolve", "Instalar sempre a mais popular", "Escolher apenas pela cor da interface", "Evitar ouvir a equipe"],
-      ["Qual é a utilidade de ligar uma mudança a um item do backlog?", "Permitir rastrear a necessidade e a solução", "Eliminar a necessidade de testes", "Garantir aprovação automática", "Ocultar o objetivo da alteração"],
-      ["O que uma integração contínua pode apoiar?", "Executar verificações automáticas das alterações", "Substituir toda revisão de produto", "Decidir sozinha a prioridade comercial", "Dispensar controle de versão"],
-      ["Qual dado deve ficar fora de arquivos públicos do projeto?", "Chave secreta do servidor", "Instrução de instalação", "Critério de aceite público", "Nome de uma funcionalidade"]
+      {
+        "enunciado": "Qual é a finalidade principal do GitHub Issues?",
+        "alternativas": [
+          "Criar exclusivamente apresentações.",
+          "Substituir todas as linguagens de programação.",
+          "Registrar e acompanhar tarefas, bugs e solicitações.",
+          "Realizar somente reuniões virtuais."
+        ],
+        "correta": "C"
+      },
+      {
+        "enunciado": "Qual ferramenta é conhecida pela organização visual utilizando quadros, listas e cartões?",
+        "alternativas": [
+          "Trello.",
+          "Compilador Java.",
+          "Editor de imagens.",
+          "Sistema operacional."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Qual alternativa apresenta ferramentas que podem apoiar o planejamento e o acompanhamento de equipes ágeis?",
+        "alternativas": [
+          "Apenas navegadores de internet.",
+          "Somente editores de texto.",
+          "Exclusivamente sistemas de e-mail.",
+          "Jira, Azure Boards e GitHub Projects."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Qual é uma boa prática ao utilizar quadros e cards?",
+        "alternativas": [
+          "Deixar todas as tarefas permanentemente como \"Em andamento\".",
+          "Manter as informações atualizadas e representar o andamento real das atividades.",
+          "Evitar registrar dificuldades.",
+          "Criar atividades sem descrições ou informações necessárias."
+        ],
+        "correta": "B"
+      }
     ]
   },
   {
@@ -125,10 +521,46 @@
     "texto": "Boas práticas tornam o trabalho compreensível, verificável e sustentável. Entregas pequenas, revisão por outra pessoa, testes apropriados e documentação de uso reduzem retrabalho. Uma definição compartilhada de pronto evita considerar uma parte isolada como uma experiência completa.\n\nPara salvar progresso, não basta mudar a cor de um cartão: é preciso validar autenticação, armazenamento, recuperação e isolamento entre pessoas. Também é necessário verificar leitura e navegação em telas pequenas. Falhas devem orientar a correção, sem esconder o que ainda falta.\n\nPara praticar: escolha um fluxo e teste o caminho de sucesso, uma falha de rede e um acesso indevido. Registre o resultado e peça uma revisão. Use o aprendizado para melhorar o próximo trabalho.",
     "recurso": "https://www.agilealliance.org/glossary/definition-of-done/",
     "questoes": [
-      ["Para que serve uma definição compartilhada de pronto?", "Alinhar as condições de qualidade de uma entrega", "Aprovar qualquer tarefa iniciada", "Eliminar a revisão", "Impedir novas necessidades"],
-      ["Qual validação é necessária ao salvar progresso de estudo?", "Recuperar o estado e impedir acesso entre candidatos", "Apenas mudar a cor local do cartão", "Somente contar cliques", "Testar apenas sem autenticação"],
-      ["Qual é um benefício da revisão por outra pessoa?", "Encontrar problemas e compartilhar conhecimento", "Garantir que nunca haverá erros", "Substituir a execução do sistema", "Eliminar a responsabilidade da equipe"],
-      ["Como tratar uma falha encontrada na validação?", "Registrar o problema e corrigir com evidência", "Ocultar a falha para fechar o item", "Marcar como pronto sem verificar", "Excluir o cenário do teste"]
+      {
+        "enunciado": "Por que a comunicação é importante em projetos ágeis?",
+        "alternativas": [
+          "Porque elimina a necessidade de planejamento.",
+          "Porque permite que apenas uma pessoa conheça o andamento do projeto.",
+          "Porque impede qualquer alteração nas atividades.",
+          "Porque ajuda a compartilhar informações, alinhar objetivos e identificar dificuldades."
+        ],
+        "correta": "D"
+      },
+      {
+        "enunciado": "Qual situação representa a colaboração em uma equipe ágil?",
+        "alternativas": [
+          "Um integrante identifica um problema e decide ocultá-lo.",
+          "Integrantes compartilham conhecimentos e ajudam a resolver uma dificuldade técnica.",
+          "Cada pessoa trabalha isoladamente, sem compartilhar informações.",
+          "A equipe evita discutir soluções diferentes."
+        ],
+        "correta": "B"
+      },
+      {
+        "enunciado": "Qual é a principal finalidade do feedback contínuo?",
+        "alternativas": [
+          "Identificar oportunidades de melhoria a partir das informações recebidas.",
+          "Impedir que usuários participem do desenvolvimento.",
+          "Substituir todas as atividades de planejamento.",
+          "Garantir que o produto nunca precise de alterações."
+        ],
+        "correta": "A"
+      },
+      {
+        "enunciado": "Uma equipe identifica que seu processo está causando atrasos e decide modificar a forma de trabalhar. Quais boas práticas estão sendo aplicadas?",
+        "alternativas": [
+          "Falta de planejamento e isolamento.",
+          "Resistência à mudança e ausência de comunicação.",
+          "Melhoria contínua e adaptação.",
+          "Eliminação da colaboração e do feedback."
+        ],
+        "correta": "C"
+      }
     ]
   }
 ]
