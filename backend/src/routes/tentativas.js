@@ -258,6 +258,9 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         });
       }
 
+      // Mesmo horário para a resposta e para o histórico.
+      const agora = new Date().toISOString();
+
       // Salva a resposta no banco.
       const { data: resposta, error: erroResposta } = await supabase
         .from("respostas")
@@ -266,7 +269,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
           questoes_idquestoes: body.questoes_idquestoes,
           alternativas_idalternativas: body.alternativas_idalternativas,
           correta,
-          respondida_em: new Date().toISOString(),
+          respondida_em: agora,
         })
         .select()
         .single();
@@ -285,6 +288,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
           acertou: correta,
           resposta_escolhida: alternativa.letra,
           resposta_correta: gabarito.letra,
+          respondido_em: agora,
         })
         .eq("tentativas_idtentativas", tentativaId)
         .eq("questoes_idquestoes", body.questoes_idquestoes);
