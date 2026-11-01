@@ -94,8 +94,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'Qual situação esteve associada à chamada Crise do Software?', 'PB053-1-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'Qual situação esteve associada à chamada Crise do Software?', '/assets/img/questoes/PB053-1-1.png', 'Ilustração: Crise de Software', 'PB053-1-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -109,8 +109,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'Qual é uma característica comum do Modelo Cascata?', 'PB053-1-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'Qual é uma característica comum do Modelo Cascata?', '/assets/img/questoes/PB053-1-2.png', 'Ilustração: Gráficos representativos', 'PB053-1-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -124,8 +124,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'O que significa ser ágil no desenvolvimento de software?', 'PB053-1-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'O que significa ser ágil no desenvolvimento de software?', '/assets/img/questoes/PB053-1-3.png', 'Ilustração: Trabalho em Equipe', 'PB053-1-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -139,8 +139,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'Qual dos seguintes é um benefício das abordagens ágeis?', 'PB053-1-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Fundamentos da Agilidade'), 'Qual dos seguintes é um benefício das abordagens ágeis?', '/assets/img/questoes/PB053-1-4.png', 'Ilustração: Fatores de Sucesso', 'PB053-1-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -162,8 +162,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'Por que o Scrum é considerado um framework?', 'PB053-2-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'Por que o Scrum é considerado um framework?', '/assets/img/questoes/PB053-2-1.png', 'Ilustração: Frameworks', 'PB053-2-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -177,8 +177,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'O que significa empirismo no contexto do Scrum?', 'PB053-2-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'O que significa empirismo no contexto do Scrum?', '/assets/img/questoes/PB053-2-2.png', 'Ilustração: Planejamento', 'PB053-2-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -192,8 +192,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'Quais são os três pilares do empirismo no Scrum?', 'PB053-2-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'Quais são os três pilares do empirismo no Scrum?', '/assets/img/questoes/PB053-2-3.png', 'Ilustração: Pilares de planejamento', 'PB053-2-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -207,8 +207,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'Uma equipe percebeu, durante a inspeção, que uma funcionalidade não está funcionando como esperado e decidiu modificar a solução. Qual pilar está sendo aplicado ao realizar essa mudança?', 'PB053-2-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Introdução ao Scrum'), 'Uma equipe percebeu, durante a inspeção, que uma funcionalidade não está funcionando como esperado e decidiu modificar a solução. Qual pilar está sendo aplicado ao realizar essa mudança?', '/assets/img/questoes/PB053-2-4.png', 'Ilustração: Mudança', 'PB053-2-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -230,8 +230,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Qual é a principal responsabilidade do Product Owner?', 'PB053-3-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Qual é a principal responsabilidade do Product Owner?', '/assets/img/questoes/PB053-3-1.png', 'Ilustração: Product Owner', 'PB053-3-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -245,8 +245,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Qual é uma das responsabilidades do Scrum Master?', 'PB053-3-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Qual é uma das responsabilidades do Scrum Master?', '/assets/img/questoes/PB053-3-2.png', 'Ilustração: Suporte', 'PB053-3-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -260,8 +260,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Quem é responsável por criar o Sprint Backlog e organizar o trabalho necessário para a Sprint?', 'PB053-3-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Quem é responsável por criar o Sprint Backlog e organizar o trabalho necessário para a Sprint?', '/assets/img/questoes/PB053-3-3.png', 'Ilustração: Developers', 'PB053-3-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -275,8 +275,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Como deve funcionar a interação entre os integrantes do Scrum Team?', 'PB053-3-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Papéis do Scrum'), 'Como deve funcionar a interação entre os integrantes do Scrum Team?', '/assets/img/questoes/PB053-3-4.png', 'Ilustração: Team', 'PB053-3-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -298,8 +298,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Qual é a duração máxima de uma Sprint?', 'PB053-4-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Qual é a duração máxima de uma Sprint?', '/assets/img/questoes/PB053-4-1.png', 'Ilustração: Calendário de Eventos', 'PB053-4-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -313,8 +313,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Qual é o principal objetivo do Sprint Planning?', 'PB053-4-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Qual é o principal objetivo do Sprint Planning?', '/assets/img/questoes/PB053-4-2.png', 'Ilustração: Lista de Tarefas', 'PB053-4-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -328,8 +328,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Para que serve a Daily Scrum?', 'PB053-4-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Para que serve a Daily Scrum?', '/assets/img/questoes/PB053-4-3.png', 'Ilustração: Reunião remota', 'PB053-4-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -343,8 +343,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Qual é a diferença entre Sprint Review e Sprint Retrospective?', 'PB053-4-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Eventos do Scrum'), 'Qual é a diferença entre Sprint Review e Sprint Retrospective?', '/assets/img/questoes/PB053-4-4.png', 'Ilustração: Revisão de projeto', 'PB053-4-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -366,8 +366,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'Qual é a finalidade do Product Backlog?', 'PB053-5-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'Qual é a finalidade do Product Backlog?', '/assets/img/questoes/PB053-5-1.png', 'Ilustração: Backlog', 'PB053-5-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -381,8 +381,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'O que compõe o Sprint Backlog?', 'PB053-5-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'O que compõe o Sprint Backlog?', '/assets/img/questoes/PB053-5-2.png', 'Ilustração: Lista de tarefas', 'PB053-5-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -396,8 +396,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'O que representa o Incremento no Scrum?', 'PB053-5-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'O que representa o Incremento no Scrum?', '/assets/img/questoes/PB053-5-3.png', 'Ilustração: Progresso', 'PB053-5-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -411,8 +411,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'Qual é a finalidade da Definition of Done?', 'PB053-5-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Artefatos do Scrum'), 'Qual é a finalidade da Definition of Done?', '/assets/img/questoes/PB053-5-4.png', 'Ilustração: Lista de tarefas', 'PB053-5-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -434,8 +434,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Qual é a principal finalidade de uma User Story?', 'PB053-6-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Qual é a principal finalidade de uma User Story?', '/assets/img/questoes/PB053-6-1.png', 'Ilustração: Usuário', 'PB053-6-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -449,8 +449,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Qual alternativa apresenta a estrutura mais utilizada de uma User Story?', 'PB053-6-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Qual alternativa apresenta a estrutura mais utilizada de uma User Story?', '/assets/img/questoes/PB053-6-2.png', 'Ilustração: Estruturando notas e ideias', 'PB053-6-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -464,8 +464,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Para que servem os critérios de aceitação?', 'PB053-6-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Para que servem os critérios de aceitação?', '/assets/img/questoes/PB053-6-3.png', 'Ilustração: Critérios de aceitação', 'PB053-6-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -479,8 +479,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Qual alternativa apresenta uma User Story bem estruturada?', 'PB053-6-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'User Stories'), 'Qual alternativa apresenta uma User Story bem estruturada?', '/assets/img/questoes/PB053-6-4.png', 'Ilustração: User experience', 'PB053-6-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -502,8 +502,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'Quem é responsável pela gestão do Product Backlog no Scrum?', 'PB053-7-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'Quem é responsável pela gestão do Product Backlog no Scrum?', '/assets/img/questoes/PB053-7-1.png', 'Ilustração: Gestão do backlog', 'PB053-7-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -517,8 +517,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'O que significa priorizar os itens do Product Backlog?', 'PB053-7-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'O que significa priorizar os itens do Product Backlog?', '/assets/img/questoes/PB053-7-2.png', 'Ilustração: Prioridades', 'PB053-7-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -532,8 +532,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'Qual é a finalidade do refinamento do Product Backlog?', 'PB053-7-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'Qual é a finalidade do refinamento do Product Backlog?', '/assets/img/questoes/PB053-7-3.png', 'Ilustração: Review', 'PB053-7-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -547,8 +547,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'Por que o Product Backlog deve evoluir durante o projeto?', 'PB053-7-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Gestão do Product Backlog'), 'Por que o Product Backlog deve evoluir durante o projeto?', '/assets/img/questoes/PB053-7-4.png', 'Ilustração: Crescimento', 'PB053-7-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -570,8 +570,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'Qual é a principal finalidade de um quadro Kanban?', 'PB053-8-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'Qual é a principal finalidade de um quadro Kanban?', '/assets/img/questoes/PB053-8-1.png', 'Ilustração: Quadro Kanban', 'PB053-8-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -585,8 +585,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'O que significa WIP?', 'PB053-8-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'O que significa WIP?', '/assets/img/questoes/PB053-8-2.png', 'Ilustração: Produtividade', 'PB053-8-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -600,8 +600,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'O que pode indicar um gargalo em um quadro Kanban?', 'PB053-8-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'O que pode indicar um gargalo em um quadro Kanban?', '/assets/img/questoes/PB053-8-3.png', 'Ilustração: Gargalo, problema, obstáculo', 'PB053-8-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -615,8 +615,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'Qual prática ajuda a melhorar o fluxo de trabalho no Kanban?', 'PB053-8-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Kanban'), 'Qual prática ajuda a melhorar o fluxo de trabalho no Kanban?', '/assets/img/questoes/PB053-8-4.png', 'Ilustração: Fluxo de trabalho', 'PB053-8-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -638,8 +638,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'Qual é uma característica do planejamento ágil?', 'PB053-9-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'Qual é uma característica do planejamento ágil?', '/assets/img/questoes/PB053-9-1.png', 'Ilustração: Planejamento', 'PB053-9-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -653,8 +653,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'O que os Story Points representam?', 'PB053-9-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'O que os Story Points representam?', '/assets/img/questoes/PB053-9-2.png', 'Ilustração: Story points', 'PB053-9-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -668,8 +668,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'Qual é a finalidade do Planning Poker?', 'PB053-9-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'Qual é a finalidade do Planning Poker?', '/assets/img/questoes/PB053-9-3.png', 'Ilustração: Cards', 'PB053-9-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -683,8 +683,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'O que é considerado no planejamento de Releases?', 'PB053-9-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Planejamento Ágil'), 'O que é considerado no planejamento de Releases?', '/assets/img/questoes/PB053-9-4.png', 'Ilustração: Planejamento', 'PB053-9-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -706,8 +706,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'O que a Velocity normalmente representa?', 'PB053-10-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'O que a Velocity normalmente representa?', '/assets/img/questoes/PB053-10-1.png', 'Ilustração: Velocidade', 'PB053-10-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -721,8 +721,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'Qual gráfico mostra a quantidade de trabalho restante ao longo do tempo?', 'PB053-10-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'Qual gráfico mostra a quantidade de trabalho restante ao longo do tempo?', '/assets/img/questoes/PB053-10-2.png', 'Ilustração: Chart', 'PB053-10-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -736,8 +736,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'Qual é uma diferença importante entre Lead Time e Cycle Time?', 'PB053-10-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'Qual é uma diferença importante entre Lead Time e Cycle Time?', '/assets/img/questoes/PB053-10-3.png', 'Ilustração: Lead time', 'PB053-10-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -751,8 +751,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'Qual é a forma mais adequada de utilizar métricas ágeis?', 'PB053-10-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Métricas Ágeis'), 'Qual é a forma mais adequada de utilizar métricas ágeis?', '/assets/img/questoes/PB053-10-4.png', 'Ilustração: Dashboard', 'PB053-10-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -774,8 +774,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual é a finalidade principal do GitHub Issues?', 'PB053-11-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual é a finalidade principal do GitHub Issues?', '/assets/img/questoes/PB053-11-1.png', 'Ilustração: Problemas', 'PB053-11-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -789,8 +789,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual ferramenta é conhecida pela organização visual utilizando quadros, listas e cartões?', 'PB053-11-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual ferramenta é conhecida pela organização visual utilizando quadros, listas e cartões?', '/assets/img/questoes/PB053-11-2.png', 'Ilustração: Quadro', 'PB053-11-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -804,8 +804,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual alternativa apresenta ferramentas que podem apoiar o planejamento e o acompanhamento de equipes ágeis?', 'PB053-11-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual alternativa apresenta ferramentas que podem apoiar o planejamento e o acompanhamento de equipes ágeis?', '/assets/img/questoes/PB053-11-3.png', 'Ilustração: Ferramentas ágeis', 'PB053-11-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -819,8 +819,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual é uma boa prática ao utilizar quadros e cards?', 'PB053-11-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Ferramentas para Equipes Ágeis'), 'Qual é uma boa prática ao utilizar quadros e cards?', '/assets/img/questoes/PB053-11-4.png', 'Ilustração: Progresso', 'PB053-11-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -842,8 +842,8 @@ ON CONFLICT (codigo_seed) DO NOTHING;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Por que a comunicação é importante em projetos ágeis?', 'PB053-12-1', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Por que a comunicação é importante em projetos ágeis?', '/assets/img/questoes/PB053-12-1.png', 'Ilustração: Conversa', 'PB053-12-1', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -857,8 +857,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Qual situação representa a colaboração em uma equipe ágil?', 'PB053-12-2', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Qual situação representa a colaboração em uma equipe ágil?', '/assets/img/questoes/PB053-12-2.png', 'Ilustração: Colaboração', 'PB053-12-2', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -872,8 +872,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Qual é a principal finalidade do feedback contínuo?', 'PB053-12-3', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Qual é a principal finalidade do feedback contínuo?', '/assets/img/questoes/PB053-12-3.png', 'Ilustração: Planejamento', 'PB053-12-3', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -887,8 +887,8 @@ END $seed$;
 DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Uma equipe identifica que seu processo está causando atrasos e decide modificar a forma de trabalhar. Quais boas práticas estão sendo aplicadas?', 'PB053-12-4', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES ((SELECT idtemas FROM temas WHERE nome = 'Boas Práticas em Projetos Ágeis'), 'Uma equipe identifica que seu processo está causando atrasos e decide modificar a forma de trabalhar. Quais boas práticas estão sendo aplicadas?', '/assets/img/questoes/PB053-12-4.png', 'Ilustração: Melhoria Contínua', 'PB053-12-4', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
@@ -922,5 +922,8 @@ BEGIN
     WHERE q.codigo_seed LIKE 'PB053-%' GROUP BY q.idquestoes
     HAVING count(a.idalternativas) <> 4 OR count(*) FILTER (WHERE a.correta) <> 1
   ) THEN RAISE EXCEPTION 'Cada questão deve ter quatro alternativas e uma correta'; END IF;
+  IF EXISTS (
+    SELECT 1 FROM questoes WHERE codigo_seed LIKE 'PB053-%' AND (imagem_url IS NULL OR imagem_alt IS NULL)
+  ) THEN RAISE EXCEPTION 'Cada questão deve ter imagem e texto alternativo'; END IF;
 END $validacao$;
 SELECT 'Carga validada: 12 temas, 12 materiais, 48 questões, 192 alternativas' AS resultado;

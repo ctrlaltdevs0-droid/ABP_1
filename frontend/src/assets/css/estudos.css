@@ -248,6 +248,19 @@ progress {
   margin-top: 1rem;
 }
 
+/* Imagem da questão e aviso quando ela não carrega */
+.imagem-questao {
+  display: block;
+  max-width: min(100%, 360px);
+  height: auto;
+  margin: 0 0 1rem;
+}
+
+.imagem-indisponivel {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .pergunta-quiz p {
   font-weight: 600;
   margin-bottom: 0.75rem;

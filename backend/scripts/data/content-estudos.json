@@ -12,7 +12,8 @@
           "Todos os softwares começaram a ser desenvolvidos utilizando métodos ágeis.",
           "Os sistemas se tornaram simples demais."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Crise de Software"
       },
       {
         "enunciado": "Qual é uma característica comum do Modelo Cascata?",
@@ -22,7 +23,8 @@
           "O projeto segue etapas sequenciais previamente definidas.",
           "O produto precisa ser entregue diariamente."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Gráficos representativos"
       },
       {
         "enunciado": "O que significa ser ágil no desenvolvimento de software?",
@@ -32,7 +34,8 @@
           "Evitar qualquer mudança depois que o projeto começar.",
           "Trabalhar de maneira adaptável, colaborativa e com entregas e feedbacks frequentes."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Trabalho em Equipe"
       },
       {
         "enunciado": "Qual dos seguintes é um benefício das abordagens ágeis?",
@@ -42,7 +45,8 @@
           "Garantir que os requisitos nunca sejam alterados.",
           "Desenvolver todo o sistema antes de receber qualquer feedback."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Fatores de Sucesso"
       }
     ]
   },
@@ -59,7 +63,8 @@
           "Porque é uma linguagem utilizada para desenvolver sistemas.",
           "Porque elimina a necessidade de planejamento."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Frameworks"
       },
       {
         "enunciado": "O que significa empirismo no contexto do Scrum?",
@@ -69,7 +74,8 @@
           "Adquirir conhecimento por meio da experiência e tomar decisões com base no que é observado.",
           "Desenvolver todo o produto antes de analisar os resultados."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Planejamento"
       },
       {
         "enunciado": "Quais são os três pilares do empirismo no Scrum?",
@@ -79,7 +85,8 @@
           "Comunicação, documentação e planejamento.",
           "Transparência, inspeção e adaptação."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Pilares de planejamento"
       },
       {
         "enunciado": "Uma equipe percebeu, durante a inspeção, que uma funcionalidade não está funcionando como esperado e decidiu modificar a solução. Qual pilar está sendo aplicado ao realizar essa mudança?",
@@ -89,7 +96,8 @@
           "Planejamento.",
           "Documentação."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Mudança"
       }
     ]
   },
@@ -106,7 +114,8 @@
           "Controlar os horários de todos os colaboradores.",
           "Realizar exclusivamente os testes do software."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Product Owner"
       },
       {
         "enunciado": "Qual é uma das responsabilidades do Scrum Master?",
@@ -116,7 +125,8 @@
           "Ajudar a equipe a aplicar o Scrum e superar impedimentos.",
           "Aprovar obrigatoriamente todas as linhas de código."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Suporte"
       },
       {
         "enunciado": "Quem é responsável por criar o Sprint Backlog e organizar o trabalho necessário para a Sprint?",
@@ -126,7 +136,8 @@
           "Os clientes.",
           "Apenas o Scrum Master."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Developers"
       },
       {
         "enunciado": "Como deve funcionar a interação entre os integrantes do Scrum Team?",
@@ -136,7 +147,8 @@
           "O Product Owner desenvolve todas as funcionalidades.",
           "Todos colaboram, respeitando suas responsabilidades e buscando o mesmo objetivo."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Team"
       }
     ]
   },
@@ -153,7 +165,8 @@
           "Um mês.",
           "Um ano."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Calendário de Eventos"
       },
       {
         "enunciado": "Qual é o principal objetivo do Sprint Planning?",
@@ -163,7 +176,8 @@
           "Apresentar o produto final ao cliente.",
           "Encerrar o projeto."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Lista de Tarefas"
       },
       {
         "enunciado": "Para que serve a Daily Scrum?",
@@ -173,7 +187,8 @@
           "Definir o orçamento anual do projeto.",
           "Inspecionar o progresso em direção ao Sprint Goal e adaptar o planejamento."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Reunião remota"
       },
       {
         "enunciado": "Qual é a diferença entre Sprint Review e Sprint Retrospective?",
@@ -183,7 +198,8 @@
           "A Review é realizada diariamente e a Retrospective ocorre antes do planejamento.",
           "A Retrospective serve exclusivamente para apresentar funcionalidades aos clientes."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Revisão de projeto"
       }
     ]
   },
@@ -200,7 +216,8 @@
           "Organizar uma lista ordenada das necessidades de melhoria do produto.",
           "Armazenar somente os erros encontrados no sistema."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Backlog"
       },
       {
         "enunciado": "O que compõe o Sprint Backlog?",
@@ -210,7 +227,8 @@
           "Somente o orçamento do projeto.",
           "Exclusivamente os resultados das Sprints anteriores."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Lista de tarefas"
       },
       {
         "enunciado": "O que representa o Incremento no Scrum?",
@@ -220,7 +238,8 @@
           "Um documento de planejamento financeiro.",
           "Um resultado utilizável do produto que atende à Definition of Done."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Progresso"
       },
       {
         "enunciado": "Qual é a finalidade da Definition of Done?",
@@ -230,7 +249,8 @@
           "Definir a duração de todas as Sprints.",
           "Organizar exclusivamente as prioridades do Product Backlog."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Lista de tarefas"
       }
     ]
   },
@@ -247,7 +267,8 @@
           "Registrar exclusivamente o código-fonte.",
           "Definir o salário dos integrantes da equipe."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Usuário"
       },
       {
         "enunciado": "Qual alternativa apresenta a estrutura mais utilizada de uma User Story?",
@@ -257,7 +278,8 @@
           "Como... Quero... Para...",
           "Início... Meio... Fim..."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Estruturando notas e ideias"
       },
       {
         "enunciado": "Para que servem os critérios de aceitação?",
@@ -267,7 +289,8 @@
           "Substituir o Product Owner.",
           "Escolher a linguagem de programação."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Critérios de aceitação"
       },
       {
         "enunciado": "Qual alternativa apresenta uma User Story bem estruturada?",
@@ -277,7 +300,8 @@
           "Desenvolver três botões azuis.",
           "Como cliente, quero acompanhar meus pedidos, para saber quando serão entregues."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: User experience"
       }
     ]
   },
@@ -294,7 +318,8 @@
           "Apenas os Developers.",
           "O Product Owner."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Gestão do backlog"
       },
       {
         "enunciado": "O que significa priorizar os itens do Product Backlog?",
@@ -304,7 +329,8 @@
           "Remover todas as funcionalidades complexas.",
           "Organizar as atividades somente por ordem alfabética."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Prioridades"
       },
       {
         "enunciado": "Qual é a finalidade do refinamento do Product Backlog?",
@@ -314,7 +340,8 @@
           "Substituir os testes do sistema.",
           "Impedir que novas necessidades sejam adicionadas."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Review"
       },
       {
         "enunciado": "Por que o Product Backlog deve evoluir durante o projeto?",
@@ -324,7 +351,8 @@
           "Porque novas necessidades e informações podem surgir ao longo do desenvolvimento.",
           "Porque não é permitido concluir os itens existentes."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Crescimento"
       }
     ]
   },
@@ -341,7 +369,8 @@
           "Definir os salários da equipe.",
           "Registrar somente as tarefas concluídas."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Quadro Kanban"
       },
       {
         "enunciado": "O que significa WIP?",
@@ -351,7 +380,8 @@
           "Weekly Information Process.",
           "Workflow Internal Program."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Produtividade"
       },
       {
         "enunciado": "O que pode indicar um gargalo em um quadro Kanban?",
@@ -361,7 +391,8 @@
           "Os cards mudam normalmente entre as etapas.",
           "Muitas atividades ficam acumuladas em uma determinada etapa."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Gargalo, problema, obstáculo"
       },
       {
         "enunciado": "Qual prática ajuda a melhorar o fluxo de trabalho no Kanban?",
@@ -371,7 +402,8 @@
           "Limitar o trabalho em andamento e analisar os gargalos.",
           "Evitar acompanhar o tempo de execução."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Fluxo de trabalho"
       }
     ]
   },
@@ -388,7 +420,8 @@
           "Planejar continuamente e adaptar decisões conforme novas informações.",
           "Realizar planejamento somente após concluir o produto."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Planejamento"
       },
       {
         "enunciado": "O que os Story Points representam?",
@@ -398,7 +431,8 @@
           "O número de colaboradores da equipe.",
           "O valor financeiro de uma funcionalidade."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Story points"
       },
       {
         "enunciado": "Qual é a finalidade do Planning Poker?",
@@ -408,7 +442,8 @@
           "Substituir todos os testes do sistema.",
           "Estimar atividades de forma colaborativa, discutindo diferentes percepções."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Cards"
       },
       {
         "enunciado": "O que é considerado no planejamento de Releases?",
@@ -418,7 +453,8 @@
           "Somente os erros encontrados no código.",
           "Exclusivamente a distribuição de tarefas diárias."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Planejamento"
       }
     ]
   },
@@ -435,7 +471,8 @@
           "A quantidade de colaboradores contratados.",
           "O número de reuniões realizadas no projeto."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Velocidade"
       },
       {
         "enunciado": "Qual gráfico mostra a quantidade de trabalho restante ao longo do tempo?",
@@ -445,7 +482,8 @@
           "Gráfico financeiro.",
           "Burndown Chart."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Chart"
       },
       {
         "enunciado": "Qual é uma diferença importante entre Lead Time e Cycle Time?",
@@ -455,7 +493,8 @@
           "Cycle Time mede somente o tempo de reuniões.",
           "Lead Time representa a quantidade de Story Points."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Lead time"
       },
       {
         "enunciado": "Qual é a forma mais adequada de utilizar métricas ágeis?",
@@ -465,7 +504,8 @@
           "Analisar tendências e dificuldades para apoiar decisões e melhorias.",
           "Substituir completamente a comunicação entre os integrantes."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Dashboard"
       }
     ]
   },
@@ -482,7 +522,8 @@
           "Registrar e acompanhar tarefas, bugs e solicitações.",
           "Realizar somente reuniões virtuais."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Problemas"
       },
       {
         "enunciado": "Qual ferramenta é conhecida pela organização visual utilizando quadros, listas e cartões?",
@@ -492,7 +533,8 @@
           "Editor de imagens.",
           "Sistema operacional."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Quadro"
       },
       {
         "enunciado": "Qual alternativa apresenta ferramentas que podem apoiar o planejamento e o acompanhamento de equipes ágeis?",
@@ -502,7 +544,8 @@
           "Exclusivamente sistemas de e-mail.",
           "Jira, Azure Boards e GitHub Projects."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Ferramentas ágeis"
       },
       {
         "enunciado": "Qual é uma boa prática ao utilizar quadros e cards?",
@@ -512,7 +555,8 @@
           "Evitar registrar dificuldades.",
           "Criar atividades sem descrições ou informações necessárias."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Progresso"
       }
     ]
   },
@@ -529,7 +573,8 @@
           "Porque impede qualquer alteração nas atividades.",
           "Porque ajuda a compartilhar informações, alinhar objetivos e identificar dificuldades."
         ],
-        "correta": "D"
+        "correta": "D",
+        "imagem_alt": "Ilustração: Conversa"
       },
       {
         "enunciado": "Qual situação representa a colaboração em uma equipe ágil?",
@@ -539,7 +584,8 @@
           "Cada pessoa trabalha isoladamente, sem compartilhar informações.",
           "A equipe evita discutir soluções diferentes."
         ],
-        "correta": "B"
+        "correta": "B",
+        "imagem_alt": "Ilustração: Colaboração"
       },
       {
         "enunciado": "Qual é a principal finalidade do feedback contínuo?",
@@ -549,7 +595,8 @@
           "Substituir todas as atividades de planejamento.",
           "Garantir que o produto nunca precise de alterações."
         ],
-        "correta": "A"
+        "correta": "A",
+        "imagem_alt": "Ilustração: Planejamento"
       },
       {
         "enunciado": "Uma equipe identifica que seu processo está causando atrasos e decide modificar a forma de trabalhar. Quais boas práticas estão sendo aplicadas?",
@@ -559,7 +606,8 @@
           "Melhoria contínua e adaptação.",
           "Eliminação da colaboração e do feedback."
         ],
-        "correta": "C"
+        "correta": "C",
+        "imagem_alt": "Ilustração: Melhoria Contínua"
       }
     ]
   }
