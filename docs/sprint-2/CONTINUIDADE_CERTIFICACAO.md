@@ -18,7 +18,8 @@ O relógio de 150 segundos pertence ao banco. Presença não renova o prazo.
 ## Arquivos
 
 - `frontend/src/certificacao.html`, `assets/js/certificacao.js` e `assets/css/certificacao.css`: interface.
-- `backend/src/routes/tentativas.js`: contrato HTTP, validação e chamadas RPC.
+- `backend/src/routes/tentativas.js`: preserva as rotas da develop e encaminha requisições com sessão para continuidade.
+- `backend/src/routes/continuidade.js`: validação e operações RPC do novo cliente.
 - `backend/src/middleware/autorizacao.js`: autorização das novas ações.
 - `backend/src/services/provas.js`: mensagens públicas dos erros de domínio.
 - `supabase/migrations/20261102210255_continuidade_certificacao.sql`: operações atômicas e persistência.
@@ -96,3 +97,24 @@ e concedida somente ao backend (`service_role`).
 
 Presença e bloqueio de sessão exigem teste adicional com dispositivos reais,
 navegadores móveis e rede instável antes do aceite da equipe.
+
+## Integração com a develop em 02/11/2026
+
+O conflito de tentativas.js foi resolvido mantendo o motor da develop. As rotas
+originais continuam disponíveis para tentativas legadas; o novo cliente envia
+X-Sessao-Prova e usa o módulo continuidade.js. Uma tentativa com sessão não pode
+ser alterada retirando esse cabeçalho: o acesso legado é bloqueado para ela.
+O endereço teste-prova.html encaminha para a interface integrada.
+
+A migração adicional 20261102220150_integra_continuidade_develop.sql mantém
+a exigência de concluir os 12 temas, adota tentativas antigas completas sem
+novo sorteio e congela resposta_correta para o histórico. O histórico só mostra
+o gabarito em FINALIZADA; INTERROMPIDA aparece como Pausada.
+
+Validação atual: 24 testes Node aprovados, zero falhas e 3 testes Docker não
+executados (Docker indisponível). Migrações, seed, adoção de tentativa legada,
+prazo, sessões, estudo prévio e gabarito histórico passaram em PostgreSQL/PGlite
+temporário usando service_role nos testes funcionais. As duas falhas anteriores
+foram corrigidas pela develop (seed) e pela sanitização de erros de temas e alternativas.
+Nenhuma migração foi aplicada no banco remoto. Aplicar ambas as novas migrações
+pelo processo de migrações do projeto antes da validação no ambiente de uso.
