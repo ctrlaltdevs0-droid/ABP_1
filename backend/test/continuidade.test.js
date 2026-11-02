@@ -47,3 +47,21 @@ test('continuidade: erro de domínio preserva 409 e erro SQL não vaza', async (
     assert.doesNotMatch(JSON.stringify(res.body),/SQL PRIVADO/);
   }
 });
+
+test('compatibilidade: chamadas legadas não contornam a sessão da nova prova', async () => {
+  const db={from(){const q={select(){return q;},eq(){return q;},in(){return q;},not(){return q;},limit(){return q;},async maybeSingle(){return {data:{idtentativas:42,sessao_prova:sessao}};}};return q;}};
+  for(const [method,path] of [['POST','/api/tentativas/42/respostas'],['GET','/api/tentativas/42/proxima-questao'],['POST','/api/tentativas/42/finalizar'],['POST','/api/tentativas/retomar']]){
+    const res=response();
+    await tentativasRoutes({method,usuario:{id:7},body:{}},res,path,db);
+    assert.equal(res.code,409);
+    assert.match(res.body.erro,/página de certificação/);
+  }
+});
+
+test('compatibilidade: consulta de tentativa legada mantém o contrato da develop', async () => {
+  const db={from(){const q={select(){return q;},eq(){return q;},async maybeSingle(){return {data:{sessao_prova:null}};},async single(){return {data:{idtentativas:42,status:'EM_ANDAMENTO'}};}};return q;}};
+  const res=response();
+  await tentativasRoutes({method:'GET',usuario:{id:7}},res,'/api/tentativas/42',db);
+  assert.equal(res.code,200);
+  assert.equal(res.body.idtentativas,42);
+});
