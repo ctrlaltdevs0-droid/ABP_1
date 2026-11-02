@@ -1,13 +1,16 @@
 BEGIN;
+SET LOCAL ROLE service_role;
 UPDATE public.questoes SET status=true,status_editorial='APROVADO';
 DO $teste$
 DECLARE
-  u INTEGER; outro INTEGER; id INTEGER; q INTEGER; a INTEGER; j JSONB; prazo TIMESTAMPTZ;
+  u INTEGER; outro INTEGER; id INTEGER; q INTEGER; a INTEGER; j JSONB; prazo TIMESTAMPTZ; gabarito CHAR(1);
   s1 UUID := '11111111-1111-4111-8111-111111111111';
   s2 UUID := '22222222-2222-4222-8222-222222222222';
 BEGIN
   INSERT INTO public.usuarios(cpf,nome,email,senha_hash) VALUES('00000000991','Continuidade','continuidade@example.com','teste') RETURNING idusuarios INTO u;
   INSERT INTO public.usuarios(cpf,nome,email,senha_hash) VALUES('00000000992','Outro','outro@example.com','teste') RETURNING idusuarios INTO outro;
+  ASSERT (public.operar_continuidade_prova(u,'iniciar',NULL,s1)->>'erro_codigo')='ESTUDOS_PENDENTES';
+  INSERT INTO public.progresso_estudos(usuarios_idusuarios,temas_idtemas) SELECT u,idtemas FROM public.temas WHERE ativo;
   j := public.operar_continuidade_prova(u,'iniciar',NULL,s1);
   id := (j->'tentativa'->>'idtentativas')::INTEGER;
   ASSERT id IS NOT NULL, j::TEXT;
@@ -74,8 +77,15 @@ BEGIN
   j := public.operar_continuidade_prova(u,'finalizar',id,s2);
   ASSERT (j->'resultado'->>'acertos')::INTEGER=8, j::TEXT;
   ASSERT (j->'resultado'->>'aprovado')::BOOLEAN;
+  ASSERT NOT EXISTS(SELECT 1 FROM public.tentativas_questoes WHERE tentativas_idtentativas=id AND resposta_correta IS NULL);
   ASSERT (public.operar_continuidade_prova(u,'finalizar',id,s2)->'resultado')=j->'resultado';
   ASSERT (SELECT count(*) FROM public.certificados WHERE tentativas_idtentativas=id)=1;
+  -- Edição posterior do gabarito não altera a resposta correta histórica.
+  SELECT questoes_idquestoes INTO q FROM public.tentativas_questoes WHERE tentativas_idtentativas=id ORDER BY ordem LIMIT 1;
+  SELECT resposta_correta INTO gabarito FROM public.tentativas_questoes WHERE tentativas_idtentativas=id AND questoes_idquestoes=q;
+  UPDATE public.alternativas SET correta=false WHERE questoes_idquestoes=q;
+  UPDATE public.alternativas SET correta=true WHERE idalternativas=(SELECT min(idalternativas) FROM public.alternativas WHERE questoes_idquestoes=q AND letra<>gabarito);
+  ASSERT (SELECT resposta_correta=gabarito FROM public.tentativas_questoes WHERE tentativas_idtentativas=id AND questoes_idquestoes=q);
   ASSERT NOT has_function_privilege('anon','public.operar_continuidade_prova(integer,text,integer,uuid,integer,integer,text)','EXECUTE');
   ASSERT NOT has_function_privilege('authenticated','public.resumo_continuidade_prova(integer,integer)','EXECUTE');
 END;
