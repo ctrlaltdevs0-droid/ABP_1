@@ -38,7 +38,7 @@
 
     for (const tentativa of tentativas) {
       const linha = document.createElement('tr');
-      const finalizada = tentativa.status !== 'EM_ANDAMENTO';
+      const finalizada = tentativa.status === 'FINALIZADA';
 
       linha.append(
         celula(formatarData(tentativa.iniciado_em)),
@@ -46,7 +46,7 @@
         celula(finalizada ? `${Number(tentativa.percentual).toFixed(1)}%` : '—'),
         finalizada
           ? celula(tentativa.aprovado ? 'Aprovado' : 'Reprovado', tentativa.aprovado ? 'aprovado' : 'reprovado')
-          : celula('Em andamento'),
+          : celula(tentativa.status === 'INTERROMPIDA' ? 'Pausada' : 'Em andamento'),
       );
 
       const acoes = document.createElement('td');
