@@ -36,6 +36,7 @@ app.get("/api/teste-supabase", async (req, res) => {
 // Somente os arquivos públicos do frontend são servidos.
 const frontendPath = fileURLToPath(new URL('../../frontend/src/', import.meta.url));
 app.get('/', (req, res) => res.redirect('/login.html'));
+app.get('/teste-prova.html', (req, res) => res.redirect('/certificacao.html'));
 app.use(express.static(frontendPath, { index: false, dotfiles: 'deny' }));
 
 app.use(async (req, res, next) => {
