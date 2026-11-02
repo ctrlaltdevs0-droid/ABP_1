@@ -618,3 +618,29 @@
 
   carregar();
 })();
+
+function atualizarBotaoProva() {
+  const progresso = document.getElementById("progresso");
+  const acessoProva = document.getElementById("acesso-prova");
+
+  if (!progresso || !acessoProva) return;
+
+  const concluidos = Number(progresso.value);
+  const total = Number(progresso.max);
+
+  acessoProva.hidden = !(total === 12 && concluidos === 12);
+}
+
+// Verifica o progresso quando ele for atualizado
+const barraProgresso = document.getElementById("progresso");
+
+if (barraProgresso) {
+  const observador = new MutationObserver(atualizarBotaoProva);
+
+  observador.observe(barraProgresso, {
+    attributes: true,
+    attributeFilter: ["value"]
+  });
+
+  atualizarBotaoProva();
+}

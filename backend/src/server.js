@@ -7,6 +7,8 @@ import { executarRotas } from "./routes/index.js";
 import { autorizarRota } from './middleware/autorizacao.js';
 import supabase from "./config/supabase.js";
 import { questoesRoutes } from "./routes/questoes.js";
+import { provaRoutes } from "./routes/prova.js";
+
 
 const app = express();
 const porta = process.env.PORT || 3000;
@@ -49,6 +51,31 @@ app.use(async (req, res, next) => {
     if (await questoesRoutes(req, res, pathname, supabase)) return;
     if (!(await executarRotas(req, res, pathname, supabase))) next();
   } catch (error) { next(error); }
+});
+
+app.use(async (req, res, next) => {
+  try {
+    const pathname = req.path;
+    // Identifica a rota da prova
+    if (!/^\/api\/prova\/iniciar\/?$/.test(pathname)) {
+      return next();
+    }
+    // Verifica a autenticação
+    if (!(await autorizarRota(req, res, pathname, supabase))) {
+      return;
+    }
+    // Executa a rota da prova
+    
+await provaRoutes(req, res, pathname, supabase);
+
+if (res.headersSent) {
+  return;
+}
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 app.use((req, res) => res.status(404).json({ erro: 'Rota não encontrada.' }));
 app.use((error, req, res, next) => {
