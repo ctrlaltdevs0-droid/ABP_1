@@ -88,6 +88,14 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return true;
   }
 
+  // Histórico de provas do próprio candidato.
+  if (
+    req.method === 'GET' &&
+    /^\/api\/historico(?:\/[1-9]\d*)?\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+
   if (
     req.method === 'PUT' &&
     /^\/api\/temas\/[1-9]\d*\/conclusao\/?$/.test(pathname)
@@ -141,15 +149,25 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return true;
   }
 
-  // 7. Tentativas de provas.
-  const inicio = /^\/api\/tentativas\/?$/.test(pathname);
-
-  if (inicio && req.method === 'POST') {
-    req.body = {
-      ...(req.body ?? {}),
-      usuarios_idusuarios: usuario.id
-    };
-
+  // Permite iniciar a prova final
+  if (
+    req.method === "POST" &&
+    /^\/api\/prova\/iniciar\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+  // Permite verificar se há prova em andamento
+  if (
+    req.method === 'GET' &&
+    /^\/api\/tentativas\/em-andamento\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+  // Permite retomar a prova em andamento
+  if (
+    req.method === 'POST' &&
+    /^\/api\/tentativas\/retomar\/?$/.test(pathname)
+  ) {
     return true;
   }
 

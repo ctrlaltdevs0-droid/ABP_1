@@ -6,11 +6,16 @@ import { limitarAutenticacao } from '../src/middleware/limite-autenticacao.js';
 import { autorizarRota } from '../src/middleware/autorizacao.js';
 import { alterarSenha } from '../src/routes/usuarios.js';
 import { tentativasRoutes } from '../src/routes/tentativas.js';
-import { temasRoutes } from '../src/routes/temas.js';
 import { conteudosRoutes } from '../src/routes/conteudos.js';
 import { questoesRoutes } from '../src/routes/questoes.js';
 import { alternativasRoutes } from '../src/routes/alternativas.js';
 import { certificadosRoutes } from '../src/routes/certificados.js';
+// O services/temas.js exige SUPABASE_URL logo ao ser importado. Sem um .env,
+// o arquivo inteiro de teste quebrava antes de rodar. Valores falsos bastam,
+// porque os testes usam um banco falso; por isso o import vem depois deles.
+process.env.SUPABASE_URL ??= 'https://teste.supabase.co';
+process.env.SUPABASE_SECRET_KEY ??= 'sb_secret_teste';
+const { temasRoutes } = await import('../src/routes/temas.js');
 const secret = 'segredo-de-teste-com-pelo-menos-32-caracteres';
 function response() {
   return { headers: {}, set(k,v) { this.headers[k]=v; return this; },

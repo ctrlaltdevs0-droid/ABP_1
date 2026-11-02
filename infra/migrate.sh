@@ -37,4 +37,4 @@ SQL
 apply '000_schema.sql' /base/schema.sql
 for file in /migrations/*.sql; do apply "$(basename "$file")" "$file"; done
 # A carga consolidada é idempotente também em volumes com as duas cargas antigas.
-apply 'seed_completo_v2.sql' /base/seed.sql
+apply 'seed_completo_v3.sql' /base/seed.sql
