@@ -171,8 +171,11 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return true;
   }
 
+  if (req.method === 'GET' && /^\/api\/tentativas\/atual\/?$/.test(pathname)) return true;
+  if (req.method === 'POST' && /^\/api\/tentativas\/?$/.test(pathname)) return true;
+
   const tentativa = pathname.match(
-    /^\/api\/tentativas\/(\d+)(?:\/(?:proxima-questao|respostas|finalizar))?\/?$/
+    /^\/api\/tentativas\/(\d+)(?:\/(?:proxima-questao|respostas|finalizar|pausar|retomar|interromper|presenca))?\/?$/
   );
 
   if (tentativa) {

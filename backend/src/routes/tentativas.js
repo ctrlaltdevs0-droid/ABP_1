@@ -1,7 +1,21 @@
 import { lerJson, responder } from "../utils/http.js";
 import { retomarProva } from "../services/prova.js";
+import { continuidadeRoutes } from "./continuidade.js";
 
 export async function tentativasRoutes(req, res, pathname, supabase) {
+  // A API existente da develop permanece disponível. O novo cliente identifica
+  // a sessão por documento; apenas esse fluxo usa as operações de continuidade.
+  const usaContinuidade = req.headers?.['x-sessao-prova'] !== undefined || req.body?.sessao !== undefined ||
+    /^\/api\/tentativas\/?$/.test(pathname) || /^\/api\/tentativas\/atual\/?$/.test(pathname) ||
+    /^\/api\/tentativas\/[1-9]\d*\/(pausar|retomar|interromper|presenca)\/?$/.test(pathname);
+  if (usaContinuidade) return continuidadeRoutes(req, res, pathname, supabase);
+  const protegida = pathname.match(/^\/api\/tentativas\/([1-9]\d*)(?:\/|$)/);
+  if (protegida) {
+    const { data, error } = await supabase.from('tentativas').select('sessao_prova')
+      .eq('idtentativas', protegida[1]).eq('usuarios_idusuarios', req.usuario.id).maybeSingle();
+    if (error) return responder(res, 503, { erro: 'Não foi possível consultar a tentativa.' });
+    if (data?.sessao_prova) return responder(res, 409, { erro: 'Retome esta tentativa pela página de certificação.' });
+  }
   console.log("ENTROU EM TENTATIVAS:", req.method, pathname);
   // POST /api/tentativas/retomar
   // Recupera a tentativa em andamento e troca a pergunta pendente.
@@ -15,6 +29,12 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
       if (!usuarioId) {
         return responder(res, 401, { erro: "Usuário não autenticado." });
       }
+
+      const { data: emContinuidade, error: erroSessao } = await supabase.from('tentativas').select('idtentativas')
+        .eq('usuarios_idusuarios', usuarioId).in('status', ['EM_ANDAMENTO', 'INTERROMPIDA'])
+        .not('sessao_prova', 'is', null).limit(1).maybeSingle();
+      if (erroSessao) return responder(res, 503, { erro: 'Não foi possível consultar a tentativa.' });
+      if (emContinuidade) return responder(res, 409, { erro: 'Retome esta tentativa pela página de certificação.' });
 
       const resultado = await retomarProva(supabase, usuarioId);
       return responder(res, 200, resultado);

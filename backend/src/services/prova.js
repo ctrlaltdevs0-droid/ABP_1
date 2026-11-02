@@ -104,7 +104,7 @@ selecionadas.push({
     .from("tentativas")
     .select("idtentativas")
     .eq("usuarios_idusuarios", usuarioId)
-    .eq("status", "EM_ANDAMENTO")
+    .in("status", ["EM_ANDAMENTO", "INTERROMPIDA"])
     .limit(1)
     .maybeSingle();
 

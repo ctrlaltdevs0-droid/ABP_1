@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certificação | ÁgilCert</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/certificacao.css">
+  <script defer src="assets/js/config.js"></script>
+  <script defer src="assets/js/api.js"></script>
+  <script defer src="assets/js/certificacao.js"></script>
+</head>
+<body>
+  <header class="prova-header"><a href="home.html">ÁgilCert</a><a href="estudos.html">Área de estudos</a></header>
+  <main class="prova-card">
+    <p class="prova-eyebrow">CERTIFICAÇÃO EM METODOLOGIAS ÁGEIS</p>
+    <h1>Sua certificação</h1>
+    <p>São 12 questões, uma por tema, com 150 segundos para cada resposta. A aprovação exige pelo menos 65%.</p>
+    <p>Você pode continuar depois entre questões. Perder a conexão, recarregar ou fechar a página encerra a questão aberta como incorreta. Ao retomar, você segue para a próxima.</p>
+    <p id="prova-mensagem" role="status" aria-live="polite">Carregando…</p>
+    <p id="prova-progresso"></p>
+    <div id="prova-acoes" class="prova-acoes">
+      <button id="prova-iniciar" type="button" hidden>Iniciar certificação</button>
+      <button id="prova-retomar" type="button" hidden>Retomar certificação</button>
+      <button id="prova-proxima" type="button" hidden>Continuar para a próxima questão</button>
+      <button id="prova-pausar" type="button" hidden>Continuar depois</button>
+      <button id="prova-finalizar" type="button" hidden>Ver resultado</button>
+      <button id="prova-recuperar" type="button" hidden>Verificar conexão e retomar</button>
+    </div>
+    <section id="prova-questao" aria-labelledby="prova-enunciado" hidden>
+      <p id="prova-tempo" role="timer" aria-live="off"></p>
+      <h2 id="prova-enunciado"></h2>
+      <img id="prova-imagem" alt="Ilustração da questão" hidden>
+      <form id="prova-form">
+        <fieldset id="prova-alternativas"><legend>Escolha uma alternativa</legend></fieldset>
+        <button id="prova-responder" type="submit">Confirmar resposta</button>
+      </form>
+    </section>
+    <section id="prova-resultado" hidden aria-labelledby="prova-resultado-titulo">
+      <h2 id="prova-resultado-titulo">Resultado</h2><p id="prova-nota"></p>
+      <a href="estudos.html">Voltar aos estudos</a>
+    </section>
+  </main>
+</body>
+</html>
