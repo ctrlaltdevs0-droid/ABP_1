@@ -1,6 +1,9 @@
 import { ErroHttp } from '../utils/http.js';
 
 const erros = {
+  SESSAO_INVALIDA: [409, 'Esta prova foi retomada em outra página. Reabra a certificação.'],
+  QUESTAO_ABERTA: [409, 'Responda a questão antes de continuar depois.'],
+  ACAO_INVALIDA: [400, 'Ação inválida para a prova.'],
   BASE_INSUFICIENTE: [409, 'A prova requer 12 temas ativos, cada um com pelo menos quatro questões aprovadas e completas.'],
   NAO_ENCONTRADA: [404, 'Tentativa não encontrada.'],
   INDISPONIVEL: [409, 'Tentativa indisponível.'],
