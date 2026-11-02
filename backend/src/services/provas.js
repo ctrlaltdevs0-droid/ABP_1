@@ -1,6 +1,7 @@
 import { ErroHttp } from '../utils/http.js';
 
 const erros = {
+  ESTUDOS_PENDENTES: [403, 'Conclua os 12 temas antes de iniciar a prova.'],
   SESSAO_INVALIDA: [409, 'Esta prova foi retomada em outra página. Reabra a certificação.'],
   QUESTAO_ABERTA: [409, 'Responda a questão antes de continuar depois.'],
   ACAO_INVALIDA: [400, 'Ação inválida para a prova.'],
