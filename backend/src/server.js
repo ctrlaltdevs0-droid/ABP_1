@@ -65,9 +65,13 @@ app.use(async (req, res, next) => {
       return;
     }
     // Executa a rota da prova
-    if (await provaRoutes(req, res, pathname, supabase)) {
-      return;
-    }
+    
+await provaRoutes(req, res, pathname, supabase);
+
+if (res.headersSent) {
+  return;
+}
+
     next();
   } catch (error) {
     next(error);

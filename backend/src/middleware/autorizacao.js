@@ -148,16 +148,18 @@ export async function autorizarRota(req, res, pathname, supabase) {
   ) {
     return true;
   }
-
-  // 7. Tentativas de provas.
-  const inicio = /^\/api\/tentativas\/?$/.test(pathname);
-
-  if (inicio && req.method === 'POST') {
-    req.body = {
-      ...(req.body ?? {}),
-      usuarios_idusuarios: usuario.id
-    };
-
+  // Permite verificar se há prova em andamento
+  if (
+    req.method === 'GET' &&
+    /^\/api\/tentativas\/em-andamento\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+  // Permite retomar a prova em andamento
+  if (
+    req.method === 'POST' &&
+    /^\/api\/tentativas\/retomar\/?$/.test(pathname)
+  ) {
     return true;
   }
 

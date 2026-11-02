@@ -16,10 +16,8 @@ export async function provaRoutes(req, res, pathname, supabase) {
 
     try {
 
-      // ID do aluno autenticado pelo middleware
       const usuarioId = req.usuario.id;
 
-      // Chama a função do Service
       const resultado = await gerarProva(
         supabase,
         usuarioId
