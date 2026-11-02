@@ -49,7 +49,7 @@ export async function historicoRoutes(req, res, pathname, supabase) {
   }
 
   // A resposta correta só aparece depois que a prova termina.
-  if (tentativa.status === 'EM_ANDAMENTO') {
+  if (tentativa.status !== 'FINALIZADA') {
     return responder(res, 409, { erro: 'Conclua a prova para ver o histórico.' });
   }
 

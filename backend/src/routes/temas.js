@@ -1,4 +1,4 @@
-import { lerJson, responder, idDaRota, rotaExata } from "../utils/http.js";
+import { lerJson, responder, idDaRota, rotaExata, falhaBanco } from "../utils/http.js";
 import listarTemas from "../services/temas.js"; // 👈 Import sem chaves (export default)
 
 export async function temasRoutes(req, res, pathname, supabase) {
@@ -8,7 +8,7 @@ export async function temasRoutes(req, res, pathname, supabase) {
   // 1. GET /api/temas - Lista todos os temas ativos
   if (req.method === "GET" && rotaExata(pathname, base)) {
     try {
-      const dados = await listarTemas(); // 👈 Chama sem argumentos (já usa o supabase interno do service)
+      const dados = await listarTemas(supabase); // 👈 Chama sem argumentos (já usa o supabase interno do service)
       return responder(res, 200, dados);
     } catch (err) {
       return responder(res, 503, { erro: 'Não foi possível consultar os temas.' });
@@ -39,7 +39,7 @@ export async function temasRoutes(req, res, pathname, supabase) {
         .select()
         .single();
 
-      if (error) return responder(res, 400, { erro: error.message });
+      if (error) return falhaBanco(res, error);
       return responder(res, 201, data);
     } catch (erro) {
       return responder(res, 400, { erro: erro.message });
@@ -57,7 +57,7 @@ export async function temasRoutes(req, res, pathname, supabase) {
         .select()
         .single();
 
-      if (error) return responder(res, 400, { erro: error.message });
+      if (error) return falhaBanco(res, error);
       return responder(res, 200, data);
     } catch (erro) {
       return responder(res, 400, { erro: erro.message });
@@ -71,7 +71,7 @@ export async function temasRoutes(req, res, pathname, supabase) {
       .delete()
       .eq("idtemas", id);
 
-    if (error) return responder(res, 400, { erro: error.message });
+    if (error) return falhaBanco(res, error);
     return responder(res, 204, {});
   }
 
