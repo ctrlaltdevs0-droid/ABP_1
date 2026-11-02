@@ -227,7 +227,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
       // Busca a alternativa escolhida.
       const { data: alternativa, error: erroAlternativa } = await supabase
         .from("alternativas")
-        .select("idalternativas, correta")
+        .select("idalternativas, correta, letra")
         .eq("idalternativas", body.alternativas_idalternativas)
         .eq("questoes_idquestoes", body.questoes_idquestoes)
         .single();
@@ -244,6 +244,23 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         alternativa.correta === "S" ||
         alternativa.correta === "1";
 
+      // Busca a letra correta para guardar no histórico.
+      const { data: gabarito, error: erroGabarito } = await supabase
+        .from("alternativas")
+        .select("letra")
+        .eq("questoes_idquestoes", body.questoes_idquestoes)
+        .eq("correta", true)
+        .single();
+
+      if (erroGabarito) {
+        return responder(res, 500, {
+          erro: "Não foi possível consultar a resposta correta.",
+        });
+      }
+
+      // Mesmo horário para a resposta e para o histórico.
+      const agora = new Date().toISOString();
+
       // Salva a resposta no banco.
       const { data: resposta, error: erroResposta } = await supabase
         .from("respostas")
@@ -252,7 +269,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
           questoes_idquestoes: body.questoes_idquestoes,
           alternativas_idalternativas: body.alternativas_idalternativas,
           correta,
-          respondida_em: new Date().toISOString(),
+          respondida_em: agora,
         })
         .select()
         .single();
@@ -263,11 +280,15 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         });
       }
 
-      // Marca a questão como respondida.
+      // Marca a questão como respondida e guarda a letra escolhida e a correta.
       const { error: erroAtualizacao } = await supabase
         .from("tentativas_questoes")
         .update({
           respondida: true,
+          acertou: correta,
+          resposta_escolhida: alternativa.letra,
+          resposta_correta: gabarito.letra,
+          respondido_em: agora,
         })
         .eq("tentativas_idtentativas", tentativaId)
         .eq("questoes_idquestoes", body.questoes_idquestoes);

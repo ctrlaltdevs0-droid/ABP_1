@@ -6,6 +6,7 @@ import { questoesRoutes } from "./questoes.js";
 import { alternativasRoutes } from "./alternativas.js";
 import { tentativasRoutes } from "./tentativas.js";
 import { certificadosRoutes } from "./certificados.js";
+import { historicoRoutes } from "./historico.js";
 
 // Lista com todas as rotas da aplicação
 const rotas = [
@@ -17,6 +18,7 @@ const rotas = [
   alternativasRoutes,
   tentativasRoutes,
   certificadosRoutes,
+  historicoRoutes,
 ];
 
 // Função que executa as rotas
