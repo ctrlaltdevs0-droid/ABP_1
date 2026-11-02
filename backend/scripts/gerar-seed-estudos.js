@@ -102,6 +102,9 @@ BEGIN
     WHERE q.codigo_seed LIKE 'PB053-%' GROUP BY q.idquestoes
     HAVING count(a.idalternativas) <> 4 OR count(*) FILTER (WHERE a.correta) <> 1
   ) THEN RAISE EXCEPTION 'Cada questão deve ter quatro alternativas e uma correta'; END IF;
+  IF EXISTS (
+    SELECT 1 FROM questoes WHERE codigo_seed LIKE 'PB053-%' AND (imagem_url IS NULL OR imagem_alt IS NULL)
+  ) THEN RAISE EXCEPTION 'Cada questão deve ter imagem e texto alternativo'; END IF;
 END $validacao$;
 SELECT 'Carga validada: 12 temas, 12 materiais, 48 questões, 192 alternativas' AS resultado;
 `;
@@ -118,22 +121,25 @@ export async function gerarSeed() {
 VALUES (${temaId}, ${sql(tema.nome)}, ${sql(tema.texto)}, ${sql(tema.recurso)}, 'PB056-${index + 1}', TRUE)
 ON CONFLICT (codigo_seed) DO NOTHING;`);
     tema.questoes.forEach((questao, i) => {
-      if (questao.length !== 5 || new Set(questao.slice(1)).size !== 4 || questao[0].length > 400 || questao.slice(1).some(t => !t || t.length > 200)) throw new Error(`Questão inválida: ${tema.nome}/${i + 1}`);
+      // Cada questão tem enunciado, alternativas A, B, C e D, a letra correta e o texto alternativo da imagem.
+      const { enunciado, alternativas, correta, imagem_alt } = questao;
+      if (!enunciado || enunciado.length > 400 || alternativas?.length !== 4 || new Set(alternativas).size !== 4
+        || alternativas.some(t => !t || t.length > 200) || !'ABCD'.includes(correta) || correta.length !== 1 || !imagem_alt) throw new Error(`Questão inválida: ${tema.nome}/${i + 1}`);
       const codigo = `PB053-${index + 1}-${i + 1}`;
+      // A imagem fica em frontend/src/assets/img/questoes com o mesmo código da questão.
+      const imagem = `/assets/img/questoes/${codigo}.png`;
       // Um bloco insere questão e alternativas junto; a repetição preserva edições e revisão editorial.
       statements.push(`DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
-  INSERT INTO questoes (temas_idtemas, enunciado, codigo_seed, status, status_editorial)
-  VALUES (${temaId}, ${sql(questao[0])}, '${codigo}', FALSE, 'RASCUNHO')
+  INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
+  VALUES (${temaId}, ${sql(enunciado)}, '${imagem}', ${sql(imagem_alt)}, '${codigo}', FALSE, 'RASCUNHO')
   ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
   IF questao_id IS NOT NULL THEN
     INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
-    ${Array.from({ length: 4 }, (_, j) => {
-      const correta = (index + i) % 4;
-      const pos = (j - correta + 4) % 4;
-      return `(questao_id, '${'ABCD'[j]}', ${sql(questao[pos + 1])}, ${j === correta ? 'TRUE' : 'FALSE'})`;
-    }).join(',\n    ')};
+    ${alternativas.map((texto, j) =>
+      `(questao_id, '${'ABCD'[j]}', ${sql(texto)}, ${'ABCD'[j] === correta ? 'TRUE' : 'FALSE'})`
+    ).join(',\n    ')};
   END IF;
 END $seed$;`);
     });
