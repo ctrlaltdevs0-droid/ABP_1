@@ -56,7 +56,10 @@ test('carga contém 12 materiais, 48 questões e quatro alternativas distintas; 
     assert.equal(tema.questoes.length, 4);
     for (const q of tema.questoes) assert.equal(new Set(q.alternativas).size, 4);
   }
-  assert.equal(await gerarSeed(), await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8'));
+  // No Windows o Git pode trocar a quebra de linha do seed.sql (\n vira \r\n).
+  // O conteúdo continua igual, então a comparação ignora essa diferença.
+  const seedSalvo = await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8');
+  assert.equal(await gerarSeed(), seedSalvo.replaceAll('\r\n', '\n'));
 });
 test('cada uma das 48 questões tem imagem e texto alternativo', async () => {
   const data = JSON.parse(await readFile(new URL('../scripts/data/content-estudos.json', import.meta.url)));
