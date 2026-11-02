@@ -54,9 +54,17 @@ test('carga contém 12 materiais, 48 questões e quatro alternativas distintas; 
   for (const tema of data) {
     assert.ok(tema.texto.length > 400, tema.nome);
     assert.equal(tema.questoes.length, 4);
-    for (const q of tema.questoes) assert.equal(new Set(q.slice(1)).size, 4);
+    for (const q of tema.questoes) assert.equal(new Set(q.alternativas).size, 4);
   }
   assert.equal(await gerarSeed(), await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8'));
+});
+test('cada uma das 48 questões tem imagem e texto alternativo', async () => {
+  const data = JSON.parse(await readFile(new URL('../scripts/data/content-estudos.json', import.meta.url)));
+  const imagens = await readdir(new URL('../../frontend/src/assets/img/questoes/', import.meta.url));
+  data.forEach((tema, t) => tema.questoes.forEach((q, i) => {
+    assert.ok(imagens.includes(`PB053-${t + 1}-${i + 1}.png`), `falta imagem PB053-${t + 1}-${i + 1}`);
+    assert.ok(q.imagem_alt, `falta texto alternativo PB053-${t + 1}-${i + 1}`);
+  }));
 });
 test('progresso persiste, é idempotente e pertence ao JWT, inclusive em novo acesso', async () => {
   const db = database();

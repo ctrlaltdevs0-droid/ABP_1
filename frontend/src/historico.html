@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÁgilCert | Histórico</title>
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/estudos.css">
+  <link rel="stylesheet" href="assets/css/historico.css">
+  <script defer src="assets/js/config.js"></script>
+  <script defer src="assets/js/api.js"></script>
+  <script defer src="assets/js/historico.js"></script>
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header class="study-header">
+    <a href="home.html">
+      <img src="assets/img/logo-transparente.png" alt="ÁgilCert" width="130">
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="home.html">Início</a>
+      <a href="estudos.html">Estudos</a>
+      <a href="historico.html" aria-current="page">Histórico</a>
+      <a href="perfil.html">Meu perfil</a>
+    </nav>
+    <button id="sair" type="button">Sair</button>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="study-main">
+    <p class="eyebrow">SUAS CERTIFICAÇÕES</p>
+    <h1>Histórico de provas</h1>
+
+    <p id="mensagem" role="status" aria-live="polite">Carregando histórico…</p>
+
+    <!-- LISTA DAS TENTATIVAS -->
+    <div class="tabela-historico">
+      <table id="lista" hidden>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Acertos</th>
+            <th>Percentual</th>
+            <th>Situação</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tentativas"></tbody>
+      </table>
+    </div>
+
+    <!-- DETALHE DE UMA TENTATIVA -->
+    <section id="detalhe" hidden aria-labelledby="titulo-detalhe">
+      <h2 id="titulo-detalhe">Questões da prova</h2>
+      <ol id="questoes" class="questoes-historico"></ol>
+    </section>
+
+    <noscript>Ative o JavaScript para ver o seu histórico.</noscript>
+  </main>
+
+</body>
+</html>

@@ -88,6 +88,14 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return true;
   }
 
+  // Histórico de provas do próprio candidato.
+  if (
+    req.method === 'GET' &&
+    /^\/api\/historico(?:\/[1-9]\d*)?\/?$/.test(pathname)
+  ) {
+    return true;
+  }
+
   if (
     req.method === 'PUT' &&
     /^\/api\/temas\/[1-9]\d*\/conclusao\/?$/.test(pathname)

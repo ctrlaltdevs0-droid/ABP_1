@@ -254,7 +254,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
         });
       }
 
-      // Marca a questão como respondida.
+      // Marca a questão como respondida e guarda a letra escolhida e a correta.
       const { error: erroAtualizacao } = await supabase
         .from("tentativas_questoes")
         .update({

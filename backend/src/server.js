@@ -41,7 +41,7 @@ app.use(express.static(frontendPath, { index: false, dotfiles: 'deny' }));
 app.use(async (req, res, next) => {
   try {
     const pathname = req.path;
-    if (!/^\/api\/(estudos|temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
+    if (!/^\/api\/(estudos|temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios|historico)(\/|$)/.test(pathname)) return next();
     console.log("[AUTORIZAÇÃO]", {
       method: req.method,
       pathname,

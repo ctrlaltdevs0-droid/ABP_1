@@ -107,8 +107,9 @@ código continuam preservados: conferir sobreposição editorial antes da carga.
 
 A fonte editável é `backend/scripts/data/content-estudos.json`. Execute
 `npm run seed:gerar` no backend após editar o conteúdo e versione o SQL gerado.
-Os materiais incluem links complementares. As questões possuem quatro
-alternativas e um gabarito, com posições variadas; entram com `status = false`
+Os materiais incluem links complementares. As questões seguem o material
+"Cursos - ABP": cada uma tem `enunciado`, `alternativas` (A, B, C e D, nessa
+ordem) e `correta` (a letra do gabarito); entram com `status = false`
 e `status_editorial = 'RASCUNHO'`. A prova exige 12 temas ativos, cada um com
 pelo menos quatro questões ativas/APROVADO e quatro alternativas/um gabarito.
 Após revisão cruzada, registrar `REVISAO`/`APROVADO` e ativar somente o conteúdo
