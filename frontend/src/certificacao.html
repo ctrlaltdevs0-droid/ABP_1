@@ -1,45 +1,438 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Certificação | ÁgilCert</title>
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="stylesheet" href="assets/css/certificacao.css">
-  <script defer src="assets/js/config.js"></script>
-  <script defer src="assets/js/api.js"></script>
-  <script defer src="assets/js/certificacao.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÁgilCert | Teste da Prova</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+      color: #1e293b;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px #0001;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1d4ed8;
+    }
+
+    .alternativa {
+      display: block;
+      padding: 14px;
+      margin: 12px 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .alternativa:has(input:checked) {
+      background: #dbeafe;
+      border-color: #2563eb;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .erro {
+      color: #b91c1c;
+      margin: 15px 0;
+    }
+
+    progress {
+      width: 100%;
+      height: 20px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+  </style>
 </head>
+
 <body>
-  <header class="prova-header"><a href="home.html">ÁgilCert</a><a href="estudos.html">Área de estudos</a></header>
-  <main class="prova-card">
-    <p class="prova-eyebrow">CERTIFICAÇÃO EM METODOLOGIAS ÁGEIS</p>
-    <h1>Sua certificação</h1>
-    <p>São 12 questões, uma por tema, com 150 segundos para cada resposta. A aprovação exige pelo menos 65%.</p>
-    <p>Você pode continuar depois entre questões. Perder a conexão, recarregar ou fechar a página encerra a questão aberta como incorreta. Ao retomar, você segue para a próxima.</p>
-    <p id="prova-mensagem" role="status" aria-live="polite">Carregando…</p>
-    <p id="prova-progresso"></p>
-    <div id="prova-acoes" class="prova-acoes">
-      <button id="prova-iniciar" type="button" hidden>Iniciar certificação</button>
-      <button id="prova-retomar" type="button" hidden>Retomar certificação</button>
-      <button id="prova-proxima" type="button" hidden>Continuar para a próxima questão</button>
-      <button id="prova-pausar" type="button" hidden>Continuar depois</button>
-      <button id="prova-finalizar" type="button" hidden>Ver resultado</button>
-      <button id="prova-recuperar" type="button" hidden>Verificar conexão e retomar</button>
-    </div>
-    <section id="prova-questao" aria-labelledby="prova-enunciado" hidden>
-      <p id="prova-tempo" role="timer" aria-live="off"></p>
-      <h2 id="prova-enunciado"></h2>
-      <img id="prova-imagem" alt="Ilustração da questão" hidden>
-      <form id="prova-form">
-        <fieldset id="prova-alternativas"><legend>Escolha uma alternativa</legend></fieldset>
-        <button id="prova-responder" type="submit">Confirmar resposta</button>
-      </form>
+  <main>
+    <h1>ÁgilCert - Prova Final</h1>
+    <p>Teste de integração com o backend.</p>
+
+    <p id="erro" class="erro" role="alert"></p>
+
+    <section id="inicio">
+      <p>Você responderá 12 questões, uma de cada tema.</p>
+      <p>Cada questão possui quatro alternativas.</p>
+      <button id="btnIniciar">Iniciar prova</button>
     </section>
-    <section id="prova-resultado" hidden aria-labelledby="prova-resultado-titulo">
-      <h2 id="prova-resultado-titulo">Resultado</h2><p id="prova-nota"></p>
-      <a href="estudos.html">Voltar aos estudos</a>
+
+    <section id="areaProva" hidden>
+      <p id="contador"></p>
+      <progress id="barra" value="0" max="12"></progress>
+
+      <h2 id="enunciado"></h2>
+      <img id="imagemQuestao" alt="Imagem da questão" style="max-width:100%" hidden>
+
+      <div id="alternativas"></div>
+
+      <button id="btnResponder">
+        Confirmar resposta
+      </button>
     </section>
+
+
+    <section id="resultado" hidden>
+      <h2 id="tituloResultado">Prova concluída!</h2>
+
+      <p>Sua avaliação foi finalizada com sucesso.</p>
+
+      <h3>Resultado da prova</h3>
+
+      <p id="acertos"></p>
+      <p id="nota"></p>
+      <p id="situacao"></p>
+
+      <div id="areaCertificado" hidden>
+        <button id="btnCertificado" type="button" disabled>
+          Gerar certificado
+        </button>
+        <p>Emissão do certificado em desenvolvimento.</p>
+      </div>
+
+      <p>
+        <a href="estudos.html">Voltar aos estudos</a>
+      </p>
+    </section>
+
   </main>
+
+  <script>
+    let tentativaId = null;
+    let questaoAtual = null;
+    let numeroQuestao = 0;
+    let totalQuestoes = 12;
+    let processando = false;
+
+    const elemento = id => document.getElementById(id);
+
+    function mostrarErro(mensagem = "") {
+      elemento("erro").textContent = mensagem;
+    }
+
+    async function requisicao(url, metodo = "GET", corpo = null) {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("Faça login antes de iniciar a prova.");
+      }
+
+      const opcoes = {
+        method: metodo,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      if (corpo !== null) {
+        opcoes.headers["Content-Type"] = "application/json";
+        opcoes.body = JSON.stringify(corpo);
+      }
+
+      const resposta = await fetch(url, opcoes);
+      const dados = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(
+          dados.erro || dados.mensagem || "Erro no servidor."
+        );
+      }
+
+      return dados;
+    }
+
+    async function iniciarProva() {
+      if (processando) return;
+
+      processando = true;
+      elemento("btnIniciar").disabled = true;
+      mostrarErro();
+
+      try {
+        const dados = await requisicao(
+          "/api/prova/iniciar",
+          "POST"
+        );
+
+        tentativaId = dados.tentativa_id;
+        totalQuestoes = dados.total_questoes || 12;
+
+        if (!tentativaId) {
+          throw new Error("O backend não retornou a tentativa.");
+        }
+
+        numeroQuestao = 0;
+
+        elemento("inicio").hidden = true;
+        elemento("areaProva").hidden = false;
+
+        await carregarQuestao();
+
+      } catch (erro) {
+        // Já existe prova em andamento: retoma em vez de mostrar erro.
+        if (erro.message.includes("já possui uma prova em andamento")) {
+          await verificarProvaEmAndamento();
+          return;
+        }
+
+        mostrarErro(erro.message);
+
+        if (!tentativaId) {
+          elemento("btnIniciar").disabled = false;
+        }
+      } finally {
+        processando = false;
+      }
+    }
+
+    async function carregarQuestao() {
+      const dados = await requisicao(
+        `/api/tentativas/${tentativaId}/proxima-questao`
+      );
+
+      if (
+        dados.concluida === true ||
+        dados.finalizada === true
+      ) {
+        await finalizarProva();
+        return;
+      }
+
+      if (!dados.questao || !Array.isArray(dados.alternativas)) {
+        throw new Error(
+          "Formato inesperado da próxima questão: " +
+          JSON.stringify(dados)
+        );
+      }
+
+      questaoAtual = dados.questao;
+      numeroQuestao++;
+
+      elemento("contador").textContent =
+        `Questão ${numeroQuestao} de ${totalQuestoes}`;
+
+      elemento("barra").value = numeroQuestao;
+      elemento("barra").max = totalQuestoes;
+
+      elemento("enunciado").textContent =
+        questaoAtual.enunciado;
+
+      const imagem = elemento("imagemQuestao");
+
+      if (
+        questaoAtual.imagem_url &&
+        /^https:\/\//i.test(questaoAtual.imagem_url)
+      ) {
+        imagem.src = questaoAtual.imagem_url;
+        imagem.hidden = false;
+      } else {
+        imagem.hidden = true;
+        imagem.removeAttribute("src");
+      }
+
+      const container = elemento("alternativas");
+      container.replaceChildren();
+
+      for (const alternativa of dados.alternativas) {
+        const label = document.createElement("label");
+        label.className = "alternativa";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "resposta";
+        radio.value = alternativa.idalternativas;
+
+        const texto = document.createElement("span");
+        texto.textContent =
+          ` ${alternativa.letra}) ${alternativa.texto}`;
+
+        label.append(radio, texto);
+        container.appendChild(label);
+      }
+
+      elemento("btnResponder").textContent =
+        numeroQuestao === totalQuestoes
+          ? "Enviar última resposta"
+          : "Confirmar e continuar";
+    }
+
+    async function enviarResposta() {
+      if (processando) return;
+
+      if (!questaoAtual) {
+        processando = true;
+
+        try {
+          await carregarQuestao();
+        } catch (erro) {
+          mostrarErro(erro.message);
+        } finally {
+          processando = false;
+        }
+
+        return;
+      }
+
+      const selecionada = document.querySelector(
+        'input[name="resposta"]:checked'
+      );
+
+      if (!selecionada) {
+        mostrarErro("Selecione uma alternativa.");
+        return;
+      }
+
+      processando = true;
+      elemento("btnResponder").disabled = true;
+      mostrarErro();
+
+      try {
+        await requisicao(
+          `/api/tentativas/${tentativaId}/respostas`,
+          "POST",
+          {
+            questoes_idquestoes: questaoAtual.idquestoes,
+            alternativas_idalternativas: Number(
+              selecionada.value
+            )
+          }
+        );
+
+        questaoAtual = null;
+
+        if (numeroQuestao >= totalQuestoes) {
+          await finalizarProva();
+        } else {
+          await carregarQuestao();
+        }
+
+      } catch (erro) {
+        mostrarErro(erro.message);
+      } finally {
+        processando = false;
+        elemento("btnResponder").disabled = false;
+      }
+    }
+
+
+    async function finalizarProva() {
+      mostrarErro();
+
+      const dados = await requisicao(
+        `/api/tentativas/${tentativaId}/finalizar`,
+        "POST"
+      );
+
+      const resultado = dados.resultado;
+
+      if (!resultado) {
+        throw new Error(
+          "O backend não retornou o resultado da prova."
+        );
+      }
+
+      const total = Number(resultado.total);
+      const acertos = Number(resultado.acertos);
+      const percentual = Number(resultado.percentual);
+      const aprovado = resultado.aprovado === true;
+
+      elemento("areaProva").hidden = true;
+      elemento("resultado").hidden = false;
+
+      elemento("tituloResultado").textContent =
+        "Prova concluída!";
+
+      elemento("acertos").textContent =
+        `Acertos: ${acertos} de ${total} questões`;
+
+      elemento("nota").textContent =
+        `Percentual de acertos: ${percentual.toFixed(2)
+          .replace(".", ",")}%`;
+
+      elemento("situacao").textContent =
+        aprovado ? "APROVADO" : "NÃO APROVADO";
+
+      elemento("situacao").style.color =
+        aprovado ? "#15803d" : "#b91c1c";
+
+      // O botão aparecerá somente para os aprovados.
+      elemento("areaCertificado").hidden = !aprovado;
+    }
+
+    // Ao abrir a página, retoma a prova em andamento (se existir).
+    async function verificarProvaEmAndamento() {
+      try {
+        const status = await requisicao("/api/tentativas/em-andamento");
+
+        if (!status.em_andamento) return;
+
+        const dados = await requisicao(
+          "/api/tentativas/retomar",
+          "POST"
+        );
+
+        tentativaId = dados.tentativa_id;
+        totalQuestoes = dados.total_questoes || 12;
+
+        // carregarQuestao() soma 1, então partimos das já respondidas.
+        numeroQuestao = dados.respondidas || 0;
+
+        elemento("inicio").hidden = true;
+        elemento("areaProva").hidden = false;
+        mostrarErro();
+        await carregarQuestao();
+
+      } catch (erro) {
+        mostrarErro(erro.message);
+      }
+    }
+
+    verificarProvaEmAndamento();
+    elemento("btnIniciar").addEventListener(
+      "click",
+      iniciarProva
+    );
+
+    elemento("btnResponder").addEventListener(
+      "click",
+      enviarResposta
+    );
+  </script>
 </body>
+
 </html>
