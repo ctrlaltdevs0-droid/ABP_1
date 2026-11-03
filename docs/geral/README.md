@@ -8,5 +8,6 @@ Materiais compartilhados entre as três sprints:
 - [Design e protótipo navegável](design/)
 - [Protótipo e padronização do frontend](prot%C3%B3tipo/)
 - [Requisitos do projeto](requisitos/)
+- [RFCs: propostas de como a equipe trabalha](rfc/)
 
 [Voltar ao README principal](../../README.md)
