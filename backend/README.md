@@ -119,9 +119,9 @@ O provisionamento ocorre em serviço próprio, não apenas no primeiro boot do v
 ## Segurança da prova e das sessões
 
 Aplicar `backend/database/schema.sql` antes de iniciar o backend.
-As funcoes nativas de prova estao incluidas no schema. As rotas atuais em
-`routes/tentativas.js` ainda usam operacoes diretas nas tabelas; a instalacao
-das funcoes nao integra automaticamente o fluxo transacional a essas rotas.
+As funcoes nativas de prova estao incluidas no schema. As rotas em
+`routes/tentativas.js` usam essas RPCs transacionais e sempre derivam o usuario
+do JWT validado, sem aceitar a identidade enviada no corpo da requisicao.
 
 - Tentativas legadas sem ordem persistida são recusadas; iniciar nova prova.
 - Login: até 30 chamadas/IP e 10/conta por janela de 15 minutos. Cadastro:

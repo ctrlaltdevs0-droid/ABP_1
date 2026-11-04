@@ -1,4 +1,10 @@
-import { lerJson, responder, idDaRota } from "../utils/http.js";
+import {
+  falhaBanco,
+  lerJson,
+  responder,
+  tratarErro,
+  idDaRota,
+} from "../utils/http.js";
 
 export async function alternativasRoutes(req, res, pathname, supabase) {
   const base = "/api/alternativas";
@@ -20,7 +26,7 @@ export async function alternativasRoutes(req, res, pathname, supabase) {
       .eq("questoes_idquestoes", questaoId)
       .order("letra", { ascending: true });
 
-    if (error) return responder(res, 500, { erro: error.message });
+    if (error) return falhaBanco(res, error);
 
     return responder(res, 200, data);
   }
@@ -41,11 +47,11 @@ export async function alternativasRoutes(req, res, pathname, supabase) {
         .select()
         .single();
 
-      if (error) return responder(res, 400, { erro: error.message });
+      if (error) return falhaBanco(res, error);
 
       return responder(res, 201, data);
     } catch (erro) {
-      return responder(res, 400, { erro: erro.message });
+      return tratarErro(res, erro);
     }
   }
 
@@ -62,11 +68,11 @@ export async function alternativasRoutes(req, res, pathname, supabase) {
         .select()
         .single();
 
-      if (error) return responder(res, 400, { erro: error.message });
+      if (error) return falhaBanco(res, error);
 
       return responder(res, 200, data);
     } catch (erro) {
-      return responder(res, 400, { erro: erro.message });
+      return tratarErro(res, erro);
     }
   }
 
@@ -78,7 +84,7 @@ export async function alternativasRoutes(req, res, pathname, supabase) {
       .delete()
       .eq("idalternativas", id);
 
-    if (error) return responder(res, 400, { erro: error.message });
+    if (error) return falhaBanco(res, error);
 
     return responder(res, 204, {});
   }

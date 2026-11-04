@@ -145,11 +145,6 @@ export async function autorizarRota(req, res, pathname, supabase) {
   const inicio = /^\/api\/tentativas\/?$/.test(pathname);
 
   if (inicio && req.method === 'POST') {
-    req.body = {
-      ...(req.body ?? {}),
-      usuarios_idusuarios: usuario.id
-    };
-
     return true;
   }
 

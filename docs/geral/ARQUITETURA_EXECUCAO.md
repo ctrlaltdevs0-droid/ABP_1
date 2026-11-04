@@ -26,8 +26,9 @@ O servidor nao aplica SQL automaticamente. A aplicacao continua usando o
 Supabase remoto. Em 04/11/2026, o schema consolidado foi aplicado ao projeto
 `lmohayvlvwzxlslornwp` depois da criacao de um dump de restauracao.
 
-As funcoes transacionais de prova existem no schema, mas as rotas atuais de
-tentativas ainda fazem operacoes diretas. Nao presumir integracao automatica.
+As rotas de tentativas chamam as funcoes transacionais do schema para iniciar,
+entregar questoes, registrar respostas e finalizar a prova. O usuario e sempre
+derivado do JWT validado pelo backend.
 
 ## Docker — etapa posterior
 

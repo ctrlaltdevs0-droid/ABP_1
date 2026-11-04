@@ -17,8 +17,9 @@ O schema preserva respostas e certificados legados, o limitador existente,
 Respostas legadas sem alternativa correspondente interrompem a transacao para
 revisao. Certificados antigos nao recebem vinculos de tentativa inventados.
 
-As rotas atuais de tentativas ainda usam acesso direto as tabelas. As funcoes
-nativas instaladas pelo schema nao mudam essas rotas automaticamente.
+As rotas de tentativas usam as funcoes nativas instaladas pelo schema. O fluxo
+transacional deriva o usuario do JWT e nao aceita a identidade enviada pelo
+navegador.
 
 Em 04/11/2026, foi criado um dump do estado anterior e o `schema.sql` foi
 aplicado no projeto remoto. A estrutura resultante foi comparada com uma
