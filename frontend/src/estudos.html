@@ -15,15 +15,28 @@
   <!-- CABEÇALHO -->
   <header class="study-header">
     <a href="home.html">
-      <img src="assets/img/logo-transparente.png" alt="ÁgilCert" width="130">
+      <img src="assets/img/logo-transparente.png" alt="ÁgilCert">
     </a>
     <nav aria-label="Navegação principal">
       <a href="home.html">Início</a>
       <a href="estudos.html" aria-current="page">Estudos</a>
+      <a href="certificacao.html">Certificação</a>
       <a href="historico.html">Histórico</a>
-      <a href="perfil.html">Meu perfil</a>
+      <a href="home.html#sobre-nos">Sobre nós</a>
     </nav>
-    <button id="sair" type="button">Sair</button>
+    <div class="header-profile" id="userProfileMenu">
+      <button class="profile-trigger" type="button" id="profileTrigger" aria-label="Menu do perfil">
+        <img src="assets/img/personagens.png" alt="Foto de perfil" class="profile-avatar-img" id="userAvatar">
+        <span class="profile-greeting-text">Olá, <span id="userName">Usuário</span></span>
+        <span class="profile-chevron">▼</span>
+      </button>
+
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="perfil.html">Meu perfil</a>
+        <a href="historico.html">Histórico</a>
+        <button type="button" id="sair" class="dropdown-sair">Sair</button>
+      </div>
+    </div>
   </header>
 
   <!-- CONTEÚDO PRINCIPAL -->
