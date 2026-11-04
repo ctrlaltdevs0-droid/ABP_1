@@ -16,8 +16,7 @@ banco de uso são etapas separadas.
 
 ## Migração e compatibilidade
 
-Aplicar `supabase/migrations/20261030005054_security_exam_sessions.sql` depois das
-migrações existentes e **antes de executar o backend atualizado**. O Compose
+Aplicar `backend/database/schema.sql`, que concentra a estrutura e as funcoes.
 aplica novas etapas pelo serviço `migrate`; ver `backend/README.md`.
 Não editar migrações já aplicadas ou reaplicar schema em um banco existente.
 
