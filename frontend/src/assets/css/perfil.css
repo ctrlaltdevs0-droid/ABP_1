@@ -1,0 +1,1004 @@
+/* ============================================================
+   ÁgilCert - Perfil do Aluno | Folha de Estilos (perfil.css)
+   Baseado na estrutura do perfil.html e Sistema de Tipografia
+   ============================================================ */
+
+/* Importação das famílias tipográficas oficiais: Roboto e Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+/* ============================================================
+   Variáveis Globais e Sistema de Design (Design Tokens)
+   ============================================================ */
+:root {
+  /* Famílias Tipográficas */
+  --fonte-roboto: 'Roboto', sans-serif;
+  --fonte-inter: 'Inter', sans-serif;
+  --fonte-principal: var(--fonte-inter);
+
+  /* Cores Principais da Marca */
+  --cor-azul-primario: #0B5CAB;
+  --cor-azul-hover: #084887;
+  --cor-azul-claro: #EBF3FA;
+  --cor-azul-brilho: rgba(11, 92, 171, 0.25);
+
+  /* Cores de Destaque e Progresso da Jornada */
+  --cor-verde-menta: #5EBA9E;
+  --cor-verde-escuro: #449E82;
+  --cor-verde-fundo: #D4EDE6;
+
+  /* Paleta Neutra de Superfícies e Bordas */
+  --fundo-pagina: #F4F6F9;
+  --fundo-card: #FFFFFF;
+  --borda-suave: #E2E8F0;
+  --borda-sutil: #EDF2F7;
+  --borda-input: #CBD5E1;
+
+  /* Cores da Tipografia */
+  --texto-titulo: #2B3A4A;
+  --texto-cabecalho: #3A4B5D;
+  --texto-rotulo: #475569;
+  --texto-corpo: #64748B;
+  --texto-suave: #8E9BAE;
+  --link-navegacao: #526377;
+
+  /* Cores de Estado e Notificações */
+  --cor-sucesso: #15803D;
+  --cor-sucesso-fundo: #DCFCE7;
+  --cor-erro: #DC2626;
+  --cor-erro-fundo: #FEF2F2;
+
+  /* Raios de Arredondamento */
+  --raio-pilula: 9999px;
+  --raio-card: 18px;
+  --raio-item: 14px;
+  --raio-botao: 10px;
+  --raio-input: 8px;
+
+  /* Sombras */
+  --sombra-card: 0 4px 20px rgba(0, 0, 0, 0.035), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --sombra-pilula: 0 1px 4px rgba(0, 0, 0, 0.02);
+  --sombra-botao: 0 4px 14px rgba(11, 92, 171, 0.28);
+  --sombra-hover: 0 6px 16px rgba(0, 0, 0, 0.06);
+
+  /* Curvas e Tempos de Transição */
+  --transicao-rapida: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transicao-padrao: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   Classes Utilitárias de Tipografia
+   ============================================================ */
+.h1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 103px;
+}
+
+.h2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 64px;
+}
+
+.h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 51px;
+}
+
+.h4 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 36px;
+}
+
+.h5 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 26px;
+}
+
+.h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+}
+
+.subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+}
+
+.subtitle2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.body1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.body2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.caption {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+/* ============================================================
+   Reset e Configurações Globais
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fonte-inter);
+  font-size: 16px; /* body1 */
+  font-weight: 400;
+  background-color: var(--fundo-pagina);
+  color: var(--texto-corpo);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Interações com links e botões */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Acessibilidade de foco no teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--cor-azul-primario);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   Estrutura da Página (Page Wrapper)
+   ============================================================ */
+.page {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ============================================================
+   Barra Superior de Navegação (Topbar) - Idêntica à Home
+   ============================================================ */
+.site-header,
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+/* Logotipo - Área preparada para a imagem de fora da Home */
+.header-logo,
+.brand {
+  height: 100px;
+  width: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* Estilo para a imagem de fora da logo */
+.header-logo img,
+.brand img {
+  height: 60px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Oculta o SVG anterior para que você possa usar a sua imagem externa */
+.brand svg {
+  display: none;
+}
+
+/* Links do Menu de Navegação - Idêntico ao .header-nav da Home */
+.header-nav,
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: 40px;
+}
+
+.nav-link,
+.nav a {
+  font: 500 17px "Inter", sans-serif;
+  color: #64748B;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background .15s, color .15s;
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-link:hover,
+.nav-link.active,
+.nav a:hover,
+.nav a.active,
+.nav a:first-child {
+  background: #EFF6FF;
+  color: #2563EB;
+}
+
+/* Bloco da Conta do Usuário na Navbar - Idêntico ao .profile-trigger da Home */
+.profile-menu,
+.account {
+  margin-left: auto;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font: 500 13px "Inter", sans-serif;
+  color: #0F172A;
+  transition: background .15s;
+  text-decoration: none;
+}
+
+.profile-trigger:hover,
+.account:hover {
+  background: #F8FAFC;
+}
+
+/* Avatar circular idêntico ao da Home */
+.profile-avatar,
+.account-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-avatar svg,
+.account-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: #94A3B8;
+  color: #94A3B8;
+}
+
+/* Nomes e textos da conta */
+.profile-name,
+.account-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748B;
+  font: 500 13px "Inter", sans-serif;
+}
+
+.profile-name span,
+.account-links a {
+  color: #0F172A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Seta (Chevron) indicadora */
+.chevron {
+  font-size: 10px;
+  color: #64748B;
+  transition: transform .2s;
+  margin-left: 2px;
+}
+
+/* Botão de Logout Discreto */
+.account-links button,
+#logout-button {
+  border: 0;
+  padding: 2px 6px;
+  background: none;
+  font-family: var(--fonte-inter);
+  font-size: 11px;
+  font-weight: 400;
+  color: #94A3B8;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: color .15s;
+}
+
+.account-links button:hover,
+#logout-button:hover {
+  color: #DC2626;
+}
+
+/* ============================================================
+   Área de Conteúdo e Grade do Perfil
+   ============================================================ */
+.content {
+  background: transparent;
+  padding: 0;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+}
+
+/* Estilo Base dos Painéis (Cards) */
+.panel {
+  background-color: var(--fundo-card);
+  border: 1px solid var(--borda-suave);
+  border-radius: var(--raio-card);
+  box-shadow: var(--sombra-card);
+  transition: box-shadow var(--transicao-padrao);
+}
+
+.panel:hover {
+  box-shadow: var(--sombra-hover);
+}
+
+/* ============================================================
+   Painel do Perfil (Coluna Esquerda)
+   ============================================================ */
+.profile {
+  padding: 36px 24px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Retrato / Avatar Circular */
+.portrait {
+  width: 175px;
+  height: 175px;
+  margin: 0 auto 20px;
+  border: 4px solid #C4EAE1;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--cor-verde-fundo);
+  color: var(--cor-verde-escuro);
+  box-shadow: 0 4px 16px rgba(94, 186, 158, 0.18);
+  display: grid;
+  place-items: center;
+  font-family: var(--fonte-roboto);
+  font-weight: 400;
+  font-size: 51px; /* h3 */
+  transition: transform var(--transicao-padrao);
+}
+
+.portrait:hover {
+  transform: scale(1.02);
+}
+
+.portrait svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Título e Identificação do Usuário */
+.profile h1,
+#profile-name {
+  margin: 0 0 6px;
+  color: var(--texto-titulo);
+  font-family: var(--fonte-roboto);
+  font-weight: 400;
+  font-size: 36px; /* h4 */
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+#profile-display-email {
+  color: var(--texto-corpo);
+  font-family: var(--fonte-inter);
+  font-weight: 400;
+  font-size: 14px; /* body2 */
+  margin: 0 0 24px;
+  word-break: break-all;
+}
+
+/* Botão de Ação Primária */
+.primary {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: var(--raio-botao);
+  background-color: var(--cor-azul-primario);
+  color: #FFFFFF;
+  font-family: var(--fonte-inter);
+  font-size: 13px; /* button */
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  box-shadow: var(--sombra-botao);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transicao-rapida), transform var(--transicao-rapida), box-shadow var(--transicao-rapida);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--cor-azul-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(11, 92, 171, 0.35);
+}
+
+.primary:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(11, 92, 171, 0.25);
+}
+
+.primary:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ============================================================
+   Painel de Informações Pessoais (Coluna Direita)
+   ============================================================ */
+.details {
+  padding: 28px 32px 32px;
+}
+
+.details h2,
+.journey h2 {
+  margin: 0 0 16px;
+  font-family: var(--fonte-inter);
+  font-weight: 500;
+  font-size: 21px; /* h6 */
+  color: var(--texto-titulo);
+  line-height: 1.3;
+}
+
+/* Mensagens de Status de Atualização */
+#profile-status,
+#password-status {
+  font-family: var(--fonte-inter);
+  font-size: 14px; /* body2 */
+  font-weight: 400;
+  min-height: 20px;
+  margin: 4px 0 12px;
+  transition: color var(--transicao-rapida);
+}
+
+#profile-status.sucesso,
+#password-status.sucesso {
+  color: var(--cor-sucesso);
+}
+
+#profile-status.erro,
+#password-status.erro {
+  color: var(--cor-erro);
+}
+
+/* Lista de Campos do Formulário */
+.fields {
+  display: grid;
+  gap: 14px;
+  margin: 20px 0 0;
+}
+
+/* Card Individual de Campo (Pílula) */
+.field {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  padding: 10px 18px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--borda-suave);
+  border-radius: var(--raio-item);
+  box-shadow: var(--sombra-pilula);
+  transition: border-color var(--transicao-rapida), box-shadow var(--transicao-rapida);
+}
+
+.field:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+}
+
+.field > div {
+  min-width: 0;
+  flex: 1;
+}
+
+/* Ícone do Campo */
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--texto-rotulo);
+}
+
+/* Rótulo descritivo do campo (dt) */
+.field dt {
+  font-family: var(--fonte-inter);
+  font-size: 12px; /* caption */
+  font-weight: 500;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+/* Valor ou entrada do campo (dd) */
+.field dd {
+  font-family: var(--fonte-inter);
+  font-size: 16px; /* body1 */
+  font-weight: 400;
+  color: var(--texto-titulo);
+  line-height: 1.4;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Entradas de Texto (Inputs) */
+input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--borda-input);
+  border-radius: var(--raio-input);
+  padding: 9px 12px;
+  font-family: var(--fonte-inter);
+  font-size: 14px; /* body2 */
+  font-weight: 400;
+  color: var(--texto-titulo);
+  background-color: #FFFFFF;
+  transition: border-color var(--transicao-rapida), box-shadow var(--transicao-rapida);
+}
+
+/* Estilo específico para inputs aninhados em .field */
+.field input {
+  background-color: #F8FAFC;
+  border: 1px solid transparent;
+  padding: 6px 10px;
+  font-family: var(--fonte-inter);
+  font-size: 16px; /* body1 */
+  font-weight: 400;
+}
+
+.field input:focus,
+input:focus {
+  background-color: #FFFFFF;
+  border-color: var(--cor-azul-primario);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--cor-azul-brilho);
+}
+
+/* ============================================================
+   Seção de Alterar Senha (Accordion <details>)
+   ============================================================ */
+details {
+  margin-top: 24px;
+  border-top: 1px solid var(--borda-suave);
+  padding-top: 20px;
+}
+
+summary {
+  font-family: var(--fonte-inter);
+  font-size: 15px; /* subtitle2 */
+  font-weight: 500;
+  color: var(--cor-azul-primario);
+  cursor: pointer;
+  user-select: none;
+  padding: 6px 0;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color var(--transicao-rapida);
+}
+
+summary:hover {
+  color: var(--cor-azul-hover);
+}
+
+/* Formulário de Alteração de Senha */
+#password-form {
+  margin-top: 16px;
+  display: grid;
+  gap: 14px;
+  background-color: #F8FAFC;
+  border: 1px solid var(--borda-suave);
+  border-radius: var(--raio-item);
+  padding: 20px;
+}
+
+#password-form p {
+  margin: 0;
+}
+
+#password-form label {
+  font-family: var(--fonte-inter);
+  font-size: 14px; /* body2 */
+  font-weight: 400;
+  color: var(--texto-rotulo);
+  display: block;
+}
+
+#password-form button[type="button"]:hover svg {
+  stroke: var(--cor-azul-primario);
+}
+
+/* ============================================================
+   Painel do Processo da Jornada (Card Inferior)
+   ============================================================ */
+.journey {
+  margin-top: 24px;
+  min-height: 200px;
+  padding: 28px 32px 36px;
+}
+
+.journey h2 {
+  margin-left: 0;
+  margin-bottom: 6px;
+  font-family: var(--fonte-inter);
+  font-weight: 500;
+  font-size: 21px; /* h6 */
+}
+
+.journey > p {
+  font-family: var(--fonte-inter);
+  font-size: 14px; /* body2 */
+  font-weight: 400;
+  color: var(--texto-suave);
+  margin-bottom: 24px;
+}
+
+.progress-wrap {
+  margin-top: 20px;
+}
+
+/* Trilho da Barra de Progresso */
+.track {
+  height: 24px;
+  background-color: #E2E8F0;
+  border-radius: var(--raio-pilula);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Preenchimento Dinâmico da Barra */
+.fill {
+  height: 100%;
+  background-color: var(--cor-verde-menta);
+  border-radius: var(--raio-pilula);
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+}
+
+/* Linhas Marcadoras de Fases */
+.fill::before,
+.fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2.5px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.fill::before {
+  left: 21.5%;
+}
+
+.fill::after {
+  left: 85%;
+}
+
+/* Rótulos dos Marcos da Jornada */
+.milestones {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px 0;
+  font-family: var(--fonte-inter);
+  font-weight: 500;
+  font-size: 15px; /* subtitle2 */
+  color: var(--texto-rotulo);
+}
+
+.milestones span {
+  text-align: center;
+  flex: 1;
+}
+
+/* ============================================================
+   Caixa de Diálogo Modal (<dialog>)
+   ============================================================ */
+dialog {
+  border: 0;
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 460px;
+  width: 90%;
+  color: var(--texto-titulo);
+  background-color: #FFFFFF;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  font-family: var(--fonte-inter);
+  margin: auto;
+}
+
+dialog::backdrop {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+dialog[open] {
+  animation: surgimentoModal 0.25s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+@keyframes surgimentoModal {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+dialog h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-family: var(--fonte-roboto);
+  font-weight: 400;
+  font-size: 26px; /* h5 */
+  color: var(--texto-titulo);
+}
+
+dialog p {
+  font-family: var(--fonte-inter);
+  font-size: 16px; /* body1 */
+  font-weight: 400;
+  color: var(--texto-corpo);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+dialog form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+dialog button.primary {
+  width: auto;
+  min-width: 110px;
+  min-height: 42px;
+  padding: 10px 20px;
+  font-family: var(--fonte-inter);
+  font-size: 13px; /* button */
+  font-weight: 500;
+  margin-top: 0;
+}
+
+/* ============================================================
+   Rodapé da Página
+   ============================================================ */
+footer {
+  font-family: var(--fonte-inter);
+  font-size: 12px; /* caption */
+  font-weight: 400;
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--texto-suave);
+}
+
+/* ============================================================
+   Adaptações Responsivas (Media Queries)
+   ============================================================ */
+
+/* Telas Médias e Tablets (<= 1050px) */
+@media (max-width: 1050px) {
+  .page {
+    margin: 20px auto 36px;
+  }
+
+  .nav {
+    gap: 18px;
+  }
+
+  .nav a {
+    font-size: 12px;
+  }
+
+  .topbar {
+    gap: 16px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 280px 1fr;
+    gap: 18px;
+  }
+
+  .portrait {
+    width: 140px;
+    height: 140px;
+    font-size: 42px;
+  }
+
+  .profile h1,
+  #profile-name {
+    font-size: 30px;
+  }
+
+  .milestones {
+    padding-inline: 12px;
+    font-size: 13px;
+  }
+}
+
+/* Dispositivos Móveis (<= 760px) */
+@media (max-width: 760px) {
+  .page {
+    margin: 16px auto 28px;
+    padding: 0 14px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+    gap: 12px;
+  }
+
+  .brand {
+    font-size: 22px;
+  }
+
+  .brand svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 8px 0 4px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav a {
+    font-size: 12px;
+  }
+
+  .account {
+    margin-left: auto;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .profile {
+    padding: 24px 20px;
+  }
+
+  .portrait {
+    width: 120px;
+    height: 120px;
+    font-size: 36px;
+    margin-bottom: 14px;
+  }
+
+  .profile h1,
+  #profile-name {
+    font-size: 26px; /* h5 */
+  }
+
+  .primary {
+    max-width: 100%;
+  }
+
+  .details {
+    padding: 22px 18px 26px;
+  }
+
+  .fields {
+    margin-top: 18px;
+    gap: 12px;
+  }
+
+  .field {
+    gap: 14px;
+    padding: 10px 14px;
+  }
+
+  .field dt {
+    font-size: 11px;
+  }
+
+  .field dd,
+  .field input {
+    font-size: 14px; /* body2 */
+  }
+
+  .journey {
+    margin-top: 18px;
+    padding: 22px 18px 26px;
+    min-height: auto;
+  }
+
+  .milestones {
+    font-size: 12px;
+    padding: 10px 0 0;
+    gap: 6px;
+  }
+
+  .track {
+    height: 20px;
+  }
+}
