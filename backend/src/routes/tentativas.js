@@ -13,7 +13,10 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
   if (protegida) {
     const { data, error } = await supabase.from('tentativas').select('sessao_prova')
       .eq('idtentativas', protegida[1]).eq('usuarios_idusuarios', req.usuario.id).maybeSingle();
-    if (error) return responder(res, 503, { erro: 'Não foi possível consultar a tentativa.' });
+        if (error) {
+      console.error("ERRO SESSAO_PROVA:", error);
+      return responder(res, 503, { erro: 'Não foi possível consultar a tentativa.' });
+    }
     if (data?.sessao_prova) return responder(res, 409, { erro: 'Retome esta tentativa pela página de certificação.' });
   }
   console.log("ENTROU EM TENTATIVAS:", req.method, pathname);

@@ -28,7 +28,8 @@ app.get("/api/teste-supabase", async (req, res) => {
       .limit(1);
     if (error) throw error;
     res.json({ status: "ok" });
-  } catch {
+  } catch (erro) {
+    console.error("TESTE SUPABASE:", erro);
     res.status(503).json({ erro: "Banco de dados indisponível." });
   }
 });
@@ -36,7 +37,7 @@ app.get("/api/teste-supabase", async (req, res) => {
 // Somente os arquivos públicos do frontend são servidos.
 const frontendPath = fileURLToPath(new URL('../../frontend/src/', import.meta.url));
 app.get('/', (req, res) => res.redirect('/login.html'));
-app.get('/teste-prova.html', (req, res) => res.redirect('/certificacao.html'));
+//app.get('/teste-prova.html', (req, res) => res.redirect('/certificacao.html'));
 app.use(express.static(frontendPath, { index: false, dotfiles: 'deny' }));
 
 app.use(async (req, res, next) => {
@@ -51,7 +52,10 @@ app.use(async (req, res, next) => {
     if (!(await autorizarRota(req, res, pathname, supabase))) return;
     if (await questoesRoutes(req, res, pathname, supabase)) return;
     if (!(await executarRotas(req, res, pathname, supabase))) next();
-  } catch (error) { next(error); }
+    } catch (error) {
+    console.error("ERRO NA ROTA:", req.method, req.originalUrl, error);
+    next(error);
+  }
 });
 
 app.use(async (req, res, next) => {
