@@ -1,0 +1,21 @@
+:root { color-scheme: light; }
+body { margin: 0; background: #f4f7f5; color: #17271f; font-family: system-ui, sans-serif; line-height: 1.6; }
+[hidden] { display: none !important; }
+.prova-header { display: flex; justify-content: space-between; gap: 1rem; padding: 1.25rem max(1rem, calc((100% - 840px)/2)); background: #163c2b; }
+.prova-header a { color: white; text-decoration: none; font-weight: 600; }
+.prova-card { max-width: 780px; margin: 2rem auto; padding: 2rem; border: 1px solid #d9e4dd; border-radius: 1rem; background: white; }
+.prova-eyebrow { font-size: .75rem; letter-spacing: .12em; font-weight: 700; color: #286849; }
+h1 { line-height: 1.2; font-size: clamp(1.8rem, 4vw, 2.5rem); }
+.prova-acoes { display: flex; flex-wrap: wrap; gap: .75rem; }
+button { border: 1px solid #286849; border-radius: .5rem; background: #1e6845; color: white; padding: .8rem 1.2rem; font: inherit; font-weight: 600; cursor: pointer; }
+button:disabled { opacity: .55; cursor: wait; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #db930b; outline-offset: 3px; }
+#prova-mensagem { padding: .75rem 1rem; background: #edf5ef; border-radius: .5rem; }
+#prova-progresso, #prova-tempo { font-weight: 700; }
+#prova-tempo { color: #885600; font-variant-numeric: tabular-nums; }
+#prova-imagem { max-width: 100%; max-height: 260px; object-fit: contain; }
+fieldset { border: 0; padding: 0; margin: 1.5rem 0; min-width: 0; }
+legend { font-weight: 600; margin-bottom: .75rem; }
+fieldset label { display: flex; align-items: baseline; gap: .75rem; border: 1px solid #ccdcd1; border-radius: .5rem; padding: .85rem; margin-bottom: .6rem; overflow-wrap: anywhere; cursor: pointer; }
+fieldset input { flex-shrink: 0; accent-color: #1e6845; }
+@media (max-width: 600px) { .prova-card { margin: 1rem; padding: 1.25rem; } .prova-acoes button { width: 100%; } }

@@ -248,6 +248,19 @@ progress {
   margin-top: 1rem;
 }
 
+/* Imagem da questão e aviso quando ela não carrega */
+.imagem-questao {
+  display: block;
+  max-width: min(100%, 360px);
+  height: auto;
+  margin: 0 0 1rem;
+}
+
+.imagem-indisponivel {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .pergunta-quiz p {
   font-weight: 600;
   margin-bottom: 0.75rem;
@@ -312,4 +325,24 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .study-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.botao-prova {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                transform 0.2s ease;
+}
+
+.botao-prova:hover {
+    background-color: #1d4ed8;
+    transform: background-color 0.2s, opacity 0.2s;
 }

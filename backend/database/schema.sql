@@ -454,6 +454,7 @@ ALTER TABLE conteudos ALTER COLUMN titulo TYPE TEXT;
 ALTER TABLE conteudos ADD COLUMN IF NOT EXISTS codigo_seed TEXT UNIQUE;
 ALTER TABLE conteudos ADD COLUMN IF NOT EXISTS recurso_url TEXT;
 ALTER TABLE questoes ADD COLUMN IF NOT EXISTS codigo_seed TEXT UNIQUE;
+ALTER TABLE questoes ADD COLUMN IF NOT EXISTS imagem_alt TEXT;
 -- Na primeira adaptacao, status=true era a regra de publicacao do projeto.
 -- Preserva essa publicacao para questoes validas; novas questoes continuam RASCUNHO.
 -- Reaplicacoes nunca sobrescrevem decisoes editoriais posteriores.
@@ -521,12 +522,44 @@ GRANT USAGE ON SCHEMA public TO service_role;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO service_role;
 
 ALTER TABLE public.usuarios ADD COLUMN IF NOT EXISTS versao_sessao INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE public.tentativas
+  ADD COLUMN IF NOT EXISTS sessao_prova UUID,
+  ADD COLUMN IF NOT EXISTS ultimo_contato_em TIMESTAMPTZ;
 ALTER TABLE public.tentativas_questoes
   ADD COLUMN IF NOT EXISTS ordem INTEGER CHECK (ordem BETWEEN 1 AND 12),
   ADD COLUMN IF NOT EXISTS iniciado_em TIMESTAMPTZ,
   ADD COLUMN IF NOT EXISTS expira_em TIMESTAMPTZ,
-  ADD COLUMN IF NOT EXISTS expirou BOOLEAN NOT NULL DEFAULT FALSE;
+  ADD COLUMN IF NOT EXISTS expirou BOOLEAN NOT NULL DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS resposta_correta CHAR(1),
+  ADD COLUMN IF NOT EXISTS motivo_encerramento TEXT
+    CHECK (motivo_encerramento IN ('RESPOSTA','TEMPO','CONEXAO','FECHAMENTO','RETOMADA'));
+ALTER TABLE public.tentativas_questoes ALTER COLUMN respondido_em DROP DEFAULT;
 CREATE UNIQUE INDEX IF NOT EXISTS tentativas_ordem_uq ON public.tentativas_questoes(tentativas_idtentativas, ordem);
+
+-- Adota somente tentativas legadas que já possuem 12 temas distintos.
+WITH elegiveis AS (
+  SELECT tq.tentativas_idtentativas
+  FROM public.tentativas_questoes tq
+  JOIN public.questoes q ON q.idquestoes=tq.questoes_idquestoes
+  GROUP BY tq.tentativas_idtentativas
+  HAVING count(*)=12 AND count(DISTINCT q.temas_idtemas)=12 AND count(tq.ordem)=0
+), ordenadas AS (
+  SELECT tq.tentativas_idtentativas,tq.questoes_idquestoes,
+    row_number() OVER (
+      PARTITION BY tq.tentativas_idtentativas
+      ORDER BY t.ordem NULLS LAST,t.idtemas
+    )::INTEGER AS ordem
+  FROM public.tentativas_questoes tq
+  JOIN elegiveis e USING(tentativas_idtentativas)
+  JOIN public.questoes q ON q.idquestoes=tq.questoes_idquestoes
+  JOIN public.temas t ON t.idtemas=q.temas_idtemas
+)
+UPDATE public.tentativas_questoes tq SET ordem=o.ordem,
+  respondida=(tq.respondida OR tq.expirou OR
+    (tq.respondido_em IS NOT NULL AND tq.resposta_escolhida IS NOT NULL))
+FROM ordenadas o
+WHERE tq.tentativas_idtentativas=o.tentativas_idtentativas
+  AND tq.questoes_idquestoes=o.questoes_idquestoes;
 
 -- JWT próprio: somente o backend, usando service_role, pode chamar estas funções.
 -- SECURITY INVOKER preserva os privilégios do chamador; nenhum bypass adicional.
@@ -651,7 +684,7 @@ BEGIN
   END LOOP;
   -- Desativação editorial durante uma prova também bloqueia nova entrega.
   SELECT jsonb_build_object('idquestoes',q.idquestoes,'temas_idtemas',q.temas_idtemas,
-    'enunciado',q.enunciado,'imagem_url',q.imagem_url) INTO questao
+    'enunciado',q.enunciado,'imagem_url',q.imagem_url,'imagem_alt',q.imagem_alt) INTO questao
     FROM public.questoes q JOIN public.temas t ON t.idtemas=q.temas_idtemas
     WHERE q.idquestoes=atual.questoes_idquestoes AND q.status AND q.status_editorial='APROVADO' AND t.ativo;
   SELECT jsonb_agg(jsonb_build_object('idalternativas',a.idalternativas,'letra',a.letra,'texto',a.texto) ORDER BY a.letra)
@@ -746,14 +779,223 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION public.resumo_continuidade_prova(
+  p_usuario INTEGER,p_tentativa INTEGER
+)
+RETURNS JSONB LANGUAGE sql SECURITY INVOKER SET search_path = '' AS $$
+  SELECT jsonb_build_object(
+    'tentativa',jsonb_build_object(
+      'idtentativas',t.idtentativas,'status',t.status,'iniciado_em',t.iniciado_em,
+      'acertos',t.acertos,'percentual',t.percentual,'aprovado',t.aprovado),
+    'total_questoes',count(q.questoes_idquestoes),
+    'respondidas',count(*) FILTER (WHERE q.respondida),
+    'pendentes',count(*) FILTER (WHERE NOT q.respondida),
+    'questao_aberta',(SELECT jsonb_build_object(
+      'idquestoes',a.questoes_idquestoes,'ordem',a.ordem,'expira_em',a.expira_em)
+      FROM public.tentativas_questoes a
+      WHERE a.tentativas_idtentativas=t.idtentativas
+        AND NOT a.respondida AND a.iniciado_em IS NOT NULL
+      ORDER BY a.ordem LIMIT 1),
+    'agora',clock_timestamp())
+  FROM public.tentativas t
+  LEFT JOIN public.tentativas_questoes q
+    ON q.tentativas_idtentativas=t.idtentativas
+  WHERE t.idtentativas=p_tentativa AND t.usuarios_idusuarios=p_usuario
+  GROUP BY t.idtentativas;
+$$;
+
+CREATE OR REPLACE FUNCTION public.operar_continuidade_prova_base(
+  p_usuario INTEGER,p_acao TEXT,p_tentativa INTEGER DEFAULT NULL,
+  p_sessao UUID DEFAULT NULL,p_questao INTEGER DEFAULT NULL,
+  p_alternativa INTEGER DEFAULT NULL,p_motivo TEXT DEFAULT NULL
+)
+RETURNS JSONB LANGUAGE plpgsql SECURITY INVOKER SET search_path = '' AS $$
+DECLARE
+  t public.tentativas;
+  q public.tentativas_questoes;
+  resultado JSONB;
+  motivo TEXT;
+  agora TIMESTAMPTZ;
+BEGIN
+  IF p_acao NOT IN (
+    'atual','iniciar','retomar','estado','proxima','presenca','responder',
+    'pausar','interromper','finalizar'
+  ) OR (p_acao<>'atual' AND p_sessao IS NULL) THEN
+    RETURN jsonb_build_object('erro_codigo','ACAO_INVALIDA');
+  END IF;
+
+  IF p_acao IN ('atual','iniciar') THEN
+    PERFORM 1 FROM public.usuarios WHERE idusuarios=p_usuario FOR UPDATE;
+    IF NOT FOUND THEN RETURN jsonb_build_object('erro_codigo','NAO_ENCONTRADA'); END IF;
+    SELECT * INTO t FROM public.tentativas
+      WHERE usuarios_idusuarios=p_usuario AND status IN ('EM_ANDAMENTO','INTERROMPIDA')
+      ORDER BY idtentativas DESC LIMIT 1 FOR UPDATE;
+    IF p_acao='atual' THEN
+      IF t.idtentativas IS NULL THEN RETURN jsonb_build_object('tentativa',NULL); END IF;
+      RETURN public.resumo_continuidade_prova(p_usuario,t.idtentativas);
+    END IF;
+    IF t.idtentativas IS NULL THEN
+      resultado:=public.iniciar_prova(p_usuario);
+      IF resultado ? 'erro_codigo' THEN RETURN resultado; END IF;
+      SELECT * INTO t FROM public.tentativas
+        WHERE idtentativas=(resultado->'tentativa'->>'idtentativas')::INTEGER FOR UPDATE;
+    END IF;
+  ELSE
+    SELECT * INTO t FROM public.tentativas
+      WHERE idtentativas=p_tentativa AND usuarios_idusuarios=p_usuario FOR UPDATE;
+    IF NOT FOUND THEN RETURN jsonb_build_object('erro_codigo','NAO_ENCONTRADA'); END IF;
+  END IF;
+
+  IF (SELECT count(*) FROM public.tentativas_questoes
+      WHERE tentativas_idtentativas=t.idtentativas AND ordem IS NOT NULL)<>12 THEN
+    RETURN jsonb_build_object('erro_codigo','PROVA_INVALIDA');
+  END IF;
+  IF p_acao NOT IN ('iniciar','retomar') AND t.sessao_prova IS DISTINCT FROM p_sessao THEN
+    RETURN jsonb_build_object('erro_codigo','SESSAO_INVALIDA');
+  END IF;
+  IF t.status='FINALIZADA' THEN
+    IF p_acao IN ('finalizar','estado') THEN
+      RETURN public.finalizar_prova(p_usuario,t.idtentativas);
+    END IF;
+    RETURN jsonb_build_object('erro_codigo','INDISPONIVEL');
+  END IF;
+  IF t.status NOT IN ('EM_ANDAMENTO','INTERROMPIDA') THEN
+    RETURN jsonb_build_object('erro_codigo','INDISPONIVEL');
+  END IF;
+
+  agora:=clock_timestamp();
+  SELECT * INTO q FROM public.tentativas_questoes
+    WHERE tentativas_idtentativas=t.idtentativas
+      AND NOT respondida AND iniciado_em IS NOT NULL
+    ORDER BY ordem LIMIT 1;
+  IF q.questoes_idquestoes IS NOT NULL THEN
+    IF p_acao='interromper' AND (
+      p_questao IS DISTINCT FROM q.questoes_idquestoes OR
+      p_motivo NOT IN ('CONEXAO','FECHAMENTO') OR p_motivo IS NULL
+    ) THEN
+      RETURN jsonb_build_object('erro_codigo','ACAO_INVALIDA');
+    END IF;
+    motivo:=CASE
+      WHEN q.expira_em<=agora THEN 'TEMPO'
+      WHEN p_acao IN ('iniciar','retomar') AND t.sessao_prova IS DISTINCT FROM p_sessao THEN 'RETOMADA'
+      WHEN t.ultimo_contato_em IS NULL OR t.ultimo_contato_em+INTERVAL '30 seconds'<=agora THEN 'CONEXAO'
+      WHEN p_acao='interromper' THEN p_motivo
+      ELSE NULL END;
+    IF motivo IS NOT NULL THEN
+      UPDATE public.tentativas_questoes
+      SET respondida=true,acertou=false,expirou=(motivo='TEMPO'),
+        respondido_em=agora,motivo_encerramento=motivo
+      WHERE tentativas_idtentativas=t.idtentativas
+        AND questoes_idquestoes=q.questoes_idquestoes;
+      IF motivo<>'TEMPO' THEN
+        UPDATE public.tentativas SET status='INTERROMPIDA'
+          WHERE idtentativas=t.idtentativas;
+        t.status:='INTERROMPIDA';
+      END IF;
+      IF p_acao='responder' THEN
+        RETURN jsonb_build_object('erro_codigo','TEMPO_ESGOTADO');
+      END IF;
+    END IF;
+  END IF;
+
+  IF p_acao IN ('iniciar','retomar') THEN
+    UPDATE public.tentativas
+    SET status='EM_ANDAMENTO',sessao_prova=p_sessao,ultimo_contato_em=agora
+    WHERE idtentativas=t.idtentativas;
+    RETURN public.resumo_continuidade_prova(p_usuario,t.idtentativas);
+  ELSIF p_acao='pausar' THEN
+    IF EXISTS(SELECT 1 FROM public.tentativas_questoes
+      WHERE tentativas_idtentativas=t.idtentativas
+        AND iniciado_em IS NOT NULL AND NOT respondida) THEN
+      RETURN jsonb_build_object('erro_codigo','QUESTAO_ABERTA');
+    END IF;
+    UPDATE public.tentativas SET status='INTERROMPIDA'
+      WHERE idtentativas=t.idtentativas;
+  ELSIF p_acao='proxima' THEN
+    IF t.status<>'EM_ANDAMENTO' THEN
+      RETURN jsonb_build_object('erro_codigo','INDISPONIVEL');
+    END IF;
+    UPDATE public.tentativas SET ultimo_contato_em=agora
+      WHERE idtentativas=t.idtentativas;
+    resultado:=public.proxima_questao_segura(p_usuario,t.idtentativas);
+    RETURN resultado || jsonb_build_object('agora',clock_timestamp());
+  ELSIF p_acao='responder' THEN
+    IF t.status<>'EM_ANDAMENTO' THEN
+      RETURN jsonb_build_object('erro_codigo','INDISPONIVEL');
+    END IF;
+    resultado:=public.responder_prova(
+      p_usuario,t.idtentativas,p_questao,p_alternativa);
+    IF NOT (resultado ? 'erro_codigo') THEN
+      UPDATE public.tentativas_questoes SET motivo_encerramento='RESPOSTA'
+      WHERE tentativas_idtentativas=t.idtentativas
+        AND questoes_idquestoes=p_questao;
+    END IF;
+    RETURN resultado;
+  ELSIF p_acao='finalizar' THEN
+    RETURN public.finalizar_prova(p_usuario,t.idtentativas);
+  ELSIF p_acao='presenca' THEN
+    UPDATE public.tentativas SET ultimo_contato_em=agora
+      WHERE idtentativas=t.idtentativas;
+  END IF;
+  RETURN public.resumo_continuidade_prova(p_usuario,t.idtentativas);
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.operar_continuidade_prova(
+  p_usuario INTEGER,p_acao TEXT,p_tentativa INTEGER DEFAULT NULL,
+  p_sessao UUID DEFAULT NULL,p_questao INTEGER DEFAULT NULL,
+  p_alternativa INTEGER DEFAULT NULL,p_motivo TEXT DEFAULT NULL
+)
+RETURNS JSONB LANGUAGE plpgsql SECURITY INVOKER SET search_path = '' AS $$
+BEGIN
+  IF p_acao='iniciar' THEN
+    PERFORM 1 FROM public.usuarios WHERE idusuarios=p_usuario FOR UPDATE;
+    IF NOT FOUND THEN RETURN jsonb_build_object('erro_codigo','NAO_ENCONTRADA'); END IF;
+    IF NOT EXISTS(SELECT 1 FROM public.tentativas
+      WHERE usuarios_idusuarios=p_usuario AND status IN ('EM_ANDAMENTO','INTERROMPIDA'))
+      AND (SELECT count(*) FROM public.progresso_estudos p
+        JOIN public.temas t ON t.idtemas=p.temas_idtemas
+        WHERE p.usuarios_idusuarios=p_usuario AND t.ativo)<>12 THEN
+      RETURN jsonb_build_object('erro_codigo','ESTUDOS_PENDENTES');
+    END IF;
+  END IF;
+  RETURN public.operar_continuidade_prova_base(
+    p_usuario,p_acao,p_tentativa,p_sessao,p_questao,p_alternativa,p_motivo);
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.congelar_gabarito_continuidade()
+RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path = '' AS $$
+BEGIN
+  IF NEW.respondido_em IS NOT NULL AND NEW.resposta_escolhida IS NOT NULL THEN
+    NEW.respondida:=true;
+  END IF;
+  IF NOT OLD.respondida AND NEW.respondida AND NEW.resposta_correta IS NULL THEN
+    SELECT letra INTO NEW.resposta_correta FROM public.alternativas
+    WHERE questoes_idquestoes=NEW.questoes_idquestoes AND correta LIMIT 1;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+DROP TRIGGER IF EXISTS congelar_gabarito_continuidade ON public.tentativas_questoes;
+CREATE TRIGGER congelar_gabarito_continuidade
+BEFORE UPDATE ON public.tentativas_questoes
+FOR EACH ROW EXECUTE FUNCTION public.congelar_gabarito_continuidade();
+
 REVOKE ALL ON FUNCTION public.alterar_senha_segura(INTEGER,TEXT,TEXT),
   public.limitar_autenticacao(TEXT,TEXT,BOOLEAN),public.iniciar_prova(INTEGER),
   public.proxima_questao_segura(INTEGER,INTEGER),public.responder_prova(INTEGER,INTEGER,INTEGER,INTEGER),
-  public.finalizar_prova(INTEGER,INTEGER) FROM PUBLIC,anon,authenticated;
+  public.finalizar_prova(INTEGER,INTEGER),public.resumo_continuidade_prova(INTEGER,INTEGER),
+  public.operar_continuidade_prova_base(INTEGER,TEXT,INTEGER,UUID,INTEGER,INTEGER,TEXT),
+  public.operar_continuidade_prova(INTEGER,TEXT,INTEGER,UUID,INTEGER,INTEGER,TEXT),
+  public.congelar_gabarito_continuidade() FROM PUBLIC,anon,authenticated;
 GRANT EXECUTE ON FUNCTION public.alterar_senha_segura(INTEGER,TEXT,TEXT),
   public.limitar_autenticacao(TEXT,TEXT,BOOLEAN),public.iniciar_prova(INTEGER),
   public.proxima_questao_segura(INTEGER,INTEGER),public.responder_prova(INTEGER,INTEGER,INTEGER,INTEGER),
-  public.finalizar_prova(INTEGER,INTEGER) TO service_role;
+  public.finalizar_prova(INTEGER,INTEGER),public.resumo_continuidade_prova(INTEGER,INTEGER),
+  public.operar_continuidade_prova_base(INTEGER,TEXT,INTEGER,UUID,INTEGER,INTEGER,TEXT),
+  public.operar_continuidade_prova(INTEGER,TEXT,INTEGER,UUID,INTEGER,INTEGER,TEXT),
+  public.congelar_gabarito_continuidade() TO service_role;
 -- A funcao do event trigger do Supabase nao e uma RPC da aplicacao.
 DO $secure_event_trigger$
 BEGIN
@@ -767,7 +1009,6 @@ NOTIFY pgrst, 'reload schema';
 
 
 -- Campos e tabela usados pelo projeto remoto e pelas rotas de estudos.
-ALTER TABLE public.tentativas ADD COLUMN IF NOT EXISTS sessao_prova UUID;
 CREATE TABLE IF NOT EXISTS public.respostas_estudos (
   idrespostas_estudos BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   usuarios_idusuarios INTEGER NOT NULL REFERENCES public.usuarios(idusuarios) ON DELETE CASCADE,

@@ -27,5 +27,10 @@ aplicacao local sobre o dump: ambas produziram o mesmo hash estrutural
 normalizado, com 13 tabelas, 82 colunas, 42 constraints, 36 indices, 7 funcoes
 e RLS ativo nas 13 tabelas.
 
+Esse resultado descreve a versao aplicada antes do merge da `develop`. O
+`schema.sql` atual tambem inclui continuidade da certificacao, historico e
+metadados de imagem; essa versao pos-merge ainda precisa ser validada sobre o
+dump e aplicada separadamente no projeto remoto.
+
 Docker fica para etapa posterior; seus scripts apenas foram ajustados para os
 dois arquivos.

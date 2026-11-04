@@ -6,11 +6,16 @@ import { limitarAutenticacao } from '../src/middleware/limite-autenticacao.js';
 import { autorizarRota } from '../src/middleware/autorizacao.js';
 import { alterarSenha } from '../src/routes/usuarios.js';
 import { tentativasRoutes } from '../src/routes/tentativas.js';
-import { temasRoutes } from '../src/routes/temas.js';
 import { conteudosRoutes } from '../src/routes/conteudos.js';
 import { questoesRoutes } from '../src/routes/questoes.js';
 import { alternativasRoutes } from '../src/routes/alternativas.js';
 import { certificadosRoutes } from '../src/routes/certificados.js';
+// O services/temas.js exige SUPABASE_URL logo ao ser importado. Sem um .env,
+// o arquivo inteiro de teste quebrava antes de rodar. Valores falsos bastam,
+// porque os testes usam um banco falso; por isso o import vem depois deles.
+process.env.SUPABASE_URL ??= 'https://teste.supabase.co';
+process.env.SUPABASE_SECRET_KEY ??= 'sb_secret_teste';
+const { temasRoutes } = await import('../src/routes/temas.js');
 const secret = 'segredo-de-teste-com-pelo-menos-32-caracteres';
 function response() {
   return { headers: {}, set(k,v) { this.headers[k]=v; return this; },
@@ -61,12 +66,12 @@ test('troca de senha revoga dois logins e token legado, permitindo nova sessão'
 test('prova usa dono do JWT, valida IDs e oculta erros SQL', async () => {
   const calls=[];let result={data:{erro_codigo:'BASE_INSUFICIENTE'}};
   const db={async rpc(name,params){calls.push({name,params});return result;}};
-  const req={method:'POST',usuario:{id:7},body:{usuarios_idusuarios:999}};
-  const base=response();await tentativasRoutes(req,base,'/api/tentativas',db);assert.equal(base.code,409);assert.deepEqual(calls[0],{name:'iniciar_prova',params:{p_usuario:7}});
+  const req={method:'POST',usuario:{id:7},body:{usuarios_idusuarios:999,sessao:'11111111-1111-4111-8111-111111111111'},headers:{'x-sessao-prova':'11111111-1111-4111-8111-111111111111'}};
+  const base=response();await tentativasRoutes(req,base,'/api/tentativas',db);assert.equal(base.code,409);assert.deepEqual(calls[0],{name:'operar_continuidade_prova',params:{p_usuario:7,p_acao:'iniciar',p_tentativa:null,p_sessao:'11111111-1111-4111-8111-111111111111',p_questao:null,p_alternativa:null,p_motivo:null}});
   const invalid=response();await tentativasRoutes({...req,body:{questoes_idquestoes:'1',alternativas_idalternativas:1}},invalid,'/api/tentativas/1/respostas',db); assert.equal(invalid.code,400);assert.equal(calls.length,1);
-  for(const code of ['FORA_SEQUENCIA','TEMPO_ESGOTADO','PENDENTE','PROVA_INVALIDA']) {result={data:{erro_codigo:code}};const res=response();await tentativasRoutes({...req,body:{questoes_idquestoes:1,alternativas_idalternativas:2}},res,'/api/tentativas/1/respostas',db);assert.equal(res.code,409);}
+  for(const code of ['FORA_SEQUENCIA','TEMPO_ESGOTADO','PENDENTE','PROVA_INVALIDA']) {result={data:{erro_codigo:code}};const res=response();await tentativasRoutes({...req,body:{questoes_idquestoes:1,alternativas_idalternativas:2,sessao:'11111111-1111-4111-8111-111111111111'}},res,'/api/tentativas/1/respostas',db);assert.equal(res.code,409);}
   result={error:{message:'SEGREDO_INTERNO tabela senha_hash',code:'42501'}};
-  for(const [method,path] of [['POST','/api/tentativas'],['GET','/api/tentativas/1/proxima-questao'],['POST','/api/tentativas/1/respostas'],['POST','/api/tentativas/1/finalizar']]) {const res=response();await tentativasRoutes({...req,method,body:{questoes_idquestoes:1,alternativas_idalternativas:2}},res,path,db);assert.equal(res.code,500);assert.doesNotMatch(JSON.stringify(res.body),/SEGREDO_INTERNO|senha_hash/);assert.ok(res.headers['X-Request-ID']);}
+  for(const [method,path] of [['POST','/api/tentativas'],['GET','/api/tentativas/1/proxima-questao'],['POST','/api/tentativas/1/respostas'],['POST','/api/tentativas/1/finalizar']]) {const res=response();await tentativasRoutes({...req,method,body:{questoes_idquestoes:1,alternativas_idalternativas:2,sessao:'11111111-1111-4111-8111-111111111111'}},res,path,db);assert.equal(res.code,500);assert.doesNotMatch(JSON.stringify(res.body),/SEGREDO_INTERNO|senha_hash/);assert.ok(res.headers['X-Request-ID']);}
 });
 test('leituras e escritas não expõem mensagens do banco', async () => {
   for(const code of ['23505','23503','42501']) {

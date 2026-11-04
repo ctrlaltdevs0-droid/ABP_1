@@ -375,6 +375,22 @@
             p.append(strong);
             div.append(p);
 
+            // Imagem da questão; se não carregar, mostra um aviso no lugar.
+            if (q.imagem_url) {
+              const img = document.createElement('img');
+              img.src = q.imagem_url;
+              img.alt = q.imagem_alt || 'Ilustração da questão';
+              img.className = 'imagem-questao';
+              img.loading = 'lazy';
+              img.addEventListener('error', () => {
+                const aviso = document.createElement('p');
+                aviso.className = 'imagem-indisponivel';
+                aviso.textContent = 'Imagem indisponível.';
+                img.replaceWith(aviso);
+              });
+              div.append(img);
+            }
+
             const opcoes = q.alternativas || [];
             const radios = [];
 
@@ -602,3 +618,29 @@
 
   carregar();
 })();
+
+function atualizarBotaoProva() {
+  const progresso = document.getElementById("progresso");
+  const acessoProva = document.getElementById("acesso-prova");
+
+  if (!progresso || !acessoProva) return;
+
+  const concluidos = Number(progresso.value);
+  const total = Number(progresso.max);
+
+  acessoProva.hidden = !(total === 12 && concluidos === 12);
+}
+
+// Verifica o progresso quando ele for atualizado
+const barraProgresso = document.getElementById("progresso");
+
+if (barraProgresso) {
+  const observador = new MutationObserver(atualizarBotaoProva);
+
+  observador.observe(barraProgresso, {
+    attributes: true,
+    attributeFilter: ["value"]
+  });
+
+  atualizarBotaoProva();
+}

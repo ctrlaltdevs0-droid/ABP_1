@@ -7,6 +7,8 @@ import { executarRotas } from "./routes/index.js";
 import { autorizarRota } from './middleware/autorizacao.js';
 import supabase from "./config/supabase.js";
 import { questoesRoutes } from "./routes/questoes.js";
+import { provaRoutes } from "./routes/prova.js";
+
 
 const app = express();
 const porta = process.env.PORT || 3000;
@@ -34,12 +36,13 @@ app.get("/api/teste-supabase", async (req, res) => {
 // Somente os arquivos públicos do frontend são servidos.
 const frontendPath = fileURLToPath(new URL('../../frontend/src/', import.meta.url));
 app.get('/', (req, res) => res.redirect('/login.html'));
+//app.get('/teste-prova.html', (req, res) => res.redirect('/certificacao.html'));
 app.use(express.static(frontendPath, { index: false, dotfiles: 'deny' }));
 
 app.use(async (req, res, next) => {
   try {
     const pathname = req.path;
-    if (!/^\/api\/(estudos|temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios)(\/|$)/.test(pathname)) return next();
+    if (!/^\/api\/(estudos|temas|conteudos|questoes|alternativas|tentativas|certificados|usuarios|historico)(\/|$)/.test(pathname)) return next();
     console.log("[AUTORIZAÇÃO]", {
       method: req.method,
       pathname,
@@ -48,7 +51,33 @@ app.use(async (req, res, next) => {
     if (!(await autorizarRota(req, res, pathname, supabase))) return;
     if (await questoesRoutes(req, res, pathname, supabase)) return;
     if (!(await executarRotas(req, res, pathname, supabase))) next();
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.use(async (req, res, next) => {
+  try {
+    const pathname = req.path;
+    // Identifica a rota da prova
+    if (!/^\/api\/prova\/iniciar\/?$/.test(pathname)) {
+      return next();
+    }
+    // Verifica a autenticação
+    if (!(await autorizarRota(req, res, pathname, supabase))) {
+      return;
+    }
+    // Executa a rota da prova
+    await provaRoutes(req, res, pathname, supabase);
+
+    if (res.headersSent) {
+      return;
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 app.use((req, res) => res.status(404).json({ erro: 'Rota não encontrada.' }));
 app.use((error, req, res, next) => {

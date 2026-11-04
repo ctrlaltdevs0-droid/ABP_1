@@ -123,7 +123,12 @@ As funcoes nativas de prova estao incluidas no schema. As rotas em
 `routes/tentativas.js` usam essas RPCs transacionais e sempre derivam o usuario
 do JWT validado, sem aceitar a identidade enviada no corpo da requisicao.
 
-- Tentativas legadas sem ordem persistida são recusadas; iniciar nova prova.
+- Tentativas legadas completas, com 12 temas distintos, recebem ordem sem novo
+  sorteio. Tentativas incompletas continuam recusadas.
+- A continuidade usa uma sessão UUID por página, preserva a tentativa e impede
+  que requisições atrasadas de outra aba respondam ou encerrem a questão atual.
+- O histórico congela o gabarito quando cada questão é encerrada e só o expõe
+  depois que a tentativa estiver finalizada.
 - Login: até 30 chamadas/IP e 10/conta por janela de 15 minutos. Cadastro:
   até 10/IP e 10/conta na mesma janela. Todas as chamadas contam, inclusive as
   bem-sucedidas. Ao exceder, a API responde 429 e `Retry-After`.

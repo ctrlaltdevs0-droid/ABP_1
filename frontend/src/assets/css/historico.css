@@ -1,0 +1,43 @@
+/* ==========================================================================
+   ÁGILCERT - HISTÓRICO DE PROVAS (historico.css)
+   ========================================================================== */
+
+/* --- Tabela das tentativas --- */
+.tabela-historico {
+  overflow-x: auto;
+}
+
+.tabela-historico table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.tabela-historico th,
+.tabela-historico td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.aprovado {
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.reprovado {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* --- Questões da tentativa --- */
+.questoes-historico {
+  padding-left: 1.2rem;
+}
+
+.questoes-historico li {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}

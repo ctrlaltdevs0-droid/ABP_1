@@ -30,6 +30,11 @@ As rotas de tentativas chamam as funcoes transacionais do schema para iniciar,
 entregar questoes, registrar respostas e finalizar a prova. O usuario e sempre
 derivado do JWT validado pelo backend.
 
+O merge da develop adiciona continuidade por sessao de pagina, retomada segura,
+historico de respostas e imagens com texto alternativo. Essas mudancas estao
+consolidadas nos dois arquivos de banco, mas a versao pos-merge ainda nao foi
+aplicada no Supabase remoto.
+
 ## Docker — etapa posterior
 
 O Compose existente oferece database, migrate, rest, gateway e app. O runner

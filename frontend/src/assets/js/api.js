@@ -23,10 +23,11 @@
   // Executa requisições HTTP para o backend.
   async function request(
     path,
-    { method = 'GET', body, authenticated = true } = {}
+    { method = 'GET', body, authenticated = true, headers: adicionais = {}, keepalive = false } = {}
   ) {
     const headers = {
       Accept: 'application/json',
+      ...adicionais,
     };
 
     // Define o tipo de conteúdo quando houver corpo.
@@ -51,6 +52,7 @@
         {
           method,
           headers,
+          keepalive,
           ...(body === undefined
             ? {}
             : { body: JSON.stringify(body) }),

@@ -19,4 +19,5 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 SQL
 run_sql < backend/database/schema.sql >/dev/null
 run_sql < backend/database/seed.sql >/dev/null
+run_sql < backend/test/sql/continuidade.sql
 SECURITY_TEST_CONTAINER="$container" node --test backend/test/provas-db.test.js

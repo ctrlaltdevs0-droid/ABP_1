@@ -21,7 +21,7 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
     if (url.hostname !== 'teste.supabase.co') return originalFetch(input, options);
     requests.push({ url, options });
     if (url.pathname === '/rest/v1/rpc/limitar_autenticacao') return Response.json(limite);
-    if (url.pathname === '/rest/v1/rpc/iniciar_prova') {
+    if (url.pathname === '/rest/v1/rpc/operar_continuidade_prova') {
       assert.equal(JSON.parse(options.body).p_usuario, 1);
       return Response.json({ erro_codigo: 'BASE_INSUFICIENTE' });
     }
@@ -174,7 +174,7 @@ test('API preserva filtros e não expõe dados ou erros do banco', async (t) => 
   assert.equal(requests.at(-1).url.searchParams.get('status'), 'eq.true');
 
   // Uma base de apenas um tema (mock acima) não pode iniciar nem emitir certificado.
-  const started = await request('/api/tentativas', 'POST', session.token, { usuarios_idusuarios: 999 });
+  const started = await request('/api/tentativas', 'POST', session.token, { usuarios_idusuarios: 999, sessao: '11111111-1111-4111-8111-111111111111' });
   assert.equal(started.status, 409);
   assert.doesNotMatch(JSON.stringify(await started.json()), /SEGREDO_INTERNO/);
   assert.equal((await request('/api/login/sair', 'POST', session.token, {})).status, 204);
