@@ -83,19 +83,22 @@ O Compose NÃO lê nem sobrescreve `backend/.env`. O banco antigo
 `infra/00-roles.sh` cria os papéis necessários no banco vazio. Em seguida,
 `infra/migrate.sh` executa:
 
-1. `backend/database/schema.sql`;
-2. todos os arquivos de `supabase/migrations`, por ordem de nome;
+1. `backend/database/schema.sql` consolidado, somente no banco vazio;
+2. migrations posteriores à baseline, por ordem de nome. As migrations até
+   `20261102220150` são apenas registradas em bancos novos; volumes com o schema
+   anterior recebem as migrations pendentes normalmente;
 3. `backend/database/seed.sql`, com temas, estudos, questões, alternativas e validação.
 
 A pasta `database` contém apenas `schema.sql` e `seed.sql`. A conexão fica em
 `backend/src/config/supabase.js`; a fonte de conteúdo em
 `backend/scripts/data/content-estudos.json`. A carga consolidada é registrada como
-`seed_completo_v2.sql`; os registros das cargas antigas são preservados no histórico.
+`seed_completo_v3.sql`; os registros das cargas antigas são preservados no histórico.
 
 Cada etapa é registrada em `app_private.schema_migrations`, com checksum e data.
 Uma transação por etapa inclui a aplicação e seu registro; um advisory lock
 serializa execuções. Uma repetição pula arquivos já aplicados e recusa arquivos
-históricos alterados. Adicionar novos arquivos de migração em vez de editar
+históricos alterados. A única compatibilidade aceita é o checksum conhecido do
+schema anterior à consolidação; seu registro original é preservado. Adicionar novos arquivos de migração em vez de editar
 arquivos já aplicados; atualizações futuras de carga exigem nova etapa versionada.
 Esse controle é local ao Compose e não substitui o histórico da CLI Supabase.
 

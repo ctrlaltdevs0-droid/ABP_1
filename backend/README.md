@@ -56,12 +56,9 @@ seus dados; novos cadastros exigem e-mail na API. Para um banco novo, utilize
 `backend/database/schema.sql`. Não execute esse schema inteiro sobre tabelas
 existentes.
 
-As rotas de tentativas e certificados também exigem
-`supabase/migrations/20261014171024_align_attempt_routes.sql` depois do schema
-base. A migração adiciona respostas vinculadas às questões da tentativa, impede
-respostas duplicadas e cria os campos de validação do certificado. A tabela de
-respostas mantém RLS ativa e acesso restrito ao backend. A migração não é
-executada automaticamente ao iniciar o servidor.
+O schema consolidado já inclui as rotas de tentativas e certificados, respostas,
+segurança de sessões e continuidade da prova. Bancos existentes continuam usando
+somente as migrations pendentes; não reaplique o schema consolidado.
 
 ## Testes
 
@@ -94,11 +91,14 @@ A pasta `backend/database` contém somente:
 - `seed.sql`: temas, materiais, questões, alternativas e validação da carga.
 
 As alterações de estrutura ficam em `supabase/migrations`. Para um banco vazio,
-aplique `schema.sql`, todas as migrações em ordem de nome e depois `seed.sql`.
+aplique somente `schema.sql` e depois `seed.sql`. A baseline inclui todas as
+migrations até `20261102220150_integra_continuidade_develop.sql`.
 Para um banco existente, aplique somente as migrações pendentes e a carga quando
 necessário; não execute novamente o schema. As migrações usam os papéis padrão
 `anon`, `authenticated` e `service_role`. No Compose completo, o serviço `migrate`
 aplica e registra essas etapas automaticamente, inclusive em volumes existentes.
+Em bancos novos, registra as migrations consolidadas sem executá-las novamente.
+O histórico incremental é preservado para atualizar bancos existentes.
 
 A carga de temas atualiza descrição e ordem sem trocar IDs ou reativar temas
 desativados. As cargas de materiais e questões possuem códigos estáveis e
