@@ -18,6 +18,5 @@ CREATE ROLE service_role NOLOGIN BYPASSRLS;
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 SQL
 run_sql < backend/database/schema.sql >/dev/null
-for migration in supabase/migrations/*.sql; do run_sql < "$migration" >/dev/null; done
 run_sql < backend/database/seed.sql >/dev/null
 SECURITY_TEST_CONTAINER="$container" node --test backend/test/provas-db.test.js

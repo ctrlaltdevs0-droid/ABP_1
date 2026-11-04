@@ -33,7 +33,6 @@ services:
     volumes:
       - ./infra/migrate.sh:/infra/migrate.sh:ro
       - ./backend/database:/base:ro
-      - ./supabase/migrations:/migrations:ro
     restart: 'no'
 
   rest:
