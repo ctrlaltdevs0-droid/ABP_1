@@ -56,7 +56,7 @@ O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CT
 
 **Ctrl Alt Devs!**
 
-[▶️ Vídeo de apresentação | ABP-1 Sprint 1](https://youtu.be/mRPE58jU3zM?si=vkCz45VXcsh5eP7U)
+[▶️ Vídeo de apresentação | ABP-2 Sprint 1](https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
 
 [▶️ PokerPlanning Sprint 1](https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
 
