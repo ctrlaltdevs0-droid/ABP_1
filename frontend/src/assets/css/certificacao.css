@@ -1,21 +1,678 @@
-:root { color-scheme: light; }
-body { margin: 0; background: #f4f7f5; color: #17271f; font-family: system-ui, sans-serif; line-height: 1.6; }
-[hidden] { display: none !important; }
-.prova-header { display: flex; justify-content: space-between; gap: 1rem; padding: 1.25rem max(1rem, calc((100% - 840px)/2)); background: #163c2b; }
-.prova-header a { color: white; text-decoration: none; font-weight: 600; }
-.prova-card { max-width: 780px; margin: 2rem auto; padding: 2rem; border: 1px solid #d9e4dd; border-radius: 1rem; background: white; }
-.prova-eyebrow { font-size: .75rem; letter-spacing: .12em; font-weight: 700; color: #286849; }
-h1 { line-height: 1.2; font-size: clamp(1.8rem, 4vw, 2.5rem); }
-.prova-acoes { display: flex; flex-wrap: wrap; gap: .75rem; }
-button { border: 1px solid #286849; border-radius: .5rem; background: #1e6845; color: white; padding: .8rem 1.2rem; font: inherit; font-weight: 600; cursor: pointer; }
-button:disabled { opacity: .55; cursor: wait; }
-button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #db930b; outline-offset: 3px; }
-#prova-mensagem { padding: .75rem 1rem; background: #edf5ef; border-radius: .5rem; }
-#prova-progresso, #prova-tempo { font-weight: 700; }
-#prova-tempo { color: #885600; font-variant-numeric: tabular-nums; }
-#prova-imagem { max-width: 100%; max-height: 260px; object-fit: contain; }
-fieldset { border: 0; padding: 0; margin: 1.5rem 0; min-width: 0; }
-legend { font-weight: 600; margin-bottom: .75rem; }
-fieldset label { display: flex; align-items: baseline; gap: .75rem; border: 1px solid #ccdcd1; border-radius: .5rem; padding: .85rem; margin-bottom: .6rem; overflow-wrap: anywhere; cursor: pointer; }
-fieldset input { flex-shrink: 0; accent-color: #1e6845; }
-@media (max-width: 600px) { .prova-card { margin: 1rem; padding: 1.25rem; } .prova-acoes button { width: 100%; } }
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --azul: #0755a4;
+  --azul-escuro: #064b91;
+  --texto: #637995;
+  --verde: #27d69a;
+  --fundo: #ffffff;
+  --painel: #f6f6f6;
+  --borda: #82909d;
+}
+
+body {
+  margin: 0;
+  padding: 0 24px 32px;
+  background: #fff;
+  color: var(--texto);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CABEÇALHO */
+
+.topo {
+  width: min(100%, 850px);
+  min-height: 58px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-logo {
+  height: 100px;
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+}
+/* CRONÔMETRO */
+
+.relogio {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #61748e;
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.relogio svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* ÁREA PRINCIPAL */
+
+main {
+  width: min(100%, 850px);
+  min-height: 570px;
+  margin: 0 auto;
+  padding: 18px 0 24px;
+  background: var(--painel);
+  border-radius: 10px 10px 0 0;
+}
+
+.conteudo {
+  padding: 0;
+}
+
+/* NAVEGAÇÃO */
+
+.navegacao {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 10px;
+  color: var(--azul);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.navegacao .seta {
+  font-size: 27px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+/* MENSAGENS */
+
+#erro {
+  margin: 10px 0;
+  padding: 0;
+  color: #b42318;
+  font-size: 14px;
+}
+
+#inicio,
+#resultado {
+  padding: 12px 30px 28px;
+}
+
+#inicio p,
+#resultado p {
+  line-height: 1.5;
+}
+
+/* PROGRESSO DA PROVA */
+
+#areaProva {
+  padding: 0;
+}
+
+.progresso-area {
+  padding: 0;
+}
+
+#contador {
+  margin: 0 0 4px;
+  color: #53677d;
+  font-size: 13px;
+}
+
+progress {
+  display: block;
+  width: 100%;
+  height: 9px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #d5dadd;
+  border-radius: 20px;
+  background: #f4f4f4;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background: #f4f4f4;
+  border-radius: 20px;
+}
+
+progress::-webkit-progress-value {
+  background: var(--verde);
+  border-radius: 20px;
+}
+
+progress::-moz-progress-bar {
+  background: var(--verde);
+  border-radius: 20px;
+}
+
+/* QUESTÃO E IMAGEM */
+
+.questao-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(250px, 1fr);
+  gap: 34px;
+  align-items: center;
+  padding: 48px 0 64px;
+}
+
+.questao-texto {
+  min-width: 0;
+}
+
+#enunciado {
+  margin: 0 0 28px;
+  color: #647995;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 400;
+}
+
+#imagemQuestao {
+  display: block;
+  width: 100%;
+  max-width: 290px;
+  height: 292px;
+  margin: 0 auto;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 3px 7px #0003;
+}
+
+/* ALTERNATIVAS */
+
+#alternativas {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.alternativa {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  margin: 0;
+  padding: 6px 15px;
+  gap: 18px;
+  color: #647995;
+  background: transparent;
+  border: 1px solid #718394;
+  border-radius: 7px;
+  box-shadow: 0 2px 4px #00000012;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background .15s, border-color .15s;
+}
+
+.alternativa:hover {
+  background: #edf4fb;
+  border-color: var(--azul);
+}
+
+.alternativa:has(input:checked) {
+  background: #e7f1fb;
+  border-color: var(--azul);
+}
+
+.alternativa input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  flex: 0 0 17px;
+  accent-color: var(--azul);
+  cursor: pointer;
+}
+
+/* BOTÕES */
+
+.acoes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 72px;
+}
+
+button {
+  min-width: 216px;
+  min-height: 46px;
+  padding: 12px 24px;
+  color: #fff;
+  background: var(--azul);
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 3px 6px #0003;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background .15s, transform .15s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--azul-escuro);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+#btnResponder {
+  margin: 0;
+}
+
+#btnIniciar {
+  margin-top: 16px;
+}
+
+#resultado h2 {
+  color: var(--azul);
+}
+
+/* ELEMENTOS OCULTOS */
+
+[hidden] {
+  display: none !important;
+}
+
+/* RESPONSIVIDADE PARA CELULAR */
+
+@media (max-width: 700px) {
+
+  body {
+    padding: 0 12px 20px;
+  }
+
+  .topo {
+    min-height: 58px;
+  }
+
+  main {
+    min-height: calc(100vh - 58px);
+    padding-top: 16px;
+  }
+
+  .questao-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 30px 18px 36px;
+  }
+
+  .questao-texto {
+    order: 1;
+  }
+
+  #imagemQuestao {
+    order: 2;
+    width: min(100%, 360px);
+    height: 230px;
+  }
+
+  #enunciado {
+    font-size: 19px;
+    margin-bottom: 22px;
+  }
+
+  .progresso-area {
+    padding: 0 18px;
+  }
+
+  .acoes {
+    padding: 0 18px;
+  }
+
+  button {
+    min-width: 0;
+  }
+
+  .acoes button {
+    flex: 1;
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+}
+
+/* TELAS PEQUENAS */
+
+@media (max-width: 420px) {
+
+  .marca {
+    font-size: 20px;
+  }
+
+  .relogio {
+    font-size: 14px;
+  }
+
+  .questao-layout {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .acoes {
+    padding: 0 12px;
+    gap: 10px;
+  }
+}
+
+/* =================================
+   TELA DE RESULTADO - AGILCERT
+================================= */
+
+#resultado {
+  max-width: 720px;
+  margin: 35px auto;
+  padding: 38px 35px;
+  background: #ffffff;
+  border: 1px solid #e1e8ef;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+/* TÍTULO PRINCIPAL */
+
+#resultado h2 {
+  color: #0755a4;
+  font-size: 27px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+/* TEXTO DE CONCLUSÃO */
+
+#resultado > p:first-of-type {
+  color: #718096;
+  font-size: 15px;
+  margin-bottom: 30px;
+}
+
+/* SUBTÍTULO */
+
+#resultado h3 {
+  color: #52677f;
+  font-size: 18px;
+  margin: 25px 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5ebf0;
+}
+
+/* INFORMAÇÕES DO RESULTADO */
+
+#acertos,
+#nota {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46%;
+  min-height: 85px;
+  margin: 8px 1%;
+  padding: 15px;
+  background: #f3f7fb;
+  border: 1px solid #e1eaf3;
+  border-radius: 10px;
+  color: #526b86;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* SITUAÇÃO DA PROVA */
+
+#situacao {
+  display: inline-block;
+  min-width: 190px;
+  margin: 25px auto 10px;
+  padding: 13px 28px;
+  border-radius: 8px;
+  background: #e8f8f0;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* ÁREA DO CERTIFICADO */
+
+#areaCertificado {
+  margin-top: 25px;
+  padding: 22px;
+  background: #f5f8fb;
+  border: 1px solid #e1eaf3;
+  border-radius: 10px;
+}
+
+#areaCertificado p {
+  color: #718096;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+/* BOTÃO DO CERTIFICADO */
+
+#btnCertificado {
+  min-width: 230px;
+  padding: 14px 25px;
+  background: #0755a4;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgba(7, 85, 164, 0.2);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#btnCertificado:hover:not(:disabled) {
+  background: #06417e;
+  transform: translateY(-2px);
+}
+
+/* LINK VOLTAR */
+
+#resultado a {
+  display: inline-block;
+  margin-top: 25px;
+  color: #0755a4;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#resultado a:hover {
+  color: #27b98a;
+  text-decoration: underline;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 600px) {
+
+  #resultado {
+    margin: 20px 12px;
+    padding: 28px 18px;
+  }
+
+  #resultado h2 {
+    font-size: 23px;
+  }
+
+  #resultado h3 {
+    font-size: 17px;
+  }
+
+  #acertos,
+  #nota {
+    width: 100%;
+    margin: 7px 0;
+    min-height: 65px;
+  }
+
+  #situacao {
+    font-size: 17px;
+  }
+
+  #btnCertificado {
+    width: 100%;
+    min-width: unset;
+  }
+}
+/* CENTRALIZAR CONTEÚDO DA TELA INICIAL */
+
+#inicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 500px;
+  padding: 30px;
+}
+
+/* TEXTO DA TELA INICIAL */
+
+#inicio h1,
+#inicio h2,
+#inicio p {
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* BOTÃO INICIAR PROVA */
+
+#btnIniciar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px auto 0;
+  min-width: 230px;
+  min-height: 50px;
+  text-align: center;
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+  #inicio {
+    min-height: 400px;
+    padding: 25px 18px;
+  }
+
+  #btnIniciar {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+/* =================================
+   TELA INICIAL - INICIAR PROVA
+================================= */
+
+#inicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 570px;
+  padding: 40px 25px;
+  text-align: center;
+}
+
+/* TEXTOS DE APRESENTAÇÃO */
+
+#inicio p {
+  max-width: 650px;
+  margin: 12px auto 22px;
+  color: #637995;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* BOTÃO INICIAR PROVA */
+
+#btnIniciar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-width: 255px;
+  min-height: 62px;
+  margin: 24px auto 0;
+  padding: 14px 28px;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #0864b9, #0755a4);
+  border: none;
+  border-radius: 10px;
+
+  box-shadow: 0 4px 10px rgba(7, 85, 164, 0.22);
+
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* ÍCONE DE PLAY */
+
+#btnIniciar::before {
+  content: "▶";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 27px;
+  height: 27px;
+
+  color: #0755a4;
+  background: #ffffff;
+  border-radius: 50%;
+
+  font-size: 12px;
+  padding-left: 2px;
+}
+
+/* EFEITO AO PASSAR O MOUSE */
+
+#btnIniciar:hover:not(:disabled) {
+  background: linear-gradient(135deg, #064b91, #033d79);
+  box-shadow: 0 6px 14px rgba(7, 85, 164, 0.30);
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 600px) {
+  #inicio {
+    min-height: 450px;
+    padding: 30px 18px;
+  }
+
+  #inicio p {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  #btnIniciar {
+    width: 100%;
+    max-width: 280px;
+    min-height: 56px;
+    font-size: 16px;
+  }
+}
+

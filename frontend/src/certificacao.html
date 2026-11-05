@@ -6,146 +6,232 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ÁgilCert | Teste da Prova</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      margin: 0;
-      padding: 20px;
-      color: #1e293b;
-    }
-
-    main {
-      max-width: 800px;
-      margin: 30px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px #0001;
-    }
-
-    h1 {
-      text-align: center;
-      color: #1d4ed8;
-    }
-
-    .alternativa {
-      display: block;
-      padding: 14px;
-      margin: 12px 0;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .alternativa:has(input:checked) {
-      background: #dbeafe;
-      border-color: #2563eb;
-    }
-
-    button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 14px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .erro {
-      color: #b91c1c;
-      margin: 15px 0;
-    }
-
-    progress {
-      width: 100%;
-      height: 20px;
-    }
-
-    [hidden] {
-      display: none !important;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/certificacao.css">
 </head>
 
 <body>
+
+  <header class="topo">
+    <div class="marca">
+  <img
+    src="assets/img/logo-transparente.png"
+    alt="ÁgilCert"
+    class="header-logo"
+  >
+</div>
+
+    <div class="relogio" aria-live="off">
+      <svg viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M12 7v5l3 2"></path>
+      </svg>
+      <span id="cronometro">02:30</span>
+    </div>
+  </header>
+
   <main>
-    <h1>ÁgilCert - Prova Final</h1>
-    <p>Teste de integração com o backend.</p>
+    <div class="conteudo">
 
-    <p id="erro" class="erro" role="alert"></p>
+      <p id="erro" role="alert"></p>
 
-    <section id="inicio">
-      <p>Você responderá 12 questões, uma de cada tema.</p>
-      <p>Cada questão possui quatro alternativas.</p>
-      <button id="btnIniciar">Iniciar prova</button>
-    </section>
+      <section id="inicio">
+        <p>Você responderá 12 questões, uma de cada tema.</p>
+        <p>Cada questão possui quatro alternativas.</p>
+        <button id="btnIniciar">Iniciar prova</button>
+      </section>
 
-    <section id="areaProva" hidden>
-      <p id="contador"></p>
-      <progress id="barra" value="0" max="12"></progress>
+      <section id="areaProva" hidden>
 
-      <h2 id="enunciado"></h2>
-      <img id="imagemQuestao" alt="Imagem da questão" style="max-width:100%" hidden>
+        <div class="navegacao">
+          <span class="seta">‹</span>
+          <span>Certificação</span>
+        </div>
 
-      <div id="alternativas"></div>
+        <div class="progresso-area">
+          <p id="contador"></p>
+          <progress id="barra" value="0" max="12"></progress>
+        </div>
 
-      <button id="btnResponder">
-        Confirmar resposta
-      </button>
-    </section>
+        <div class="questao-layout">
 
+          <div class="questao-texto">
+            <h2 id="enunciado"></h2>
+            <div id="alternativas"></div>
+          </div>
 
-    <section id="resultado" hidden>
-      <h2 id="tituloResultado">Prova concluída!</h2>
+          <img
+            id="imagemQuestao"
+            alt="Imagem da questão"
+            hidden
+          >
 
-      <p>Sua avaliação foi finalizada com sucesso.</p>
+        </div>
 
-      <h3>Resultado da prova</h3>
+        <div class="acoes">
+          <button id="btnAnterior" type="button" disabled>
+            ‹ &nbsp; Tema anterior
+          </button>
 
-      <p id="acertos"></p>
-      <p id="nota"></p>
-      <p id="situacao"></p>
+          <button id="btnResponder" type="button">
+            Próximo tema &nbsp; ›
+          </button>
+        </div>
 
-      <div id="areaCertificado" hidden>
-        <button id="btnCertificado" type="button" disabled>
-          Gerar certificado
-        </button>
-        <p>Emissão do certificado em desenvolvimento.</p>
-      </div>
+      </section>
 
-      <p>
-        <a href="estudos.html">Voltar aos estudos</a>
-      </p>
-    </section>
+      <section id="resultado" hidden>
 
+        <h2 id="tituloResultado">Prova concluída!</h2>
+
+        <p>Sua avaliação foi finalizada com sucesso.</p>
+
+        <h3>Resultado da prova</h3>
+
+        <p id="acertos"></p>
+        <p id="nota"></p>
+        <p id="situacao"></p>
+
+        <div id="areaCertificado" hidden>
+          <button id="btnCertificado" type="button" disabled>
+            Gerar certificado
+          </button>
+          <p>Emissão do certificado em desenvolvimento.</p>
+        </div>
+
+        <p>
+          <a href="estudos.html">Voltar aos estudos</a>
+        </p>
+
+      </section>
+
+    </div>
   </main>
 
+  <!-- JAVASCRIPT DA PROVA -->
+
   <script>
+
     let tentativaId = null;
     let questaoAtual = null;
     let numeroQuestao = 0;
     let totalQuestoes = 12;
     let processando = false;
 
+    // CRONÔMETRO: 150 SEGUNDOS POR QUESTÃO
+
+    const TEMPO_POR_QUESTAO = 150;
+
+    let intervaloCronometro = null;
+    let chaveCronometroAtual = null;
+    let prazoQuestao = null;
+
     const elemento = id => document.getElementById(id);
+
+    function formatarTempo(segundos) {
+
+      const s = Math.max(0, Math.ceil(segundos));
+
+      const minutos = String(Math.floor(s / 60)).padStart(2, "0");
+      const resto = String(s % 60).padStart(2, "0");
+
+      return `${minutos}:${resto}`;
+    }
+
+    // ATUALIZAR CRONÔMETRO
+
+    function atualizarCronometro() {
+
+      if (!prazoQuestao) return;
+
+      const restante = Math.max(
+        0,
+        Math.ceil((prazoQuestao - Date.now()) / 1000)
+      );
+
+      elemento("cronometro").textContent =
+        formatarTempo(restante);
+
+      elemento("cronometro").style.color =
+        restante <= 30 ? "#c0392b" : "#61748e";
+
+      if (restante === 0) {
+
+        clearInterval(intervaloCronometro);
+
+        intervaloCronometro = null;
+
+        mostrarErro(
+          "O tempo desta questão terminou. O cronômetro não será reiniciado ao atualizar a página."
+        );
+      }
+    }
+
+    // INICIAR CRONÔMETRO DA QUESTÃO
+
+    function iniciarCronometroQuestao() {
+
+      clearInterval(intervaloCronometro);
+
+      const idQuestao =
+        questaoAtual && questaoAtual.idquestoes;
+
+      chaveCronometroAtual =
+        `agilcert_prazo_${tentativaId}_${idQuestao}`;
+
+      const prazoSalvo = Number(
+        localStorage.getItem(chaveCronometroAtual)
+      );
+
+      prazoQuestao =
+        Number.isFinite(prazoSalvo) && prazoSalvo > 0
+          ? prazoSalvo
+          : Date.now() + TEMPO_POR_QUESTAO * 1000;
+
+      localStorage.setItem(
+        chaveCronometroAtual,
+        String(prazoQuestao)
+      );
+
+      atualizarCronometro();
+
+      intervaloCronometro = setInterval(
+        atualizarCronometro,
+        250
+      );
+    }
+
+    // ENCERRAR CRONÔMETRO
+
+    function encerrarCronometroQuestao() {
+
+      clearInterval(intervaloCronometro);
+
+      intervaloCronometro = null;
+
+      if (chaveCronometroAtual) {
+        localStorage.removeItem(chaveCronometroAtual);
+      }
+
+      chaveCronometroAtual = null;
+      prazoQuestao = null;
+
+      elemento("cronometro").textContent =
+        formatarTempo(TEMPO_POR_QUESTAO);
+
+      elemento("cronometro").style.color = "#61748e";
+    }
+
+    // MOSTRAR ERROS
 
     function mostrarErro(mensagem = "") {
       elemento("erro").textContent = mensagem;
     }
 
+    // REQUISIÇÕES AO BACKEND
+
     async function requisicao(url, metodo = "GET", corpo = null) {
+
       const token = localStorage.getItem("token");
 
       if (!token) {
@@ -160,14 +246,18 @@
       };
 
       if (corpo !== null) {
+
         opcoes.headers["Content-Type"] = "application/json";
+
         opcoes.body = JSON.stringify(corpo);
       }
 
       const resposta = await fetch(url, opcoes);
+
       const dados = await resposta.json();
 
       if (!resposta.ok) {
+
         throw new Error(
           dados.erro || dados.mensagem || "Erro no servidor."
         );
@@ -176,20 +266,27 @@
       return dados;
     }
 
+    // INICIAR PROVA
+
     async function iniciarProva() {
+
       if (processando) return;
 
       processando = true;
+
       elemento("btnIniciar").disabled = true;
+
       mostrarErro();
 
       try {
+
         const dados = await requisicao(
           "/api/prova/iniciar",
           "POST"
         );
 
         tentativaId = dados.tentativa_id;
+
         totalQuestoes = dados.total_questoes || 12;
 
         if (!tentativaId) {
@@ -204,9 +301,13 @@
         await carregarQuestao();
 
       } catch (erro) {
-        // Já existe prova em andamento: retoma em vez de mostrar erro.
-        if (erro.message.includes("já possui uma prova em andamento")) {
+
+        if (
+          erro.message.includes("já possui uma prova em andamento")
+        ) {
+
           await verificarProvaEmAndamento();
+
           return;
         }
 
@@ -215,12 +316,18 @@
         if (!tentativaId) {
           elemento("btnIniciar").disabled = false;
         }
+
       } finally {
+
         processando = false;
+
       }
     }
 
+    // CARREGAR QUESTÃO
+
     async function carregarQuestao() {
+
       const dados = await requisicao(
         `/api/tentativas/${tentativaId}/proxima-questao`
       );
@@ -229,11 +336,17 @@
         dados.concluida === true ||
         dados.finalizada === true
       ) {
+
         await finalizarProva();
+
         return;
       }
 
-      if (!dados.questao || !Array.isArray(dados.alternativas)) {
+      if (
+        !dados.questao ||
+        !Array.isArray(dados.alternativas)
+      ) {
+
         throw new Error(
           "Formato inesperado da próxima questão: " +
           JSON.stringify(dados)
@@ -241,16 +354,24 @@
       }
 
       questaoAtual = dados.questao;
+
       numeroQuestao++;
+
+      // Inicia ou recupera o tempo desta questão.
+
+      iniciarCronometroQuestao();
 
       elemento("contador").textContent =
         `Questão ${numeroQuestao} de ${totalQuestoes}`;
 
       elemento("barra").value = numeroQuestao;
+
       elemento("barra").max = totalQuestoes;
 
       elemento("enunciado").textContent =
         questaoAtual.enunciado;
+
+      // IMAGEM DA QUESTÃO
 
       const imagem = elemento("imagemQuestao");
 
@@ -258,51 +379,79 @@
         questaoAtual.imagem_url &&
         /^https:\/\//i.test(questaoAtual.imagem_url)
       ) {
+
         imagem.src = questaoAtual.imagem_url;
+
         imagem.hidden = false;
+
       } else {
+
         imagem.hidden = true;
+
         imagem.removeAttribute("src");
+
       }
 
+      // ALTERNATIVAS
+
       const container = elemento("alternativas");
+
       container.replaceChildren();
 
       for (const alternativa of dados.alternativas) {
+
         const label = document.createElement("label");
+
         label.className = "alternativa";
 
         const radio = document.createElement("input");
+
         radio.type = "radio";
+
         radio.name = "resposta";
+
         radio.value = alternativa.idalternativas;
 
         const texto = document.createElement("span");
+
         texto.textContent =
           ` ${alternativa.letra}) ${alternativa.texto}`;
 
         label.append(radio, texto);
+
         container.appendChild(label);
+
       }
 
       elemento("btnResponder").textContent =
         numeroQuestao === totalQuestoes
           ? "Enviar última resposta"
           : "Confirmar e continuar";
+
     }
 
+    // ENVIAR RESPOSTA
+
     async function enviarResposta() {
+
       if (processando) return;
 
       if (!questaoAtual) {
+
         processando = true;
 
         try {
+
           await carregarQuestao();
+
         } catch (erro) {
+
           mostrarErro(erro.message);
+
         } finally {
+
           processando = false;
+
         }
 
         return;
@@ -313,44 +462,71 @@
       );
 
       if (!selecionada) {
+
         mostrarErro("Selecione uma alternativa.");
+
         return;
       }
 
       processando = true;
+
       elemento("btnResponder").disabled = true;
+
       mostrarErro();
 
       try {
+
         await requisicao(
           `/api/tentativas/${tentativaId}/respostas`,
           "POST",
           {
             questoes_idquestoes: questaoAtual.idquestoes,
+
             alternativas_idalternativas: Number(
               selecionada.value
             )
           }
         );
 
+        // Limpa o tempo da questão respondida.
+
+        encerrarCronometroQuestao();
+
         questaoAtual = null;
 
         if (numeroQuestao >= totalQuestoes) {
+
           await finalizarProva();
+
         } else {
+
+          // Próxima questão: novos 150 segundos.
+
           await carregarQuestao();
+
         }
 
       } catch (erro) {
+
         mostrarErro(erro.message);
+
       } finally {
+
         processando = false;
+
         elemento("btnResponder").disabled = false;
+
       }
     }
 
+    // FINALIZAR PROVA
 
     async function finalizarProva() {
+
+      clearInterval(intervaloCronometro);
+
+      intervaloCronometro = null;
+
       mostrarErro();
 
       const dados = await requisicao(
@@ -361,17 +537,22 @@
       const resultado = dados.resultado;
 
       if (!resultado) {
+
         throw new Error(
           "O backend não retornou o resultado da prova."
         );
       }
 
       const total = Number(resultado.total);
+
       const acertos = Number(resultado.acertos);
+
       const percentual = Number(resultado.percentual);
+
       const aprovado = resultado.aprovado === true;
 
       elemento("areaProva").hidden = true;
+
       elemento("resultado").hidden = false;
 
       elemento("tituloResultado").textContent =
@@ -390,14 +571,19 @@
       elemento("situacao").style.color =
         aprovado ? "#15803d" : "#b91c1c";
 
-      // O botão aparecerá somente para os aprovados.
       elemento("areaCertificado").hidden = !aprovado;
+
     }
 
-    // Ao abrir a página, retoma a prova em andamento (se existir).
+    // VERIFICAR PROVA EM ANDAMENTO
+
     async function verificarProvaEmAndamento() {
+
       try {
-        const status = await requisicao("/api/tentativas/em-andamento");
+
+        const status = await requisicao(
+          "/api/tentativas/em-andamento"
+        );
 
         if (!status.em_andamento) return;
 
@@ -407,22 +593,30 @@
         );
 
         tentativaId = dados.tentativa_id;
+
         totalQuestoes = dados.total_questoes || 12;
 
-        // carregarQuestao() soma 1, então partimos das já respondidas.
         numeroQuestao = dados.respondidas || 0;
 
         elemento("inicio").hidden = true;
+
         elemento("areaProva").hidden = false;
+
         mostrarErro();
+
         await carregarQuestao();
 
       } catch (erro) {
+
         mostrarErro(erro.message);
+
       }
     }
 
+    // INICIALIZAÇÃO DA PÁGINA
+
     verificarProvaEmAndamento();
+
     elemento("btnIniciar").addEventListener(
       "click",
       iniciarProva
@@ -432,7 +626,8 @@
       "click",
       enviarResposta
     );
-  </script>
-</body>
 
+  </script>
+
+</body>
 </html>
