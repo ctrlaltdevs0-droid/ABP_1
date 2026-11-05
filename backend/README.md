@@ -96,11 +96,13 @@ código continuam preservados: conferir sobreposição editorial antes da carga.
 A fonte editável é `backend/scripts/data/content-estudos.json`. Execute
 `npm run seed:gerar` no backend após editar o conteúdo e versione o SQL gerado.
 Os materiais incluem links complementares. As questões possuem quatro
-alternativas e um gabarito, com posições variadas; entram com `status = false`
-e `status_editorial = 'RASCUNHO'`. A prova exige 12 temas ativos, cada um com
-pelo menos quatro questões ativas/APROVADO e quatro alternativas/um gabarito.
-Após revisão cruzada, registrar `REVISAO`/`APROVADO` e ativar somente o conteúdo
-aprovado. O índice de alternativas impede duas corretas para a mesma questão;
+alternativas e um gabarito, com posições variadas; o catálogo oficial `PB053-*`
+entra e permanece com `status = true` e `status_editorial = 'APROVADO'`, inclusive
+quando a carga é repetida. A carga também reconhece as 48 questões legadas pelo
+tema e enunciado antes de atribuir os códigos estáveis, evitando duplicação. A
+prova exige 12 temas ativos, cada um com pelo menos quatro questões
+ativas/APROVADO e quatro alternativas/um gabarito. O índice de alternativas
+impede duas corretas para a mesma questão;
 A validação incluída em `seed.sql` verifica também ausência de gabarito e quantidade de opções.
 O catálogo de questões e os gabaritos continuam restritos a administradores.
 

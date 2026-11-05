@@ -59,7 +59,11 @@ test('carga contém 12 materiais, 48 questões e quatro alternativas distintas; 
   // No Windows o Git pode trocar a quebra de linha do seed.sql (\n vira \r\n).
   // O conteúdo continua igual, então a comparação ignora essa diferença.
   const seedSalvo = await readFile(new URL('../database/seed.sql', import.meta.url), 'utf8');
-  assert.equal(await gerarSeed(), seedSalvo.replaceAll('\r\n', '\n'));
+  const seedGerado = await gerarSeed();
+  assert.equal(seedGerado, seedSalvo.replaceAll('\r\n', '\n'));
+  assert.equal((seedGerado.match(/, TRUE, 'APROVADO'\)/g) ?? []).length, 48);
+  assert.equal((seedGerado.match(/status = TRUE,\n    status_editorial = 'APROVADO'/g) ?? []).length, 48);
+  assert.equal((seedGerado.match(/SET codigo_seed = 'PB053-/g) ?? []).length, 48);
 });
 test('cada uma das 48 questões tem imagem e texto alternativo', async () => {
   const data = JSON.parse(await readFile(new URL('../scripts/data/content-estudos.json', import.meta.url)));
