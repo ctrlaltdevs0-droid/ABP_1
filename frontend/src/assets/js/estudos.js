@@ -675,3 +675,57 @@ if (barraProgresso) {
 
   atualizarBotaoProva();
 }
+// --- Persistência do Usuário no Cabeçalho (Área em Azul) ---
+(function inicializarPerfilHeader() {
+  const userNameEl = document.getElementById('userName');
+  const profileTrigger = document.getElementById('profileTrigger');
+  const profileMenu = document.getElementById('userProfileMenu');
+
+  function preencherNome(usuario) {
+    if (!usuario || !userNameEl) return;
+    const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
+    const primeiroNome = nomeCompleto.trim().split(' ')[0];
+    userNameEl.textContent = primeiroNome;
+  }
+
+  // 1. Carrega dados do cache local imediatamente
+  const usuarioSalvo = localStorage.getItem('usuario');
+  if (usuarioSalvo) {
+    try {
+      const u = JSON.parse(usuarioSalvo);
+      preencherNome(u.usuario || u);
+    } catch (e) {
+      console.error('Erro ao ler cache do usuário:', e);
+    }
+  }
+
+  // 2. Busca dados atualizados da API se disponível
+  const token = localStorage.getItem('token');
+  if (token && window.AgilCertAPI) {
+    window.AgilCertAPI.request('usuarios/me')
+      .then(res => {
+        const usuarioAtualizado = res.usuario || res;
+        if (usuarioAtualizado && usuarioAtualizado.nome) {
+          localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
+          preencherNome(usuarioAtualizado);
+        }
+      })
+      .catch(err => {
+        console.warn('API de perfil indisponível, usando cache:', err);
+      });
+  }
+
+  // 3. Gerenciamento do Dropdown do Cabeçalho
+  if (profileTrigger && profileMenu) {
+    profileTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileMenu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!profileMenu.contains(e.target)) {
+        profileMenu.classList.remove('open');
+      }
+    });
+  }
+})();
