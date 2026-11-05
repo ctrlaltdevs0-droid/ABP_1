@@ -623,6 +623,11 @@
       informar(
         'Tema concluído com sucesso! Seu progresso foi salvo.'
       );
+      
+      setTimeout(() => {
+        window.location.href = 'estudos.html';
+      }, 1500);
+
     } catch (error) {
       erro(error);
       atualizarProgressoAcertos();

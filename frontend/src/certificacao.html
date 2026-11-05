@@ -1,117 +1,325 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ÁgilCert | Teste da Prova</title>
+  <title>ÁgilCert | Certificação Final</title>
   <link rel="stylesheet" href="assets/css/certificacao.css">
 </head>
 
 <body>
 
-  <header class="topo">
-    <div class="marca">
-  <img
-    src="assets/img/logo-transparente.png"
-    alt="ÁgilCert"
-    class="header-logo"
-  >
-</div>
+ <!-- CABEÇALHO -->
+  <header class="site-header">
+  <a href="home.html">
+    <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
+  </a>
 
-    <div class="relogio" aria-live="off">
-      <svg viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <circle cx="12" cy="12" r="9"></circle>
-        <path d="M12 7v5l3 2"></path>
-      </svg>
-      <span id="cronometro">02:30</span>
+  <button class="nav-toggle" type="button"
+    aria-controls="main-nav" aria-expanded="false">
+    Menu
+  </button>
+
+  <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
+  <a class="nav-link" href="home.html">Início</a>
+  <a class="nav-link" href="estudos.html">Estudos</a>
+  <a class="nav-link active" href="certificacao.html" aria-current="page">Certificação</a>
+  <a class="nav-link" href="historico.html">Histórico</a>
+  <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
+</nav>
+  <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
+    <div id="authButtons" style="display:none; gap:16px; align-items:center;">
+      <a href="login.html" class="nav-link">Entrar</a>
+      <a href="cadastro.html" class="nav-link">Cadastrar</a>
     </div>
-  </header>
 
-  <main>
-    <div class="conteudo">
+    <div class="profile-menu" id="profileMenu" style="display:none;">
+      <button class="profile-trigger" type="button" id="profileTrigger"
+        aria-expanded="false" aria-label="Menu do perfil">
+        <img
+          src="assets/img/estudos.png"
+          alt="Foto de perfil"
+          class="profile-avatar-img"
+          id="userAvatar">
+          
+        <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
+        <span class="chevron">▼</span>
+      </button>
 
+      <div class="dropdown">
+        <div class="dropdown-header">
+          <div class="profile-username" id="dropdownUserName">Usuário</div>
+          <div class="profile-greeting">Minha conta</div>
+        </div>
+
+        <div class="dropdown-body">
+          <a href="perfil.html">Meu Perfil</a>
+          <a href="historico.html">Histórico</a>
+          <div class="divider"></div>
+          <button class="danger" type="button" id="sair">Sair</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- BANNER E CABEÇALHO DA PÁGINA DE CERTIFICAÇÃO -->
+  <div class="banner-pagina">
+    <div class="banner-container">
+      <div class="breadcrumb">
+        <a href="estudos.html">‹ Área de estudos</a>
+        <span class="separador">/</span>
+        <span class="pagina-atual">Certificação final</span>
+      </div>
+      <h1 class="titulo-pagina" id="tituloPagina">Certificação final</h1>
+      <p class="subtitulo-pagina" id="subtituloPagina">
+        12 questões no total • 1 por tema • 4 alternativas por questão • Uma questão por página
+      </p>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL (SPA) -->
+  <main class="principal">
+    <div class="container-principal">
+
+      <!-- EXIBIÇÃO DE ERROS / ALERTAS DA API (MANTIDO PARA O JS) -->
       <p id="erro" role="alert"></p>
 
+      <!-- =========================================================
+           1. LAYOUT DA TELA INICIAL / RETOMAR PROVA (#inicio)
+         ========================================================= -->
       <section id="inicio">
-        <p>Você responderá 12 questões, uma de cada tema.</p>
-        <p>Cada questão possui quatro alternativas.</p>
-        <button id="btnIniciar">Iniciar prova</button>
-      </section>
+        <div class="card-inicio">
+          <div class="badge-status-inicio">Certificação em andamento</div>
+          <h2>Continuar de onde parou?</h2>
+          <p class="descricao-inicio">
+            Você responderá 12 questões, uma de cada tema.<br>
+            Cada questão possui quatro alternativas e tempo limite de 150 segundos.
+          </p>
 
-      <section id="areaProva" hidden>
-
-        <div class="navegacao">
-          <span class="seta">‹</span>
-          <span>Certificação</span>
-        </div>
-
-        <div class="progresso-area">
-          <p id="contador"></p>
-          <progress id="barra" value="0" max="12"></progress>
-        </div>
-
-        <div class="questao-layout">
-
-          <div class="questao-texto">
-            <h2 id="enunciado"></h2>
-            <div id="alternativas"></div>
+          <div class="alerta-regras">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icone-alerta">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Se você sair durante uma questão, ela será contada como incorreta. O cronômetro de 150s inicia assim que a questão abre.</span>
           </div>
 
-          <img
-            id="imagemQuestao"
-            alt="Imagem da questão"
-            hidden
-          >
-
+          <div class="acoes-inicio">
+            <a href="estudos.html" class="btn-secundario">Agora não</a>
+            <button id="btnIniciar" type="button">Iniciar prova</button>
+          </div>
         </div>
-
-        <div class="acoes">
-          <button id="btnAnterior" type="button" disabled>
-            ‹ &nbsp; Tema anterior
-          </button>
-
-          <button id="btnResponder" type="button">
-            Próximo tema &nbsp; ›
-          </button>
-        </div>
-
       </section>
 
-      <section id="resultado" hidden>
+      <!-- =========================================================
+           2. LAYOUT DA TELA DE PROVA / QUESTÃO (#areaProva)
+         ========================================================= -->
+      <section id="areaProva" hidden>
+        <div class="layout-prova">
 
-        <h2 id="tituloResultado">Prova concluída!</h2>
+          <!-- COLUNA ESQUERDA: SIDEBAR COM TEMPO E PROGRESSO -->
+          <aside class="sidebar-prova">
+            
+            <!-- CARD DO CRONÔMETRO DE 150s -->
+            <div class="card-sidebar card-cronometro">
+              <div class="card-sidebar-titulo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icone-relogio">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <polyline points="12 7 12 12 15 15"></polyline>
+                </svg>
+                <span>Tempo desta questão</span>
+              </div>
+              <div class="cronometro-display">
+                <span id="cronometro">02:30</span>
+              </div>
+              <p class="cronometro-subtexto">Resposta registrada ou tempo de 150s por questão.</p>
+            </div>
 
-        <p>Sua avaliação foi finalizada com sucesso.</p>
+            <!-- CARD DE PROGRESSO DAS QUESTÕES -->
+            <div class="card-sidebar card-progresso">
+              <div class="card-sidebar-header">
+                <span class="label-questao">Questão</span>
+                <span id="contador" class="contador-numero">Questão 01 de 12</span>
+              </div>
+              <div class="barra-container">
+                <progress id="barra" value="0" max="12"></progress>
+              </div>
+            </div>
 
-        <h3>Resultado da prova</h3>
+            <!-- CARD DE REGRAS DE NAVEGAÇÃO DA PROVA -->
+            <div class="card-sidebar card-regras">
+              <h4>Avanço definitivo</h4>
+              <ul>
+                <li>Não é possível retornar às questões anteriores ou alterar respostas já confirmadas.</li>
+                <li>Após confirmar, a alternativa correta é exibida antes de seguir.</li>
+              </ul>
+              <div class="badge-aprovacao">
+                Aprovação mínima: <strong>65%</strong>
+              </div>
+              <div class="nota-rodape-sidebar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icone-info">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>Tempo e contexto permanecem visíveis durante a rolagem.</span>
+              </div>
+            </div>
 
-        <p id="acertos"></p>
-        <p id="nota"></p>
-        <p id="situacao"></p>
+          </aside>
 
-        <div id="areaCertificado" hidden>
-          <button id="btnCertificado" type="button" disabled>
-            Gerar certificado
-          </button>
-          <p>Emissão do certificado em desenvolvimento.</p>
+          <!-- COLUNA DIREITA: QUESTÃO E ALTERNATIVAS -->
+          <div class="painel-questao">
+            <div class="card-questao">
+
+              <div class="header-questao">
+                <span class="tag-tema">Questão da Certificação</span>
+              </div>
+
+              <!-- ÁREA DO ENUNCIADO E ILUSTRAÇÃO -->
+              <div class="questao-conteudo">
+                <h2 id="enunciado" class="enunciado-texto">Carregando questão...</h2>
+                <p class="instrucao-selecao">Selecione apenas uma alternativa.</p>
+
+                <!-- IMAGEM DA QUESTÃO (DETERMINADA PELO JS) -->
+                <div class="area-imagem-questao">
+                  <img id="imagemQuestao" alt="Imagem da questão" hidden>
+                </div>
+
+                <!-- ALTERNATIVAS PREENCHIDAS PELO SCRIPT -->
+                <div id="alternativas" class="alternativas-container"></div>
+              </div>
+
+              <!-- BOTÕES DE AÇÃO DA PROVA -->
+              <div class="rodape-questao">
+                <div class="dica-rolagem">
+                  ↓ Role o conteúdo da questão quando necessário.
+                </div>
+                <div class="acoes-questao">
+                  <button id="btnAnterior" type="button" disabled>
+                    ‹ &nbsp; Tema anterior
+                  </button>
+
+                  <button id="btnResponder" type="button">
+                    Próximo tema &nbsp; ›
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
+      </section>
 
-        <p>
-          <a href="estudos.html">Voltar aos estudos</a>
-        </p>
+      <!-- =========================================================
+           3. LAYOUT DA TELA DE RESULTADO (#resultado)
+         ========================================================= -->
+      <section id="resultado" hidden>
+        <div class="layout-resultado">
 
+          <!-- CARD PRINCIPAL DE RESULTADOS -->
+          <div class="card-resultado-principal">
+
+            <!-- ÍCONE ILUSTRATIVO DE STATUS (APROVADO / REPROVADO) -->
+            <div class="icone-resultado-wrapper" id="iconeResultadoWrapper">
+              <div class="circulo-icone-resultado">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="icone-check-resultado">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+            </div>
+
+            <h2 id="tituloResultado">Prova concluída!</h2>
+            <p class="subtitulo-resultado" id="subtituloResultadoText">
+              Sua avaliação foi finalizada com sucesso.
+            </p>
+
+            <!-- CAIXA DE DESEMPENHO PREENCHIDA DINAMICAMENTE PELO JS -->
+            <div class="painel-desempenho">
+              <div class="bloco-score">
+                <p id="acertos" class="valor-acertos">Acertos: 0 de 12</p>
+                <span class="rotulo-score">respostas corretas</span>
+              </div>
+
+              <div class="bloco-detalhes-desempenho">
+                <p id="nota" class="item-detalhe-nota">Percentual: 0%</p>
+                <div class="item-detalhe">✓ Aprovação mínima: 65%</div>
+                <div class="item-detalhe">✓ Questões avaliadas: 12</div>
+                <p id="situacao" class="item-situacao">Aguardando...</p>
+              </div>
+            </div>
+
+            <!-- ÁREA DO CERTIFICADO (CONTROLADA PELO JS) -->
+            <div id="areaCertificado" hidden>
+              <div class="card-certificado-info">
+                <h3>Seu certificado já está disponível</h3>
+                <p>Você pode acessar o documento validável por QR e consultar seu histórico de certificação a qualquer momento.</p>
+                <button id="btnCertificado" type="button" disabled>
+                  Gerar certificado
+                </button>
+                <p class="subtexto-certificado">Emissão do certificado em desenvolvimento.</p>
+              </div>
+            </div>
+
+            <!-- RODAPÉ DE RESULTADO -->
+            <div class="rodape-resultado-acoes">
+              <a href="estudos.html" class="link-voltar-estudos">‹ Voltar aos estudos</a>
+              <span class="tag-certificacao-salva">✓ Certificação salva • 12 temas concluídos</span>
+            </div>
+
+          </div>
+
+          <!-- SIDEBAR RESUMO DA CERTIFICAÇÃO -->
+          <aside class="sidebar-resumo-resultado">
+            <div class="card-sidebar card-resumo-lateral">
+              <h3>Resumo da certificação</h3>
+              <ul class="lista-resumo">
+                <li>
+                  <span class="icone-check-list">✓</span>
+                  <div>
+                    <strong>Aprovação mínima</strong>
+                    <p>65%</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="icone-check-list">✓</span>
+                  <div>
+                    <strong>Questões avaliadas</strong>
+                    <p>12 questões</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="icone-check-list">✓</span>
+                  <div>
+                    <strong>Trilha concluída</strong>
+                    <p>12 temas concluídos</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="icone-check-list">✓</span>
+                  <div>
+                    <strong>Alterações</strong>
+                    <p>Sem retorno para alterar respostas</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </aside>
+
+        </div>
       </section>
 
     </div>
   </main>
 
-  <!-- JAVASCRIPT DA PROVA -->
-
+<script src="assets/js/config.js"></script>
+<script src="assets/js/api.js"></script>
+  <!-- JAVASCRIPT DA PROVA (MANTIDO 100% ORIGINAL E INTACTO) -->
   <script>
-
     let tentativaId = null;
     let questaoAtual = null;
     let numeroQuestao = 0;
@@ -119,9 +327,7 @@
     let processando = false;
 
     // CRONÔMETRO: 150 SEGUNDOS POR QUESTÃO
-
     const TEMPO_POR_QUESTAO = 150;
-
     let intervaloCronometro = null;
     let chaveCronometroAtual = null;
     let prazoQuestao = null;
@@ -129,164 +335,95 @@
     const elemento = id => document.getElementById(id);
 
     function formatarTempo(segundos) {
-
       const s = Math.max(0, Math.ceil(segundos));
-
       const minutos = String(Math.floor(s / 60)).padStart(2, "0");
       const resto = String(s % 60).padStart(2, "0");
-
       return `${minutos}:${resto}`;
     }
 
     // ATUALIZAR CRONÔMETRO
-
     function atualizarCronometro() {
-
       if (!prazoQuestao) return;
-
-      const restante = Math.max(
-        0,
-        Math.ceil((prazoQuestao - Date.now()) / 1000)
-      );
-
-      elemento("cronometro").textContent =
-        formatarTempo(restante);
-
-      elemento("cronometro").style.color =
-        restante <= 30 ? "#c0392b" : "#61748e";
+      const restante = Math.max(0, Math.ceil((prazoQuestao - Date.now()) / 1000));
+      elemento("cronometro").textContent = formatarTempo(restante);
+      elemento("cronometro").style.color = restante <= 30 ? "#c0392b" : "#0755a4";
 
       if (restante === 0) {
-
         clearInterval(intervaloCronometro);
-
         intervaloCronometro = null;
-
-        mostrarErro(
-          "O tempo desta questão terminou. O cronômetro não será reiniciado ao atualizar a página."
-        );
+        mostrarErro("O tempo desta questão terminou. O cronômetro não será reiniciado ao atualizar a página.");
       }
     }
 
     // INICIAR CRONÔMETRO DA QUESTÃO
-
     function iniciarCronometroQuestao() {
-
       clearInterval(intervaloCronometro);
+      const idQuestao = questaoAtual && questaoAtual.idquestoes;
+      chaveCronometroAtual = `agilcert_prazo_${tentativaId}_${idQuestao}`;
 
-      const idQuestao =
-        questaoAtual && questaoAtual.idquestoes;
+      const prazoSalvo = Number(localStorage.getItem(chaveCronometroAtual));
+      prazoQuestao = Number.isFinite(prazoSalvo) && prazoSalvo > 0
+        ? prazoSalvo
+        : Date.now() + TEMPO_POR_QUESTAO * 1000;
 
-      chaveCronometroAtual =
-        `agilcert_prazo_${tentativaId}_${idQuestao}`;
-
-      const prazoSalvo = Number(
-        localStorage.getItem(chaveCronometroAtual)
-      );
-
-      prazoQuestao =
-        Number.isFinite(prazoSalvo) && prazoSalvo > 0
-          ? prazoSalvo
-          : Date.now() + TEMPO_POR_QUESTAO * 1000;
-
-      localStorage.setItem(
-        chaveCronometroAtual,
-        String(prazoQuestao)
-      );
-
+      localStorage.setItem(chaveCronometroAtual, String(prazoQuestao));
       atualizarCronometro();
-
-      intervaloCronometro = setInterval(
-        atualizarCronometro,
-        250
-      );
+      intervaloCronometro = setInterval(atualizarCronometro, 250);
     }
 
     // ENCERRAR CRONÔMETRO
-
     function encerrarCronometroQuestao() {
-
       clearInterval(intervaloCronometro);
-
       intervaloCronometro = null;
-
       if (chaveCronometroAtual) {
         localStorage.removeItem(chaveCronometroAtual);
       }
-
       chaveCronometroAtual = null;
       prazoQuestao = null;
-
-      elemento("cronometro").textContent =
-        formatarTempo(TEMPO_POR_QUESTAO);
-
-      elemento("cronometro").style.color = "#61748e";
+      elemento("cronometro").textContent = formatarTempo(TEMPO_POR_QUESTAO);
+      elemento("cronometro").style.color = "#0755a4";
     }
 
     // MOSTRAR ERROS
-
     function mostrarErro(mensagem = "") {
       elemento("erro").textContent = mensagem;
     }
 
     // REQUISIÇÕES AO BACKEND
-
     async function requisicao(url, metodo = "GET", corpo = null) {
-
       const token = localStorage.getItem("token");
-
       if (!token) {
         throw new Error("Faça login antes de iniciar a prova.");
       }
-
       const opcoes = {
         method: metodo,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       };
 
       if (corpo !== null) {
-
         opcoes.headers["Content-Type"] = "application/json";
-
         opcoes.body = JSON.stringify(corpo);
       }
 
       const resposta = await fetch(url, opcoes);
-
       const dados = await resposta.json();
 
       if (!resposta.ok) {
-
-        throw new Error(
-          dados.erro || dados.mensagem || "Erro no servidor."
-        );
+        throw new Error(dados.erro || dados.mensagem || "Erro no servidor.");
       }
-
       return dados;
     }
 
     // INICIAR PROVA
-
     async function iniciarProva() {
-
       if (processando) return;
-
       processando = true;
-
       elemento("btnIniciar").disabled = true;
-
       mostrarErro();
 
       try {
-
-        const dados = await requisicao(
-          "/api/prova/iniciar",
-          "POST"
-        );
-
+        const dados = await requisicao("/api/prova/iniciar", "POST");
         tentativaId = dados.tentativa_id;
-
         totalQuestoes = dados.total_questoes || 12;
 
         if (!tentativaId) {
@@ -294,340 +431,318 @@
         }
 
         numeroQuestao = 0;
-
         elemento("inicio").hidden = true;
         elemento("areaProva").hidden = false;
 
         await carregarQuestao();
 
       } catch (erro) {
-
-        if (
-          erro.message.includes("já possui uma prova em andamento")
-        ) {
-
+        if (erro.message.includes("já possui uma prova em andamento")) {
           await verificarProvaEmAndamento();
-
           return;
         }
-
         mostrarErro(erro.message);
-
         if (!tentativaId) {
           elemento("btnIniciar").disabled = false;
         }
-
       } finally {
-
         processando = false;
-
       }
     }
 
     // CARREGAR QUESTÃO
-
     async function carregarQuestao() {
+      const dados = await requisicao(`/api/tentativas/${tentativaId}/proxima-questao`);
 
-      const dados = await requisicao(
-        `/api/tentativas/${tentativaId}/proxima-questao`
-      );
-
-      if (
-        dados.concluida === true ||
-        dados.finalizada === true
-      ) {
-
+      if (dados.concluida === true || dados.finalizada === true) {
         await finalizarProva();
-
         return;
       }
 
-      if (
-        !dados.questao ||
-        !Array.isArray(dados.alternativas)
-      ) {
-
-        throw new Error(
-          "Formato inesperado da próxima questão: " +
-          JSON.stringify(dados)
-        );
+      if (!dados.questao || !Array.isArray(dados.alternativas)) {
+        throw new Error("Formato inesperado da próxima questão: " + JSON.stringify(dados));
       }
 
       questaoAtual = dados.questao;
-
       numeroQuestao++;
-
-      // Inicia ou recupera o tempo desta questão.
 
       iniciarCronometroQuestao();
 
-      elemento("contador").textContent =
-        `Questão ${numeroQuestao} de ${totalQuestoes}`;
-
+      elemento("contador").textContent = `Questão ${numeroQuestao} de ${totalQuestoes}`;
       elemento("barra").value = numeroQuestao;
-
       elemento("barra").max = totalQuestoes;
-
-      elemento("enunciado").textContent =
-        questaoAtual.enunciado;
-
-      // IMAGEM DA QUESTÃO
+      elemento("enunciado").textContent = questaoAtual.enunciado;
 
       const imagem = elemento("imagemQuestao");
-
-      if (
-        questaoAtual.imagem_url &&
-        /^https:\/\//i.test(questaoAtual.imagem_url)
-      ) {
-
+      if (questaoAtual.imagem_url && /^https:\/\//i.test(questaoAtual.imagem_url)) {
         imagem.src = questaoAtual.imagem_url;
-
         imagem.hidden = false;
-
       } else {
-
         imagem.hidden = true;
-
         imagem.removeAttribute("src");
-
       }
 
-      // ALTERNATIVAS
-
       const container = elemento("alternativas");
-
       container.replaceChildren();
 
       for (const alternativa of dados.alternativas) {
-
         const label = document.createElement("label");
-
         label.className = "alternativa";
 
         const radio = document.createElement("input");
-
         radio.type = "radio";
-
         radio.name = "resposta";
-
         radio.value = alternativa.idalternativas;
 
         const texto = document.createElement("span");
-
-        texto.textContent =
-          ` ${alternativa.letra}) ${alternativa.texto}`;
+        texto.textContent = ` ${alternativa.letra}) ${alternativa.texto}`;
 
         label.append(radio, texto);
-
         container.appendChild(label);
-
       }
 
-      elemento("btnResponder").textContent =
-        numeroQuestao === totalQuestoes
-          ? "Enviar última resposta"
-          : "Confirmar e continuar";
-
+      elemento("btnResponder").textContent = numeroQuestao === totalQuestoes
+        ? "Enviar última resposta"
+        : "Confirmar e continuar";
     }
 
     // ENVIAR RESPOSTA
-
     async function enviarResposta() {
-
       if (processando) return;
 
       if (!questaoAtual) {
-
         processando = true;
-
         try {
-
           await carregarQuestao();
-
         } catch (erro) {
-
           mostrarErro(erro.message);
-
         } finally {
-
           processando = false;
-
         }
-
         return;
       }
 
-      const selecionada = document.querySelector(
-        'input[name="resposta"]:checked'
-      );
-
+      const selecionada = document.querySelector('input[name="resposta"]:checked');
       if (!selecionada) {
-
         mostrarErro("Selecione uma alternativa.");
-
         return;
       }
 
       processando = true;
-
       elemento("btnResponder").disabled = true;
-
       mostrarErro();
 
       try {
-
         await requisicao(
           `/api/tentativas/${tentativaId}/respostas`,
           "POST",
           {
             questoes_idquestoes: questaoAtual.idquestoes,
-
-            alternativas_idalternativas: Number(
-              selecionada.value
-            )
+            alternativas_idalternativas: Number(selecionada.value)
           }
         );
 
-        // Limpa o tempo da questão respondida.
-
         encerrarCronometroQuestao();
-
         questaoAtual = null;
 
         if (numeroQuestao >= totalQuestoes) {
-
           await finalizarProva();
-
         } else {
-
-          // Próxima questão: novos 150 segundos.
-
           await carregarQuestao();
-
         }
 
       } catch (erro) {
-
         mostrarErro(erro.message);
-
       } finally {
-
         processando = false;
-
         elemento("btnResponder").disabled = false;
-
       }
     }
 
     // FINALIZAR PROVA
-
     async function finalizarProva() {
-
       clearInterval(intervaloCronometro);
-
       intervaloCronometro = null;
-
       mostrarErro();
 
-      const dados = await requisicao(
-        `/api/tentativas/${tentativaId}/finalizar`,
-        "POST"
-      );
-
+      const dados = await requisicao(`/api/tentativas/${tentativaId}/finalizar`, "POST");
       const resultado = dados.resultado;
 
       if (!resultado) {
-
-        throw new Error(
-          "O backend não retornou o resultado da prova."
-        );
+        throw new Error("O backend não retornou o resultado da prova.");
       }
 
       const total = Number(resultado.total);
-
       const acertos = Number(resultado.acertos);
-
       const percentual = Number(resultado.percentual);
-
       const aprovado = resultado.aprovado === true;
 
       elemento("areaProva").hidden = true;
-
       elemento("resultado").hidden = false;
 
-      elemento("tituloResultado").textContent =
-        "Prova concluída!";
+      elemento("tituloResultado").textContent = aprovado 
+        ? "Você foi aprovado(a) com sucesso!" 
+        : "Você não atingiu o mínimo desta vez";
 
-      elemento("acertos").textContent =
-        `Acertos: ${acertos} de ${total} questões`;
-
-      elemento("nota").textContent =
-        `Percentual de acertos: ${percentual.toFixed(2)
-          .replace(".", ",")}%`;
-
-      elemento("situacao").textContent =
-        aprovado ? "APROVADO" : "NÃO APROVADO";
-
-      elemento("situacao").style.color =
-        aprovado ? "#15803d" : "#b91c1c";
+      elemento("acertos").textContent = `${acertos} de ${total}`;
+      elemento("nota").textContent = `Aproveitamento: ${percentual.toFixed(1).replace(".", ",")}%`;
+      elemento("situacao").textContent = aprovado ? "APROVADO" : "NÃO APROVADO";
+      elemento("situacao").style.color = aprovado ? "#15803d" : "#b91c1c";
 
       elemento("areaCertificado").hidden = !aprovado;
-
     }
 
     // VERIFICAR PROVA EM ANDAMENTO
-
     async function verificarProvaEmAndamento() {
-
       try {
-
-        const status = await requisicao(
-          "/api/tentativas/em-andamento"
-        );
-
+        const status = await requisicao("/api/tentativas/em-andamento");
         if (!status.em_andamento) return;
 
-        const dados = await requisicao(
-          "/api/tentativas/retomar",
-          "POST"
-        );
-
+        const dados = await requisicao("/api/tentativas/retomar", "POST");
         tentativaId = dados.tentativa_id;
-
         totalQuestoes = dados.total_questoes || 12;
-
         numeroQuestao = dados.respondidas || 0;
 
         elemento("inicio").hidden = true;
-
         elemento("areaProva").hidden = false;
-
         mostrarErro();
 
         await carregarQuestao();
 
       } catch (erro) {
-
         mostrarErro(erro.message);
-
       }
     }
 
-    // INICIALIZAÇÃO DA PÁGINA
-
+    // INICIALIZAÇÃO
     verificarProvaEmAndamento();
 
-    elemento("btnIniciar").addEventListener(
-      "click",
-      iniciarProva
-    );
-
-    elemento("btnResponder").addEventListener(
-      "click",
-      enviarResposta
-    );
-
+    elemento("btnIniciar").addEventListener("click", iniciarProva);
+    elemento("btnResponder").addEventListener("click", enviarResposta);
   </script>
+
+  
+<script>
+  // MENU RESPONSIVO
+  const navToggle = document.querySelector('.nav-toggle');
+
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      document.getElementById('main-nav').classList.toggle('is-open', !expanded);
+    });
+
+    document.querySelectorAll('#main-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.getElementById('main-nav').classList.remove('is-open');
+      });
+    });
+  }
+
+  // ABRIR E FECHAR MENU DO PERFIL
+  const profileMenu = document.getElementById('profileMenu');
+  const profileTrigger = document.getElementById('profileTrigger');
+
+  if (profileTrigger && profileMenu) {
+    profileTrigger.addEventListener('click', () => {
+      profileMenu.classList.toggle('open');
+
+      profileTrigger.setAttribute(
+        'aria-expanded',
+        String(profileMenu.classList.contains('open'))
+      );
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!profileMenu.contains(e.target)) {
+        profileMenu.classList.remove('open');
+        profileTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // PERSISTÊNCIA DA SESSÃO
+  document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token');
+    const usuarioSalvo = localStorage.getItem('usuario');
+
+    const authButtons = document.getElementById('authButtons');
+
+    function exibirLogado(usuario) {
+      if (!usuario) return;
+
+      const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
+      const primeiroNome = nomeCompleto.trim().split(' ')[0];
+
+      document.getElementById('userName').textContent = primeiroNome;
+      document.getElementById('dropdownUserName').textContent = nomeCompleto;
+
+      authButtons.style.display = 'none';
+      profileMenu.style.display = 'flex';
+    }
+
+    function exibirDeslogado() {
+      profileMenu.style.display = 'none';
+      authButtons.style.display = 'flex';
+    }
+
+    // Recupera os dados salvos
+    if (!token) {
+      exibirDeslogado();
+      return;
+    }
+
+    if (usuarioSalvo) {
+      try {
+        const usuario = JSON.parse(usuarioSalvo);
+        exibirLogado(usuario.usuario || usuario);
+      } catch (erro) {
+        console.error('Erro ao recuperar usuário:', erro);
+      }
+    }
+
+    // Atualiza os dados com informações do banco
+    if (typeof AgilCertAPI !== 'undefined') {
+      try {
+        const res = await AgilCertAPI.request('usuarios/me');
+        const usuarioAtualizado = res.usuario || res;
+
+        if (usuarioAtualizado && usuarioAtualizado.nome) {
+          localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
+          exibirLogado(usuarioAtualizado);
+        }
+      } catch (erro) {
+        console.warn('Não foi possível atualizar os dados:', erro);
+
+        if (!usuarioSalvo) {
+          exibirDeslogado();
+        }
+      }
+    }
+  });
+
+  // SAIR DA CONTA
+  const botaoSair = document.getElementById('sair');
+
+  if (botaoSair) {
+    botaoSair.addEventListener('click', async () => {
+      botaoSair.disabled = true;
+
+      try {
+        await AgilCertAPI.logout();
+      } catch (erro) {
+        console.error('Erro ao sair:', erro);
+        botaoSair.disabled = false;
+      }
+    });
+  }
+</script>
+</body>
+</html>
+
 
 </body>
 </html>

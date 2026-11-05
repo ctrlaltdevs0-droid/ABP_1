@@ -1,6 +1,6 @@
 /* ==========================================================================
    ÁGILCERT - ÁREA DE ESTUDOS (estudos.css)
-   
+
    ========================================================================== */
 
 /* --- Importação das Fontes Oficiais --- */
@@ -46,6 +46,15 @@
   margin: 0;
   padding: 0;
 }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 32px;
+  height: 100px;
+}
+
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -127,17 +136,21 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: transparent;
-  border: none;
-  padding: 4px 8px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 12px;
   cursor: pointer;
-  border-radius: 8px;
-  transition: background-color 0.15s ease;
+  font: 500 13px "Inter", sans-serif;
+  color: var(--text-main);
   box-shadow: none;
+  transition: background 0.15s;
 }
 
-.profile-trigger:hover {
-  background-color: var(--background);
+/* ÚNICA ALTERAÇÃO: seletor mais específico para evitar o hover azul */
+.profile-trigger:hover:not(:disabled) {
+  background: var(--background);
+  border-color: var(--border);
   transform: none;
 }
 
@@ -602,6 +615,7 @@ button:hover:not(:disabled) {
   border-color: var(--primary-hover);
   transform: translateY(-1px);
 }
+
 
 button:disabled {
   opacity: 0.6;

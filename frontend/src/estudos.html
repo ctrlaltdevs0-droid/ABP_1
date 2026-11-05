@@ -13,32 +13,59 @@
 <body>
 
    <!-- CABEÇALHO -->
-  <header class="study-header">
-    <a href="home.html">
-      <img src="assets/img/logo-transparente.png" alt="ÁgilCert">
-    </a>
-    <nav aria-label="Navegação principal">
-      <a href="home.html">Início</a>
-      <a href="estudos.html" aria-current="page">Estudos</a>
-      <a href="certificacao.html">Certificação</a>
-      <a href="historico.html">Histórico</a>
-      <a href="home.html#sobre-nos">Sobre nós</a>
-    </nav>
-   
-    <div class="header-profile" id="userProfileMenu">
-      <button class="profile-trigger" type="button" id="profileTrigger" aria-label="Menu do perfil">
-        <img src="assets/img/estudos.png" alt="Foto de perfil" class="profile-avatar-img" id="userAvatar">
-        <span class="profile-greeting-text">Olá, <span id="userName">Usuário</span></span>
-        <span class="profile-chevron">▼</span>
+  <header class="site-header">
+  <a href="home.html">
+    <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
+  </a>
+
+  <button class="nav-toggle" type="button"
+    aria-controls="main-nav" aria-expanded="false">
+    Menu
+  </button>
+
+  <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
+    <a class="nav-link" href="home.html">Início</a>
+    <a class="nav-link active" href="estudos.html" aria-current="page">Estudos</a>
+    <a class="nav-link" href="certificacao.html">Certificação</a>
+    <a class="nav-link" href="historico.html">Histórico</a>
+    <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
+  </nav>
+
+  <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
+    <div id="authButtons" style="display:none; gap:16px; align-items:center;">
+      <a href="login.html" class="nav-link">Entrar</a>
+      <a href="cadastro.html" class="nav-link">Cadastrar</a>
+    </div>
+
+    <div class="profile-menu" id="profileMenu" style="display:none;">
+      <button class="profile-trigger" type="button" id="profileTrigger"
+        aria-expanded="false" aria-label="Menu do perfil">
+        <img
+          src="assets/img/estudos.png"
+          alt="Foto de perfil"
+          class="profile-avatar-img"
+          id="userAvatar">
+          
+        <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
+        <span class="chevron">▼</span>
       </button>
 
-      <div class="profile-dropdown" id="profileDropdown">
-        <a href="perfil.html">Meu perfil</a>
-        <a href="historico.html">Histórico</a>
-        <button type="button" id="sair" class="dropdown-sair">Sair</button>
+      <div class="dropdown">
+        <div class="dropdown-header">
+          <div class="profile-username" id="dropdownUserName">Usuário</div>
+          <div class="profile-greeting">Minha conta</div>
+        </div>
+
+        <div class="dropdown-body">
+          <a href="perfil.html">Meu Perfil</a>
+          <a href="historico.html">Histórico</a>
+          <div class="divider"></div>
+          <button class="danger" type="button" id="sair">Sair</button>
+        </div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="study-main">
@@ -94,6 +121,103 @@
 
     <noscript>Ative o JavaScript para carregar os temas e registrar seu progresso.</noscript>
   </main>
+
+  <script>
+  const navToggle = document.querySelector('.nav-toggle');
+  const mainNav = document.getElementById('main-nav');
+
+  navToggle.addEventListener('click', () => {
+    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!expanded));
+    mainNav.classList.toggle('is-open', !expanded);
+  });
+
+  mainNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.setAttribute('aria-expanded', 'false');
+      mainNav.classList.remove('is-open');
+    });
+  });
+
+  const profileMenu = document.getElementById('profileMenu');
+  const profileTrigger = document.getElementById('profileTrigger');
+
+  profileTrigger.addEventListener('click', () => {
+    const aberto = profileMenu.classList.toggle('open');
+    profileTrigger.setAttribute('aria-expanded', String(aberto));
+  });
+
+  document.addEventListener('click', event => {
+    if (!profileMenu.contains(event.target)) {
+      profileMenu.classList.remove('open');
+      profileTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token');
+    const usuarioSalvo = localStorage.getItem('usuario');
+    const authButtons = document.getElementById('authButtons');
+    const userName = document.getElementById('userName');
+    const dropdownUserName = document.getElementById('dropdownUserName');
+
+    function exibirLogado(usuario) {
+      if (!usuario) return;
+
+      const nome = usuario.nome || usuario.name || 'Usuário';
+      userName.textContent = nome.trim().split(' ')[0];
+      dropdownUserName.textContent = nome;
+
+      authButtons.style.display = 'none';
+      profileMenu.style.display = 'flex';
+    }
+
+    function exibirDeslogado() {
+      profileMenu.style.display = 'none';
+      authButtons.style.display = 'flex';
+    }
+
+    if (!token) {
+      exibirDeslogado();
+      return;
+    }
+
+    if (usuarioSalvo) {
+      try {
+        const salvo = JSON.parse(usuarioSalvo);
+        exibirLogado(salvo.usuario || salvo);
+      } catch (error) {
+        console.error('Erro ao ler usuário salvo:', error);
+      }
+    }
+
+    try {
+      const resposta = await AgilCertAPI.request('usuarios/me');
+      const usuarioAtualizado = resposta.usuario || resposta;
+
+      if (usuarioAtualizado?.nome) {
+        localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
+        exibirLogado(usuarioAtualizado);
+      }
+    } catch (error) {
+      console.warn('Não foi possível atualizar os dados do usuário:', error);
+      if (!usuarioSalvo) exibirDeslogado();
+    }
+  });
+
+  document.getElementById('sair').addEventListener('click', async () => {
+    const botao = document.getElementById('sair');
+    botao.disabled = true;
+
+    try {
+      await AgilCertAPI.logout();
+    } catch (error) {
+      const mensagem = document.getElementById('mensagem');
+      if (mensagem) mensagem.textContent = error.message;
+      botao.disabled = false;
+    }
+  });
+</script>
 
 </body>
 </html>
