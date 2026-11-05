@@ -1,110 +1,346 @@
 /* ==========================================================================
    ÁGILCERT - ÁREA DE ESTUDOS (estudos.css)
+   
    ========================================================================== */
 
-/* --- Variáveis Globais (Reserva se não declaradas em home.css) --- */
+/* --- Importação das Fontes Oficiais --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+/* --- Variáveis Globais (Sistema de Cores ÁgilCert) --- */
 :root {
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
   --secondary: #10b981;
-  --background: #ffffff;
+  --background: #f8fafc;
+  --card-bg: #ffffff;
   --border: #e2e8f0;
+  --border-hover: #cbd5e1;
   --text-main: #1e293b;
   --text-muted: #64748b;
+  --text-light: #94a3b8;
+
+  /* Cores Oficiais dos Ícones da Imagem 2 */
+  --cor-icone-azul: #1e70bf;
+  --cor-icone-verde: #48c5b5;
+  --cor-icone-amarelo: #e5a823;
+  --cor-icone-cinza: #4a607a;
+  --cor-icone-menta: #20bdc5;
+  --cor-icone-indigo: #6366f1;
+
+  /* Raios de Arredondamento */
+  --raio-card: 16px;
+  --raio-botao: 8px;
+  --raio-pilula: 9999px;
+
+  /* Sombras */
+  --sombra-card: 0 2px 8px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
+  --sombra-hover: 0 8px 20px rgba(15, 23, 42, 0.08);
 }
 
-/* --- Cabeçalho (Header) --- */
+/* --- Reset e Configurações Globais --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--background);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* --- Cabeçalho (Header) - Réplica Figma --- */
 .study-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.8rem 5%;
+  padding: 0 40px;
+  height: 72px;
   border-bottom: 1px solid var(--border);
-  flex-wrap: wrap;
-  background-color: var(--background);
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.study-header a:first-child {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.study-header a img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .study-header nav {
   display: flex;
-  gap: 1.2rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
 }
 
-.study-header a {
-  color: var(--primary);
+.study-header nav a {
+  color: var(--text-muted);
   text-decoration: none;
-  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 4px;
+  transition: color 0.15s ease;
 }
 
-.study-header a:hover {
-  text-decoration: underline;
+.study-header nav a:hover {
+  color: var(--primary);
+  background: none;
+}
+
+/* Item Ativo (Estudos) */
+.study-header nav a[aria-current="page"],
+.study-header nav a.active {
+  color: var(--primary);
+  font-weight: 700;
+  background: none;
+}
+
+/* --- Perfil do Usuário no Header (Área em Azul) --- */
+.header-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+  box-shadow: none;
+}
+
+.profile-trigger:hover {
+  background-color: var(--background);
+  transform: none;
+}
+
+.profile-avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+.profile-greeting-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+.profile-greeting-text strong,
+.profile-greeting-text span {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.profile-chevron {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.header-profile.open .profile-chevron {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 170px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.header-profile.open .profile-dropdown {
+  display: block;
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  box-shadow: none;
+  border-radius: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+  background: var(--background);
+  color: var(--text-main);
+  transform: none;
+}
+
+.profile-dropdown .dropdown-sair {
+  color: #dc2626;
+  border-top: 1px solid var(--border);
+}
+
+.profile-dropdown .dropdown-sair:hover {
+  background: #fef2f2;
+  color: #b91c1c;
 }
 
 /* --- Conteúdo Principal (Main) --- */
 .study-main {
-  max-width: 1200px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1.5rem 5rem;
 }
 
 .eyebrow {
   color: var(--primary);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  margin-bottom: 0.4rem;
 }
 
 .study-main h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
   color: var(--text-main);
-  margin: 0.5rem 0 0.5rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
 }
 
 .study-main p {
   color: var(--text-muted);
+  font-size: 1rem;
 }
 
-/* --- Card de Progresso (Resumo) --- */
+/* --- Card de Progresso (Resumo) - Estilo Imagem 1 --- */
 .study-summary {
-  background: var(--background);
-  padding: 1.5rem;
+  background: var(--card-bg);
+  padding: 1.5rem 1.8rem;
   border: 1px solid var(--border);
-  border-radius: 1rem;
-  margin: 2rem 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  border-radius: var(--raio-card);
+  margin: 1.8rem 0 2rem;
+  box-shadow: var(--sombra-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .study-summary label {
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
+/* Barra de Progresso com Gradiente Moderno */
 progress {
   display: block;
   width: 100%;
-  height: 0.85rem;
-  margin-top: 1rem;
-  border-radius: 1rem;
+  height: 0.75rem;
+  margin-top: 0.25rem;
+  border-radius: var(--raio-pilula);
   overflow: hidden;
-  accent-color: var(--secondary);
+  border: none;
+  background-color: var(--border);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--border);
+  border-radius: var(--raio-pilula);
+}
+
+progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #10b981, #20bdc5);
+  border-radius: var(--raio-pilula);
+  transition: width 0.4s ease;
+}
+
+progress::-moz-progress-bar {
+  background: linear-gradient(90deg, #10b981, #20bdc5);
+  border-radius: var(--raio-pilula);
 }
 
 #mensagem {
   margin: 1rem 0;
+  font-size: 0.9rem;
   font-weight: 500;
+  color: var(--text-muted);
 }
 
 /* --- Campo de Busca --- */
+#lista-estudos label[for="busca"] {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
 #busca {
   display: block;
   width: 100%;
-  padding: 0.9rem 1rem;
-  margin: 0.5rem 0 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  font: inherit;
+  padding: 0.85rem 1.2rem;
+  margin-bottom: 1.8rem;
+  border: 1px solid var(--border-hover);
+  border-radius: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -113,113 +349,187 @@ progress {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/* --- Grade dos 12 Temas (Quadradinhos) --- */
+/* --- Grade e Cards dos 12 Temas (Desktop: Lista Imagem 1 e 2) --- */
 .study-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .study-card {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
   background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 0.8rem;
-  overflow-wrap: anywhere;
+  border-radius: var(--raio-card);
+  box-shadow: var(--sombra-card);
+  gap: 1.25rem;
+  text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .study-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
-  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-hover);
+  border-color: var(--border-hover);
 }
 
-.study-card h2 {
-  font-size: 1.15rem;
-  color: var(--text-main);
-  line-height: 1.3;
+/* Topo do Card (Ícone e Status) */
+.study-card-topo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
 }
 
-.study-card p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.study-card a {
-  color: var(--primary);
-  margin-top: auto;
-  font-weight: 600;
-  text-decoration: none;
+/* Ícone Circular com as Cores da Imagem 2 */
+.tema-icone {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
-.study-card a:hover {
-  color: var(--primary-hover);
-  text-decoration: underline;
+.tema-icone svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Cores Oficiais da Imagem 2 */
+.tema-icone-azul { background: var(--cor-icone-azul); }
+.tema-icone-verde { background: var(--cor-icone-verde); }
+.tema-icone-amarelo { background: var(--cor-icone-amarelo); }
+.tema-icone-cinza { background: var(--cor-icone-cinza); }
+.tema-icone-menta { background: var(--cor-icone-menta); }
+.tema-icone-indigo { background: var(--cor-icone-indigo); }
+
+/* Variação por ordem automática caso não haja classe no HTML */
+.study-card:nth-child(4n+1) .tema-icone { background: var(--cor-icone-azul); }
+.study-card:nth-child(4n+2) .tema-icone { background: var(--cor-icone-verde); }
+.study-card:nth-child(4n+3) .tema-icone { background: var(--cor-icone-amarelo); }
+.study-card:nth-child(4n+4) .tema-icone { background: var(--cor-icone-cinza); }
+
+/* Título do Tema */
+.study-card h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.3;
+  margin: 0;
+  flex: 1;
+}
+
+/* Descrição curta (oculta no modo horizontal limpo) */
+.study-card p {
+  display: none;
 }
 
 /* Indicadores de Status (Pendente / Concluído) */
 .study-state {
-  align-self: flex-start;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 0.25rem 0.65rem;
-  border-radius: 1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--raio-pilula);
   background: #f1f5f9;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .study-state.done {
   background: #dcfce7;
-  color: #047857;
+  color: #15803d;
+}
+
+/* Link / Ação Estudar com Setinha */
+.study-card a {
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.study-card a:hover {
+  color: var(--primary-hover);
+  text-decoration: none;
+}
+
+.study-card a::after {
+  content: '›';
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.study-card:hover a::after {
+  transform: translateX(3px);
 }
 
 /* --- Artigo de Exibição do Conteúdo (Quando abre um tema) --- */
 .study-content {
-  max-width: 850px;
-  margin: 0 auto;
+  max-width: 900px;
+  margin: 1.5rem auto 0;
   padding: 2.5rem;
   background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+  border-radius: var(--raio-card);
+  box-shadow: var(--sombra-card);
+}
+
+.study-content a[href*="estudos"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+}
+
+.study-content a[href*="estudos"]:hover {
+  text-decoration: underline;
 }
 
 .study-content h2 {
+  font-family: 'Roboto', 'Inter', sans-serif;
   font-size: 1.8rem;
+  font-weight: 700;
   color: var(--text-main);
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid var(--border);
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 0.75rem;
 }
 
 .study-content h3 {
-  font-size: 1.3rem;
-  color: #334155;
+  font-size: 1.25rem;
+  color: var(--text-main);
   margin: 1.8rem 0 0.8rem;
 }
 
 .study-content p {
-  white-space: pre-wrap; /* MÁGICA: Mantém os parágrafos e quebras de linha do banco */
-  line-height: 1.8;
+  white-space: pre-wrap;
+  line-height: 1.75;
   color: #334155;
   margin-bottom: 1.2rem;
   overflow-wrap: anywhere;
 }
 
-.study-content a {
-  color: var(--primary);
-  text-decoration: underline;
-}
-
-/* Imagens no meio do texto do tema */
 .study-content img,
 .imagem-conteudo {
   max-width: 100%;
@@ -230,7 +540,7 @@ progress {
   display: block;
 }
 
-/* --- Seção de Quiz de Fixação e Linha Divisória --- */
+/* --- Seção de Quiz de Fixação --- */
 .study-content hr {
   border: 0;
   border-top: 1px solid var(--border);
@@ -241,14 +551,13 @@ progress {
   background: #f8fafc;
   padding: 1.5rem;
   border-radius: 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
 }
 
 .pergunta-quiz {
   margin-top: 1rem;
 }
 
-/* Imagem da questão e aviso quando ela não carrega */
 .imagem-questao {
   display: block;
   max-width: min(100%, 360px);
@@ -276,73 +585,166 @@ progress {
 /* --- Botões e Acessibilidade --- */
 button {
   border: 1px solid var(--primary);
-  border-radius: 0.5rem;
-  padding: 0.8rem 1.4rem;
+  border-radius: var(--raio-botao);
+  padding: 0.75rem 1.5rem;
   background: var(--primary);
-  color: white;
-  font: inherit;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s, opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  transition: background-color 0.2s, opacity 0.2s, transform 0.2s;
 }
 
 button:hover:not(:disabled) {
   background: var(--primary-hover);
   border-color: var(--primary-hover);
+  transform: translateY(-1px);
 }
 
 button:disabled {
-  opacity: 0.65;
+  opacity: 0.6;
   cursor: default;
+  box-shadow: none;
 }
 
-a:focus-visible, button:focus-visible, input:focus-visible {
-  outline: 3px solid #F59E0B;
-  outline-offset: 4px;
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
 }
 
 [hidden] {
   display: none !important;
 }
 
-/* --- Responsividade (Celulares e Tablets) --- */
-@media (max-width: 900px) {
-  .study-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .study-main {
-    padding: 2rem 1rem;
-  }
-  .study-content {
-    padding: 1.25rem;
-  }
-  .study-header nav {
-    gap: 0.8rem;
-  }
-  .study-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
+/* --- Botão Prova / Certificação --- */
 .botao-prova {
-    display: inline-block;
-    background-color: #2563eb;
-    color: white;
-    padding: 15px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 10px;
-    margin-top: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease,
-                transform 0.2s ease;
+  display: inline-block;
+  background-color: var(--primary);
+  color: #ffffff;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--raio-botao);
+  margin-top: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .botao-prova:hover {
-    background-color: #1d4ed8;
-    transform: background-color 0.2s, opacity 0.2s;
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Responsividade: Celular (Formato da Imagem 3 <= 620px)
+   ========================================================================== */
+@media (max-width: 620px) {
+  .study-header {
+    height: auto;
+    padding: 0.8rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .study-header a img {
+    height: 38px;
+  }
+
+  .study-header nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    gap: 0.75rem;
+    padding-bottom: 0.25rem;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .study-header nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .study-header nav a {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  #sair {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .study-main {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .study-main h1 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .eyebrow,
+  .study-main p {
+    text-align: center;
+  }
+
+  /* Adaptação dos Temas para Grade de 2 Colunas conforme Imagem 3 */
+  .study-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .study-card {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 145px;
+    padding: 1rem;
+    border-radius: var(--raio-card);
+  }
+
+  .study-card-topo {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tema-icone {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .tema-icone svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .study-card h2 {
+    font-size: 0.85rem;
+    line-height: 1.25;
+    margin: 0.25rem 0 auto;
+  }
+
+  .study-state {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .study-card a {
+    margin-top: auto;
+    margin-left: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .study-content {
+    padding: 1.25rem;
+  }
 }
