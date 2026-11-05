@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -12,65 +13,81 @@
 
   <!-- CABEÇALHO -->
   <header class="site-header">
-  <a href="home.html">
-    <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
-  </a>
 
-  <button class="nav-toggle" type="button"
-    aria-controls="main-nav" aria-expanded="false">
-    Menu
-  </button>
+    <a href="home.html">
+      <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
+    </a>
 
-  <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
-  <a class="nav-link active" href="home.html" aria-current="page">Início</a>
-  <a class="nav-link" href="estudos.html">Estudos</a>
-  <a class="nav-link" href="certificacao.html">Certificação</a>
-  <a class="nav-link" href="historico.html">Histórico</a>
-  <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
-</nav>
+    <button class="nav-toggle" type="button"
+      aria-controls="main-nav" aria-expanded="false">
+      Menu
+    </button>
 
-  <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
-    <div id="authButtons" style="display:none; gap:16px; align-items:center;">
-      <a href="login.html" class="nav-link">Entrar</a>
-      <a href="cadastro.html" class="nav-link">Cadastrar</a>
-    </div>
+    <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
+      <a class="nav-link active" href="home.html" aria-current="page">Início</a>
+      <a class="nav-link" href="estudos.html">Estudos</a>
+      <a class="nav-link" href="certificacao.html">Certificação</a>
+      <a class="nav-link" href="historico.html">Histórico</a>
+      <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
+    </nav>
 
-    <div class="profile-menu" id="profileMenu" style="display:none;">
-      <button class="profile-trigger" type="button" id="profileTrigger"
-        aria-expanded="false" aria-label="Menu do perfil">
-        <img
-          src="assets/img/estudos.png"
-          alt="Foto de perfil"
-          class="profile-avatar-img"
-          id="userAvatar">
-          
-        <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
-        <span class="chevron">▼</span>
-      </button>
+    <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
 
-      <div class="dropdown">
-        <div class="dropdown-header">
-          <div class="profile-username" id="dropdownUserName">Usuário</div>
-          <div class="profile-greeting">Minha conta</div>
-        </div>
+      <div id="authButtons" style="display:none; gap:16px; align-items:center;">
+        <a href="login.html" class="nav-link">Entrar</a>
+        <a href="cadastro.html" class="nav-link">Cadastrar</a>
+      </div>
 
-        <div class="dropdown-body">
-          <a href="perfil.html">Meu Perfil</a>
-          <a href="historico.html">Histórico</a>
-          <div class="divider"></div>
-          <button class="danger" type="button" id="sair">Sair</button>
+      <div class="profile-menu" id="profileMenu" style="display:none;">
+
+        <button class="profile-trigger" type="button" id="profileTrigger"
+          aria-expanded="false" aria-controls="userProfileMenu"
+          aria-label="Menu do perfil">
+
+          <img
+            src="assets/img/estudos.png"
+            alt="Foto de perfil"
+            class="profile-avatar-img"
+            id="userAvatar">
+
+          <span class="profile-name">
+            Olá, <span id="userName">Usuário</span>
+          </span>
+
+          <span class="chevron">▼</span>
+        </button>
+
+        <div class="dropdown" id="userProfileMenu">
+
+          <div class="dropdown-header">
+            <div class="profile-username" id="dropdownUserName">Usuário</div>
+            <div class="profile-greeting">Minha conta</div>
+          </div>
+
+          <div class="dropdown-body">
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="historico.html">Histórico</a>
+            <div class="divider"></div>
+            <button class="danger" type="button" id="sair">Sair</button>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 
+
+  <!-- CONTEÚDO PRINCIPAL -->
   <main class="site-main">
+
     <p id="session-status" role="status" aria-live="polite"></p>
+
     <div class="hero-card">
 
       <div class="hero-top">
+
         <div class="hero-text">
+
           <p class="subtitle-1" style="color: var(--primary);">
             Seu futuro em tecnologia começa aqui
           </p>
@@ -86,23 +103,26 @@
           </p>
 
           <a href="estudos.html" class="btn-hero">Começar meus estudos</a>
+
         </div>
 
         <div class="hero-image">
           <img src="assets/img/jovem-estudando.png" alt="Jovem estudando">
         </div>
+
       </div>
 
       <div class="how-it-works">
+
         <p class="how-title">Como funciona?</p>
 
         <div class="how-card">
 
           <div class="how-item">
+
             <div class="how-icon" style="background: var(--accent);">
               <svg viewBox="0 0 24 24">
-                <path
-                  d="M21 5c-1.1-.35-2.3-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z" />
+                <path d="M21 5c-1.1-.35-2.3-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z" />
               </svg>
             </div>
 
@@ -110,11 +130,13 @@
               <h6>1. Estude</h6>
               <p class="body-2">Os 12 temas disponíveis na área de estudos.</p>
             </div>
+
           </div>
 
           <div class="how-divider"></div>
 
           <div class="how-item">
+
             <div class="how-icon" style="background: var(--secondary);">
               <svg viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
@@ -125,15 +147,16 @@
               <h6>2. Responda</h6>
               <p class="body-2">12 questões, contemplando todos os temas estudados.</p>
             </div>
+
           </div>
 
           <div class="how-divider"></div>
 
           <div class="how-item">
+
             <div class="how-icon" style="background: var(--primary);">
               <svg viewBox="0 0 24 24">
-                <path
-                  d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V17H9v2h6v-2h-2v-2.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
+                <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V17H9v2h6v-2h-2v-2.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
               </svg>
             </div>
 
@@ -141,202 +164,283 @@
               <h6>3. Conquiste</h6>
               <p class="body-2">Seu certificado e valide com QR code.</p>
             </div>
+
           </div>
 
         </div>
       </div>
-
     </div>
 
+
+    <!-- CERTIFICAÇÃO -->
     <section class="hero-card" id="certificacao" aria-labelledby="certificacao-titulo">
+
       <div class="hero-text">
         <h2 id="certificacao-titulo">Prepare-se para a certificação</h2>
-        <p class="body-2">Responda uma questão por tema. Você pode salvar seu progresso entre questões e continuar
-          depois.</p>
-        <a class="btn-hero" href="certificacao.html">Iniciar ou retomar certificação</a>
+
+        <p class="body-2">
+          Responda uma questão por tema. Você pode salvar seu progresso entre questões e continuar
+          depois.
+        </p>
+
+        <a class="btn-hero" href="certificacao.html">
+          Iniciar ou retomar certificação
+        </a>
       </div>
+
     </section>
 
+
+    <!-- SOBRE NÓS -->
     <div class="hero-card" id="sobre-nos" style="margin-top: 32px;">
+
       <div class="sobre-nos-inner">
+
         <div class="sobre-nos-badge">Sobre nós</div>
+
         <h2 style="color: var(--text); font-weight: 400; font-size: clamp(28px, 3vw, 48px); line-height: 1.2;">
           Quem está por trás da <span style="color: var(--primary);">ÁgilCert</span>?
         </h2>
+
         <p class="body-2" style="max-width: 720px;">
           Somos um grupo de estudantes apaixonados por tecnologia e metodologias ágeis, unidos pelo desejo de tornar o
           aprendizado de Scrum mais acessível e prático para todos. A ÁgilCert nasceu da necessidade de uma plataforma
           simples, objetiva e eficiente para quem quer validar seus conhecimentos e conquistar uma certificação
           reconhecida.
         </p>
+
         <p class="body-2" style="max-width: 720px;">
           Nossa missão é democratizar o acesso à certificação ágil, oferecendo conteúdo de qualidade, avaliações justas
           e certificados verificáveis — tudo em um só lugar. <strong style="color: var(--primary);">Aqui, seu
             conhecimento tem valor.</strong>
         </p>
+
         <p class="sobre-nos-equipe">
           <svg viewBox="0 0 24 24"
             style="width:28px;height:28px;fill:var(--primary);vertical-align:middle;margin-right:8px;">
-            <path
-              d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
           </svg>
           Equipe Ctrl Alt Devs
         </p>
+
         <div class="sobre-nos-stats">
+
           <div class="stat-item">
             <span class="stat-number">12</span>
             <span class="stat-label">Temas abordados</span>
           </div>
+
           <div class="stat-divider"></div>
+
           <div class="stat-item">
             <span class="stat-number">100%</span>
             <span class="stat-label">Online e gratuito</span>
           </div>
+
           <div class="stat-divider"></div>
+
           <div class="stat-item">
             <span class="stat-number">QR</span>
             <span class="stat-label">Certificado verificável</span>
           </div>
+
         </div>
       </div>
     </div>
+
   </main>
 
+
+  <!-- RODAPÉ -->
   <footer class="site-footer">
+
     <div class="footer-card">
+
       <div class="footer-left">
+
         <img src="assets/img/logo-transparente.png" alt="ÁgilCert" class="footer-logo">
+
         <p class="footer-section-title">Acompanhe o projeto</p>
+
         <div class="footer-socials">
-          <a href="https://github.com/ctrlaltdevs0-droid/ABP_1" target="_blank" rel="noopener noreferrer">Projeto no
-            GitHub</a>
+          <a href="https://github.com/ctrlaltdevs0-droid/ABP_1" target="_blank" rel="noopener noreferrer">
+            Projeto no GitHub
+          </a>
         </div>
+
       </div>
 
       <div class="footer-divider"></div>
 
       <div class="footer-right">
+
         <p class="footer-section-title">Diga Oi!</p>
+
         <ul class="footer-contact">
+
           <li>
             <svg viewBox="0 0 24 24">
-              <path
-                d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z" />
+              <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z" />
             </svg>
             Equipe Ctrl Alt Devs
           </li>
+
           <li>
             <svg viewBox="0 0 24 24">
-              <path
-                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
             </svg>
             Fatec Jacareí
           </li>
+
           <li>
             <svg viewBox="0 0 24 24">
-              <path
-                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
             </svg>
             Rua La Paz, n° 360 — Jacareí - SP
           </li>
+
         </ul>
       </div>
     </div>
+
     <div class="footer-bottom">
       © 2026 ÁgilCert. Todos os direitos reservados.
     </div>
+
   </footer>
 
+
+  <!-- SCRIPTS -->
   <script src="assets/js/config.js"></script>
   <script src="assets/js/api.js"></script>
+
   <script>
+
+    // MENU RESPONSIVO
     const navToggle = document.querySelector('.nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+
     navToggle.addEventListener('click', () => {
       const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', String(!expanded));
-      document.getElementById('main-nav').classList.toggle('is-open', !expanded);
-    });
-    document.querySelectorAll('#main-nav a').forEach(link => link.addEventListener('click', () => {
-      navToggle.setAttribute('aria-expanded', 'false');
-      document.getElementById('main-nav').classList.remove('is-open');
-    }));
-    function toggleProfile() {
-      const menu = document.getElementById('profileMenu');
-      if (menu) menu.classList.toggle('open');
-    }
 
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      mainNav.classList.toggle('is-open', !expanded);
+    });
+
+    document.querySelectorAll('#main-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.setAttribute('aria-expanded', 'false');
+        mainNav.classList.remove('is-open');
+      });
+    });
+
+
+    // MENU OLÁ, USUÁRIO
+    const profileMenu = document.getElementById('profileMenu');
+    const profileTrigger = document.getElementById('profileTrigger');
+
+    profileTrigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+
+      profileMenu.classList.toggle('open');
+
+      const aberto = profileMenu.classList.contains('open');
+
+      profileTrigger.setAttribute('aria-expanded', String(aberto));
+    });
+
+    // Fecha ao clicar fora
     document.addEventListener('click', function (e) {
-      const menu = document.getElementById('profileMenu');
-      if (menu && !menu.contains(e.target)) {
-        menu.classList.remove('open');
+      if (!profileMenu.contains(e.target)) {
+        profileMenu.classList.remove('open');
+        profileTrigger.setAttribute('aria-expanded', 'false');
       }
     });
 
+
+    // CARREGAMENTO DO USUÁRIO
     document.addEventListener('DOMContentLoaded', async function () {
+
       const token = localStorage.getItem('token');
       const usuarioSalvo = localStorage.getItem('usuario');
 
       const authButtons = document.getElementById('authButtons');
-      const profileMenu = document.getElementById('profileMenu');
       const userNameSpan = document.getElementById('userName');
       const dropdownUserName = document.getElementById('dropdownUserName');
 
-      // Exibe o perfil e oculta botões de login
       function exibirLogado(usuario) {
         if (!usuario) return;
+
         const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
         const primeiroNome = nomeCompleto.trim().split(' ')[0];
 
-        if (userNameSpan) userNameSpan.textContent = primeiroNome;
-        if (dropdownUserName) dropdownUserName.textContent = nomeCompleto;
+        userNameSpan.textContent = primeiroNome;
+        dropdownUserName.textContent = nomeCompleto;
 
-        if (authButtons) authButtons.style.display = 'none';
-        if (profileMenu) profileMenu.style.display = 'flex';
+        authButtons.style.display = 'none';
+        profileMenu.style.display = 'flex';
       }
 
-      // Exibe botões de login e oculta perfil
       function exibirDeslogado() {
-        if (profileMenu) profileMenu.style.display = 'none';
-        if (authButtons) authButtons.style.display = 'flex';
+        profileMenu.style.display = 'none';
+        authButtons.style.display = 'flex';
       }
 
-      // 1. Carrega dados salvos no localStorage instantaneamente
+      // Dados salvos no navegador
       if (token && usuarioSalvo) {
         try {
-          const u = JSON.parse(usuarioSalvo);
-          exibirLogado(u.usuario || u);
-        } catch (e) {
-          console.error('Erro no localStorage:', e);
+          const usuario = JSON.parse(usuarioSalvo);
+          exibirLogado(usuario.usuario || usuario);
+        } catch (error) {
+          console.error('Erro ao carregar usuário:', error);
         }
       } else if (!token) {
         exibirDeslogado();
         return;
       }
 
-      // 2. Busca o nome atualizado do banco via API (/api/usuarios/me)
+      // Atualiza os dados pela API
       if (token && typeof AgilCertAPI !== 'undefined') {
         try {
-          const res = await AgilCertAPI.request('usuarios/me');
-          const usuarioAtualizado = res.usuario || res;
+          const resposta = await AgilCertAPI.request('usuarios/me');
+          const usuarioAtualizado = resposta.usuario || resposta;
+
           if (usuarioAtualizado && usuarioAtualizado.nome) {
             localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
             exibirLogado(usuarioAtualizado);
           }
-        } catch (err) {
-          console.warn('API indisponível, usando cache:', err);
-          if (!usuarioSalvo) exibirDeslogado();
+
+        } catch (error) {
+          console.warn('API indisponível, usando dados salvos:', error);
+
+          if (!usuarioSalvo) {
+            exibirDeslogado();
+          }
         }
       }
+
     });
 
+
+    // SAIR DA CONTA
     async function logout() {
-      const button = document.querySelector('.dropdown .danger');
+
+      const button = document.getElementById('sair');
+
       button.disabled = true;
-      try { await AgilCertAPI.logout(); }
-      catch (error) { document.getElementById('session-status').textContent = error.message; button.disabled = false; }
+
+      try {
+        await AgilCertAPI.logout();
+
+      } catch (error) {
+        document.getElementById('session-status').textContent = error.message;
+        button.disabled = false;
+      }
     }
+
+    document.getElementById('sair').addEventListener('click', logout);
+
   </script>
 
 </body>
-
 </html>
