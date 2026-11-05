@@ -98,20 +98,20 @@ Ctrl Alt Devs
 
 Apresentações e planejamento
 
-- "▶️ Sprint 1 — ABP-1" (https://youtu.be/mRPE58jU3zM?si=8tJALptV5QcUEH29)
-- "▶️ Sprint 2 — ABP-2" (https://youtu.be/sX606tKYDiU?si=PtFGuOJlH06fYAC7)
-- "▶️ Poker Planning — Sprint 1" (https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
+- [▶️ Sprint 1 — ABP-1] (https://youtu.be/mRPE58jU3zM?si=8tJALptV5QcUEH29)
+- [▶️ Sprint 2 — ABP-2] (https://youtu.be/sX606tKYDiU?si=PtFGuOJlH06fYAC7)
+- [▶️ Poker Planning — Sprint 1] (https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
 
 Demonstrações e funcionalidades
 
-- "▶️ Apresentação — ABP-2 Sprint 1" (https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
-- "▶️ Funcionalidade — Sprint 2" (https://youtu.be/3Thw2jTHmCM?si=SaEbJtgj4c8TzK0f)
+- [▶️ Apresentação — ABP-2 Sprint 1] (https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
+- [▶️ Funcionalidade — Sprint 2] (https://youtu.be/3Thw2jTHmCM?si=SaEbJtgj4c8TzK0f)
 
 🎨 Protótipo no Figma
 
 Acesse o protótipo desenvolvido pelo grupo:
 
-"🔗 ÁgilCert — CTRL ALT DEVS" (https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
+-[🔗 ÁgilCert — CTRL ALT DEVS] (https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
 
 💻 Executar o projeto completo localmente
 
@@ -124,7 +124,7 @@ docker compose --env-file .env.compose up --build -d
 
 Após a inicialização, acesse:
 
-http://localhost:3000/home.html
+"http://localhost:3000/home.html"
 
 O ambiente local inclui banco de dados, provisionamento com migrações e cargas, API de dados, backend e frontend.
 
@@ -132,9 +132,9 @@ O ".env" do Supabase remoto e o banco local antigo não são alterados.
 
 Documentação técnica complementar
 
-- "Arquitetura e reprodução do ambiente" (docs/geral/ARQUITETURA_EXECUCAO.md)
-- "Correções da devolutiva" (docs/sprint-1/CORRECOES_DEVOLUTIVA.md)
-- "Review, retrospectiva e Definition of Done (DoD)" (docs/sprint-1/REVIEW_RETROSPECTIVA_DOD.md)
+- [Arquitetura e reprodução do ambiente" (docs/geral/ARQUITETURA_EXECUCAO.md)
+- [Correções da devolutiva] (docs/sprint-1/CORRECOES_DEVOLUTIVA.md)
+- [Review, retrospectiva e Definition of Done (DoD)] (docs/sprint-1/REVIEW_RETROSPECTIVA_DOD.md)
 
 📊 Status do projeto
 
