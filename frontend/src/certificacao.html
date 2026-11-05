@@ -84,7 +84,7 @@
     <div class="container-principal">
 
       <!-- EXIBIÇÃO DE ERROS / ALERTAS DA API (MANTIDO PARA O JS) -->
-      <p id="erro" role="alert"></p>
+      <p id="erro" role="status" aria-live="polite"></p>
 
       <!-- =========================================================
            1. LAYOUT DA TELA INICIAL / RETOMAR PROVA (#inicio)
@@ -109,7 +109,8 @@
 
           <div class="acoes-inicio">
             <a href="estudos.html" class="btn-secundario">Agora não</a>
-            <button id="btnIniciar" type="button">Iniciar prova</button>
+            <button id="btnIniciar" type="button" hidden>Iniciar prova</button>
+            <button id="btnRetomar" type="button" hidden>Retomar prova</button>
           </div>
         </div>
       </section>
@@ -174,13 +175,14 @@
           <!-- COLUNA DIREITA: QUESTÃO E ALTERNATIVAS -->
           <div class="painel-questao">
             <div class="card-questao">
+              <form id="provaForm">
 
               <div class="header-questao">
                 <span class="tag-tema">Questão da Certificação</span>
               </div>
 
               <!-- ÁREA DO ENUNCIADO E ILUSTRAÇÃO -->
-              <div class="questao-conteudo">
+              <div class="questao-conteudo" id="questaoConteudo">
                 <h2 id="enunciado" class="enunciado-texto">Carregando questão...</h2>
                 <p class="instrucao-selecao">Selecione apenas uma alternativa.</p>
 
@@ -190,7 +192,7 @@
                 </div>
 
                 <!-- ALTERNATIVAS PREENCHIDAS PELO SCRIPT -->
-                <div id="alternativas" class="alternativas-container"></div>
+                <fieldset id="alternativas" class="alternativas-container"></fieldset>
               </div>
 
               <!-- BOTÕES DE AÇÃO DA PROVA -->
@@ -198,16 +200,18 @@
                 <div class="dica-rolagem">
                   ↓ Role o conteúdo da questão quando necessário.
                 </div>
-                <div class="acoes-questao">
-                  <button id="btnAnterior" type="button" disabled>
-                    ‹ &nbsp; Tema anterior
-                  </button>
+                <div class="acoes-questao" id="acoesQuestao">
+                  <button id="btnPausar" type="button" hidden>Continuar depois</button>
+                  <button id="btnProxima" type="button" hidden>Próxima questão</button>
+                  <button id="btnFinalizar" type="button" hidden>Ver resultado</button>
+                  <button id="btnRecuperar" type="button" hidden>Verificar conexão</button>
 
-                  <button id="btnResponder" type="button">
-                    Próximo tema &nbsp; ›
+                  <button id="btnResponder" type="submit">
+                    Confirmar resposta
                   </button>
                 </div>
               </div>
+              </form>
 
             </div>
           </div>
@@ -318,8 +322,9 @@
 
 <script src="assets/js/config.js"></script>
 <script src="assets/js/api.js"></script>
+<script src="assets/js/certificacao.js"></script>
   <!-- JAVASCRIPT DA PROVA (MANTIDO 100% ORIGINAL E INTACTO) -->
-  <script>
+  <script type="text/plain" id="script-certificacao-legado">
     let tentativaId = null;
     let questaoAtual = null;
     let numeroQuestao = 0;

@@ -41,6 +41,15 @@ async function pagina() {
 }
 function questao(){return {questao:{idquestoes:9,enunciado:'Questão de teste'},ordem:1,alternativas:[{idalternativas:2,letra:'A',texto:'Alternativa'}],iniciado_em:new Date().toISOString(),agora:new Date().toISOString(),expira_em:new Date(Date.now()+150000).toISOString()};}
 
+test('web: página visual carrega o fluxo atual de continuidade e desativa o script legado', async () => {
+  const html = await readFile(new URL('../../frontend/src/certificacao.html', import.meta.url), 'utf8');
+  assert.match(html, /src="assets\/js\/certificacao\.js"/);
+  assert.match(html, /<script type="text\/plain" id="script-certificacao-legado">/);
+  for (const id of ['btnRetomar', 'btnPausar', 'btnProxima', 'btnRecuperar', 'btnFinalizar']) {
+    assert.match(html, new RegExp(`id="${id}"`));
+  }
+});
+
 test('web: offline bloqueia resposta; fechamento envia sessão e questão com keepalive',async()=>{
   const p=await pagina();p.setProxima(questao());await p.get('prova-proxima').events.click();
   assert.equal(p.get('prova-questao').hidden,false);
