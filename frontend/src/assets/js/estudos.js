@@ -19,6 +19,32 @@
   let respostasPorQuestao = new Map();
   let acertosTema = 0;
 
+  // Ícone e cor de cada tema, na ordem dos 12 temas (igual ao Figma).
+  const ICONES_TEMAS = [
+    { cor: 'azul', svg: '<circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M12 7.5v4M12 11.5l-5.5 4.5M12 11.5l5.5 4.5"/>' },
+    { cor: 'verde', svg: '<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>' },
+    { cor: 'amarelo', svg: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2c2.8-.3 5 1.9 5 4.8"/>' },
+    { cor: 'azul', svg: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>' },
+    { cor: 'cinza', svg: '<path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/>' },
+    { cor: 'verde', svg: '<circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c0-3.6 2.9-6.5 6.5-6.5"/><path d="M17 14v6M14 17h6"/>' },
+    { cor: 'amarelo', svg: '<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>' },
+    { cor: 'azul', svg: '<rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/>' },
+    { cor: 'cinza', svg: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>' },
+    { cor: 'verde', svg: '<path d="M5 20V11M11 20V5M17 20v-7M3 20h18"/>' },
+    { cor: 'amarelo', svg: '<path d="M14.5 6.5a4 4 0 0 0-5 5L4 17v3h3l5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-2.5-.5-.5-2.5z"/>' },
+    { cor: 'cinza', svg: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>' },
+  ];
+
+  // Cria o círculo colorido com o ícone do tema.
+  function criarIcone(ordem) {
+    const visual = ICONES_TEMAS[Number(ordem) - 1] ?? ICONES_TEMAS[0];
+    const icone = document.createElement('span');
+    icone.className = `tema-icone tema-icone-${visual.cor}`;
+    icone.setAttribute('aria-hidden', 'true');
+    icone.innerHTML = `<svg viewBox="0 0 24 24">${visual.svg}</svg>`;
+    return icone;
+  }
+
   function informar(texto) {
     el('mensagem').textContent = texto;
   }
@@ -76,7 +102,12 @@
 
       link.textContent = feito ? 'Revisar tema →' : 'Estudar →';
 
-      card.append(estado, titulo, descricao, link);
+      // Ícone e status lado a lado no topo do card.
+      const topo = document.createElement('div');
+      topo.className = 'study-card-topo';
+      topo.append(criarIcone(tema.ordem), estado);
+
+      card.append(topo, titulo, descricao, link);
       el('temas').append(card);
     }
 
@@ -592,6 +623,11 @@
       informar(
         'Tema concluído com sucesso! Seu progresso foi salvo.'
       );
+      
+      setTimeout(() => {
+        window.location.href = 'estudos.html';
+      }, 1500);
+
     } catch (error) {
       erro(error);
       atualizarProgressoAcertos();
@@ -644,8 +680,6 @@ if (barraProgresso) {
 
   atualizarBotaoProva();
 }
-
-
 // --- Persistência do Usuário no Cabeçalho (Área em Azul) ---
 (function inicializarPerfilHeader() {
   const userNameEl = document.getElementById('userName');

@@ -1,6 +1,6 @@
+
 /* ==========================================================================
    ÁGILCERT - ÁREA DE ESTUDOS (estudos.css)
-   
    ========================================================================== */
 
 /* --- Importação das Fontes Oficiais --- */
@@ -20,7 +20,7 @@
   --text-muted: #64748b;
   --text-light: #94a3b8;
 
-  /* Cores Oficiais dos Ícones da Imagem 2 */
+  /* Cores Oficiais dos Ícones */
   --cor-icone-azul: #1e70bf;
   --cor-icone-verde: #48c5b5;
   --cor-icone-amarelo: #e5a823;
@@ -47,6 +47,15 @@
   padding: 0;
 }
 
+/* Cabeçalho global */
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 32px;
+  height: 100px;
+}
+
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--background);
@@ -57,7 +66,7 @@ body {
   min-height: 100vh;
 }
 
-/* --- Cabeçalho (Header) - Réplica Figma --- */
+/* --- Cabeçalho (Header) --- */
 .study-header {
   position: sticky;
   top: 0;
@@ -79,7 +88,7 @@ body {
 }
 
 .study-header a img {
-  height: 44px;
+  height: 100px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -116,7 +125,7 @@ body {
   background: none;
 }
 
-/* --- Perfil do Usuário no Header (Área em Azul) --- */
+/* --- Perfil do Usuário no Header --- */
 .header-profile {
   position: relative;
   display: flex;
@@ -127,17 +136,21 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: transparent;
-  border: none;
-  padding: 4px 8px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 12px;
   cursor: pointer;
-  border-radius: 8px;
-  transition: background-color 0.15s ease;
+  font: 500 13px "Inter", sans-serif;
+  color: var(--text-main);
   box-shadow: none;
+  transition: background 0.15s;
 }
 
-.profile-trigger:hover {
-  background-color: var(--background);
+/* Evita o hover azul no botão do perfil */
+.profile-trigger:hover:not(:disabled) {
+  background: var(--background);
+  border-color: var(--border);
   transform: none;
 }
 
@@ -230,7 +243,7 @@ body {
   color: #b91c1c;
 }
 
-/* --- Conteúdo Principal (Main) --- */
+/* --- Conteúdo Principal --- */
 .study-main {
   max-width: 1080px;
   margin: 0 auto;
@@ -260,7 +273,7 @@ body {
   font-size: 1rem;
 }
 
-/* --- Card de Progresso (Resumo) - Estilo Imagem 1 --- */
+/* --- Card de Progresso --- */
 .study-summary {
   background: var(--card-bg);
   padding: 1.5rem 1.8rem;
@@ -282,7 +295,7 @@ body {
   justify-content: space-between;
 }
 
-/* Barra de Progresso com Gradiente Moderno */
+/* Barra de Progresso */
 progress {
   display: block;
   width: 100%;
@@ -349,7 +362,7 @@ progress::-moz-progress-bar {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/* --- Grade e Cards dos 12 Temas (Desktop: Lista Imagem 1 e 2) --- */
+/* --- Grade e Cards dos 12 Temas --- */
 .study-grid {
   display: flex;
   flex-direction: column;
@@ -376,7 +389,6 @@ progress::-moz-progress-bar {
   border-color: var(--border-hover);
 }
 
-/* Topo do Card (Ícone e Status) */
 .study-card-topo {
   display: flex;
   align-items: center;
@@ -384,7 +396,7 @@ progress::-moz-progress-bar {
   flex-shrink: 0;
 }
 
-/* Ícone Circular com as Cores da Imagem 2 */
+/* Ícone Circular */
 .tema-icone {
   display: inline-flex;
   align-items: center;
@@ -406,7 +418,7 @@ progress::-moz-progress-bar {
   stroke-linejoin: round;
 }
 
-/* Cores Oficiais da Imagem 2 */
+/* Cores dos Ícones */
 .tema-icone-azul { background: var(--cor-icone-azul); }
 .tema-icone-verde { background: var(--cor-icone-verde); }
 .tema-icone-amarelo { background: var(--cor-icone-amarelo); }
@@ -414,7 +426,7 @@ progress::-moz-progress-bar {
 .tema-icone-menta { background: var(--cor-icone-menta); }
 .tema-icone-indigo { background: var(--cor-icone-indigo); }
 
-/* Variação por ordem automática caso não haja classe no HTML */
+/* Variação por ordem automática */
 .study-card:nth-child(4n+1) .tema-icone { background: var(--cor-icone-azul); }
 .study-card:nth-child(4n+2) .tema-icone { background: var(--cor-icone-verde); }
 .study-card:nth-child(4n+3) .tema-icone { background: var(--cor-icone-amarelo); }
@@ -430,12 +442,12 @@ progress::-moz-progress-bar {
   flex: 1;
 }
 
-/* Descrição curta (oculta no modo horizontal limpo) */
+/* Descrição curta */
 .study-card p {
   display: none;
 }
 
-/* Indicadores de Status (Pendente / Concluído) */
+/* Indicadores de Status */
 .study-state {
   font-size: 0.78rem;
   font-weight: 600;
@@ -451,7 +463,7 @@ progress::-moz-progress-bar {
   color: #15803d;
 }
 
-/* Link / Ação Estudar com Setinha */
+/* Link / Ação Estudar */
 .study-card a {
   color: var(--primary);
   font-size: 0.9rem;
@@ -480,7 +492,7 @@ progress::-moz-progress-bar {
   transform: translateX(3px);
 }
 
-/* --- Artigo de Exibição do Conteúdo (Quando abre um tema) --- */
+/* --- Artigo de Exibição do Conteúdo --- */
 .study-content {
   max-width: 900px;
   margin: 1.5rem auto 0;
@@ -643,7 +655,7 @@ input:focus-visible {
 }
 
 /* ==========================================================================
-   Responsividade: Celular (Formato da Imagem 3 <= 620px)
+   Responsividade: Celular
    ========================================================================== */
 @media (max-width: 620px) {
   .study-header {
@@ -695,7 +707,7 @@ input:focus-visible {
     text-align: center;
   }
 
-  /* Adaptação dos Temas para Grade de 2 Colunas conforme Imagem 3 */
+  /* Grade de 2 Colunas */
   .study-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

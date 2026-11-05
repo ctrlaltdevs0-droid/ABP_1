@@ -1,98 +1,306 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ÁgilCert | Estudos</title>
+
   <link rel="stylesheet" href="assets/css/home.css">
   <link rel="stylesheet" href="assets/css/estudos.css">
+
   <script defer src="assets/js/config.js"></script>
   <script defer src="assets/js/api.js"></script>
   <script defer src="assets/js/estudos.js"></script>
 </head>
+
 <body>
 
   <!-- CABEÇALHO -->
-  <header class="study-header">
-    <a href="home.html">
-      <img src="assets/img/logo-transparente.png" alt="ÁgilCert">
-    </a>
-    <nav aria-label="Navegação principal">
-      <a href="home.html">Início</a>
-      <a href="estudos.html" aria-current="page">Estudos</a>
-      <a href="certificacao.html">Certificação</a>
-      <a href="historico.html">Histórico</a>
-      <a href="home.html#sobre-nos">Sobre nós</a>
-    </nav>
-    <div class="header-profile" id="userProfileMenu">
-      <button class="profile-trigger" type="button" id="profileTrigger" aria-label="Menu do perfil">
-        <img src="assets/img/personagens.png" alt="Foto de perfil" class="profile-avatar-img" id="userAvatar">
-        <span class="profile-greeting-text">Olá, <span id="userName">Usuário</span></span>
-        <span class="profile-chevron">▼</span>
-      </button>
+  <header class="site-header">
 
-      <div class="profile-dropdown" id="profileDropdown">
-        <a href="perfil.html">Meu perfil</a>
-        <a href="historico.html">Histórico</a>
-        <button type="button" id="sair" class="dropdown-sair">Sair</button>
+    <a href="home.html">
+      <img
+        class="header-logo"
+        src="assets/img/logo-transparente.png"
+        alt="ÁgilCert"
+      >
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-controls="main-nav"
+      aria-expanded="false"
+    >
+      Menu
+    </button>
+
+    <nav
+      id="main-nav"
+      class="header-nav"
+      aria-label="Navegação principal"
+    >
+      <a class="nav-link" href="home.html">Início</a>
+
+      <a
+        class="nav-link active"
+        href="estudos.html"
+        aria-current="page"
+      >
+        Estudos
+      </a>
+
+      <a class="nav-link" href="certificacao.html">Certificação</a>
+      <a class="nav-link" href="historico.html">Histórico</a>
+      <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
+    </nav>
+
+    <div
+      class="header-actions"
+      style="margin-left: auto; display: flex; align-items: center;"
+    >
+
+      <!-- BOTÕES PARA USUÁRIOS DESLOGADOS -->
+      <div
+        id="authButtons"
+        style="display: none; gap: 16px; align-items: center;"
+      >
+        <a href="login.html" class="nav-link">Entrar</a>
+        <a href="cadastro.html" class="nav-link">Cadastrar</a>
       </div>
+
+      <!-- MENU DO PERFIL -->
+      <div
+        class="profile-menu"
+        id="userProfileMenu"
+        style="display: none;"
+      >
+
+        <button
+          class="profile-trigger"
+          type="button"
+          id="profileTrigger"
+          aria-expanded="false"
+          aria-label="Menu do perfil"
+        >
+
+          <img
+            src="assets/img/estudos.png"
+            alt="Foto de perfil"
+            class="profile-avatar-img"
+            id="userAvatar"
+          >
+
+          <span class="profile-name">
+            Olá, <span id="userName">Usuário</span>
+          </span>
+
+          <span class="chevron">▼</span>
+        </button>
+
+        <div class="dropdown">
+
+          <div class="dropdown-header">
+            <div
+              class="profile-username"
+              id="dropdownUserName"
+            >
+              Usuário
+            </div>
+
+            <div class="profile-greeting">
+              Minha conta
+            </div>
+          </div>
+
+          <div class="dropdown-body">
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="historico.html">Histórico</a>
+
+            <div class="divider"></div>
+
+            <button
+              class="danger"
+              type="button"
+              id="sair"
+            >
+              Sair
+            </button>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </header>
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="study-main">
+
     <p class="eyebrow">SEU PERCURSO DE APRENDIZADO</p>
+
     <h1>Área de estudos</h1>
+
     <p>Explore os 12 temas e prepare-se para a certificação.</p>
 
     <!-- BARRA DE PROGRESSO -->
-    <section class="study-summary" aria-label="Progresso de estudo">
-      <label for="progresso" id="resumo">Carregando progresso…</label>
-      <progress id="progresso" value="0" max="12">0 de 12</progress>
+    <section
+      class="study-summary"
+      aria-label="Progresso de estudo"
+    >
+      <label for="progresso" id="resumo">
+        Carregando progresso…
+      </label>
+
+      <progress id="progresso" value="0" max="12">
+        0 de 12
+      </progress>
     </section>
 
-<section id="acesso-prova" hidden>
-  <h2>Parabéns! Você concluiu os 12 temas.</h2>
-  <p>Agora você pode realizar a prova final.</p>
+    <!-- ACESSO À PROVA FINAL -->
+    <section id="acesso-prova" hidden>
+      <h2>Parabéns! Você concluiu os 12 temas.</h2>
 
-  <a href="certificacao.html" class="botao-prova">
-    Iniciar prova final
-  </a>
-</section>
+      <p>Agora você pode realizar a prova final.</p>
+
+      <a href="certificacao.html" class="botao-prova">
+        Iniciar prova final
+      </a>
+    </section>
 
     <!-- MENSAGENS E BOTÃO RECARREGAR -->
-    <p id="mensagem" role="status" aria-live="polite">Carregando temas…</p>
-    <button id="tentar" type="button" hidden>Tentar novamente</button>
+    <p id="mensagem" role="status" aria-live="polite">
+      Carregando temas…
+    </p>
 
-    <!-- GRADE DOS 12 TEMAS (CATÁLOGO) -->
+    <button id="tentar" type="button" hidden>
+      Tentar novamente
+    </button>
+
+    <!-- GRADE DOS 12 TEMAS -->
     <div id="lista-estudos" hidden>
+
       <label for="busca">Buscar tema</label>
-      <input id="busca" type="search" placeholder="Nome do tema" autocomplete="off">
+
+      <input
+        id="busca"
+        type="search"
+        placeholder="Nome do tema"
+        autocomplete="off"
+      >
+
       <div id="temas" class="study-grid"></div>
+
     </div>
 
-    <!-- PAINEL DE LEITURA DO TEMA SELECIONADO -->
-    <article id="conteudo" class="study-content" hidden aria-labelledby="titulo-tema">
-      <a href="estudos.html" class="voltar-link">← Todos os temas</a>
-      
+    <!-- PAINEL DE LEITURA DO TEMA -->
+    <article
+      id="conteudo"
+      class="study-content"
+      hidden
+      aria-labelledby="titulo-tema"
+    >
+
+      <a href="estudos.html" class="voltar-link">
+        ← Todos os temas
+      </a>
+
       <h2 id="titulo-tema"></h2>
-      
-      <!-- O JavaScript injetará os textos e imagens da API aqui dinamicamente -->
+
+      <!-- CONTEÚDO CARREGADO PELA API -->
       <div id="texto-tema"></div>
 
       <hr>
 
-      <!-- CONTAINER DINÂMICO DO QUIZ DO TEMA -->
+      <!-- QUIZ DINÂMICO -->
       <section id="quiz-tema"></section>
 
       <hr>
 
-      <!-- BOTÃO DE CONCLUSÃO -->
-      <button id="concluir" type="button" disabled>Marcar tema como concluído</button>
+      <!-- CONCLUSÃO DO TEMA -->
+      <button
+        id="concluir"
+        type="button"
+        disabled
+      >
+        Marcar tema como concluído
+      </button>
+
     </article>
 
-    <noscript>Ative o JavaScript para carregar os temas e registrar seu progresso.</noscript>
+    <noscript>
+      Ative o JavaScript para carregar os temas e registrar seu progresso.
+    </noscript>
+
   </main>
+
+  <script>
+    // MENU RESPONSIVO
+    const navToggle = document.querySelector('.nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+
+    navToggle.addEventListener('click', () => {
+      const expanded =
+        navToggle.getAttribute('aria-expanded') === 'true';
+
+      navToggle.setAttribute(
+        'aria-expanded',
+        String(!expanded)
+      );
+
+      mainNav.classList.toggle('is-open', !expanded);
+    });
+
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.setAttribute('aria-expanded', 'false');
+        mainNav.classList.remove('is-open');
+      });
+    });
+
+    // EXIBIÇÃO DO PERFIL OU DOS BOTÕES DE AUTENTICAÇÃO
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      const usuarioSalvo = localStorage.getItem('usuario');
+
+      const authButtons =
+        document.getElementById('authButtons');
+
+      const profileMenu =
+        document.getElementById('userProfileMenu');
+
+      const dropdownUserName =
+        document.getElementById('dropdownUserName');
+
+      if (!token) {
+        profileMenu.style.display = 'none';
+        authButtons.style.display = 'flex';
+        return;
+      }
+
+      authButtons.style.display = 'none';
+      profileMenu.style.display = 'flex';
+
+      if (usuarioSalvo) {
+        try {
+          const salvo = JSON.parse(usuarioSalvo);
+          const usuario = salvo.usuario || salvo;
+
+          const nome =
+            usuario.nome || usuario.name || 'Usuário';
+
+          dropdownUserName.textContent = nome;
+        } catch (error) {
+          console.error(
+            'Erro ao ler usuário salvo:',
+            error
+          );
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
