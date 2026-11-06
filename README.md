@@ -80,13 +80,16 @@ A plataforma aborda 12 temas relacionados às metodologias ágeis:
 
 A documentação do projeto está organizada por sprint, reunindo os materiais de planejamento, desenvolvimento e acompanhamento.
 
-Pasta| Conteúdo
-"Documentação geral" (docs/geral/)| Backlog do produto, refinamento das três sprints, protótipo e requisitos
-"Sprint 1 — Fundação e acesso" (docs/sprint-1/)| Planejamento, backlog e critérios de aceite da Sprint 1
-"Sprint 2 — Motor da certificação" (docs/sprint-2/)| Documentos e registros da Sprint 2
-"Sprint 3 — Certificação e entrega" (docs/sprint-3/)| Documentos e registros da Sprint 3
+| Pasta | Conteúdo |
+|---|---|
+| [Documentação geral](docs/geral/) | Backlog do produto, refinamento das três sprints, protótipo e requisitos |
+| [Sprint 1 — Fundação e acesso](docs/sprint-1/) | Planejamento, review, evidências e burndown da Sprint 1 |
+| [Sprint 2 — Motor da certificação](docs/sprint-2/) | Planejamento, review, validação, dívida técnica e burndown da Sprint 2 |
+| [Sprint 3 — Certificação e entrega](docs/sprint-3/) | Documentos e registros da Sprint 3 |
 
-O "planejamento detalhado da Sprint 1" (docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
+O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
+O [registro consolidado da Sprint 2](docs/sprint-2/SPRINT_2_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) apresenta o escopo, os responsáveis e o estado final das issues.
+Os gráficos [Burndown da Sprint 1](docs/sprint-1/BURNDOWN.md) e [Burndown da Sprint 2](docs/sprint-2/BURNDOWN.md) foram reconstruídos pelas datas de fechamento das issues.
 
 📺 Vídeos do projeto
 

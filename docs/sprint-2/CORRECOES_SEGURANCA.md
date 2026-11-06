@@ -1,5 +1,9 @@
 # Correções S01–S06
 
+> **Histórico de correções:** as contagens de testes e pendências abaixo são da
+> etapa de 29/10. O resultado consolidado de 06/11 está em
+> [Validação técnica — Sprint 2](evidencias/VALIDACAO_SPRINT_2.md).
+
 Verificação de 29/10/2026, baseada nos achados do relatório local
 `docs/geral/VERIFICACAO_SPRINT1_SEGURANCA_2026-10-27.md`.
 Este documento acompanha as correções versionadas; publicação e aplicação no

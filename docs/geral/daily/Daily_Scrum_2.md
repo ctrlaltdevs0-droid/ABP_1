@@ -1,5 +1,9 @@
 # Daily Scrum — Sprint 2 — Projeto ÁgilCert
 
+> **Registro intermediário:** este documento preserva o estado observado durante
+> a Sprint. Para a situação final verificada em 06/11/2026, consultar o
+> [README da Sprint 2](../../sprint-2/README.md) e a [validação técnica](../../sprint-2/evidencias/VALIDACAO_SPRINT_2.md).
+
 **Equipe:** CTRL ALT DEVS  
 **Projeto:** Portal de Certificação em Metodologias Ágeis  
 **Instituição:** FATEC Jacareí  

@@ -1,5 +1,9 @@
 # Revisão prioritária de segurança e infraestrutura
 
+> **Revisão histórica:** os achados abaixo registram o estado de 26/10. As
+> correções posteriores e o resultado atual estão documentados em
+> [Correções S01–S06](CORRECOES_SEGURANCA.md) e [Validação da Sprint 2](evidencias/VALIDACAO_SPRINT_2.md).
+
 Data: 26/10/2026. Escopo: código local do ABP_1, dependências npm e PostgreSQL
 local `abp_supabase_db`. O Supabase remoto e a hospedagem pública não foram auditados.
 

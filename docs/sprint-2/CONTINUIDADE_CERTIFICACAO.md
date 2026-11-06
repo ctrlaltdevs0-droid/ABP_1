@@ -1,5 +1,9 @@
 # Continuidade da certificação — PB-030 a PB-035
 
+> **Histórico de implementação:** os resultados e pendências abaixo refletem a
+> branch durante a integração. O estado final da `main` está em
+> [Validação técnica — Sprint 2](evidencias/VALIDACAO_SPRINT_2.md).
+
 Implementação de Júlio para as issues #51 a #56. Base: develop, commit bb26059.
 Branch: `feature/pb-030-035-continuidade`.
 

@@ -14,3 +14,4 @@ Esta pasta reúne os documentos e registros específicos da Sprint 1.
 - [Aplicação da devolutiva da equipe](CORRECOES_DEVOLUTIVA.md)
 - [Registro técnico e roteiro de Review, retrospectiva e DoD](REVIEW_RETROSPECTIVA_DOD.md)
 - [Foto original da devolutiva](evidencias/devolutiva-equipe.jpeg)
+- [Burndown reconstruído da Sprint 1](BURNDOWN.md)

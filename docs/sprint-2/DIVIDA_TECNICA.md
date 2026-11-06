@@ -1,5 +1,11 @@
 # Dívida técnica da Sprint 1 — execução na Sprint 2
 
+> **Atualização em 06/11/2026:** as issues #7, #17, #18, #19, #20 e #21,
+> que somavam 38 SP carregados da Sprint 1, foram fechadas em 05/11/2026.
+> Este documento preserva o histórico técnico da implementação. Revisão de
+> outro integrante e aceite formal do PO devem continuar registrados como
+> evidências de cerimônia, não inferidos apenas pelo fechamento no GitHub.
+
 Referência: `SPRINT_2_AGILCERT_PLANEJAMENTO (1).md` em Downloads, seção 4.
 Preservados os seis IDs e suas issues originais. Nenhuma issue foi criada ou fechada.
 

@@ -1,5 +1,10 @@
 # Banco do projeto
 
+> **Atualização documental em 06/11/2026:** este arquivo registra a aplicação
+> realizada em 04/11 e as diferenças encontradas naquele momento. O repositório
+> atual concentra todas as mudanças em `schema.sql` e `seed.sql`. A auditoria
+> documental não reconsultou o Supabase; confirmar o estado remoto antes da apresentação.
+
 Projeto configurado no backend: `lmohayvlvwzxlslornwp`.
 
 As unicas fontes de alteracoes de banco sao:
