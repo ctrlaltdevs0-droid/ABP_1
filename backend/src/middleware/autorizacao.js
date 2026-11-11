@@ -163,6 +163,13 @@ export async function autorizarRota(req, res, pathname, supabase) {
   ) {
     return true;
   }
+    // Permite consultar a prova aprovada do próprio usuário
+  if (
+    req.method === 'GET' &&
+    /^\/api\/tentativas\/aprovada\/?$/.test(pathname)
+  ) {
+    return true;
+  }
   // Permite retomar a prova em andamento
   if (
     req.method === 'POST' &&
