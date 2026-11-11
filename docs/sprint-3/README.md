@@ -9,6 +9,6 @@ O planejamento inicial está no [refinamento das três sprints](../geral/refinam
 
 ## Documentos
 
-- [Revisão das 48 questões (PB-055)](REVISAO_QUESTOES.md)
+- [Revisão das 48 questões e das imagens (PB-055)](REVISAO_QUESTOES.md)
 
 [Voltar ao README principal](../../README.md)

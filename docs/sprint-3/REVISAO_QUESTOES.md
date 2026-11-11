@@ -81,3 +81,54 @@ Estes pontos não são erros, mas podem deixar a prova melhor. Eles **não foram
 1. **Questão PB053-10-2 (Burndown):** o Burnup Chart também permite ver o trabalho que falta. Sugestão de enunciado: "Qual gráfico mostra o trabalho que ainda falta fazer diminuindo ao longo da Sprint?".
 2. **Tamanho das alternativas:** em 23 das 48 questões, a resposta correta é bem mais longa que as outras, o que pode ajudar o aluno a acertar no chute. Sugestão: deixar as alternativas erradas com tamanho parecido.
 3. **Alternativas muito fáceis de descartar:** algumas erradas são óbvias, como "Definir o salário dos integrantes" (PB053-6-1) e "Compilador Java" (PB053-11-2).
+
+## Revisão das imagens
+
+As 48 imagens ficam em `frontend/src/assets/img/questoes/`, com o código da questão no nome (ex.: `PB053-1-1.png`).
+
+### O que foi conferido
+
+| Item | Resultado |
+|---|---|
+| Todas as 48 questões têm imagem | ✅ 48 arquivos, um para cada questão |
+| As imagens abrem | ✅ todas são PNG válidos |
+| Tamanho para a web | ✅ de 2 KB a 20 KB cada (518 KB no total), com 359 a 550 px de largura |
+| Texto alternativo | ✅ as 48 têm, mas 16 podem ser melhores (veja abaixo) |
+| Aviso quando a imagem não carrega | ✅ a página mostra "Imagem indisponível." |
+| Combina com o assunto da questão | ✅ 47 de 48; a PB053-2-1 merece atenção (veja abaixo) |
+
+### Direitos de uso
+
+- **Fonte:** ilustrações do [unDraw](https://undraw.co), reunidas pela equipe no documento "Cursos - ABP".
+- **Licença:** a [licença unDraw](https://undraw.co/license) permite uso gratuito, sem pedir permissão e sem dar crédito.
+- A autoria e a licença também estão no [README das imagens](../../frontend/src/assets/img/questoes/README.md).
+- **Atenção:** a imagem da PB053-2-1 mostra logos de marcas (jQuery, Angular, Vue e React).
+
+### Sugestões de melhoria
+
+Estas sugestões **não foram aplicadas** agora, porque mudar o texto alternativo exige atualizar o banco do Supabase.
+
+**1. Imagem da PB053-2-1 ("Por que o Scrum é considerado um framework?")**
+A imagem mostra frameworks de programação, mas Scrum é um framework de trabalho, não de programação. Ela pode reforçar justamente o erro da alternativa C ("é uma linguagem utilizada para desenvolver sistemas"). Sugestão: trocar por uma imagem de equipe organizando o trabalho.
+
+**2. Textos alternativos para melhorar**
+O texto alternativo deve descrever o que aparece na imagem, em português, para quem usa leitor de tela. Estes estão em inglês, repetidos ou não descrevem a imagem:
+
+| Código | Texto atual | Sugestão |
+|---|---|---|
+| PB053-1-2 | Gráficos representativos | Pessoa olhando um diagrama com etapas em sequência |
+| PB053-2-1 | Frameworks | Logos de frameworks de programação em uma estante |
+| PB053-2-2 | Planejamento | Cartões ligados em um ciclo |
+| PB053-2-3 | Pilares de planejamento | Pessoa lendo um documento ao lado de uma lista |
+| PB053-3-4 | Team | Rostos de oito pessoas de uma equipe |
+| PB053-5-2 | Lista de tarefas | Pessoa marcando um item em uma lista |
+| PB053-5-3 | Progresso | Notebook com uma barra de carregamento |
+| PB053-5-4 | Lista de tarefas | Pessoa ao lado de uma lista com itens concluídos |
+| PB053-6-4 | User experience | Pessoa ao lado de um celular com a tela de um aplicativo |
+| PB053-7-3 | Review | Pessoa analisando cartões de tarefas |
+| PB053-9-1 | Planejamento | Pessoa desenhando um gráfico em um quadro |
+| PB053-9-3 | Cards | Pessoa entre vários cartões, virando um deles |
+| PB053-9-4 | Planejamento | Pessoa marcando datas em um calendário |
+| PB053-10-2 | Chart | Equipe ao redor de gráficos de barras e de linhas |
+| PB053-11-4 | Progresso | Pessoa subindo em barras cada vez mais altas |
+| PB053-12-3 | Planejamento | Quadro com documentos ligados por uma linha de etapas |
