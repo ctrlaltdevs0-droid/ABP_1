@@ -7,4 +7,8 @@
 Esta pasta está reservada para os documentos e registros específicos da Sprint 3.
 O planejamento inicial está no [refinamento das três sprints](../geral/refinamento/REFINAMENTO_3_SPRINTS_CTRL_ALT_DEVS.md).
 
+## Documentos
+
+- [Revisão das 48 questões e das imagens (PB-055)](REVISAO_QUESTOES.md)
+
 [Voltar ao README principal](../../README.md)
