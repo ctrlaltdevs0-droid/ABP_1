@@ -11,6 +11,7 @@
   let bloqueada = false;
   let geracao = 0;
   let encerrada = false;
+  let certificadoId = null;
   const mensagem = texto => { el('mensagem').textContent = texto; };
   const botao = (nome, mostrar) => { el(nome).hidden = !mostrar; };
   function renderizar() {
@@ -128,13 +129,153 @@
     aplicar(await chamar('pausar'));
     mensagem('Progresso salvo. Você pode sair e retomar a certificação depois.');
   }));
+  
   el('finalizar').addEventListener('click', () => executar(async () => {
     const dados = await chamar('finalizar');
+
     encerrada = true;
-    el('resultado').hidden = false;
-    el('nota').textContent = `${dados.resultado.acertos} de ${dados.resultado.total} acertos (${dados.resultado.percentual}%). ${dados.resultado.aprovado ? 'Aprovado!' : 'Nota mínima não atingida.'}`;
+    questao = null;
+
+    const resultado = dados.resultado;
+    const aprovado = resultado.aprovado === true;
+
+    el('nota').textContent =
+      `${resultado.acertos} de ${resultado.total} acertos ` +
+      `(${resultado.percentual}%). ` +
+      (aprovado ? 'Aprovado!' : 'Nota mínima não atingida.');
+
+    const acertos = document.getElementById('acertos');
+    const situacao = document.getElementById('situacao');
+    const areaCertificado = document.getElementById('areaCertificado');
+    const btnCertificado = document.getElementById('btnCertificado');
+    const mensagemCertificado =
+      document.getElementById('mensagemCertificado');
+
+    if (acertos) {
+      acertos.textContent =
+        `${resultado.acertos} de ${resultado.total}`;
+    }
+
+    if (situacao) {
+      situacao.textContent =
+        aprovado ? 'APROVADO' : 'NÃO APROVADO';
+    }
+
+    const idRecebido = Number(dados.certificado?.idcertificados);
+
+    certificadoId =
+      aprovado && Number.isSafeInteger(idRecebido) && idRecebido > 0
+        ? idRecebido
+        : null;
+
+    if (areaCertificado) {
+      areaCertificado.hidden = !aprovado;
+    }
+
+    if (btnCertificado) {
+      btnCertificado.disabled = certificadoId === null;
+    }
+
+    if (mensagemCertificado) {
+      mensagemCertificado.textContent = aprovado
+        ? certificadoId
+          ? 'Clique no botão para baixar seu certificado.'
+          : 'Certificado não localizado. Consulte o histórico.'
+        : '';
+    }
+
     mensagem('Certificação finalizada.');
   }));
+
+async function baixarCertificado() {
+  const btn = document.getElementById('btnCertificado');
+  const mensagemCertificado =
+    document.getElementById('mensagemCertificado');
+
+  if (!certificadoId) {
+    mensagem('Certificado não encontrado.', 'erro');
+    return;
+  }
+
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Baixando certificado...';
+
+  try {
+    const apiBase = (
+      window.AGILCERT_API_BASE_URL ||
+      `${window.location.origin}/api`
+    ).replace(/\/+$/, '');
+
+    const resposta = await fetch(
+      `${apiBase}/certificados/${certificadoId}/download`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/pdf'
+        }
+      }
+    );
+
+    if (!resposta.ok) {
+      const dados = await resposta.json().catch(() => ({}));
+      const erro = typeof dados.erro === 'string'
+        ? dados.erro
+        : dados.erro?.mensagem;
+
+      throw new Error(
+        erro || 'Não foi possível baixar o certificado.'
+      );
+    }
+
+    const tipo = resposta.headers.get('content-type') || '';
+
+    if (!tipo.includes('application/pdf')) {
+      throw new Error('O servidor não retornou um PDF válido.');
+    }
+
+    const blob = await resposta.blob();
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `certificado-agilcert-${certificadoId}.pdf`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+
+    if (mensagemCertificado) {
+      mensagemCertificado.textContent =
+        'Download do certificado iniciado.';
+    }
+
+  } catch (erro) {
+    mensagem(erro.message, 'erro');
+
+    if (mensagemCertificado) {
+      mensagemCertificado.textContent = erro.message;
+    }
+
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Gerar certificado';
+  }
+}
+
+document
+  .getElementById('btnCertificado')
+  ?.addEventListener('click', baixarCertificado);
+
   function atualizarTempo() {
     if (!questao || bloqueada) return;
     const restante = Math.max(0, Math.ceil((prazo - performance.now()) / 1000));
