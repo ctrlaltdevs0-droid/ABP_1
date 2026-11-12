@@ -13,6 +13,11 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return true;
   }
 
+  // ABP_CERTIFICACAO_ACESSO: consulta pública por código de validação.
+  if (req.method === 'GET' && /^\/api\/certificados\/validar\/[0-9a-f-]+\/?$/i.test(pathname)) {
+    return true;
+  }
+
   // 2. Extração e validação do token JWT.
   const token = req.headers.authorization?.match(/^Bearer (\S+)$/i)?.[1];
   let usuario;
@@ -202,6 +207,21 @@ export async function autorizarRota(req, res, pathname, supabase) {
     });
 
     return false;
+  }
+
+  // Resultado de prova: o route handler filtra pelo ID do usuário autenticado.
+  if (req.method === 'GET' && /^\/api\/tentativas\/[1-9]\d*\/resultado\/?$/.test(pathname)) {
+    return true;
+  }
+
+  // Lista apenas certificados pertencentes ao token atual.
+  if (req.method === 'GET' && /^\/api\/certificados\/me\/?$/.test(pathname)) {
+    return true;
+  }
+
+  // O próprio handler verifica a titularidade antes de gerar o PDF.
+  if (req.method === 'GET' && /^\/api\/certificados\/[1-9]\d*\/download\/?$/.test(pathname)) {
+    return true;
   }
 
   // 8. Certificados.

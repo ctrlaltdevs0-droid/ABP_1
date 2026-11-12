@@ -1,87 +1,59 @@
-import { falhaBanco, tratarErro, responder } from "../utils/http.js";
+import { falhaBanco, responder, tratarErro } from '../utils/http.js';
+import { enviarCertificadoPdf } from '../services/pdfCertificado.js';
 
-export async function certificadosRoutes(req, res, pathname, supabase) {
+const idValido = s => /^[1-9]\d*$/.test(s) && Number.isSafeInteger(Number(s));
 
-  // Identifica a rota dos certificados de um usuário.
-  const usuarioMatch = pathname.match(
-    /^\/api\/usuarios\/([^/]+)\/certificados\/?$/
-  );
+export async function certificadosRoutes(req, res, pathname, db) {
+  const usuarioMatch = pathname.match(/^\/api\/usuarios\/([1-9]\d*)\/certificados\/?$/);
+  const me = /^\/api\/certificados\/me\/?$/.test(pathname);
+  const validar = pathname.match(/^\/api\/certificados\/validar\/([0-9a-f-]+)\/?$/i);
+  const download = pathname.match(/^\/api\/certificados\/([1-9]\d*)\/download\/?$/);
+  const detalhe = pathname.match(/^\/api\/certificados\/([1-9]\d*)\/?$/);
+  if (!usuarioMatch && !me && !validar && !download && !detalhe) return false;
+  if (req.method !== 'GET') return responder(res, 405, { erro: 'Método HTTP não permitido.' }, { Allow: 'GET' });
 
-  // Identifica a rota de um certificado específico.
-  const certificadoMatch = pathname.match(
-    /^\/api\/certificados\/([^/]+)\/?$/
-  );
-
-  // Identifica a rota usada para validar um certificado.
-  const validarMatch = pathname.match(
-    /^\/api\/certificados\/validar\/([^/]+)\/?$/
-  );
-
-  // GET /api/usuarios/:id/certificados
-  // Lista os certificados de um usuário.
-  if (req.method === "GET" && usuarioMatch) {
-    const usuarioId = usuarioMatch[1];
-
-    const { data, error } = await supabase
-      .from("certificados")
-      .select("*")
-      .eq("usuarios_idusuarios", usuarioId)
-      .order("emitido_em", { ascending: false });
-
-    if (error) return falhaBanco(res, error);
-
-    return responder(res, 200, data);
-  }
-
-  // GET /api/certificados/validar/:codigo
-  // Verifica se o certificado existe e ainda está ativo.
-  if (req.method === "GET" && validarMatch) {
-    const codigo = validarMatch[1];
-
-    const { data, error } = await supabase
-      .from("certificados")
-      .select("*")
-      .eq("codigo_validacao", codigo)
-      .eq("ativo", true)
-      .is("revogado_em", null)
-      .maybeSingle();
-
-    if (error) return falhaBanco(res, error);
-
-    // Se não encontrou certificado válido.
-    if (!data) {
-      return responder(res, 404, {
-        valido: false,
-        mensagem: "Certificado não encontrado ou revogado.",
-      });
+  // Validação pública: retorna somente informações não sensíveis.
+  if (validar) {
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(validar[1])) {
+      return responder(res, 404, { valido: false });
     }
-
-    // Se encontrou, informa que o certificado é válido.
-    return responder(res, 200, {
-      valido: true,
-      certificado: data,
-    });
+    const { data, error } = await db.from('certificados')
+      .select('codigo_validacao,emitido_em,ativo,revogado_em,percentual')
+      .eq('codigo_validacao', validar[1]).maybeSingle();
+    if (error) return falhaBanco(res, error);
+    if (!data || !data.ativo || data.revogado_em) return responder(res, 404, { valido: false });
+    return responder(res, 200, { valido: true, emitido_em: data.emitido_em, percentual: Number(data.percentual) });
   }
 
-  // GET /api/certificados/:id
-  // Busca um certificado específico.
-  if (req.method === "GET" && certificadoMatch) {
-    const id = certificadoMatch[1];
-
-    const { data, error } = await supabase
-      .from("certificados")
-      .select("*")
-      .eq("idcertificados", id)
-      .single();
-
-    if (error) {
-      return responder(res, 404, {
-        erro: "Certificado não encontrado.",
-      });
+  const usuarioId = req.usuario.id;
+  if (usuarioMatch || me) {
+    if (usuarioMatch && (!idValido(usuarioMatch[1]) || Number(usuarioMatch[1]) !== usuarioId)) {
+      return responder(res, 404, { erro: 'Usuário não encontrado.' });
     }
-
-    return responder(res, 200, data);
+    const { data, error } = await db.from('certificados')
+      .select('idcertificados,tentativas_idtentativas,codigo_validacao,score,percentual,emitido_em,ativo,revogado_em')
+      .eq('usuarios_idusuarios', usuarioId).order('emitido_em', { ascending: false });
+    if (error) return falhaBanco(res, error);
+    return responder(res, 200, data ?? [], { 'Cache-Control': 'no-store' });
   }
 
-  return false;
+  const id = Number((download ?? detalhe)[1]);
+  if (!Number.isSafeInteger(id)) return responder(res, 400, { erro: 'Certificado inválido.' });
+  const { data, error } = await db.from('certificados')
+    .select('idcertificados,tentativas_idtentativas,codigo_validacao,score,percentual,emitido_em,ativo,revogado_em')
+    .eq('idcertificados', id).eq('usuarios_idusuarios', usuarioId).maybeSingle();
+  if (error) return falhaBanco(res, error);
+  if (!data) return responder(res, 404, { erro: 'Certificado não encontrado.' });
+  if (download) {
+    if (!data.ativo || data.revogado_em) return responder(res, 409, { erro: 'Certificado revogado ou inativo.' });
+    try {
+      const { data: usuario, error: erroUsuario } = await db.from('usuarios')
+        .select('nome').eq('idusuarios', usuarioId).maybeSingle();
+      if (erroUsuario) return falhaBanco(res, erroUsuario);
+      if (!usuario) return responder(res, 404, { erro: 'Usuário não encontrado.' });
+      await enviarCertificadoPdf(res, data, usuario.nome);
+    } catch (erro) { return tratarErro(res, erro); }
+    return true;
+  }
+  return responder(res, 200, data, { 'Cache-Control': 'no-store' });
 }
