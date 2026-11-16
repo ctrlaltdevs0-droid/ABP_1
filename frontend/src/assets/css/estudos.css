@@ -542,6 +542,35 @@ progress::-moz-progress-bar {
   overflow-wrap: anywhere;
 }
 
+/* Texto de estudo carregado do banco: títulos, listas e tabelas */
+.bloco-conteudo h4 {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  margin: 1.6rem 0 0.6rem;
+}
+
+.bloco-conteudo ul,
+.bloco-conteudo ol {
+  margin: 0 0 1.2rem 1.5rem;
+  line-height: 1.75;
+  color: #334155;
+}
+
+.bloco-conteudo table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.2rem;
+}
+
+.bloco-conteudo th,
+.bloco-conteudo td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  color: #334155;
+  overflow-wrap: anywhere;
+}
+
 .study-content img,
 .imagem-conteudo {
   max-width: 100%;
