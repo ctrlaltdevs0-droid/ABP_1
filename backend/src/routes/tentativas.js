@@ -13,7 +13,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
   if (protegida) {
     const { data, error } = await supabase.from('tentativas').select('sessao_prova')
       .eq('idtentativas', protegida[1]).eq('usuarios_idusuarios', req.usuario.id).maybeSingle();
-        if (error) {
+    if (error) {
       console.error("ERRO SESSAO_PROVA:", error);
       return responder(res, 503, { erro: 'Não foi possível consultar a tentativa.' });
     }
@@ -58,7 +58,40 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
       });
     }
   }
+  // GET /api/tentativas/aprovada
+  // Recupera a prova aprovada mais recente do usuário.
+  if (
+    req.method === "GET" &&
+    pathname.replace(/\/$/, "") === "/api/tentativas/aprovada"
+  ) {
+    const usuarioId = req.usuario?.id;
 
+    if (!usuarioId) {
+      return responder(res, 401, {
+        erro: "Usuário não autenticado."
+      });
+    }
+
+    const { data: tentativa, error } = await supabase
+      .from("tentativas")
+      .select("idtentativas, status, acertos, percentual, aprovado")
+      .eq("usuarios_idusuarios", usuarioId)
+      .eq("status", "FINALIZADA")
+      .eq("aprovado", true)
+      .order("finalizado_em", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      return responder(res, 500, {
+        erro: "Não foi possível consultar a prova aprovada."
+      });
+    }
+
+    return responder(res, 200, {
+      tentativa: tentativa ?? null
+    });
+  }
   // GET /api/tentativas/em-andamento
   if (
     req.method === "GET" &&
@@ -108,7 +141,7 @@ export async function tentativasRoutes(req, res, pathname, supabase) {
 
     const { data, error } = await supabase
       .from("tentativas")
-      .select("idtentativas, status, iniciado_em, finalizado_em")
+      .select("idtentativas, status, iniciado_em, finalizado_em, acertos, percentual, aprovado")
       .eq("idtentativas", tentativaId)
       .eq("usuarios_idusuarios", req.usuario.id)
       .single();

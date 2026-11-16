@@ -1,38 +1,101 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ÁgilCert | Histórico</title>
+
   <link rel="stylesheet" href="assets/css/home.css">
   <link rel="stylesheet" href="assets/css/estudos.css">
   <link rel="stylesheet" href="assets/css/historico.css">
+
   <script defer src="assets/js/config.js"></script>
   <script defer src="assets/js/api.js"></script>
   <script defer src="assets/js/historico.js"></script>
 </head>
+
 <body>
 
   <!-- CABEÇALHO -->
-  <header class="study-header">
-    <a href="home.html">
-      <img src="assets/img/logo-transparente.png" alt="ÁgilCert" width="130">
+  <header class="site-header">
+
+    <a href="home.html" class="header-logo">
+      <img
+        src="assets/img/logo-transparente.png"
+        alt="ÁgilCert"
+        width="130"
+      >
     </a>
-    <nav aria-label="Navegação principal">
-      <a href="home.html">Início</a>
-      <a href="estudos.html">Estudos</a>
-      <a href="historico.html" aria-current="page">Histórico</a>
-      <a href="perfil.html">Meu perfil</a>
+
+    <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="estudos.html" class="nav-link">Estudos</a>
+      <a href="certificacao.html" class="nav-link">Certificação</a>
+      <a href="historico.html" class="nav-link" aria-current="page">Histórico</a>
+      <a href="sobre.html" class="nav-link">Sobre nós</a>
     </nav>
-    <button id="sair" type="button">Sair</button>
+
+    <!-- PERFIL DO USUÁRIO -->
+<div class="profile-menu" id="profileMenu">
+
+  <button
+    type="button"
+    class="profile-trigger"
+    id="profileTrigger"
+    aria-expanded="false"
+    aria-controls="userProfileMenu"
+  >
+    <span class="profile-avatar">
+      <img
+        src="assets/img/estudos.png"
+        alt=""
+        class="profile-avatar-img"
+      >
+    </span>
+
+    <span class="profile-name">
+      Olá, <span id="userName">Usuário</span>
+    </span>
+
+    <svg class="chevron" viewBox="0 0 24 24"
+         width="16" height="16" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </button>
+
+  <div class="dropdown" id="userProfileMenu">
+
+    <div class="dropdown-header">
+      <span>Conectado como</span>
+      <strong id="dropdownUserName">Usuário</strong>
+    </div>
+
+    <div class="dropdown-body">
+      <a href="perfil.html">Meu Perfil</a>
+      <a href="historico.html">Histórico</a>
+
+      <button type="button" id="sair" class="danger">
+        Sair
+      </button>
+    </div>
+
+  </div>
+</div>
+
   </header>
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="study-main">
+
     <p class="eyebrow">SUAS CERTIFICAÇÕES</p>
+
     <h1>Histórico de provas</h1>
 
-    <p id="mensagem" role="status" aria-live="polite">Carregando histórico…</p>
+    <p id="mensagem" role="status" aria-live="polite">
+      Carregando histórico…
+    </p>
 
     <!-- LISTA DAS TENTATIVAS -->
     <div class="tabela-historico">
@@ -46,6 +109,7 @@
             <th></th>
           </tr>
         </thead>
+
         <tbody id="tentativas"></tbody>
       </table>
     </div>
@@ -56,8 +120,79 @@
       <ol id="questoes" class="questoes-historico"></ol>
     </section>
 
-    <noscript>Ative o JavaScript para ver o seu histórico.</noscript>
+    <noscript>
+      Ative o JavaScript para ver o seu histórico.
+    </noscript>
+
   </main>
+
+  <script>
+(() => {
+  const profileMenu = document.getElementById('profileMenu');
+  const profileTrigger = document.getElementById('profileTrigger');
+  const profileDropdown = document.getElementById('userProfileMenu');
+
+  const userName = document.getElementById('userName');
+  const dropdownUserName = document.getElementById('dropdownUserName');
+
+  function preencherNome(usuario) {
+    if (!usuario) return;
+
+    const nome = usuario.nome || usuario.name || 'Usuário';
+    const primeiroNome = nome.trim().split(' ')[0];
+
+    userName.textContent = primeiroNome;
+    dropdownUserName.textContent = nome;
+  }
+
+  // Carrega o usuário salvo.
+  const usuarioSalvo = localStorage.getItem('usuario');
+
+  if (usuarioSalvo) {
+    try {
+      const usuario = JSON.parse(usuarioSalvo);
+      preencherNome(usuario.usuario || usuario);
+    } catch (error) {
+      console.error('Erro ao carregar usuário:', error);
+    }
+  }
+
+  // Atualiza o usuário pela API.
+  const token = localStorage.getItem('token');
+
+  if (token && window.AgilCertAPI) {
+    window.AgilCertAPI.request('usuarios/me')
+      .then(res => {
+        const usuario = res.usuario || res;
+
+        if (usuario && usuario.nome) {
+          localStorage.setItem('usuario', JSON.stringify(usuario));
+          preencherNome(usuario);
+        }
+      })
+      .catch(error => {
+        console.warn('Erro ao atualizar perfil:', error);
+      });
+  }
+
+  // Abre e fecha o menu.
+  profileTrigger.addEventListener('click', event => {
+    event.stopPropagation();
+
+    const aberto = profileMenu.classList.toggle('open');
+
+    profileTrigger.setAttribute('aria-expanded', String(aberto));
+  });
+
+  // Fecha ao clicar fora.
+  document.addEventListener('click', event => {
+    if (!profileMenu.contains(event.target)) {
+      profileMenu.classList.remove('open');
+      profileTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
