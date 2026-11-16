@@ -9,7 +9,7 @@ export async function listarQuestoesPorTema(db, temaId) {
   // 1. Busca as questões do tema
   const { data: questoes, error: erroQuestoes } = await db
     .from("questoes")
-    .select("idquestoes, temas_idtemas, enunciado, imagem_url, status")
+    .select("idquestoes, temas_idtemas, enunciado, imagem_url, imagem_alt, status")
     .eq("temas_idtemas", Number(temaId))
     .eq("status", true)
     .order("idquestoes", { ascending: true });

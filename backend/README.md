@@ -48,17 +48,16 @@ JWT, não do corpo enviado. Para administração do catálogo e leitura de gabar
 configure `ADMIN_USER_IDS` com os IDs de usuários autorizados, separados por
 vírgula. Sem essa configuração, nenhum usuário tem acesso administrativo.
 
-O cadastro exige a coluna `usuarios.email`. Antes de implantar em um banco
-existente, execute `supabase/migrations/20261014155615_add_usuarios_email.sql`
-no SQL Editor do projeto. O script adiciona a coluna sem apagar registros ou
-alterar RLS. Usuários antigos permanecem com e-mail nulo até a atualização de
-seus dados; novos cadastros exigem e-mail na API. Para um banco novo, utilize
-`backend/database/schema.sql`. Não execute esse schema inteiro sobre tabelas
-existentes.
+## Banco de dados
 
-O schema consolidado já inclui as rotas de tentativas e certificados, respostas,
-segurança de sessões e continuidade da prova. Bancos existentes continuam usando
-somente as migrations pendentes; não reaplique o schema consolidado.
+Toda a estrutura, compatibilidade com tabelas existentes, funcoes e permissoes
+fica em `backend/database/schema.sql`. A carga de conteudos fica em
+`backend/database/seed.sql`. Nao ha migrations separadas.
+
+No SQL Editor do Supabase configurado em `backend/.env`, executar primeiro
+`schema.sql`. Executar `seed.sql` quando desejar carregar os materiais e
+questoes do repositorio. Ambos suportam reaplicacao no estado validado; nao
+apagam registros existentes. O servidor Node nao aplica SQL automaticamente.
 
 ## Testes
 
@@ -67,14 +66,10 @@ do Supabase, incluindo cadastro, hash de senha, login, JWT, falhas e ausência
 de dados pessoais no diagnóstico.
 Não comprovam o estado das permissões de um banco remoto.
 
-## PostgreSQL opcional
+## Docker
 
-O serviço `database` do `compose.yaml` serve para experimentar os scripts SQL localmente.
-O serviço `app` executa este backend e serve o frontend; veja as instruções de Docker Compose no README da raiz.
-Defina `POSTGRES_PASSWORD` no `.env` e execute `docker compose up -d database`
-na raiz. A porta no computador é `5433`; dentro do contêiner é `5432`.
-A API continua usando Supabase. Os scripts de inicialização são executados
-somente na criação de um volume vazio e não migram um banco existente.
+Docker fica para etapa posterior. O provisionamento local foi ajustado para
+ler somente `schema.sql` e `seed.sql`, sem executar Docker nesta alteracao.
 
 ## Estudos e dívida da Sprint 2
 
@@ -87,18 +82,11 @@ data original. Um tema inativo ou sem material publicado não pode ser concluíd
 
 A pasta `backend/database` contém somente:
 
-- `schema.sql`: estrutura inicial do banco;
+- `schema.sql`: estrutura completa, compatibilidade, funcoes e permissoes;
 - `seed.sql`: temas, materiais, questões, alternativas e validação da carga.
 
-As alterações de estrutura ficam em `supabase/migrations`. Para um banco vazio,
-aplique somente `schema.sql` e depois `seed.sql`. A baseline inclui todas as
-migrations até `20261102220150_integra_continuidade_develop.sql`.
-Para um banco existente, aplique somente as migrações pendentes e a carga quando
-necessário; não execute novamente o schema. As migrações usam os papéis padrão
-`anon`, `authenticated` e `service_role`. No Compose completo, o serviço `migrate`
-aplica e registra essas etapas automaticamente, inclusive em volumes existentes.
-Em bancos novos, registra as migrations consolidadas sem executá-las novamente.
-O histórico incremental é preservado para atualizar bancos existentes.
+Alteracoes de banco devem ser incorporadas somente nesses dois arquivos.
+O schema usa os papeis padrao `anon`, `authenticated` e `service_role`.
 
 A carga de temas atualiza descrição e ordem sem trocar IDs ou reativar temas
 desativados. As cargas de materiais e questões possuem códigos estáveis e
@@ -107,22 +95,22 @@ código continuam preservados: conferir sobreposição editorial antes da carga.
 
 A fonte editável é `backend/scripts/data/content-estudos.json`. Execute
 `npm run seed:gerar` no backend após editar o conteúdo e versione o SQL gerado.
-Os materiais incluem links complementares. As questões seguem o material
-"Cursos - ABP": cada uma tem `enunciado`, `alternativas` (A, B, C e D, nessa
-ordem) e `correta` (a letra do gabarito); entram com `status = false`
-e `status_editorial = 'RASCUNHO'`. A prova exige 12 temas ativos, cada um com
-pelo menos quatro questões ativas/APROVADO e quatro alternativas/um gabarito.
-Após revisão cruzada, registrar `REVISAO`/`APROVADO` e ativar somente o conteúdo
-aprovado. O índice de alternativas impede duas corretas para a mesma questão;
+Os materiais incluem links complementares. As questões possuem quatro
+alternativas e um gabarito, com posições variadas; o catálogo oficial `PB053-*`
+entra e permanece com `status = true` e `status_editorial = 'APROVADO'`, inclusive
+quando a carga é repetida. A carga também reconhece as 48 questões legadas pelo
+tema e enunciado antes de atribuir os códigos estáveis, evitando duplicação. A
+prova exige 12 temas ativos, cada um com pelo menos quatro questões
+ativas/APROVADO e quatro alternativas/um gabarito. O índice de alternativas
+impede duas corretas para a mesma questão;
 A validação incluída em `seed.sql` verifica também ausência de gabarito e quantidade de opções.
 O catálogo de questões e os gabaritos continuam restritos a administradores.
 
 ## Devolutiva: sessão e ambiente completo
 
 O logout agora exige `POST /api/login/sair` com Bearer JWT e revoga o token no
-banco. Aplicar `20261026225026_logout_revocation_and_api_grants.sql` no Supabase
-antes de atualizar o backend. Ela também habilita RLS e restringe as tabelas da
-aplicação ao papel de servidor, compatível com o JWT próprio do projeto.
+banco. O `schema.sql` inclui a tabela de revogacao, RLS e permissoes de
+servidor compativeis com o JWT proprio do projeto.
 Sem acesso ao registro de revogação, rotas privadas falham com 503.
 
 Para reproduzir tudo sem Supabase remoto, seguir o Compose completo descrito em
@@ -132,23 +120,17 @@ O provisionamento ocorre em serviço próprio, não apenas no primeiro boot do v
 
 ## Segurança da prova e das sessões
 
-Aplicar `supabase/migrations/20261030005054_security_exam_sessions.sql` **antes**
-de iniciar esta versão do backend, depois das migrações anteriores. O Compose
-executa as etapas novas no serviço `migrate`; para atualizar um ambiente local:
+Aplicar `backend/database/schema.sql` antes de iniciar o backend.
+As funcoes nativas de prova estao incluidas no schema. As rotas em
+`routes/tentativas.js` usam essas RPCs transacionais e sempre derivam o usuario
+do JWT validado, sem aceitar a identidade enviada no corpo da requisicao.
 
-```sh
-docker compose --env-file .env.compose up --build -d
-```
-
-Não reaplicar schema, nem editar migrações já registradas. Esta entrega foi
-validada em banco descartável; não representa aplicação no Supabase remoto.
-
-- A API chama RPCs transacionais para iniciar, abrir questão, responder e finalizar.
-  O dono vem do JWT, a ordem é persistida e cada questão tem 150 segundos contados
-  pelo banco após a primeira abertura. Reabrir preserva o prazo; expiração conta
-  como erro. O certificado usa sempre 12 questões e é emitido na mesma transação
-  da finalização, sem duplicar em requisições simultâneas.
-- Tentativas legadas sem ordem persistida são recusadas; iniciar nova prova.
+- Tentativas legadas completas, com 12 temas distintos, recebem ordem sem novo
+  sorteio. Tentativas incompletas continuam recusadas.
+- A continuidade usa uma sessão UUID por página, preserva a tentativa e impede
+  que requisições atrasadas de outra aba respondam ou encerrem a questão atual.
+- O histórico congela o gabarito quando cada questão é encerrada e só o expõe
+  depois que a tentativa estiver finalizada.
 - Login: até 30 chamadas/IP e 10/conta por janela de 15 minutos. Cadastro:
   até 10/IP e 10/conta na mesma janela. Todas as chamadas contam, inclusive as
   bem-sucedidas. Ao exceder, a API responde 429 e `Retry-After`.

@@ -1,5 +1,9 @@
 # Correções S01–S06
 
+> **Histórico de correções:** as contagens de testes e pendências abaixo são da
+> etapa de 29/10. O resultado consolidado de 06/11 está em
+> [Validação técnica — Sprint 2](evidencias/VALIDACAO_SPRINT_2.md).
+
 Verificação de 29/10/2026, baseada nos achados do relatório local
 `docs/geral/VERIFICACAO_SPRINT1_SEGURANCA_2026-10-27.md`.
 Este documento acompanha as correções versionadas; publicação e aplicação no
@@ -16,16 +20,16 @@ banco de uso são etapas separadas.
 
 ## Migração e compatibilidade
 
-Aplicar `supabase/migrations/20261030005054_security_exam_sessions.sql` depois das
-migrações existentes e **antes de executar o backend atualizado**. O Compose
-aplica novas etapas pelo serviço `migrate`; ver `backend/README.md`.
-Não editar migrações já aplicadas ou reaplicar schema em um banco existente.
+Aplicar `backend/database/schema.sql`, que concentra a estrutura e as funcoes.
+O serviço `migrate` executa esse arquivo e depois `seed.sql`; ver
+`backend/README.md`. Não existem migrations separadas neste repositório.
 
 As RPCs usam SECURITY INVOKER e search_path vazio. Somente service_role pode
 executá-las; anon e authenticated não recebem acesso. A nova tabela de limites
 possui RLS e acesso restrito ao backend, que utiliza JWT próprio.
 
-Tentativas legadas sem ordem persistida são recusadas e exigem uma nova prova.
+Tentativas legadas completas recebem ordem sem novo sorteio; as incompletas são
+recusadas e exigem uma nova prova.
 O prazo é por questão e começa na primeira abertura. Reabrir após interrupção
 preserva o prazo; não foi implementada detecção de fechamento de navegador ou
 uma política nova para desconexão dos PB-033/PB-034.
@@ -44,7 +48,7 @@ bash scripts/validar-seguranca.sh
 ```
 
 O segundo comando cria e remove um PostgreSQL 17 descartável, sem rede, portas
-publicadas ou volumes existentes. Aplica schema, migrações, cargas e validação
+publicadas ou volumes existentes. Aplica schema, carga e validação
 de 12 temas/12 materiais/48 questões/192 alternativas antes dos testes.
 
 **Resultado:** `npm test`: 13 aprovados, zero falhas; os três testes de banco
@@ -66,8 +70,9 @@ de produção ou aprovação editorial.
 
 ## Pendências externas preservadas
 
-Não foi aplicada migração no Supabase remoto, nem alterado o banco local já
-existente. Validação de implantação, revisão editorial, conciliação com a issue
+O schema consolidado anterior foi aplicado no Supabase em 04/11/2026. As
+mudanças de continuidade incorporadas no merge ainda não foram aplicadas.
+Validação de implantação, revisão editorial, conciliação com a issue
 #22, demonstração com candidatos e aceite do PO continuam necessários.
 
 

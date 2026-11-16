@@ -1,6 +1,7 @@
 import {
   responder,
-  rotaExata
+  rotaExata,
+  tratarErro,
 } from "../utils/http.js";
 
 import {
@@ -27,11 +28,7 @@ export async function provaRoutes(req, res, pathname, supabase) {
 
     } catch (err) {
 
-      console.error("Erro ao iniciar prova:", err);
-
-      return responder(res, err.status || 500, {
-        erro: err.message
-      });
+      return tratarErro(res, err);
 
     }
   }

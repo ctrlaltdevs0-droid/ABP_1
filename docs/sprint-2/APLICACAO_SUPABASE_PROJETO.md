@@ -1,0 +1,41 @@
+# Banco do projeto
+
+> **Atualização documental em 06/11/2026:** este arquivo registra a aplicação
+> realizada em 04/11 e as diferenças encontradas naquele momento. O repositório
+> atual concentra todas as mudanças em `schema.sql` e `seed.sql`. A auditoria
+> documental não reconsultou o Supabase; confirmar o estado remoto antes da apresentação.
+
+Projeto configurado no backend: `lmohayvlvwzxlslornwp`.
+
+As unicas fontes de alteracoes de banco sao:
+
+- `backend/database/schema.sql`: estrutura completa, adaptacao do banco legado, funcoes nativas, indices e permissoes.
+- `backend/database/seed.sql`: carga de temas, materiais, questoes e alternativas.
+
+Executar `schema.sql` completo no SQL Editor do Supabase do projeto. Ele cria
+objetos ausentes e compatibiliza as tabelas existentes sem apaga-las. Depois,
+executar `seed.sql` se a carga de conteudo for desejada; dados sem codigo de
+seed sao preservados, portanto revisar possivel sobreposicao editorial.
+
+O schema preserva respostas e certificados legados, o limitador existente,
+`respostas_estudos` e `sessao_prova`. Nao utiliza `cert_s2_*`.
+Respostas legadas sem alternativa correspondente interrompem a transacao para
+revisao. Certificados antigos nao recebem vinculos de tentativa inventados.
+
+As rotas de tentativas usam as funcoes nativas instaladas pelo schema. O fluxo
+transacional deriva o usuario do JWT e nao aceita a identidade enviada pelo
+navegador.
+
+Em 04/11/2026, foi criado um dump do estado anterior e o `schema.sql` foi
+aplicado no projeto remoto. A estrutura resultante foi comparada com uma
+aplicacao local sobre o dump: ambas produziram o mesmo hash estrutural
+normalizado, com 13 tabelas, 82 colunas, 42 constraints, 36 indices, 7 funcoes
+e RLS ativo nas 13 tabelas.
+
+Esse resultado descreve a versao aplicada antes do merge da `develop`. O
+`schema.sql` atual tambem inclui continuidade da certificacao, historico e
+metadados de imagem; essa versao pos-merge ainda precisa ser validada sobre o
+dump e aplicada separadamente no projeto remoto.
+
+Docker fica para etapa posterior; seus scripts apenas foram ajustados para os
+dois arquivos.

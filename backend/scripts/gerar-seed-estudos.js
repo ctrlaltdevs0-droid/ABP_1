@@ -92,6 +92,10 @@ BEGIN
   IF (SELECT count(*) FROM questoes WHERE codigo_seed LIKE 'PB053-%') <> 48 THEN
     RAISE EXCEPTION 'Esperadas 48 questões';
   END IF;
+  IF (SELECT count(*) FROM questoes
+      WHERE codigo_seed LIKE 'PB053-%' AND status AND status_editorial = 'APROVADO') <> 48 THEN
+    RAISE EXCEPTION 'As 48 questões devem permanecer ativas e aprovadas';
+  END IF;
   IF EXISTS (
     SELECT t.idtemas FROM temas t LEFT JOIN questoes q
       ON q.temas_idtemas = t.idtemas AND q.codigo_seed LIKE 'PB053-%'
@@ -128,19 +132,33 @@ ON CONFLICT (codigo_seed) DO NOTHING;`);
       const codigo = `PB053-${index + 1}-${i + 1}`;
       // A imagem fica em frontend/src/assets/img/questoes com o mesmo código da questão.
       const imagem = `/assets/img/questoes/${codigo}.png`;
-      // Um bloco insere questão e alternativas junto; a repetição preserva edições e revisão editorial.
+      // Um bloco adota a questão legada equivalente e mantém o catálogo oficial pronto para a prova.
       statements.push(`DO $seed$
 DECLARE questao_id INTEGER;
 BEGIN
+  UPDATE questoes
+  SET codigo_seed = '${codigo}'
+  WHERE idquestoes = (
+    SELECT idquestoes FROM questoes
+    WHERE codigo_seed IS NULL
+      AND temas_idtemas = ${temaId}
+      AND enunciado = ${sql(enunciado)}
+    ORDER BY idquestoes
+    LIMIT 1
+  );
   INSERT INTO questoes (temas_idtemas, enunciado, imagem_url, imagem_alt, codigo_seed, status, status_editorial)
-  VALUES (${temaId}, ${sql(enunciado)}, '${imagem}', ${sql(imagem_alt)}, '${codigo}', FALSE, 'RASCUNHO')
-  ON CONFLICT (codigo_seed) DO NOTHING RETURNING idquestoes INTO questao_id;
-  IF questao_id IS NOT NULL THEN
-    INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
+  VALUES (${temaId}, ${sql(enunciado)}, '${imagem}', ${sql(imagem_alt)}, '${codigo}', TRUE, 'APROVADO')
+  ON CONFLICT (codigo_seed) DO UPDATE SET
+    imagem_url = EXCLUDED.imagem_url,
+    imagem_alt = EXCLUDED.imagem_alt,
+    status = TRUE,
+    status_editorial = 'APROVADO'
+  RETURNING idquestoes INTO questao_id;
+  INSERT INTO alternativas (questoes_idquestoes, letra, texto, correta) VALUES
     ${alternativas.map((texto, j) =>
       `(questao_id, '${'ABCD'[j]}', ${sql(texto)}, ${'ABCD'[j] === correta ? 'TRUE' : 'FALSE'})`
-    ).join(',\n    ')};
-  END IF;
+    ).join(',\n    ')}
+  ON CONFLICT (questoes_idquestoes, letra) DO NOTHING;
 END $seed$;`);
     });
   });

@@ -1,5 +1,25 @@
 (() => {
-  const el = id => document.getElementById(`prova-${id}`);
+  const ids = {
+    acoes: ['prova-acoes', 'acoesQuestao'],
+    alternativas: ['prova-alternativas', 'alternativas'],
+    enunciado: ['prova-enunciado', 'enunciado'],
+    finalizar: ['prova-finalizar', 'btnFinalizar'],
+    form: ['prova-form', 'provaForm'],
+    imagem: ['prova-imagem', 'imagemQuestao'],
+    iniciar: ['prova-iniciar', 'btnIniciar'],
+    mensagem: ['prova-mensagem', 'erro'],
+    nota: ['prova-nota', 'nota'],
+    pausar: ['prova-pausar', 'btnPausar'],
+    progresso: ['prova-progresso', 'contador'],
+    proxima: ['prova-proxima', 'btnProxima'],
+    questao: ['prova-questao', 'questaoConteudo'],
+    recuperar: ['prova-recuperar', 'btnRecuperar'],
+    responder: ['prova-responder', 'btnResponder'],
+    resultado: ['prova-resultado', 'resultado'],
+    retomar: ['prova-retomar', 'btnRetomar'],
+    tempo: ['prova-tempo', 'cronometro'],
+  };
+  const el = id => ids[id].map(nome => document.getElementById(nome)).find(Boolean);
   const api = window.AgilCertAPI;
   if (!localStorage.getItem('token')) { window.location.replace('login.html'); return; }
   let sessao = crypto.randomUUID();
@@ -11,21 +31,43 @@
   let bloqueada = false;
   let geracao = 0;
   let encerrada = false;
-  const mensagem = texto => { el('mensagem').textContent = texto; };
+  const mensagem = (texto, tipo = 'info') => {
+    const elemento = el('mensagem');
+    elemento.textContent = texto;
+    elemento.className = tipo === 'erro' ? 'mensagem-erro' : 'mensagem-info';
+  };
   const botao = (nome, mostrar) => { el(nome).hidden = !mostrar; };
   function renderizar() {
     const ativa = Boolean(questao) && !bloqueada;
+    const interrompida = resumo?.tentativa?.status === 'INTERROMPIDA';
     el('questao').hidden = !ativa;
     el('alternativas').disabled = ocupada || bloqueada;
     el('responder').disabled = ocupada || bloqueada;
+    el('responder').hidden = !ativa;
     el('progresso').textContent = resumo?.tentativa ? `${resumo.respondidas} de ${resumo.total_questoes} questões encerradas` : '';
+    const barra = document.getElementById('barra');
+    if (barra && resumo?.tentativa) {
+      barra.value = resumo.respondidas;
+      barra.max = resumo.total_questoes;
+    }
     botao('iniciar', !tentativa && !encerrada && !bloqueada);
-    botao('retomar', Boolean(tentativa) && resumo?.tentativa?.status === 'INTERROMPIDA' && !bloqueada && !encerrada);
+    botao('retomar', Boolean(tentativa) && interrompida && !bloqueada && !encerrada);
     botao('proxima', Boolean(tentativa) && !ativa && resumo?.tentativa?.status === 'EM_ANDAMENTO' && resumo?.pendentes > 0 && !bloqueada && !encerrada);
     botao('pausar', Boolean(tentativa) && !ativa && resumo?.tentativa?.status === 'EM_ANDAMENTO' && resumo?.pendentes > 0 && !bloqueada && !encerrada);
     botao('finalizar', Boolean(tentativa) && resumo?.pendentes === 0 && !ativa && !bloqueada && !encerrada);
     botao('recuperar', bloqueada);
-    for (const b of el('acoes').querySelectorAll('button')) b.disabled = ocupada || !navigator.onLine;
+    for (const nome of ['iniciar', 'retomar', 'proxima', 'pausar', 'finalizar', 'recuperar']) {
+      el(nome).disabled = ocupada || !navigator.onLine;
+    }
+
+    const inicio = document.getElementById('inicio');
+    const areaProva = document.getElementById('areaProva');
+    if (inicio && areaProva) {
+      const mostrarInicio = !encerrada && (!tentativa || interrompida);
+      inicio.hidden = !mostrarInicio;
+      areaProva.hidden = encerrada || !tentativa || interrompida;
+    }
+    el('resultado').hidden = !encerrada;
   }
   async function chamar(acao, body = {}, opcoes = {}) {
     const leitura = ['estado', 'proxima-questao', 'atual'].includes(acao);
@@ -53,7 +95,8 @@
     catch (error) {
       if (!localStorage.getItem('token')) { window.location.replace('login.html'); return; }
       bloqueada = true;
-      mensagem(`${error.message} Verifique a conexão para continuar com o estado salvo no servidor.`);
+      const detalhe = typeof error?.message === 'string' ? error.message : 'Não foi possível concluir a solicitação.';
+      mensagem(`${detalhe} Verifique a conexão para continuar com o estado salvo no servidor.`, 'erro');
     } finally { ocupada = false; renderizar(); }
   }
   async function retomar() {
@@ -102,6 +145,7 @@
     const legenda = document.createElement('legend'); legenda.textContent = 'Escolha uma alternativa'; fieldset.append(legenda);
     for (const alt of dados.alternativas) {
       const label = document.createElement('label');
+      label.className = 'alternativa';
       const input = document.createElement('input');
       input.type = 'radio'; input.name = 'alternativa'; input.value = alt.idalternativas; input.required = true;
       label.append(input, document.createTextNode(`${alt.letra}) ${alt.texto}`)); fieldset.append(label);
@@ -131,8 +175,12 @@
   el('finalizar').addEventListener('click', () => executar(async () => {
     const dados = await chamar('finalizar');
     encerrada = true;
-    el('resultado').hidden = false;
+    questao = null;
     el('nota').textContent = `${dados.resultado.acertos} de ${dados.resultado.total} acertos (${dados.resultado.percentual}%). ${dados.resultado.aprovado ? 'Aprovado!' : 'Nota mínima não atingida.'}`;
+    const acertos = document.getElementById('acertos');
+    const situacao = document.getElementById('situacao');
+    if (acertos) acertos.textContent = `${dados.resultado.acertos} de ${dados.resultado.total}`;
+    if (situacao) situacao.textContent = dados.resultado.aprovado ? 'APROVADO' : 'NÃO APROVADO';
     mensagem('Certificação finalizada.');
   }));
   function atualizarTempo() {
@@ -167,7 +215,7 @@
     geracao++;
     const evento = marcarInterrupcao('CONEXAO');
     bloqueada = true;
-    mensagem('Conexão perdida. A questão aberta será encerrada. Reconecte para retomar pelo próximo tema.');
+    mensagem('Conexão perdida. A questão aberta será encerrada. Reconecte para retomar pelo próximo tema.', 'erro');
     renderizar();
     if (evento) chamar('interromper', evento, { keepalive: true }).catch(() => {});
   });
@@ -187,5 +235,6 @@
       resumo.tentativa.status = 'INTERROMPIDA';
       mensagem('Encontramos sua tentativa. Retome para continuar pelo próximo tema.');
     } else mensagem('Quando estiver pronto, inicie sua certificação.');
+    renderizar();
   });
 })();
