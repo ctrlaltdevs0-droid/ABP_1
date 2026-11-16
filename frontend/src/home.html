@@ -15,7 +15,7 @@
     <a href="home.html">
       <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
     </a>
-  
+ 
     <!-- Navegação Principal (APENAS os links das páginas do site) -->
     <button class="nav-toggle" type="button" aria-controls="main-nav" aria-expanded="false">Menu</button>
     <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
@@ -26,18 +26,20 @@
       <a class="nav-link" href="#sobre-nos">Sobre nós</a>
     </nav>
   <!-- Área da Direita: Autenticação / Perfil (fixada no canto direito) -->
-    <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
+    <div class="header-actions header-actions-custom">
       
       <!-- Quando DESLOGADO: Botões Entrar/Cadastrar -->
-      <div id="authButtons" style="display: none; gap: 16px; align-items: center;">
+      <div id="authButtons" class="auth-buttons-custom">
         <a href="login.html" class="nav-link">Entrar</a>
         <a href="cadastro.html" class="nav-link">Cadastrar</a>
       </div>
-  
+ 
       <!-- Quando LOGADO: Menu de Perfil -->
-      <div class="profile-menu" id="profileMenu" style="display: none;">
-        <button class="profile-trigger" onclick="toggleProfile()">
+      <div class="profile-menu" id="profileMenu">
+        <button class="profile-trigger" onclick="toggleProfile()" type="button">
           <div class="profile-avatar">
+            <!-- Elemento de reafirmação de conta (iniciais) -->
+            <span id="userInitials" class="account-initials-span">VI</span>
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
             </svg>
@@ -45,24 +47,24 @@
           <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
           <span class="chevron">▼</span>
         </button>
-  
+ 
         <div class="dropdown">
           <div class="dropdown-header">
             <div class="profile-username" id="dropdownUserName">Usuário</div>
             <div class="profile-greeting">Minha conta</div>
           </div>
-  
+ 
           <div class="dropdown-body">
             <a href="perfil.html">Meu Perfil</a>
             <a href="perfil.html#jornada">Minha jornada</a>
             <div class="divider"></div>
-            <button class="danger" onclick="logout()">Sair</button>
+            <button class="danger" onclick="logout()" type="button">Sair</button>
           </div>
         </div>
       </div>
-  
+ 
     </div>
-  
+ 
   </header>
 
   <main class="site-main">
@@ -71,11 +73,11 @@
 
       <div class="hero-top">
         <div class="hero-text">
-          <p class="subtitle-1" style="color: var(--primary);">
+          <p class="subtitle-1 subtitle-primary-custom">
             Seu futuro em tecnologia começa aqui
           </p>
 
-          <h2 style="color: var(--text-secondary);">
+          <h2 class="hero-title-custom">
             Certificação em metodologias ágeis
           </h2>
 
@@ -99,7 +101,7 @@
         <div class="how-card">
 
           <div class="how-item">
-            <div class="how-icon" style="background: var(--accent);">
+            <div class="how-icon how-icon-accent">
               <svg viewBox="0 0 24 24">
                 <path
                   d="M21 5c-1.1-.35-2.3-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z" />
@@ -115,7 +117,7 @@
           <div class="how-divider"></div>
 
           <div class="how-item">
-            <div class="how-icon" style="background: var(--secondary);">
+            <div class="how-icon how-icon-secondary">
               <svg viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
@@ -130,7 +132,7 @@
           <div class="how-divider"></div>
 
           <div class="how-item">
-            <div class="how-icon" style="background: var(--primary);">
+            <div class="how-icon how-icon-primary">
               <svg viewBox="0 0 24 24">
                 <path
                   d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V17H9v2h6v-2h-2v-2.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
@@ -156,20 +158,20 @@
       </div>
     </section>
 
-    <div class="hero-card" id="sobre-nos" style="margin-top: 32px;">
+    <div class="hero-card sobre-nos-container-custom" id="sobre-nos">
       <div class="sobre-nos-inner">
         <div class="sobre-nos-badge">Sobre nós</div>
-        <h2 style="color: var(--text); font-weight: 400; font-size: clamp(28px, 3vw, 48px); line-height: 1.2;">
-          Quem está por trás da <span style="color: var(--primary);">ÁgilCert</span>?
+        <h2 class="sobre-nos-title-custom">
+          Quem está por trás da <span class="sobre-nos-brand-custom">ÁgilCert</span>?
         </h2>
-        <p class="body-2" style="max-width: 720px;">
+        <p class="body-2 sobre-nos-text-custom">
           Somos um grupo de estudantes apaixonados por tecnologia e metodologias ágeis, unidos pelo desejo de tornar o aprendizado de Scrum mais acessível e prático para todos. A ÁgilCert nasceu da necessidade de uma plataforma simples, objetiva e eficiente para quem quer validar seus conhecimentos e conquistar uma certificação reconhecida.
         </p>
-        <p class="body-2" style="max-width: 720px;">
-          Nossa missão é democratizar o acesso à certificação ágil, oferecendo conteúdo de qualidade, avaliações justas e certificados verificáveis — tudo em um só lugar. <strong style="color: var(--primary);">Aqui, seu conhecimento tem valor.</strong>
+        <p class="body-2 sobre-nos-text-custom">
+          Nossa missão é democratizar o acesso à certificação ágil, oferecendo conteúdo de qualidade, avaliações justas e certificados verificáveis — tudo em um só lugar. <strong class="sobre-nos-strong-custom">Aqui, seu conhecimento tem valor.</strong>
         </p>
         <p class="sobre-nos-equipe">
-          <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:var(--primary);vertical-align:middle;margin-right:8px;"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          <svg viewBox="0 0 24 24" class="sobre-nos-icon-custom"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
           Equipe Ctrl Alt Devs
         </p>
         <div class="sobre-nos-stats">
@@ -251,6 +253,16 @@
        menu.classList.remove('open');
      }
    });
+
+   // Função auxiliar para calcular iniciais dinamicamente
+   const getInitials = (fullName) => {
+     if (!fullName) return 'VI';
+     const parts = fullName.trim().split(/\s+/);
+     if (parts.length === 1) {
+       return parts[0].substring(0, 2).toUpperCase();
+     }
+     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+   };
  
    document.addEventListener('DOMContentLoaded', async function () {
      const token = localStorage.getItem('token');
@@ -260,15 +272,18 @@
      const profileMenu = document.getElementById('profileMenu');
      const userNameSpan = document.getElementById('userName');
      const dropdownUserName = document.getElementById('dropdownUserName');
+     const userInitialsEl = document.getElementById('userInitials');
  
      // Exibe o perfil e oculta botões de login
      function exibirLogado(usuario) {
        if (!usuario) return;
        const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
        const primeiroNome = nomeCompleto.trim().split(' ')[0];
+       const iniciais = getInitials(nomeCompleto);
  
        if (userNameSpan) userNameSpan.textContent = primeiroNome;
        if (dropdownUserName) dropdownUserName.textContent = nomeCompleto;
+       if (userInitialsEl) userInitialsEl.textContent = iniciais;
  
        if (authButtons) authButtons.style.display = 'none';
        if (profileMenu) profileMenu.style.display = 'flex';

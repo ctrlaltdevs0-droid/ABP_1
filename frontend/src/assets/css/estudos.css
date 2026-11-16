@@ -1,6 +1,5 @@
 /* ==========================================================================
    ÁGILCERT - ÁREA DE ESTUDOS (estudos.css)
-   
    ========================================================================== */
 
 /* --- Importação das Fontes Oficiais --- */
@@ -79,7 +78,7 @@ body {
 }
 
 .study-header a img {
-  height: 44px;
+  height: 100px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -148,6 +147,15 @@ body {
   object-fit: cover;
   border: 1px solid var(--border);
   display: block;
+}
+
+/* Estilo para a reafirmação de usuário com imagem de collage */
+.portrait-reaffirmation {
+  background-image: url('../img/personagens.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #E2E8F0;
 }
 
 .profile-greeting-text {
@@ -747,4 +755,21 @@ input:focus-visible {
   .study-content {
     padding: 1.25rem;
   }
+}
+/* ==========================================================================
+   Estilo da Caixa de Iniciais (Reafirmação de Conta) no Cabeçalho
+   ========================================================================== */
+.account-initials-box {
+  display: grid !important;
+  place-items: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background-color: #e2e8f0 !important;
+  color: #0f766e !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  border: 1px solid var(--border) !important;
 }

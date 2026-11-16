@@ -26,8 +26,9 @@
     </nav>
     <div class="header-profile" id="userProfileMenu">
       <button class="profile-trigger" type="button" id="profileTrigger" aria-label="Menu do perfil">
-        <img src="assets/img/personagens.png" alt="Foto de perfil" class="profile-avatar-img" id="userAvatar">
-        <span class="profile-greeting-text">Olá, <span id="userName">Usuário</span></span>
+        <!-- Substituído a imagem pelo elemento de iniciais (reafirmação) -->
+        <span class="profile-avatar-img account-initials-box" id="userAvatar">VI</span>
+        <span class="profile-greeting-text">Olá, <span id="userName">Vitoria</span></span>
         <span class="profile-chevron">▼</span>
       </button>
 
@@ -51,14 +52,11 @@
       <progress id="progresso" value="0" max="12">0 de 12</progress>
     </section>
 
-<section id="acesso-prova" hidden>
-  <h2>Parabéns! Você concluiu os 12 temas.</h2>
-  <p>Agora você pode realizar a prova final.</p>
-
-  <a href="certificacao.html" class="botao-prova">
-    Iniciar prova final
-  </a>
-</section>
+    <section id="acesso-prova" hidden>
+      <h2>Parabéns! Você concluiu os 12 temas.</h2>
+      <p>Agora você pode realizar a prova final.</p>
+      <a href="certificacao.html" class="botao-prova">Iniciar prova final</a>
+    </section>
 
     <!-- MENSAGENS E BOTÃO RECARREGAR -->
     <p id="mensagem" role="status" aria-live="polite">Carregando temas…</p>
@@ -77,22 +75,40 @@
       
       <h2 id="titulo-tema"></h2>
       
-      <!-- O JavaScript injetará os textos e imagens da API aqui dinamicamente -->
       <div id="texto-tema"></div>
 
       <hr>
 
-      <!-- CONTAINER DINÂMICO DO QUIZ DO TEMA -->
       <section id="quiz-tema"></section>
 
       <hr>
 
-      <!-- BOTÃO DE CONCLUSÃO -->
       <button id="concluir" type="button" disabled>Marcar tema como concluído</button>
     </article>
 
     <noscript>Ative o JavaScript para carregar os temas e registrar seu progresso.</noscript>
   </main>
 
+  <script>
+    // Script auxiliar para atualizar as iniciais dinamicamente com base no nome
+    window.addEventListener('DOMContentLoaded', () => {
+      const getInitials = (fullName) => {
+        if (!fullName) return 'VI';
+        const parts = fullName.trim().split(/\s+/);
+        if (parts.length === 1) {
+          return parts[0].substring(0, 2).toUpperCase();
+        }
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      };
+
+      const userNameEl = document.getElementById('userName');
+      const userAvatarEl = document.getElementById('userAvatar');
+      
+      if (userNameEl && userAvatarEl) {
+        const nome = userNameEl.textContent;
+        userAvatarEl.textContent = getInitials(nome);
+      }
+    });
+  </script>
 </body>
 </html>

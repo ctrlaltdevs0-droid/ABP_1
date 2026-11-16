@@ -555,3 +555,91 @@ a:focus-visible, button:focus-visible { outline:3px solid var(--accent); outline
   .btn-hero { max-width:100%; text-align:center; }
   .hero-text .body-2 { font-size:15px; }
 }
+/* ==========================================================================
+   Ajustes para Reafirmação de Conta (Iniciais) e Remoção de Estilos Inline
+   ========================================================================== */
+.header-actions-custom {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.auth-buttons-custom {
+  display: none;
+  gap: 16px;
+  align-items: center;
+}
+
+.profile-avatar {
+  position: relative;
+  overflow: hidden;
+}
+
+.account-initials-span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  color: #0f766e;
+  font-weight: bold;
+  font-size: 12px;
+  z-index: 2;
+}
+
+.profile-avatar svg {
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle-primary-custom {
+  color: var(--primary);
+}
+
+.hero-title-custom {
+  color: var(--text-secondary);
+}
+
+.how-icon-accent {
+  background: var(--accent);
+}
+
+.how-icon-secondary {
+  background: var(--secondary);
+}
+
+.how-icon-primary {
+  background: var(--primary);
+}
+
+.sobre-nos-container-custom {
+  margin-top: 32px;
+}
+
+.sobre-nos-title-custom {
+  color: var(--text);
+  font-weight: 400;
+  font-size: clamp(28px, 3vw, 48px);
+  line-height: 1.2;
+}
+
+.sobre-nos-brand-custom {
+  color: var(--primary);
+}
+
+.sobre-nos-text-custom {
+  max-width: 720px;
+}
+
+.sobre-nos-strong-custom {
+  color: var(--primary);
+}
+
+.sobre-nos-icon-custom {
+  width: 28px;
+  height: 28px;
+  fill: var(--primary);
+  vertical-align: middle;
+  margin-right: 8px;
+}
