@@ -7,12 +7,10 @@
   <title>Minha conta | ÁgilCert</title>
   <link rel="stylesheet" href="./assets/css/typography.css">
   <link rel="stylesheet" href="./assets/css/perfil.css">
-
-  </style>
 </head>
 
 <body>
-  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <svg class="svg-sprite-hidden" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <symbol id="user" viewBox="0 0 24 24">
         <circle cx="12" cy="7" r="4" />
@@ -37,33 +35,46 @@
   <div class="page">
     <header class="topbar">
       <a class="brand" href="home.html" aria-label="ÁgilCert — início">
-        <!-- Logo -->
-    <a href="home.html">
-      <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
-    </a>
+        <a href="home.html">
+          <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
+        </a>
+      </a>
+        
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="home.html">Início</a>
+        <a href="estudos.html">Estudos</a>
+        <a href="home.html#certificacao">Certificação</a>
+        <a href="estudos.html">Progresso</a>
+        <a href="home.html#sobre-nos">Sobre</a>
+      </nav>
 
-      <nav class="nav" aria-label="Navegação principal"><a href="home.html">Início</a><a href="estudos.html">Estudos</a><a
-          href="home.html#certificacao">Certificação</a><a href="estudos.html">Progresso</a><a href="home.html#sobre-nos">Sobre </a></nav>
-      <div class="account"><a class="account-icon" href="#informacoes" aria-label="Minha conta"><svg fill="none"
-            stroke="currentColor" stroke-width="2.4">
+      <div class="account" id="account-container">
+        <a class="account-icon" href="#informacoes" aria-label="Minha conta">
+          <svg fill="none" stroke="currentColor" stroke-width="2.4">
             <use href="#user" />
-          </svg></a>
-        <div class="account-links"><a href="#informacoes">Conta</a><button type="button"
-            id="logout-button">Logout</button></div>
+          </svg>
+        </a>
+        <button type="button" class="account-toggle-btn" id="account-toggle" aria-expanded="false">
+          Olá, <strong id="account-name-display">Vitoria</strong> <span class="chevron">▼</span>
+        </button>
+        <div class="account-links">
+          <button type="button" id="logout-button">Sair</button>
+        </div>
       </div>
     </header>
+
     <main class="content" id="inicio">
       <div class="profile-grid">
         <!-- Painel de Perfil (Lado Esquerdo) -->
         <section class="profile panel" aria-labelledby="profile-name">
-          <div class="portrait" style="display:grid;place-items:center;font-size:64px" id="profile-avatar" aria-label="Iniciais do usuário">—</div>
-
-          <h1 id="profile-name" style="margin-bottom: 8px;">Minha conta</h1>
-          <!-- NOVO: Exibição do E-mail abaixo do nome -->
-          <p id="profile-display-email" style="color: #687586; margin-top: 0; margin-bottom: 24px; word-break: break-all;">email@exemplo.com</p>
-
+          <div class="portrait portrait-custom" id="profile-avatar" aria-label="Iniciais do usuário">—</div>
+          
+          <h1 id="profile-name">Minha conta</h1>
+          <p id="profile-display-email" class="profile-display-email">email@exemplo.com</p>
+        
           <button class="primary" type="button" data-modal="certificacoes">Minhas certificações</button>
         </section>
+
         <section class="details panel" id="informacoes" aria-labelledby="details-title">
           <h2 id="details-title">Informações pessoais</h2>
           <p id="profile-status" role="status"></p>
@@ -106,62 +117,62 @@
                   <dd aria-label="Senha protegida">**********</dd>
                 </div>
               </div>
-            </dl><button class="primary" id="save-profile" disabled style="margin-top:24px">Salvar alterações</button>
+            </dl>
+            <button class="primary" id="save-profile" disabled>Salvar alterações</button>
           </form>
+        
+          <details class="details-password-accordion">
+            <summary>Alterar senha</summary>
+            <form id="password-form">
+              <p>
+                <label>Senha atual
+                  <div class="password-input-wrap">
+                    <input id="current-password" class="password-input-field" type="password" required autocomplete="current-password">
+                    <button type="button" class="toggle-password-btn" onclick="window.toggleSenha('current-password', this)" aria-label="Mostrar/Ocultar senha">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                </label>
+              </p>
 
+              <p>
+                <label>Nova senha
+                  <div class="password-input-wrap">
+                    <input id="new-password" class="password-input-field" type="password" minlength="8" required autocomplete="new-password">
+                    <button type="button" class="toggle-password-btn" onclick="window.toggleSenha('new-password', this)" aria-label="Mostrar/Ocultar senha">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                </label>
+              </p>
 
-<details style="margin-top:24px">
-  <summary>Alterar senha</summary>
-  <form id="password-form">
-    <p>
-      <label>Senha atual
-        <div style="position: relative; display: flex; align-items: center; margin-top: 6px;">
-          <input id="current-password" type="password" required autocomplete="current-password" style="padding-right: 40px; width: 100%;">
-          <button type="button" onclick="window.toggleSenha('current-password', this)" style="position: absolute; right: 8px; background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Mostrar/Ocultar senha">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </button>
-        </div>
-      </label>
-    </p>
+              <p>
+                <label>Confirmar nova senha
+                  <div class="password-input-wrap">
+                    <input id="confirm-password" class="password-input-field" type="password" minlength="8" required autocomplete="new-password">
+                    <button type="button" class="toggle-password-btn" onclick="window.toggleSenha('confirm-password', this)" aria-label="Mostrar/Ocultar senha">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                </label>
+              </p>
 
-    <p>
-      <label>Nova senha
-        <div style="position: relative; display: flex; align-items: center; margin-top: 6px;">
-          <input id="new-password" type="password" minlength="8" required autocomplete="new-password" style="padding-right: 40px; width: 100%;">
-          <button type="button" onclick="window.toggleSenha('new-password', this)" style="position: absolute; right: 8px; background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Mostrar/Ocultar senha">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </button>
-        </div>
-      </label>
-    </p>
-
-    <p>
-      <label>Confirmar nova senha
-        <div style="position: relative; display: flex; align-items: center; margin-top: 6px;">
-          <input id="confirm-password" type="password" minlength="8" required autocomplete="new-password" style="padding-right: 40px; width: 100%;">
-          <button type="button" onclick="window.toggleSenha('confirm-password', this)" style="position: absolute; right: 8px; background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Mostrar/Ocultar senha">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </button>
-        </div>
-      </label>
-    </p>
-
-    <p id="password-status" role="status"></p>
-    <button class="primary" id="save-password" disabled>Alterar senha</button>
-  </form>
-</details>
-
+              <p id="password-status" role="status"></p>
+              <button class="primary" id="save-password" disabled>Alterar senha</button>
+            </form>
+          </details>
         </section>
       </div>
+
       <section class="journey panel" id="jornada" aria-labelledby="journey-title">
         <h2 id="journey-title">Processo da jornada</h2>
         <p>Progresso ainda não disponibilizado pelo serviço.</p>
@@ -170,17 +181,18 @@
             aria-valuetext="Progresso não disponível">
             <div class="fill" style="width:0"></div>
           </div>
-          <div class="milestones"><span>Estudos Iniciados</span><span>Simulado Concluído</span><span>Certificação
-              Ágil</span></div>
+          <div class="milestones"><span>Estudos Iniciados</span><span>Simulado Concluído</span><span>Certificação Ágil</span></div>
         </div>
       </section>
     </main>
   </div>
+
   <dialog id="info-dialog" aria-labelledby="dialog-title">
     <h2 id="dialog-title"></h2>
     <p id="dialog-text"></p>
     <form method="dialog"><button class="primary">Fechar</button></form>
   </dialog>
+
   <script>
     const messages = { certificacoes: ['Minhas certificações', 'Nenhuma certificação foi vinculada a esta página demonstrativa.'], historico: ['Histórico', 'O histórico será exibido após a integração com os dados da sua conta.'], sobre: ['Sobre a ÁgilCert', 'Uma jornada de estudos e certificação ágil.'], logout: ['Sair da conta', 'Esta é uma página demonstrativa, sem sessão de login ativa.'] };
     document.querySelectorAll('[data-modal]:not([data-modal="certificacoes"]):not([data-modal="logout"])').forEach(button => button.addEventListener('click', event => { event.preventDefault(); const [title, text] = messages[button.dataset.modal]; document.getElementById('dialog-title').textContent = title; document.getElementById('dialog-text').textContent = text; document.getElementById('info-dialog').showModal(); }));
@@ -189,27 +201,86 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/perfil.js"></script>
+
   <script>
   window.addEventListener('DOMContentLoaded', () => {
-    // 1. Atualiza o e-mail abaixo da foto com o e-mail real (vivi@gmail.com)
+    const getInitials = (fullName) => {
+      if (!fullName) return '—';
+      const parts = fullName.trim().split(/\s+/);
+      if (parts.length === 1) {
+        return parts[0].substring(0, 2).toUpperCase();
+      }
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    };
+
     const inputEmail = document.getElementById('profile-email');
     const displayEmail = document.getElementById('profile-display-email');
     if (inputEmail && displayEmail) {
       displayEmail.textContent = inputEmail.value || 'vivi@gmail.com';
     }
 
-    // 2. Atualiza a "Conta" na barra superior para exibir "Olá, vitoria ▼"
     const inputNome = document.getElementById('profile-fullname') || document.getElementById('profile-name');
     const nome = inputNome ? (inputNome.value || inputNome.textContent || 'vitoria') : 'vitoria';
     const primeiroNome = nome.trim().split(' ')[0];
+    const iniciais = getInitials(nome);
 
-    const linkConta = document.querySelector('.account-links a') || document.querySelector('.account a');
-    if (linkConta) {
-      linkConta.innerHTML = `Olá, <strong>${primeiroNome}</strong> <span class="chevron">▼</span>`;
+    const spanPrimeiroNome = document.getElementById('account-name-display');
+    if (spanPrimeiroNome) {
+      spanPrimeiroNome.textContent = primeiroNome;
+    }
+
+    const profileAvatar = document.getElementById('profile-avatar');
+    if (profileAvatar) {
+      profileAvatar.textContent = iniciais;
+    }
+
+    const accountIcon = document.querySelector('.account-icon');
+    if (accountIcon) {
+      let spanIniciais = accountIcon.querySelector('.account-initials');
+      if (!spanIniciais) {
+        spanIniciais = document.createElement('span');
+        spanIniciais.className = 'account-initials';
+        accountIcon.appendChild(spanIniciais);
+      }
+      spanIniciais.textContent = iniciais;
+    }
+
+    if (inputNome && inputNome.tagName === 'INPUT') {
+      inputNome.addEventListener('input', () => {
+        const novasIniciais = getInitials(inputNome.value);
+        const novoPrimeiro = inputNome.value.trim().split(' ')[0] || 'Vitoria';
+        if (profileAvatar) profileAvatar.textContent = novasIniciais;
+        if (spanPrimeiroNome) spanPrimeiroNome.textContent = novoPrimeiro;
+        const spanIniciais = accountIcon ? accountIcon.querySelector('.account-initials') : null;
+        if (spanIniciais) spanIniciais.textContent = novasIniciais;
+      });
+    }
+
+    const accountContainer = document.getElementById('account-container');
+    const accountToggle = document.getElementById('account-toggle');
+    const chevron = accountToggle ? accountToggle.querySelector('.chevron') : null;
+
+    if (accountToggle && accountContainer) {
+      accountToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        accountContainer.classList.toggle('active');
+        const isActive = accountContainer.classList.contains('active');
+        accountToggle.setAttribute('aria-expanded', isActive);
+        if (chevron) {
+          chevron.textContent = isActive ? '▲' : '▼';
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!accountContainer.contains(e.target)) {
+          accountContainer.classList.remove('active');
+          accountToggle.setAttribute('aria-expanded', 'false');
+          if (chevron) chevron.textContent = '▼';
+        }
+      });
     }
   });
-</script>
-
+  </script>
 </body>
 
 </html>

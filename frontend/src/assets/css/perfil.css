@@ -1002,3 +1002,135 @@ footer {
     height: 20px;
   }
 }
+/* ============================================================
+   Adições para Correção do Menu Account e Remoção de Inline Styles
+   ============================================================ */
+.svg-sprite-hidden {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.account-icon {
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 50% !important;
+  background-color: #e2e8f0 !important;
+  color: #0f766e !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.account-icon svg {
+  display: none !important;
+}
+
+.account-initials {
+  font-size: 12px !important;
+}
+
+.account {
+  position: relative;
+}
+
+.account-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.account-links {
+  display: none !important;
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  margin-top: 8px !important;
+  background: #FFFFFF !important;
+  border: 1px solid var(--borda-suave, #E2E8F0) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  padding: 8px !important;
+  min-width: 140px !important;
+  flex-direction: column !important;
+  z-index: 1000 !important;
+}
+
+.account.active .account-links {
+  display: flex !important;
+}
+
+#logout-button {
+  width: 100% !important;
+  text-align: left !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  color: #334155 !important;
+  border-radius: 4px !important;
+  margin-left: 0 !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+#logout-button:hover {
+  background-color: #F1F5F9 !important;
+  color: #DC2626 !important;
+}
+
+.portrait-custom {
+  display: grid;
+  place-items: center;
+  font-size: 64px;
+}
+
+#profile-name {
+  margin-bottom: 8px;
+}
+
+.profile-display-email {
+  color: #687586;
+  margin-top: 0;
+  margin-bottom: 24px;
+  word-break: break-all;
+}
+
+#save-profile {
+  margin-top: 24px;
+}
+
+.details-password-accordion {
+  margin-top: 24px;
+}
+
+.password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.password-input-field {
+  padding-right: 40px;
+  width: 100%;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,4 +1,3 @@
-
 /* ==========================================================================
    ÁGILCERT - ÁREA DE ESTUDOS (estudos.css)
    ========================================================================== */
@@ -20,7 +19,7 @@
   --text-muted: #64748b;
   --text-light: #94a3b8;
 
-  /* Cores Oficiais dos Ícones */
+  /* Cores Oficiais dos Ícones da Imagem 2 */
   --cor-icone-azul: #1e70bf;
   --cor-icone-verde: #48c5b5;
   --cor-icone-amarelo: #e5a823;
@@ -47,7 +46,6 @@
   padding: 0;
 }
 
-/* Cabeçalho global */
 .site-header {
   display: flex;
   align-items: center;
@@ -55,6 +53,7 @@
   padding: 0 32px;
   height: 100px;
 }
+
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -66,7 +65,7 @@ body {
   min-height: 100vh;
 }
 
-/* --- Cabeçalho (Header) --- */
+/* --- Cabeçalho (Header) - Réplica Figma --- */
 .study-header {
   position: sticky;
   top: 0;
@@ -125,7 +124,7 @@ body {
   background: none;
 }
 
-/* --- Perfil do Usuário no Header --- */
+/* --- Perfil do Usuário no Header (Área em Azul) --- */
 .header-profile {
   position: relative;
   display: flex;
@@ -147,7 +146,7 @@ body {
   transition: background 0.15s;
 }
 
-/* Evita o hover azul no botão do perfil */
+/* ÚNICA ALTERAÇÃO: seletor mais específico para evitar o hover azul */
 .profile-trigger:hover:not(:disabled) {
   background: var(--background);
   border-color: var(--border);
@@ -161,6 +160,15 @@ body {
   object-fit: cover;
   border: 1px solid var(--border);
   display: block;
+}
+
+/* Estilo para a reafirmação de usuário com imagem de collage */
+.portrait-reaffirmation {
+  background-image: url('../img/personagens.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #E2E8F0;
 }
 
 .profile-greeting-text {
@@ -243,7 +251,7 @@ body {
   color: #b91c1c;
 }
 
-/* --- Conteúdo Principal --- */
+/* --- Conteúdo Principal (Main) --- */
 .study-main {
   max-width: 1080px;
   margin: 0 auto;
@@ -273,7 +281,7 @@ body {
   font-size: 1rem;
 }
 
-/* --- Card de Progresso --- */
+/* --- Card de Progresso (Resumo) - Estilo Imagem 1 --- */
 .study-summary {
   background: var(--card-bg);
   padding: 1.5rem 1.8rem;
@@ -295,7 +303,7 @@ body {
   justify-content: space-between;
 }
 
-/* Barra de Progresso */
+/* Barra de Progresso com Gradiente Moderno */
 progress {
   display: block;
   width: 100%;
@@ -362,7 +370,7 @@ progress::-moz-progress-bar {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/* --- Grade e Cards dos 12 Temas --- */
+/* --- Grade e Cards dos 12 Temas (Desktop: Lista Imagem 1 e 2) --- */
 .study-grid {
   display: flex;
   flex-direction: column;
@@ -389,6 +397,7 @@ progress::-moz-progress-bar {
   border-color: var(--border-hover);
 }
 
+/* Topo do Card (Ícone e Status) */
 .study-card-topo {
   display: flex;
   align-items: center;
@@ -396,7 +405,7 @@ progress::-moz-progress-bar {
   flex-shrink: 0;
 }
 
-/* Ícone Circular */
+/* Ícone Circular com as Cores da Imagem 2 */
 .tema-icone {
   display: inline-flex;
   align-items: center;
@@ -418,7 +427,7 @@ progress::-moz-progress-bar {
   stroke-linejoin: round;
 }
 
-/* Cores dos Ícones */
+/* Cores Oficiais da Imagem 2 */
 .tema-icone-azul { background: var(--cor-icone-azul); }
 .tema-icone-verde { background: var(--cor-icone-verde); }
 .tema-icone-amarelo { background: var(--cor-icone-amarelo); }
@@ -426,7 +435,7 @@ progress::-moz-progress-bar {
 .tema-icone-menta { background: var(--cor-icone-menta); }
 .tema-icone-indigo { background: var(--cor-icone-indigo); }
 
-/* Variação por ordem automática */
+/* Variação por ordem automática caso não haja classe no HTML */
 .study-card:nth-child(4n+1) .tema-icone { background: var(--cor-icone-azul); }
 .study-card:nth-child(4n+2) .tema-icone { background: var(--cor-icone-verde); }
 .study-card:nth-child(4n+3) .tema-icone { background: var(--cor-icone-amarelo); }
@@ -442,12 +451,12 @@ progress::-moz-progress-bar {
   flex: 1;
 }
 
-/* Descrição curta */
+/* Descrição curta (oculta no modo horizontal limpo) */
 .study-card p {
   display: none;
 }
 
-/* Indicadores de Status */
+/* Indicadores de Status (Pendente / Concluído) */
 .study-state {
   font-size: 0.78rem;
   font-weight: 600;
@@ -463,7 +472,7 @@ progress::-moz-progress-bar {
   color: #15803d;
 }
 
-/* Link / Ação Estudar */
+/* Link / Ação Estudar com Setinha */
 .study-card a {
   color: var(--primary);
   font-size: 0.9rem;
@@ -492,7 +501,7 @@ progress::-moz-progress-bar {
   transform: translateX(3px);
 }
 
-/* --- Artigo de Exibição do Conteúdo --- */
+/* --- Artigo de Exibição do Conteúdo (Quando abre um tema) --- */
 .study-content {
   max-width: 900px;
   margin: 1.5rem auto 0;
@@ -615,6 +624,7 @@ button:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
+
 button:disabled {
   opacity: 0.6;
   cursor: default;
@@ -655,7 +665,7 @@ input:focus-visible {
 }
 
 /* ==========================================================================
-   Responsividade: Celular
+   Responsividade: Celular (Formato da Imagem 3 <= 620px)
    ========================================================================== */
 @media (max-width: 620px) {
   .study-header {
@@ -707,7 +717,7 @@ input:focus-visible {
     text-align: center;
   }
 
-  /* Grade de 2 Colunas */
+  /* Adaptação dos Temas para Grade de 2 Colunas conforme Imagem 3 */
   .study-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -759,4 +769,21 @@ input:focus-visible {
   .study-content {
     padding: 1.25rem;
   }
+}
+/* ==========================================================================
+   Estilo da Caixa de Iniciais (Reafirmação de Conta) no Cabeçalho
+   ========================================================================== */
+.account-initials-box {
+  display: grid !important;
+  place-items: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background-color: #e2e8f0 !important;
+  color: #0f766e !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  border: 1px solid var(--border) !important;
 }
