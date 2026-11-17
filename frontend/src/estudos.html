@@ -40,11 +40,7 @@
     <div class="profile-menu" id="profileMenu" style="display:none;">
       <button class="profile-trigger" type="button" id="profileTrigger"
         aria-expanded="false" aria-label="Menu do perfil">
-        <img
-          src="assets/img/estudos.png"
-          alt="Foto de perfil"
-          class="profile-avatar-img"
-          id="userAvatar">
+        <span class="profile-avatar-img account-initials-box" id="userAvatar"></span>
           
         <span class="profile-name">Olá, <span id="userName">Usuário</span></span>
         <span class="chevron">▼</span>
@@ -79,14 +75,11 @@
       <progress id="progresso" value="0" max="12">0 de 12</progress>
     </section>
 
-<section id="acesso-prova" hidden>
-  <h2>Parabéns! Você concluiu os 12 temas.</h2>
-  <p>Agora você pode realizar a prova final.</p>
-
-  <a href="certificacao.html" class="botao-prova">
-    Iniciar prova final
-  </a>
-</section>
+    <section id="acesso-prova" hidden>
+      <h2>Parabéns! Você concluiu os 12 temas.</h2>
+      <p>Agora você pode realizar a prova final.</p>
+      <a href="certificacao.html" class="botao-prova">Iniciar prova final</a>
+    </section>
 
     <!-- MENSAGENS E BOTÃO RECARREGAR -->
     <p id="mensagem" role="status" aria-live="polite">Carregando temas…</p>
@@ -105,17 +98,14 @@
       
       <h2 id="titulo-tema"></h2>
       
-      <!-- O JavaScript injetará os textos e imagens da API aqui dinamicamente -->
       <div id="texto-tema"></div>
 
       <hr>
 
-      <!-- CONTAINER DINÂMICO DO QUIZ DO TEMA -->
       <section id="quiz-tema"></section>
 
       <hr>
 
-      <!-- BOTÃO DE CONCLUSÃO -->
       <button id="concluir" type="button" disabled>Marcar tema como concluído</button>
     </article>
 
@@ -123,11 +113,13 @@
   </main>
 
   <script>
+  // MENU RESPONSIVO
   const navToggle = document.querySelector('.nav-toggle');
   const mainNav = document.getElementById('main-nav');
 
   navToggle.addEventListener('click', () => {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+
     navToggle.setAttribute('aria-expanded', String(!expanded));
     mainNav.classList.toggle('is-open', !expanded);
   });
@@ -139,11 +131,14 @@
     });
   });
 
+
+  // MENU DO PERFIL
   const profileMenu = document.getElementById('profileMenu');
   const profileTrigger = document.getElementById('profileTrigger');
 
   profileTrigger.addEventListener('click', () => {
     const aberto = profileMenu.classList.toggle('open');
+
     profileTrigger.setAttribute('aria-expanded', String(aberto));
   });
 
@@ -154,69 +149,98 @@
     }
   });
 
+
+  // AUTENTICAÇÃO E DADOS DO USUÁRIO
   document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
     const usuarioSalvo = localStorage.getItem('usuario');
+
     const authButtons = document.getElementById('authButtons');
     const userName = document.getElementById('userName');
     const dropdownUserName = document.getElementById('dropdownUserName');
+    const userAvatar = document.getElementById('userAvatar');
 
+    // EXIBIR USUÁRIO LOGADO
     function exibirLogado(usuario) {
       if (!usuario) return;
 
-      const nome = usuario.nome || usuario.name || 'Usuário';
-      userName.textContent = nome.trim().split(' ')[0];
-      dropdownUserName.textContent = nome;
+     const nome = usuario.nome || usuario.name || 'Usuário';
 
+userName.textContent = nome.trim().split(/\s+/)[0];
+dropdownUserName.textContent = nome;
+
+// Gerar iniciais
+const partes = nome.trim().split(/\s+/);
+
+const iniciais = (
+  partes[0][0] +
+  (partes.length > 1
+    ? partes[partes.length - 1][0]
+    : partes[0].slice(1, 2))
+).toUpperCase();
+
+document.getElementById('userAvatar').textContent = iniciais;
+
+      // Mostrar perfil e esconder botões de autenticação
       authButtons.style.display = 'none';
       profileMenu.style.display = 'flex';
     }
 
+
+    // EXIBIR USUÁRIO DESLOGADO
     function exibirDeslogado() {
       profileMenu.style.display = 'none';
       authButtons.style.display = 'flex';
     }
 
+
+    // VERIFICAR SE EXISTE TOKEN
     if (!token) {
       exibirDeslogado();
       return;
     }
 
+
+    // CARREGAR DADOS SALVOS NO NAVEGADOR
     if (usuarioSalvo) {
       try {
         const salvo = JSON.parse(usuarioSalvo);
+
         exibirLogado(salvo.usuario || salvo);
+
       } catch (error) {
         console.error('Erro ao ler usuário salvo:', error);
       }
     }
 
+
+    // ATUALIZAR DADOS DO USUÁRIO PELA API
     try {
       const resposta = await AgilCertAPI.request('usuarios/me');
+
       const usuarioAtualizado = resposta.usuario || resposta;
 
       if (usuarioAtualizado?.nome) {
-        localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
+        localStorage.setItem(
+          'usuario',
+          JSON.stringify(usuarioAtualizado)
+        );
+
         exibirLogado(usuarioAtualizado);
       }
+
     } catch (error) {
-      console.warn('Não foi possível atualizar os dados do usuário:', error);
-      if (!usuarioSalvo) exibirDeslogado();
+      console.warn(
+        'Não foi possível atualizar os dados do usuário:',
+        error
+      );
+
+      if (!usuarioSalvo) {
+        exibirDeslogado();
+      }
     }
   });
 
-  document.getElementById('sair').addEventListener('click', async () => {
-    const botao = document.getElementById('sair');
-    botao.disabled = true;
-
-    try {
-      await AgilCertAPI.logout();
-    } catch (error) {
-      const mensagem = document.getElementById('mensagem');
-      if (mensagem) mensagem.textContent = error.message;
-      botao.disabled = false;
-    }
-  });
 </script>
 
 </body>

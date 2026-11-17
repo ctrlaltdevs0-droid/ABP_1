@@ -1,4 +1,10 @@
-import { lerJson, responder, idDaRota, falhaBanco } from "../utils/http.js";
+import {
+  falhaBanco,
+  lerJson,
+  responder,
+  tratarErro,
+  idDaRota,
+} from "../utils/http.js";
 
 export async function alternativasRoutes(req, res, pathname, supabase) {
   const base = "/api/alternativas";
@@ -45,7 +51,7 @@ export async function alternativasRoutes(req, res, pathname, supabase) {
 
       return responder(res, 201, data);
     } catch (erro) {
-      return responder(res, 400, { erro: erro.message });
+      return tratarErro(res, erro);
     }
   }
 
@@ -66,7 +72,7 @@ export async function alternativasRoutes(req, res, pathname, supabase) {
 
       return responder(res, 200, data);
     } catch (erro) {
-      return responder(res, 400, { erro: erro.message });
+      return tratarErro(res, erro);
     }
   }
 

@@ -28,8 +28,7 @@ app.get("/api/teste-supabase", async (req, res) => {
       .limit(1);
     if (error) throw error;
     res.json({ status: "ok" });
-  } catch (erro) {
-    console.error("TESTE SUPABASE:", erro);
+  } catch {
     res.status(503).json({ erro: "Banco de dados indisponível." });
   }
 });
@@ -52,8 +51,7 @@ app.use(async (req, res, next) => {
     if (!(await autorizarRota(req, res, pathname, supabase))) return;
     if (await questoesRoutes(req, res, pathname, supabase)) return;
     if (!(await executarRotas(req, res, pathname, supabase))) next();
-    } catch (error) {
-    console.error("ERRO NA ROTA:", req.method, req.originalUrl, error);
+  } catch (error) {
     next(error);
   }
 });
@@ -70,12 +68,11 @@ app.use(async (req, res, next) => {
       return;
     }
     // Executa a rota da prova
-    
-await provaRoutes(req, res, pathname, supabase);
+    await provaRoutes(req, res, pathname, supabase);
 
-if (res.headersSent) {
-  return;
-}
+    if (res.headersSent) {
+      return;
+    }
 
     next();
   } catch (error) {
