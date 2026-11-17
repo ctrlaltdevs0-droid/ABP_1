@@ -166,3 +166,17 @@ O fluxo usa as tabelas e funções já existentes em `backend/database/schema.sq
 não é necessário criar uma nova migração para esta integração. O backend deve estar
 configurado e o banco deve conter o schema do projeto. Os testes de interface e API
 usam dados simulados; os testes reais de PostgreSQL exigem `SECURITY_TEST_CONTAINER`.
+
+
+## Certificado e validação por QR Code
+
+O resultado aprovado e o histórico abrem o certificado da tentativa. A emissão
+consulta a aprovação e o titular no banco; repetir a emissão não duplica registros
+nem reativa certificados revogados. O documento inclui um QR Code que abre
+`validar-certificado.html`, consultando a autenticidade sem exigir login.
+Use **Salvar em PDF** e escolha **Salvar como PDF** na impressão do navegador.
+
+Para leitura do QR Code em outro dispositivo, configure `AGILCERT_PUBLIC_BASE_URL`
+em `frontend/src/assets/js/config.js` com a URL pública ou de rede do site.
+O endereço `localhost` só funciona no computador que executa a aplicação.
+A biblioteca QR está incluída no projeto e não envia dados a serviços externos.

@@ -70,6 +70,8 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return false;
   }
   req.usuario = usuario;
+  // A emissão verifica novamente o titular e a aprovação no banco.
+  if (req.method === 'POST' && /^\/api\/certificados\/tentativas\/[1-9]\d*\/?$/.test(pathname)) return true;
   req.token = token;
 
   // 4. Rotas do usuário autenticado.

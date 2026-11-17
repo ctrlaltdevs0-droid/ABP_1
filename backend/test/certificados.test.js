@@ -107,14 +107,52 @@ test('sem certificado oferece próximos passos e oculta PDF; tentativa específi
     const p = await pagina(search, async path => {
       paths.push(path);
       if (path === 'usuarios/me') return {id:7,nome:'Pessoa'};
+      if (path.startsWith('certificados/tentativas/')) throw Error('Esta tentativa não possui um certificado ativo.');
       return search ? [{idcertificados:3,tentativas_idtentativas:99,ativo:true}] : [];
     });
-    assert.equal(paths.length,2);
+    assert.equal(paths.length,search ? 3 : 2);
     assert.equal(p.el('btn-baixar').hidden,true);
     assert.equal(p.el('container-certificado').hidden,true);
     assert.equal(p.el('certificado-acoes').hidden,false);
     assert.match(p.el('certificado-mensagem').textContent, /certificado ativo/);
   }
+});
+
+test('emissão usa aprovação e titular do banco, é idempotente e não reativa revogados', async () => {
+  const tentativa = {idtentativas:37,usuarios_idusuarios:7,status:'FINALIZADA',aprovado:true,acertos:10,percentual:83.33};
+  const emitido = {idcertificados:1,ativo:true};
+  let registro = tentativa, certificadoAtual = emitido, inserts = 0;
+  const filtros = [];
+  const db = {from(table) {
+    const q = {select(){return q;},eq(key,value){filtros.push([table,key,value]);return q;},
+      async maybeSingle(){return {data:table==='tentativas'?registro:certificadoAtual};},
+      async upsert(data,options){
+        inserts++;
+        assert.equal(data.usuarios_idusuarios,7);
+        assert.equal(data.score,10);
+        assert.deepEqual(options,{onConflict:'tentativas_idtentativas',ignoreDuplicates:true});
+        return {error:null};
+      }};
+    return q;
+  }};
+  const req = {method:'POST',usuario:{id:7},body:{score:12,usuarios_idusuarios:99}};
+  for (let i=0;i<2;i++) {
+    const res = response();
+    await certificadosRoutes(req,res,'/api/certificados/tentativas/37',db);
+    assert.equal(res.statusCode,200);
+    assert.equal(res.body.idcertificados,1);
+  }
+  assert.ok(filtros.some(([table,key,value])=>table==='tentativas'&&key==='usuarios_idusuarios'&&value===7));
+  certificadoAtual={...emitido,ativo:false,revogado_em:'2026-11-17'};
+  const revogado=response();await certificadosRoutes(req,revogado,'/api/certificados/tentativas/37',db);
+  assert.equal(revogado.statusCode,409);
+  const antes=inserts;
+  for (const invalida of [null,{...tentativa,aprovado:false},{...tentativa,status:'EM_ANDAMENTO'}]) {
+    registro=invalida;
+    const res=response();await certificadosRoutes(req,res,'/api/certificados/tentativas/37',db);
+    assert.equal(res.statusCode,invalida?409:404);
+  }
+  assert.equal(inserts,antes);
 });
 
 test('identificador malformado não seleciona outro certificado', async () => {

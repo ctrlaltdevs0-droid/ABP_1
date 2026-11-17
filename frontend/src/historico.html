@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,68 +21,49 @@
   <header class="site-header">
 
     <a href="home.html" class="header-logo">
-      <img
-        src="assets/img/logo-transparente.png"
-        alt="ÁgilCert"
-        width="130"
-      >
+      <img src="assets/img/logo-transparente.png" alt="ÁgilCert" width="130">
     </a>
 
     <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
       <a href="home.html" class="nav-link">Início</a>
       <a href="estudos.html" class="nav-link">Estudos</a>
       <a href="certificacao.html" class="nav-link">Certificação</a>
-      <a href="historico.html" class="nav-link" aria-current="page">Histórico</a>
+      <a href="historico.html" class="nav-link active" aria-current="page">Histórico</a>
       <a href="home.html#sobre-nos" class="nav-link">Sobre nós</a>
     </nav>
 
     <!-- PERFIL DO USUÁRIO -->
-<div class="profile-menu" id="profileMenu">
+    <div class="profile-menu" id="profileMenu">
 
-  <button
-    type="button"
-    class="profile-trigger"
-    id="profileTrigger"
-    aria-expanded="false"
-    aria-controls="userProfileMenu"
-  >
-    <span class="profile-avatar">
-      <img
-        src="assets/img/estudos.png"
-        alt=""
-        class="profile-avatar-img"
-      >
-    </span>
+      <button type="button" class="profile-trigger" id="profileTrigger" aria-expanded="false"
+        aria-controls="userProfileMenu">
+        <span class="profile-avatar account-initials-box" id="userAvatar"></span>
 
-    <span class="profile-name">
-      Olá, <span id="userName">Usuário</span>
-    </span>
+        <span class="profile-name">
+          Olá, <span id="userName">Usuário</span>
+        </span>
 
-    <svg class="chevron" viewBox="0 0 24 24"
-         width="16" height="16" fill="none"
-         stroke="currentColor" stroke-width="2">
-      <path d="m6 9 6 6 6-6"/>
-    </svg>
-  </button>
-
-  <div class="dropdown" id="userProfileMenu">
-
-    <div class="dropdown-header">
-      <span>Conectado como</span>
-      <strong id="dropdownUserName">Usuário</strong>
-    </div>
-
-    <div class="dropdown-body">
-      <a href="perfil.html">Meu Perfil</a>
-      <a href="historico.html">Histórico</a>
-
-      <button type="button" id="sair" class="danger">
-        Sair
+        <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       </button>
-    </div>
 
+      <div class="dropdown">
+        <div class="dropdown-header">
+          <div class="profile-username" id="dropdownUserName">Usuário</div>
+          <div class="profile-greeting">Minha conta</div>
+        </div>
+
+        <div class="dropdown-body">
+          <a href="perfil.html">Meu Perfil</a>
+          <a href="historico.html">Histórico</a>
+          <div class="divider"></div>
+          <button class="danger" type="button" id="sair">Sair</button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
   </header>
 
@@ -126,26 +107,41 @@
 
   </main>
 
-  <script>
+
+<script>
 (() => {
   const profileMenu = document.getElementById('profileMenu');
   const profileTrigger = document.getElementById('profileTrigger');
-  const profileDropdown = document.getElementById('userProfileMenu');
 
   const userName = document.getElementById('userName');
   const dropdownUserName = document.getElementById('dropdownUserName');
+  const userAvatar = document.getElementById('userAvatar');
 
+  // Preencher informações do usuário
   function preencherNome(usuario) {
     if (!usuario) return;
 
     const nome = usuario.nome || usuario.name || 'Usuário';
-    const primeiroNome = nome.trim().split(' ')[0];
+    const partes = nome.trim().split(/\s+/);
 
-    userName.textContent = primeiroNome;
+    // Primeiro nome
+    userName.textContent = partes[0];
+
+    // Nome completo no menu
     dropdownUserName.textContent = nome;
+
+    // Gerar iniciais
+    const iniciais = (
+      partes[0][0] +
+      (partes.length > 1
+        ? partes[partes.length - 1][0]
+        : partes[0].slice(1, 2))
+    ).toUpperCase();
+
+    userAvatar.textContent = iniciais;
   }
 
-  // Carrega o usuário salvo.
+  // Recuperar usuário salvo
   const usuarioSalvo = localStorage.getItem('usuario');
 
   if (usuarioSalvo) {
@@ -157,7 +153,7 @@
     }
   }
 
-  // Atualiza o usuário pela API.
+  // Atualizar informações pela API
   const token = localStorage.getItem('token');
 
   if (token && window.AgilCertAPI) {
@@ -175,7 +171,7 @@
       });
   }
 
-  // Abre e fecha o menu.
+  // Abrir e fechar menu
   profileTrigger.addEventListener('click', event => {
     event.stopPropagation();
 
@@ -184,15 +180,18 @@
     profileTrigger.setAttribute('aria-expanded', String(aberto));
   });
 
-  // Fecha ao clicar fora.
+  // Fechar ao clicar fora
   document.addEventListener('click', event => {
     if (!profileMenu.contains(event.target)) {
       profileMenu.classList.remove('open');
       profileTrigger.setAttribute('aria-expanded', 'false');
     }
   });
+
 })();
 </script>
 
+
 </body>
+
 </html>

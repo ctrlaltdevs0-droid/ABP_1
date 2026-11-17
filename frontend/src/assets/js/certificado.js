@@ -47,6 +47,10 @@
           const disponivel = lista.find(item => item.ativo === true && !item.revogado_em &&
             (!tentativa || String(item.tentativas_idtentativas) === tentativa));
           id = disponivel?.idcertificados;
+          if (!id && tentativa) {
+            const emitido = await api.request(`certificados/tentativas/${tentativa}`, { method: 'POST', body: {} });
+            id = emitido.idcertificados;
+          }
           if (!id) throw new Error(tentativa
             ? 'Esta tentativa não possui um certificado ativo. Consulte o resultado no histórico.'
             : 'Você ainda não possui um certificado ativo. Conclua a certificação com aprovação para emitir o seu.');
