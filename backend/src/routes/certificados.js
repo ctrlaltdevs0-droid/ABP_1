@@ -40,7 +40,7 @@ export async function certificadosRoutes(req, res, pathname, supabase) {
 
     const { data, error } = await supabase
       .from("certificados")
-      .select("*")
+      .select("codigo_validacao,emitido_em,score,percentual,usuarios(nome)")
       .eq("codigo_validacao", codigo)
       .eq("ativo", true)
       .is("revogado_em", null)
@@ -52,7 +52,7 @@ export async function certificadosRoutes(req, res, pathname, supabase) {
     if (!data) {
       return responder(res, 404, {
         valido: false,
-        mensagem: "Certificado não encontrado ou revogado.",
+        erro: "Certificado não encontrado ou revogado.",
       });
     }
 
@@ -60,7 +60,7 @@ export async function certificadosRoutes(req, res, pathname, supabase) {
     return responder(res, 200, {
       valido: true,
       certificado: data,
-    });
+    }, { 'Cache-Control': 'no-store' });
   }
 
   // GET /api/certificados/:id
@@ -70,17 +70,20 @@ export async function certificadosRoutes(req, res, pathname, supabase) {
 
     const { data, error } = await supabase
       .from("certificados")
-      .select("*")
+      .select("*,usuarios(nome)")
       .eq("idcertificados", id)
-      .single();
+      .eq("ativo", true)
+      .is("revogado_em", null)
+      .maybeSingle();
 
-    if (error) {
+    if (error) return falhaBanco(res, error);
+    if (!data) {
       return responder(res, 404, {
         erro: "Certificado não encontrado.",
       });
     }
 
-    return responder(res, 200, data);
+    return responder(res, 200, data, { 'Cache-Control': 'no-store' });
   }
 
   return false;

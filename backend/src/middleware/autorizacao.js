@@ -5,6 +5,8 @@ import { tokenRevogado } from '../services/sessoes.js';
 // A chave Supabase do servidor ignora RLS;
 // por isso, a autorização acontece antes das consultas.
 export async function autorizarRota(req, res, pathname, supabase) {
+  // Somente a consulta por código é pública; IDs continuam protegidos.
+  if (req.method === 'GET' && /^\/api\/certificados\/validar\/[a-f0-9-]{36}\/?$/i.test(pathname)) return true;
   // 1. Leitura pública dos temas.
   if (
     req.method === 'GET' &&

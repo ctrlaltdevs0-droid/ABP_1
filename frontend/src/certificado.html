@@ -186,7 +186,7 @@
                 </h1>
 
                 <p class="page-subtitle">
-                    Você concluiu a trilha e foi aprovada na certificação final.
+                    Consulte os dados e a autenticidade do certificado.
                 </p>
 
             </div>
@@ -196,9 +196,9 @@
                 <button
                     type="button"
                     class="btn btn-primary"
-                    id="btn-baixar">
+                    id="btn-baixar" disabled hidden>
 
-                    Baixar certificado
+                    Salvar em PDF
 
                     <svg
                         width="16"
@@ -223,6 +223,11 @@
         </section>
 
 
+        <p id="certificado-mensagem" role="status" aria-live="polite"></p>
+        <p id="certificado-acoes" hidden>
+            <a href="historico.html">Consultar histórico</a> ·
+            <a href="certificacao.html">Ir para certificação</a>
+        </p>
         <!-- ÁREA DO CERTIFICADO -->
         <div class="content-grid">
 
@@ -230,7 +235,7 @@
 
                 <div
                     id="container-certificado"
-                    class="certificate-slot">
+                    class="certificate-slot" hidden>
 
                     <!-- CERTIFICADO ÁGILCERT -->
                     <div class="certificado">
@@ -275,6 +280,17 @@
                                 id="nomeAluno">
                             </div>
 
+                            <p id="certificado-desempenho"></p>
+                            <p id="certificado-data"></p>
+                            <p id="certificado-codigo"></p>
+                            <div class="certificado-autenticidade">
+                                <img id="certificado-qrcode" width="180" height="180" alt="QR Code para validar a autenticidade do certificado">
+                                <div>
+                                    <strong>Verifique a autenticidade</strong>
+                                    <p>Escaneie o QR Code com a câmera do celular.</p>
+                                    <a id="certificado-validacao">Consultar autenticidade</a>
+                                </div>
+                            </div>
                         </section>
 
                     </div>
@@ -308,7 +324,10 @@
 
 
     <!-- JAVASCRIPT -->
-    <script src="script.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/vendor/qrcode.js"></script>
+    <script src="assets/js/certificado.js"></script>
 
 </body>
 </html>

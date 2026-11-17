@@ -152,3 +152,17 @@ O projeto está sendo desenvolvido de forma incremental, seguindo a metodologia 
 Transformando conhecimento em certificação!
 
 </div>
+## Acesso ao certificado
+
+Após a aprovação, o botão **Gerar certificado** abre o documento emitido pela
+finalização da prova. Também é possível acessá-lo por **Histórico → Ver certificado**.
+A página consulta a API, exibe nome, aproveitamento, emissão e código de validação.
+**Salvar em PDF** abre a impressão do navegador: selecione **Salvar como PDF**.
+O endereço de validação impresso pode ser compartilhado e não exige login.
+Certificados inativos ou revogados não são exibidos. A consulta privada por ID
+continua restrita ao titular (ou administrador).
+
+O fluxo usa as tabelas e funções já existentes em `backend/database/schema.sql`;
+não é necessário criar uma nova migração para esta integração. O backend deve estar
+configurado e o banco deve conter o schema do projeto. Os testes de interface e API
+usam dados simulados; os testes reais de PostgreSQL exigem `SECURITY_TEST_CONTAINER`.
