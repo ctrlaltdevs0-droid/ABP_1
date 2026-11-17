@@ -13,6 +13,12 @@ de `src/config/supabase.js`; não há conexão direta com PostgreSQL na aplicaç
 5. Na pasta `backend`, execute `npm ci` e `npm start` (ou `npm run dev`).
    Todas as dependências ficam no backend; não é necessário instalar na raiz.
 
+O `npm ci` executa automaticamente `postinstall`, copiando a biblioteca
+`qrcode-generator` instalada pelo npm para `frontend/src/assets/js/vendor/qrcode.js`.
+Para repetir a cópia, execute `npm run vendor:copiar` na pasta `backend`.
+O script também é executado na construção da imagem Docker. A versão é fixada
+no `package.json` e no `package-lock.json`; não edite o arquivo gerado em `vendor`.
+
 O carregador lê primeiro `backend/.env`, depois o `.env` da raiz para completar
 valores ausentes, sem depender da pasta do terminal. Variáveis do ambiente têm
 prioridade; hospedagens que as fornecem diretamente não precisam criar um `.env`.
