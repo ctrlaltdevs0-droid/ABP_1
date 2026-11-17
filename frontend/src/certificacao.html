@@ -120,7 +120,7 @@
 
           <!-- COLUNA ESQUERDA: SIDEBAR COM TEMPO E PROGRESSO -->
           <aside class="sidebar-prova">
-            
+
             <!-- CARD DO CRONÔMETRO DE 150s -->
             <div class="card-sidebar card-cronometro">
               <div class="card-sidebar-titulo">
@@ -262,7 +262,7 @@
                 <button id="btnCertificado" type="button" disabled>
                   Gerar certificado
                 </button>
-                <p class="subtexto-certificado">Emissão do certificado em desenvolvimento.</p>
+                <p class="subtexto-certificado">Consulte, valide por QR Code e salve seu certificado em PDF.</p>
               </div>
             </div>
 
@@ -582,8 +582,8 @@
       elemento("areaProva").hidden = true;
       elemento("resultado").hidden = false;
 
-      elemento("tituloResultado").textContent = aprovado 
-        ? "Você foi aprovado(a) com sucesso!" 
+      elemento("tituloResultado").textContent = aprovado
+        ? "Você foi aprovado(a) com sucesso!"
         : "Você não atingiu o mínimo desta vez";
 
       elemento("acertos").textContent = `${acertos} de ${total}`;
@@ -623,7 +623,7 @@
     elemento("btnResponder").addEventListener("click", enviarResposta);
   </script>
 
-  
+
 <script>
   // MENU RESPONSIVO
   const navToggle = document.querySelector('.nav-toggle');
@@ -762,4 +762,5 @@
 
 
 </body>
+
 </html>

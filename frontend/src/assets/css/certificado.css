@@ -1103,3 +1103,30 @@ body {
         font-size: 17px;
     }
 }
+
+[hidden] { display: none !important; }
+#certificado-validacao { overflow-wrap: anywhere; }
+#certificado-codigo { overflow-wrap: anywhere; }
+@page { size: A4 landscape; margin: 10mm; }
+@media print {
+  body { background: white; min-height: 0; }
+  .site-header, .breadcrumb, .page-header, .footer, #certificado-mensagem { display: none !important; }
+  .main-content, .content-grid, .certificate-wrapper, .certificate-slot { width: 100%; max-width: none; margin: 0; padding: 0; min-height: 0; }
+  .certificado { min-height: 0; padding: 8mm; break-inside: avoid; box-shadow: none; }
+  .certificado-conteudo { margin-top: 8mm; }
+  .certificado-conteudo h2 { font-size: 30pt; }
+  .certificado-nome-aluno { font-size: 22pt; overflow-wrap: anywhere; }
+  .certificado-descricao { margin-top: 4mm; }
+  #certificado-validacao { font-size: 9pt; }
+}
+.certificado-autenticidade { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 18px; text-align: left; break-inside: avoid; }
+#certificado-qrcode { display: block; flex: 0 0 auto; width: 180px; height: 180px; background: white; }
+@media (max-width: 600px) { .certificado-autenticidade { flex-direction: column; text-align: center; } }
+@media print {
+  .certificado-autenticidade { flex-direction: row; margin-top: 3mm; font-size: 10pt; }
+  #certificado-qrcode { width: 34mm; height: 34mm; }
+  .certificado-conteudo { margin-top: 3mm; }
+  .certificado-subtitulo { margin-bottom: 2mm; }
+  .certificado-nome-aluno { min-height: 0; }
+  #certificado-acoes { display: none !important; }
+}

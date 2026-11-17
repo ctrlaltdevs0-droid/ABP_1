@@ -181,6 +181,13 @@
     const situacao = document.getElementById('situacao');
     if (acertos) acertos.textContent = `${dados.resultado.acertos} de ${dados.resultado.total}`;
     if (situacao) situacao.textContent = dados.resultado.aprovado ? 'APROVADO' : 'NÃO APROVADO';
+    const area = document.getElementById('areaCertificado');
+    const certificado = document.getElementById('btnCertificado');
+    if (area) area.hidden = !dados.resultado.aprovado;
+    if (certificado) {
+      certificado.disabled = !dados.resultado.aprovado;
+      certificado.onclick = () => window.location.assign(`certificado.html?tentativa=${tentativa}`);
+    }
     mensagem('Certificação finalizada.');
   }));
   function atualizarTempo() {
