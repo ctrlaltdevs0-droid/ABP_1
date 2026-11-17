@@ -5,6 +5,7 @@ import { tokenRevogado } from '../services/sessoes.js';
 // A chave Supabase do servidor ignora RLS;
 // por isso, a autorização acontece antes das consultas.
 export async function autorizarRota(req, res, pathname, supabase) {
+  if (req.method === 'GET' && /^\/api\/certificados\/validar\/[a-f0-9-]{36}\/?$/i.test(pathname)) return true;
   // 1. Leitura pública dos temas.
   if (
     req.method === 'GET' &&
@@ -68,6 +69,8 @@ export async function autorizarRota(req, res, pathname, supabase) {
     return false;
   }
   req.usuario = usuario;
+  // A emissão verifica novamente o titular e a aprovação no banco.
+  if (req.method === 'POST' && /^\/api\/certificados\/tentativas\/[1-9]\d*\/?$/.test(pathname)) return true;
   req.token = token;
 
   // 4. Rotas do usuário autenticado.

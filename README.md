@@ -83,3 +83,16 @@ O `.env` do Supabase remoto e o banco local antigo não são alterados.
 Veja [arquitetura e reprodução](docs/geral/ARQUITETURA_EXECUCAO.md),
 [correções da devolutiva](docs/sprint-1/CORRECOES_DEVOLUTIVA.md) e
 [Review, retrospectiva e DoD](docs/sprint-1/REVIEW_RETROSPECTIVA_DOD.md).
+
+## Certificado e validação por QR Code
+
+O resultado aprovado e o histórico abrem o certificado da tentativa. A emissão
+consulta a aprovação e o titular no banco; repetir a emissão não duplica registros
+nem reativa certificados revogados. O documento inclui um QR Code que abre
+`validar-certificado.html`, consultando a autenticidade sem exigir login.
+Use **Salvar em PDF** e escolha **Salvar como PDF** na impressão do navegador.
+
+Para leitura do QR Code em outro dispositivo, configure `AGILCERT_PUBLIC_BASE_URL`
+em `frontend/src/assets/js/config.js` com a URL pública ou de rede do site.
+O endereço `localhost` só funciona no computador que executa a aplicação.
+A biblioteca QR está incluída no projeto e não envia dados a serviços externos.

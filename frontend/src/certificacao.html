@@ -259,7 +259,7 @@
                 <button id="btnCertificado" type="button" disabled>
                   Gerar certificado
                 </button>
-                <p class="subtexto-certificado">Emissão do certificado em desenvolvimento.</p>
+                <p class="subtexto-certificado">Consulte, valide por QR Code e salve seu certificado em PDF.</p>
               </div>
             </div>
 
@@ -592,6 +592,10 @@
       elemento("situacao").style.color = aprovado ? "#15803d" : "#b91c1c";
 
       elemento("areaCertificado").hidden = !aprovado;
+      elemento("btnCertificado").disabled = !aprovado;
+      elemento("btnCertificado").onclick = () => {
+        window.location.assign(`certificado.html?tentativa=${tentativaId}`);
+      };
     }
 
     // VERIFICAR PROVA EM ANDAMENTO

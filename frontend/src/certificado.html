@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ÁgilCert | Certificação Final</title>
+
+    <link rel="stylesheet" href="assets/css/certificado.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO DO SITE -->
+    <header class="site-header">
+
+        <a href="home.html">
+            <img
+                class="header-logo"
+                src="assets/img/logo-transparente.png"
+                alt="ÁgilCert">
+        </a>
+
+        <!-- MENU MOBILE -->
+        <button
+            class="nav-toggle"
+            type="button"
+            aria-controls="main-nav"
+            aria-expanded="false">
+            Menu
+        </button>
+
+        <!-- NAVEGAÇÃO -->
+        <nav
+            id="main-nav"
+            class="header-nav"
+            aria-label="Navegação principal">
+
+            <a class="nav-link" href="home.html">Início</a>
+
+            <a class="nav-link" href="estudos.html">Estudos</a>
+
+            <a
+                class="nav-link active"
+                href="certificacao.html"
+                aria-current="page">
+                Certificação
+            </a>
+
+            <a class="nav-link" href="historico.html">Histórico</a>
+
+            <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
+
+        </nav>
+
+        <!-- AÇÕES DO CABEÇALHO -->
+        <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
+
+            <!-- USUÁRIO DESLOGADO -->
+            <div
+                id="authButtons"
+                style="display:none; gap:16px; align-items:center;">
+
+                <a href="login.html" class="nav-link">Entrar</a>
+
+                <a href="cadastro.html" class="nav-link">Cadastrar</a>
+
+            </div>
+
+            <!-- MENU DO PERFIL -->
+            <div
+                class="profile-menu"
+                id="profileMenu"
+                style="display:none;">
+
+                <button
+                    class="profile-trigger"
+                    type="button"
+                    id="profileTrigger"
+                    aria-expanded="false"
+                    aria-label="Menu do perfil">
+
+                    <img
+                        src="assets/img/estudos.png"
+                        alt="Foto de perfil"
+                        class="profile-avatar-img"
+                        id="userAvatar">
+
+                    <span class="profile-name">
+                        Olá, <span id="userName">Usuário</span>
+                    </span>
+
+                    <span class="chevron">▼</span>
+
+                </button>
+
+                <!-- MENU SUSPENSO -->
+                <div class="dropdown">
+
+                    <div class="dropdown-header">
+
+                        <div
+                            class="profile-username"
+                            id="dropdownUserName">
+                            Usuário
+                        </div>
+
+                        <div class="profile-greeting">
+                            Minha conta
+                        </div>
+
+                    </div>
+
+                    <div class="dropdown-body">
+
+                        <a href="perfil.html">Meu Perfil</a>
+
+                        <a href="historico.html">Histórico</a>
+
+                        <div class="divider"></div>
+
+                        <button
+                            class="danger"
+                            type="button"
+                            id="sair">
+                            Sair
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-content">
+
+        <!-- BREADCRUMB -->
+        <div class="breadcrumb">
+
+            <a href="estudos.html" class="back-link">
+
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2">
+
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+
+                    <polyline points="12 19 5 12 12 5"></polyline>
+
+                </svg>
+
+                Área de estudos
+
+            </a>
+
+            <span class="separator">/</span>
+
+            <span>Certificação final</span>
+
+            <span class="separator">/</span>
+
+            <span class="current">Certificado</span>
+
+        </div>
+
+
+        <!-- TÍTULO DA PÁGINA E BOTÕES -->
+        <section class="page-header">
+
+            <div class="header-info">
+
+                <h1 class="page-title" id="page-title">
+                    Seu certificado
+                </h1>
+
+                <p class="page-subtitle">
+                    Consulte os dados e a autenticidade do certificado.
+                </p>
+
+            </div>
+
+            <div class="header-actions">
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="btn-baixar" disabled hidden>
+
+                    Salvar em PDF
+
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2">
+
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+
+                        <polyline points="7 10 12 15 17 10"></polyline>
+
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+
+                    </svg>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <p id="certificado-mensagem" role="status" aria-live="polite"></p>
+        <p id="certificado-acoes" hidden>
+            <a href="historico.html">Consultar histórico</a> ·
+            <a href="certificacao.html">Ir para certificação</a>
+        </p>
+        <!-- ÁREA DO CERTIFICADO -->
+        <div class="content-grid">
+
+            <section class="certificate-wrapper">
+
+                <div
+                    id="container-certificado"
+                    class="certificate-slot" hidden>
+
+                    <!-- CERTIFICADO ÁGILCERT -->
+                    <div class="certificado">
+
+                        <!-- CABEÇALHO DO CERTIFICADO -->
+                        <div class="certificado-cabecalho">
+
+                            <!-- LOGOTIPO ORIGINAL -->
+                            <img
+                                src="assets/img/logo.png"
+                                alt="ÁgilCert"
+                                class="certificado-logo">
+
+                            <!-- IDENTIFICAÇÃO -->
+                            <p class="certificado-identificacao">
+                                CERTIFICAÇÃO <span>•</span> ÁGILCERT
+                            </p>
+
+                        </div>
+
+
+                        <!-- CONTEÚDO DO CERTIFICADO -->
+                        <section class="certificado-conteudo">
+
+                            <p class="certificado-subtitulo">
+                                CERTIFICADO
+                            </p>
+
+                            <h2>
+                                Metodologias Ágeis
+                            </h2>
+
+                            <div class="certificado-detalhe"></div>
+
+                            <p class="certificado-descricao">
+                                A ÁgilCert certifica que
+                            </p>
+
+                            <!-- NOME DO ALUNO -->
+                            <div
+                                class="certificado-nome-aluno"
+                                id="nomeAluno">
+                            </div>
+
+                            <p id="certificado-desempenho"></p>
+                            <p id="certificado-data"></p>
+                            <p id="certificado-codigo"></p>
+                            <div class="certificado-autenticidade">
+                                <img id="certificado-qrcode" width="180" height="180" alt="QR Code para validar a autenticidade do certificado">
+                                <div>
+                                    <strong>Verifique a autenticidade</strong>
+                                    <p>Escaneie o QR Code com a câmera do celular.</p>
+                                    <a id="certificado-validacao">Consultar autenticidade</a>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                    <!-- FIM DO CERTIFICADO -->
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <span class="footer-copy">
+                ÁgilCert • Aprenda no seu ritmo.
+            </span>
+
+            <a href="#ajuda" class="footer-link">
+                Precisa de ajuda?
+            </a>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/vendor/qrcode.js"></script>
+    <script src="assets/js/certificado.js"></script>
+
+</body>
+</html>

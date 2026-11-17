@@ -56,6 +56,12 @@
         botao.textContent = 'Ver questões';
         botao.addEventListener('click', () => detalhar(tentativa.idtentativas));
         acoes.append(botao);
+        if (tentativa.aprovado) {
+          const certificado = document.createElement('a');
+          certificado.href = `certificado.html?tentativa=${tentativa.idtentativas}`;
+          certificado.textContent = ' Ver certificado';
+          acoes.append(certificado);
+        }
       }
       linha.append(acoes);
 

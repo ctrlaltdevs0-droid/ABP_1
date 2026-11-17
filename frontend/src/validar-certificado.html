@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÁgilCert | Validar certificado</title>
+  <link rel="stylesheet" href="assets/css/validar-certificado.css">
+</head>
+<body>
+  <main>
+    <a href="home.html"><img class="logo" src="assets/img/logo.png" alt="ÁgilCert"></a>
+    <h1>Autenticidade do certificado</h1>
+    <p>Consulte o registro oficial do certificado. Não é necessário entrar em uma conta.</p>
+    <form id="validacao-form">
+      <label for="codigo">Código de validação</label>
+      <input id="codigo" name="codigo" required maxlength="36" autocomplete="off" spellcheck="false">
+      <button id="validar" type="submit">Validar certificado</button>
+    </form>
+    <p id="validacao-status" role="status" aria-live="polite"></p>
+    <section id="validacao-dados" hidden aria-label="Dados do certificado válido">
+      <h2>Certificado válido</h2>
+      <dl>
+        <dt>Titular</dt><dd id="validacao-nome"></dd>
+        <dt>Certificação</dt><dd>Metodologias Ágeis</dd>
+        <dt>Aproveitamento</dt><dd id="validacao-percentual"></dd>
+        <dt>Emissão</dt><dd id="validacao-data"></dd>
+      </dl>
+    </section>
+  </main>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/validar-certificado.js"></script>
+</body>
+</html>
