@@ -108,9 +108,74 @@ body {
   border: 1px solid #FDE68A;
 }
 
+
 /* =========================================================
-   MENU DE PERFIL "OLÁ, USUÁRIO" (GARANTIDO VISÍVEL EM TODAS AS TELAS)
+   1. HEADER DA APLICAÇÃO E MENU "OLÁ, USUÁRIO"
 ========================================================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  gap: 16px;
+}
+
+.header-logo {
+  height: 100px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* NAVEGAÇÃO DO HEADER */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: 40px;
+}
+
+.nav-link {
+  font: 500 17px "Inter", sans-serif;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background .15s, color .15s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: #EFF6FF;
+  color: var(--primary);
+}
+
+/* ÁREA DE AUTENTICAÇÃO */
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-actions-custom {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.auth-buttons-custom {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* MENU DE PERFIL */
 .profile-menu {
   margin-left: auto;
   position: relative;
@@ -123,19 +188,18 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #FFFFFF;
+  background: none;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 6px 12px;
   cursor: pointer;
   font: 500 13px "Inter", sans-serif;
   color: var(--text);
-  transition: background .15s, border-color .15s;
+  transition: background .15s;
 }
 
 .profile-trigger:hover {
   background: var(--background);
-  border-color: #CBD5E1;
 }
 
 .profile-avatar {
@@ -161,22 +225,33 @@ body {
   fill: #94A3B8;
 }
 
+.account-initials-span {
+  display: grid !important;
+  place-items: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background-color: #E2E8F0 !important;
+  color: #0F766E !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+  flex-shrink: 0 !important;
+  border: 1px solid var(--border) !important;
+}
+
 .profile-name {
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
-  display: inline-block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
 .profile-name span {
   color: var(--text);
-  font-weight: 500;
 }
+
 .chevron {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
   transition: transform .2s;
   margin-left: 2px;
@@ -186,7 +261,7 @@ body {
   transform: rotate(180deg);
 }
 
-/* DROPDOWN FLUTUANTE DA CONTA */
+/* DROPDOWN */
 .dropdown {
   display: none;
   position: absolute;
@@ -196,7 +271,7 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
   overflow: hidden;
   animation: dropIn .15s ease;
   z-index: 101;
@@ -207,6 +282,7 @@ body {
     opacity: 0;
     transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -220,14 +296,12 @@ body {
 .dropdown-header {
   padding: 16px;
   border-bottom: 1px solid var(--border);
-  background: #F8FAFC;
 }
 
 .dropdown-header .profile-username {
   font: 600 14px "Inter", sans-serif;
   color: var(--text);
 }
-
 
 .dropdown-header .profile-greeting {
   font: 400 12px "Inter", sans-serif;
@@ -245,7 +319,7 @@ body {
   width: 100%;
   text-align: left;
   padding: 10px 16px;
-  font: 600 13px "Inter", sans-serif;
+  font: 400 13px "Inter", sans-serif;
   color: var(--text-secondary);
   text-decoration: none;
   background: none;
@@ -274,6 +348,7 @@ body {
   color: #DC2626;
   background: var(--background);
 }
+
 
 /* =========================================================
    2. BANNER E CABEÇALHO DA PÁGINA
