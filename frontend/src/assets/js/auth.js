@@ -18,7 +18,35 @@ function showFeedback(message, type = "error") {
   box.className = `feedback show ${type}`;
 }
 
-// --- 2. Gerenciamento do Cadastro e Login ---
+// --- 2. Evitar envio duplicado ---
+// Enquanto o pedido está a caminho do servidor, o botão fica desativado e
+// novos envios do mesmo formulário (clique duplo ou Enter) são ignorados.
+function iniciarEnvio(form) {
+  if (form.dataset.enviando === "true") return false;
+  form.dataset.enviando = "true";
+  form.setAttribute("aria-busy", "true");
+
+  const botao = form.querySelector('button[type="submit"]');
+  if (botao) {
+    botao.dataset.textoOriginal = botao.textContent;
+    botao.textContent = "Aguarde...";
+    botao.disabled = true;
+  }
+  return true;
+}
+
+function encerrarEnvio(form) {
+  delete form.dataset.enviando;
+  form.removeAttribute("aria-busy");
+
+  const botao = form.querySelector('button[type="submit"]');
+  if (botao) {
+    botao.textContent = botao.dataset.textoOriginal || botao.textContent;
+    botao.disabled = false;
+  }
+}
+
+// --- 3. Gerenciamento do Cadastro e Login ---
 document.addEventListener("DOMContentLoaded", () => {
   const authFormArea = document.querySelector(".auth-form-area");
   const registerForm = document.getElementById("registerForm");
@@ -46,6 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         return;
       }
+
+      if (!iniciarEnvio(registerForm)) return;
 
       try {
         const data = await window.AgilCertAPI.request("login/cadastro", {
@@ -94,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (error) {
         console.error("Erro no cadastro:", error);
         showFeedback(error.message || "Erro ao realizar cadastro.", "error");
+        encerrarEnvio(registerForm);
       }
     });
   }
@@ -108,6 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const cpf = document.getElementById("cpf")?.value.trim() || "";
       const senha = document.getElementById("senha")?.value || "";
+
+      if (!iniciarEnvio(loginForm)) return;
 
       try {
         const data = await window.AgilCertAPI.request("login/entrar", {
@@ -132,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (error) {
         console.error("Erro no login:", error);
         showFeedback(error.message || "Erro ao realizar login.", "error");
+        encerrarEnvio(loginForm);
       }
     });
   }

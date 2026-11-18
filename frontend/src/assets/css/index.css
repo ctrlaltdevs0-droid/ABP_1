@@ -213,6 +213,12 @@ input {
     margin: 25px auto 10px;
 }
 
+/* Botão desativado enquanto o login ou o cadastro é enviado */
+.auth-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
 .auth-footer {
     text-align: center;
 
