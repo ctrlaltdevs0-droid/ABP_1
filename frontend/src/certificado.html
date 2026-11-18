@@ -16,10 +16,10 @@
     <!-- CABEÇALHO DO SITE -->
     <header class="site-header">
 
-        <a href="home.html">
+        <a href="home.html" class="logo-link">
             <img
                 class="header-logo"
-                src="assets/img/logo-transparente.png"
+                src="assets/img/certificado/marca.png"
                 alt="ÁgilCert">
         </a>
 
@@ -40,12 +40,11 @@
 
             <a class="nav-link" href="home.html">Início</a>
 
-            <a class="nav-link" href="estudos.html">Estudos</a>
+            <a class="nav-link active" href="estudos.html">Estudos</a>
 
             <a
-                class="nav-link active"
-                href="certificacao.html"
-                aria-current="page">
+                class="nav-link"
+                href="certificacao.html">
                 Certificação
             </a>
 
@@ -56,7 +55,7 @@
         </nav>
 
         <!-- AÇÕES DO CABEÇALHO -->
-        <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
+        <div class="header-actions">
 
             <!-- USUÁRIO DESLOGADO -->
             <div
@@ -92,7 +91,7 @@
                         Olá, <span id="userName">Usuário</span>
                     </span>
 
-                    <span class="chevron">▼</span>
+                    <img src="assets/img/certificado/chevron.svg" alt="">
 
                 </button>
 
@@ -147,19 +146,7 @@
 
             <a href="estudos.html" class="back-link">
 
-                <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-
-                    <polyline points="12 19 5 12 12 5"></polyline>
-
-                </svg>
+                <img src="assets/img/certificado/voltar.svg" alt="">
 
                 Área de estudos
 
@@ -193,28 +180,15 @@
 
             <div class="header-actions">
 
+                <a class="btn btn-secondary" id="btn-validar" hidden>Validar certificado <img src="assets/img/certificado/externo.svg" alt=""></a>
                 <button
                     type="button"
                     class="btn btn-primary"
                     id="btn-baixar" disabled hidden>
 
-                    Salvar em PDF
+                    Baixar certificado
 
-                    <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2">
-
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-
-                        <polyline points="7 10 12 15 17 10"></polyline>
-
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-
-                    </svg>
+                    <img src="assets/img/certificado/baixar.svg" alt="">
 
                 </button>
 
@@ -228,78 +202,63 @@
             <a href="historico.html">Consultar histórico</a> ·
             <a href="certificacao.html">Ir para certificação</a>
         </p>
-        <!-- ÁREA DO CERTIFICADO -->
-        <div class="content-grid">
-
-            <section class="certificate-wrapper">
-
-                <div
-                    id="container-certificado"
-                    class="certificate-slot" hidden>
-
-                    <!-- CERTIFICADO ÁGILCERT -->
-                    <div class="certificado">
-
-                        <!-- CABEÇALHO DO CERTIFICADO -->
-                        <div class="certificado-cabecalho">
-
-                            <!-- LOGOTIPO ORIGINAL -->
-                            <img
-                                src="assets/img/logo.png"
-                                alt="ÁgilCert"
-                                class="certificado-logo">
-
-                            <!-- IDENTIFICAÇÃO -->
-                            <p class="certificado-identificacao">
-                                CERTIFICAÇÃO <span>•</span> ÁGILCERT
-                            </p>
-
-                        </div>
-
-
-                        <!-- CONTEÚDO DO CERTIFICADO -->
-                        <section class="certificado-conteudo">
-
-                            <p class="certificado-subtitulo">
-                                CERTIFICADO
-                            </p>
-
-                            <h2>
-                                Metodologias Ágeis
-                            </h2>
-
-                            <div class="certificado-detalhe"></div>
-
-                            <p class="certificado-descricao">
-                                A ÁgilCert certifica que
-                            </p>
-
-                            <!-- NOME DO ALUNO -->
-                            <div
-                                class="certificado-nome-aluno"
-                                id="nomeAluno">
-                            </div>
-
-                            <p id="certificado-desempenho"></p>
-                            <p id="certificado-data"></p>
-                            <p id="certificado-codigo"></p>
-                            <div class="certificado-autenticidade">
-                                <img id="certificado-qrcode" width="180" height="180" alt="QR Code para validar a autenticidade do certificado">
-                                <div>
-                                    <strong>Verifique a autenticidade</strong>
-                                    <p>Escaneie o QR Code com a câmera do celular.</p>
-                                    <a id="certificado-validacao">Consultar autenticidade</a>
-                                </div>
-                            </div>
-                        </section>
-
-                    </div>
-                    <!-- FIM DO CERTIFICADO -->
-
+        <div id="container-certificado" hidden>
+            <section class="approval-summary" aria-label="Resumo da aprovação">
+                <div class="approval-status">
+                    <span class="approval-icon" aria-hidden="true"><img src="assets/img/certificado/aprovado.svg" alt=""></span>
+                    <span class="approval-label">Aprovado</span>
                 </div>
-
+                <div><strong>12 de 12</strong><span>temas avaliados</span></div>
+                <div><strong id="resumo-acertos"></strong><span>acertos na prova final</span></div>
+                <div><strong id="resumo-percentual"></strong><span>aproveitamento</span></div>
+                <div><strong>65%</strong><span>mínimo para aprovação</span></div>
             </section>
 
+            <div class="content-grid">
+                <article class="certificado">
+                    <div class="certificado-cabecalho">
+                        <span class="certificado-logo"><img src="assets/img/certificado/marca.png" alt="ÁgilCert"></span>
+                        <p class="certificado-identificacao">CERTIFICAÇÃO • ÁGILCERT</p>
+                    </div>
+                    <header class="certificado-titulo">
+                        <p class="certificado-subtitulo">CERTIFICADO</p>
+                        <h2>Metodologias Ágeis</h2>
+                        <div class="certificado-detalhe"></div>
+                    </header>
+                    <section class="certificado-conteudo">
+                        <p>A ÁgilCert certifica que</p>
+                        <p class="certificado-nome-aluno" id="nomeAluno"></p>
+                        <p id="certificado-desempenho"></p>
+                    </section>
+                    <div class="certificado-autenticidade">
+                        <div class="certificado-registro">
+                            <p id="certificado-data"></p>
+                            <p id="certificado-codigo"></p>
+                            <a id="certificado-validacao">Consultar autenticidade</a>
+                        </div>
+                        <figure>
+                            <img id="certificado-qrcode" width="111" height="111" alt="QR Code de validação do certificado">
+                            <figcaption>ESCANEIE PARA VALIDAR</figcaption>
+                        </figure>
+                    </div>
+                </article>
+
+                <aside class="authenticity-card">
+                    <h2><img src="assets/img/certificado/escudo.svg" alt=""> Autenticidade</h2>
+                    <p>Validar certificado abre a página pública de consulta, sem exigir login.</p>
+                    <div class="authenticity-code">
+                        <a id="painel-validacao">/validar-certificado</a>
+                        <p>Ou informe o código: <span id="painel-codigo"></span></p>
+                    </div>
+                    <p class="authenticity-note">A consulta exibe nome, formação, data, identificador, resultado e situação do certificado.</p>
+                    <p class="authenticity-note">Você também pode escanear o QR Code com a câmera do celular.</p>
+                </aside>
+            </div>
+
+            <div class="certificate-history" id="certificado-historico">
+                <p>Consulte sua certificação novamente pelo histórico.</p>
+                <a href="historico.html" class="btn btn-secondary">Ver histórico de certificação</a>
+            </div>
         </div>
 
     </main>

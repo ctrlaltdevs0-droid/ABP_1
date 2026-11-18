@@ -34,9 +34,11 @@
         if (!localStorage.getItem('token')) { window.location.replace('login.html'); return; }
         const perfil = await api.request('usuarios/me');
         const usuario = perfil.usuario || perfil;
-        el('userName').textContent = usuario.nome;
+        const primeiroNome = usuario.nome.trim().split(/\s+/)[0];
+        el('userName').textContent = primeiroNome;
         el('dropdownUserName').textContent = usuario.nome;
         el('profileMenu').style.display = 'flex';
+        el('page-title').textContent = `Seu certificado, ${primeiroNome}`;
         let id = parametros.get('id');
         const tentativa = parametros.get('tentativa');
         if (parametros.has('id') && !/^[1-9]\d*$/.test(id || '')) throw new Error('Identificador do certificado inválido.');
@@ -58,25 +60,34 @@
         if (!/^[1-9]\d*$/.test(String(id || ''))) throw new Error('Certificado não encontrado. Acesse pelo resultado da prova ou pelo histórico.');
         certificado = await api.request(`certificados/${id}`);
       }
+      const percentual = Number(certificado.percentual).toLocaleString('pt-BR', { maximumFractionDigits: 1 });
       el('nomeAluno').textContent = certificado.usuarios?.nome || '';
-      el('certificado-desempenho').textContent = `Concluiu a certificação em Metodologias Ágeis com ${Number(certificado.percentual).toLocaleString('pt-BR')}% de aproveitamento.`;
-      el('certificado-data').textContent = `Emitido em ${new Date(certificado.emitido_em).toLocaleDateString('pt-BR')}.`;
+      el('resumo-acertos').textContent = `${certificado.score} de 12`;
+      el('resumo-percentual').textContent = `${percentual}%`;
+      el('certificado-historico').hidden = Boolean(codigo);
+      el('certificado-desempenho').textContent = `obteve aprovação na certificação final de metodologias ágeis, com ${certificado.score} acertos em 12 questões e aproveitamento de ${percentual}%. O mínimo para aprovação é de 65%.`;
+      const emissao = new Date(certificado.emitido_em);
+      el('certificado-data').textContent = `Emitido em ${emissao.toLocaleDateString('pt-BR')} às ${emissao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
       const basePublica = window.AGILCERT_PUBLIC_BASE_URL?.trim();
       const validacao = new URL('validar-certificado.html', basePublica ? `${basePublica.replace(/\/+$/, '')}/` : window.location.href);
       if (!['https:', 'http:'].includes(validacao.protocol)) throw new Error('Endereço público de validação inválido.');
       validacao.searchParams.set('codigo', certificado.codigo_validacao);
-      el('certificado-validacao').href = validacao.href;
-      el('certificado-validacao').textContent = 'Consultar autenticidade';
+      for (const id of ['certificado-validacao', 'btn-validar', 'painel-validacao']) {
+        el(id).href = validacao.href;
+      }
+      el('painel-codigo').textContent = certificado.codigo_validacao;
       const qr = qrcode(0, 'M');
       qr.addData(validacao.href);
       qr.make();
       el('certificado-qrcode').src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(qr.createSvgTag(4, 16))}`;
-      el('certificado-codigo').textContent = `Código: ${certificado.codigo_validacao}`;
+      el('certificado-codigo').textContent = `Código de validação: ${certificado.codigo_validacao}`;
       el('container-certificado').hidden = false;
       el('btn-baixar').disabled = false;
       el('btn-baixar').hidden = false;
-      informar('Certificado validado. A autenticidade pode ser consultada pelo QR Code. Para baixar, escolha “Salvar como PDF” na janela de impressão.' +
-        (['localhost', '127.0.0.1', '[::1]'].includes(validacao.hostname) ? ' Para leitura pelo celular, configure o endereço público do site em assets/js/config.js.' : ''));
+      el('btn-validar').hidden = false;
+      informar(['localhost', '127.0.0.1', '[::1]'].includes(validacao.hostname)
+        ? 'Para ler o QR Code pelo celular, configure o endereço público do site em assets/js/config.js.'
+        : '');
     } catch (erro) {
       if (!codigo && !localStorage.getItem('token')) { window.location.replace('login.html'); return; }
       informar(erro.message || 'Não foi possível consultar o certificado.');
