@@ -7,7 +7,7 @@
 
 Este documento explica como executar o portal, como o banco é carregado, como rodar os testes e o que cada funcionalidade faz hoje. O que ainda não está pronto aparece em [Limitações conhecidas](#limitações-conhecidas).
 
-As funcionalidades foram conferidas no código e nos testes automatizados. A conferência manual no navegador faz parte do teste completo do sistema (PB-063, #94).
+As funcionalidades foram conferidas no código, nos testes automatizados e, em 18/11/2026, no navegador, com o ambiente completo do Docker (seção 5). O teste completo do sistema continua sendo a PB-063 (#94).
 
 ## 1. Visão geral
 
@@ -42,6 +42,17 @@ docker compose --env-file .env.compose up --build -d
 ```
 
 Depois, abra <http://localhost:3000>.
+
+**No Windows:** os scripts `.sh` que rodam dentro dos containers precisam do fim de linha do Linux (LF). O arquivo `.gitattributes` da raiz garante isso em um clone novo. Em um clone feito antes dele, o serviço `database` falha com "cannot execute: required file not found"; nesse caso, apague os três arquivos e baixe-os de novo:
+
+```bash
+rm infra/00-roles.sh infra/migrate.sh scripts/validar-seguranca.sh
+git checkout -- infra/00-roles.sh infra/migrate.sh scripts/validar-seguranca.sh
+docker compose --env-file .env.compose down -v
+docker compose --env-file .env.compose up --build -d
+```
+
+O `down -v` apaga o volume do banco **local**, necessário porque os usuários do banco só são criados na primeira inicialização.
 
 O que cada comando faz:
 
@@ -140,7 +151,7 @@ npm run seed:gerar
 | Comando | O que testa | Precisa de |
 |---|---|---|
 | `npm test` (na pasta `backend`) | API, autorização, sessão, estudos, prova, histórico, certificado, validação pública e carga de conteúdo, com o banco simulado | Node.js |
-| `bash scripts/validar-seguranca.sh` (na raiz) | Regras da prova direto em um PostgreSQL temporário: concorrência, tempo, permissões e senha | Docker e Bash (no Windows, Git Bash) |
+| `bash scripts/validar-seguranca.sh` (na raiz) | Regras da prova direto em um PostgreSQL temporário: concorrência, tempo, permissões e senha | Docker e Bash. No Git Bash do Windows, use `MSYS_NO_PATHCONV=1 bash scripts/validar-seguranca.sh`; sem isso, o Git Bash converte os caminhos Linux e o Docker recusa o comando |
 | `node scripts/validar-container.mjs` (na raiz) | Cadastro, login, temas, estudos e logout no ambiente do Docker em execução | Ambiente da seção 2.1 no ar |
 
 ### Evidência de 17/11/2026, repetida em 18/11/2026
@@ -158,7 +169,31 @@ Os três testes ignorados são os que exigem PostgreSQL em Docker. Eles não con
 
 Dos 39 testes, 11 são do certificado e da validação pública: emissão somente para tentativa aprovada do próprio usuário, emissão repetida sem duplicar, certificado revogado não exibido e validação por código sem login.
 
-**Não executados nesta verificação:** `validar-seguranca.sh`, `validar-container.mjs` e a subida do ambiente pelo Docker Compose, porque o Docker Desktop não estava em execução na máquina usada. Esses três itens precisam ser executados e registrados aqui antes da apresentação. A evidência anterior de testes está em [Validação técnica da Sprint 2](../sprint-2/evidencias/VALIDACAO_SPRINT_2.md).
+### Evidência do ambiente Docker, 18/11/2026
+
+Executado no Windows 11, com Docker 28.3.2, a partir da `main` no commit `202d62f` e com o `.gitattributes` desta entrega.
+
+| Verificação | Resultado |
+|---|---|
+| Subida pelo Docker Compose | ✅ os cinco serviços subiram; `migrate` terminou com sucesso. Sem o `.gitattributes`, o serviço `database` falhou (seção 2.1) |
+| Carga do banco | ✅ "Carga validada: 12 temas, 12 materiais, 48 questões, 192 alternativas" |
+| Páginas e API | ✅ as oito páginas, a biblioteca do QR Code e `/api/temas` responderam 200 |
+| `node scripts/validar-container.mjs` | ⚠️ aprovou banco, cadastro, login, perfil, 12 temas e material de cada tema; parou ao concluir um tema (409), porque o script não responde ao quiz antes, e o portal exige 3 acertos |
+| Fluxo de estudos completado pela API | ✅ 6 de 6: conclusão bloqueada sem 3 acertos, quiz, conclusão única do tema, progresso, logout com token revogado e novo login com progresso salvo |
+| `MSYS_NO_PATHCONV=1 bash scripts/validar-seguranca.sh` | ⚠️ continuidade aprovada; testes de banco com 2 de 3 aprovados. O terceiro para na primeira verificação, que espera as questões em rascunho, mas a carga as deixa aprovadas desde 05/11. Com essa verificação ajustada só no ambiente de teste, 3 de 3 aprovados |
+
+**Teste no navegador** (<http://localhost:3000>), com uma conta nova:
+
+| Passo | Resultado |
+|---|---|
+| Cadastro e login por CPF | ✅ |
+| Prova completa com 12 questões | ✅ 8 acertos, 66,7%, aprovada |
+| Continuar depois e Retomar prova | ✅ a prova pausada com 2 respostas voltou na questão 3 |
+| Certificado | ✅ nome, acertos, percentual, data e hora de emissão, código e QR Code. A hora saiu 3 horas adiantada (ver limitações) |
+| Baixar certificado | ✅ PDF de uma página, sem menu nem rodapé |
+| Validação pública | ✅ "Certificado válido" com titular, certificação, aproveitamento e emissão; a mesma consulta pela API, sem login, respondeu "válido" |
+
+A evidência anterior de testes está em [Validação técnica da Sprint 2](../sprint-2/evidencias/VALIDACAO_SPRINT_2.md).
 
 ## 6. Funcionalidades
 
@@ -233,12 +268,14 @@ A consulta pública devolve apenas nome, acertos, percentual, data e código. CP
 | Item | Situação | Requisito | Issue |
 |---|---|---|---|
 | CPF e e-mail no certificado | O certificado mostra nome, acertos, percentual, data e hora, sem CPF nem e-mail | RF18 | #81 |
-| QR Code lido em outro aparelho | Só funciona se `AGILCERT_PUBLIC_BASE_URL` tiver o endereço público ou de rede do site. Com `localhost`, o QR Code só abre no próprio computador | RF19, RP08 | #84, #85 |
+| Hora da emissão e das respostas | Aparecem 3 horas adiantadas. O banco grava em UTC em colunas sem fuso (`timestamp without time zone`), e o navegador lê o valor como horário de Brasília. Depois das 21h, a data também muda. Afeta o certificado e o histórico, no Docker e no Supabase | RF18, RF20 | — |
+| QR Code lido em outro aparelho | Só funciona se `AGILCERT_PUBLIC_BASE_URL` tiver o endereço público ou de rede do site. Com `localhost`, o QR Code só abre no próprio computador. No Docker, o `compose.yaml` publica o portal só em `127.0.0.1`, então outro aparelho não acessa nem com o endereço configurado | RF19, RP08 | #84, #85 |
 | Mostrar a resposta correta logo após cada questão da prova | Não implementado na prova, embora as instruções da tela digam que a alternativa correta é exibida. Ela aparece no histórico, depois da prova finalizada, e no quiz de fixação | RF09, RF11 | #48 |
 | Figuras no texto de estudo | O texto de estudo não tem figuras; as imagens aparecem nas questões | RF07 | — |
-| Teste completo do sistema e teste de interrupções | Pendentes | — | #94, #95 |
+| Scripts de validação desatualizados | `validar-container.mjs` não responde ao quiz antes de concluir o tema, e a primeira verificação de `provas-db.test.js` espera as questões em rascunho. O portal está certo; os testes precisam acompanhar as regras atuais | — | #94 |
+| Menu da página do certificado | Destaca "Estudos" em vez de "Certificação" | — | — |
+| Teste completo do sistema e teste de interrupções | Pendentes como entregas próprias; parte do fluxo foi conferida em 18/11/2026 (seção 5) | — | #94, #95 |
 | Documentação completa da API | Pendente | RNF06 | #96 |
-| Execução pelo Docker nesta verificação | Não executada em 17/11/2026 (seção 5) | RNF07, RP05 | — |
 
 A emissão do certificado, o QR Code e a validação pública entraram na `main` pela PR #103. As issues #80 a #86 continuavam abertas no GitHub em 17/11/2026.
 
