@@ -24,6 +24,7 @@
     informar('Consultando certificado...');
     try {
       let certificado;
+      let cpfMascarado = '';
       if (codigo) {
         if (!/^[a-f0-9-]{36}$/i.test(codigo)) throw new Error('Código de validação inválido.');
         const dados = await api.request(`certificados/validar/${encodeURIComponent(codigo)}`, { authenticated: false });
@@ -34,6 +35,8 @@
         if (!localStorage.getItem('token')) { window.location.replace('login.html'); return; }
         const perfil = await api.request('usuarios/me');
         const usuario = perfil.usuario || perfil;
+        const cpf = String(usuario.cpf || '').replace(/\D/g, '');
+        if (cpf.length === 11) cpfMascarado = `${cpf.slice(0, 3)}.***.***-${cpf.slice(-2)}`;
         el('userName').textContent = usuario.nome;
         el('dropdownUserName').textContent = usuario.nome;
         el('profileMenu').style.display = 'flex';
@@ -59,14 +62,18 @@
         certificado = await api.request(`certificados/${id}`);
       }
       el('nomeAluno').textContent = certificado.usuarios?.nome || '';
-      el('certificado-desempenho').textContent = `Concluiu a certificação em Metodologias Ágeis com ${Number(certificado.percentual).toLocaleString('pt-BR')}% de aproveitamento.`;
-      el('certificado-data').textContent = `Emitido em ${new Date(certificado.emitido_em).toLocaleDateString('pt-BR')}.`;
+      el('certificado-aluno').textContent = certificado.usuarios?.nome || '';
+      el('nomeAluno').classList.toggle('nome-extenso', (certificado.usuarios?.nome || '').length > 40);
+      el('certificado-cpf').textContent = cpfMascarado ? `CPF: ${cpfMascarado}` : '';
+      el('certificado-cpf').hidden = !cpfMascarado;
+      el('certificado-percentual').textContent = `${Number(certificado.percentual).toLocaleString('pt-BR')}%`;
+      el('certificado-data').textContent = new Date(certificado.emitido_em).toLocaleDateString('pt-BR');
       const basePublica = window.AGILCERT_PUBLIC_BASE_URL?.trim();
       const validacao = new URL('validar-certificado.html', basePublica ? `${basePublica.replace(/\/+$/, '')}/` : window.location.href);
       if (!['https:', 'http:'].includes(validacao.protocol)) throw new Error('Endereço público de validação inválido.');
       validacao.searchParams.set('codigo', certificado.codigo_validacao);
       el('certificado-validacao').href = validacao.href;
-      el('certificado-validacao').textContent = 'Consultar autenticidade';
+      el('certificado-validacao').textContent = 'Valide esse certificado através do QR Code';
       const qr = qrcode(0, 'M');
       qr.addData(validacao.href);
       qr.make();

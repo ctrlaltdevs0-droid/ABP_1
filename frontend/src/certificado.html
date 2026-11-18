@@ -237,63 +237,39 @@
                     id="container-certificado"
                     class="certificate-slot" hidden>
 
-                    <!-- CERTIFICADO ÁGILCERT -->
-                    <div class="certificado">
-
-                        <!-- CABEÇALHO DO CERTIFICADO -->
-                        <div class="certificado-cabecalho">
-
-                            <!-- LOGOTIPO ORIGINAL -->
-                            <img
-                                src="assets/img/logo.png"
-                                alt="ÁgilCert"
-                                class="certificado-logo">
-
-                            <!-- IDENTIFICAÇÃO -->
-                            <p class="certificado-identificacao">
-                                CERTIFICAÇÃO <span>•</span> ÁGILCERT
-                            </p>
-
-                        </div>
-
-
-                        <!-- CONTEÚDO DO CERTIFICADO -->
-                        <section class="certificado-conteudo">
-
-                            <p class="certificado-subtitulo">
-                                CERTIFICADO
-                            </p>
-
-                            <h2>
-                                Metodologias Ágeis
-                            </h2>
-
-                            <div class="certificado-detalhe"></div>
-
-                            <p class="certificado-descricao">
-                                A ÁgilCert certifica que
-                            </p>
-
-                            <!-- NOME DO ALUNO -->
-                            <div
-                                class="certificado-nome-aluno"
-                                id="nomeAluno">
-                            </div>
-
-                            <p id="certificado-desempenho"></p>
-                            <p id="certificado-data"></p>
-                            <p id="certificado-codigo"></p>
-                            <div class="certificado-autenticidade">
-                                <img id="certificado-qrcode" width="180" height="180" alt="QR Code para validar a autenticidade do certificado">
-                                <div>
-                                    <strong>Verifique a autenticidade</strong>
-                                    <p>Escaneie o QR Code com a câmera do celular.</p>
-                                    <a id="certificado-validacao">Consultar autenticidade</a>
+                    <article class="certificado" aria-label="Certificado de conclusão">
+                        <svg class="certificado-faixa certificado-faixa-superior" viewBox="0 0 942 100" preserveAspectRatio="none" aria-hidden="true">
+                            <path fill="#12bbaa" d="M0 0H942V31C772 120 568 72 404 52C245 33 118 38 0 76Z"/>
+                            <path fill="#09afd5" d="M0 0H942V29C772 107 568 62 404 43C245 24 118 29 0 69Z"/>
+                            <path fill="#087bca" d="M0 0H942V27C772 95 568 52 404 35C245 16 118 21 0 61Z"/>
+                            <path fill="#124b90" d="M0 0H942V24C772 84 568 43 404 28C245 8 118 14 0 54Z"/>
+                            <path fill="#14345e" d="M0 0H942V22C772 72 568 34 404 21C245 0 118 7 0 46Z"/>
+                        </svg>
+                        <div class="certificado-corpo">
+                            <img src="assets/img/logo.png" alt="ÁgilCert" class="certificado-logo">
+                            <h2 class="certificado-titulo">CERTIFICADO DE CONCLUSÃO</h2>
+                            <p class="certificado-apresentacao">CERTIFICAMOS QUE</p>
+                            <p class="certificado-nome-aluno" id="nomeAluno"></p>
+                            <p class="certificado-cpf" id="certificado-cpf" hidden></p>
+                            <p class="certificado-desempenho" id="certificado-desempenho">Concluiu a certificação em <strong>Metodologias Ágeis</strong> com uma nota final de <span id="certificado-percentual"></span></p>
+                            <div class="certificado-rodape">
+                                <div class="certificado-assinatura"><strong>Data</strong><p id="certificado-data"></p></div>
+                                <div class="certificado-assinatura"><strong>Aluno</strong><p id="certificado-aluno"></p></div>
+                                <div class="certificado-autenticidade">
+                                    <img id="certificado-qrcode" width="148" height="148" alt="QR Code para validar a autenticidade do certificado">
+                                    <a id="certificado-validacao">Valide esse certificado através do QR Code</a>
                                 </div>
                             </div>
-                        </section>
-
-                    </div>
+                            <span id="certificado-codigo" class="texto-acessivel"></span>
+                        </div>
+                        <svg class="certificado-faixa certificado-faixa-inferior" viewBox="0 0 942 100" preserveAspectRatio="none" aria-hidden="true">
+                            <path fill="#12bbaa" d="M0 80C176 6 374 4 549 39C710 71 840 59 942 24V100H0Z"/>
+                            <path fill="#09afd5" d="M0 83C176 17 374 13 549 48C710 79 840 68 942 29V100H0Z"/>
+                            <path fill="#087bca" d="M0 87C176 27 374 21 549 56C710 86 840 75 942 36V100H0Z"/>
+                            <path fill="#124b90" d="M0 91C176 35 374 29 549 63C710 93 840 82 942 42V100H0Z"/>
+                            <path fill="#14345e" d="M0 95C176 43 374 37 549 70C710 100 840 89 942 49V100H0Z"/>
+                        </svg>
+                    </article>
                     <!-- FIM DO CERTIFICADO -->
 
                 </div>
