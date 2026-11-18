@@ -2,7 +2,7 @@
 
 - **Issue:** #97
 - **Data:** 17/11/2026, atualizado em 18/11/2026
-- **Base:** branch `main` no commit `202d62f`, com os textos de estudo da PB-057 (PR #101) e os ajustes do certificado de 17/11
+- **Base:** branch `main` no commit `bdef147`, com os textos de estudo da PB-057 (PR #101) e os ajustes do certificado e da validação pública de 17 e 18/11
 - **Requisito do desafio:** RNF06 (instruções de instalação e descrição das funcionalidades implementadas)
 
 Este documento explica como executar o portal, como o banco é carregado, como rodar os testes e o que cada funcionalidade faz hoje. O que ainda não está pronto aparece em [Limitações conhecidas](#limitações-conhecidas).
@@ -248,7 +248,7 @@ Ao terminar os 12 temas, **Ver resultado** mostra os acertos, o percentual e a s
 `certificado.html` abre por **Gerar certificado**, na tela de resultado, ou por **Ver certificado**, no histórico.
 
 - **Quem recebe:** só o dono de uma prova finalizada e aprovada. A aprovação e o titular são conferidos de novo no banco no momento da emissão.
-- **O que o certificado mostra:** nome do candidato, número de acertos (de 12), percentual de aproveitamento, data e hora de emissão, código de validação e QR Code.
+- **O que o certificado mostra:** nome do candidato, CPF parcialmente mascarado (por exemplo, 123.***.***-01), nota final em percentual, data de emissão, código de validação e QR Code. O número de acertos (de 12) aparece no resumo ao lado do certificado.
 - **Baixar:** o botão **Baixar certificado** abre a impressão do navegador; escolha "Salvar como PDF".
 - **Sem duplicar:** emitir de novo a mesma prova devolve o mesmo certificado.
 - **Revogados:** um certificado inativo ou revogado não é exibido.
@@ -267,17 +267,16 @@ A consulta pública devolve apenas nome, acertos, percentual, data e código. CP
 
 | Item | Situação | Requisito | Issue |
 |---|---|---|---|
-| CPF e e-mail no certificado | O certificado mostra nome, acertos, percentual, data e hora, sem CPF nem e-mail | RF18 | #81 |
-| Hora da emissão e das respostas | Aparecem 3 horas adiantadas. O banco grava em UTC em colunas sem fuso (`timestamp without time zone`), e o navegador lê o valor como horário de Brasília. Depois das 21h, a data também muda. Afeta o certificado e o histórico, no Docker e no Supabase | RF18, RF20 | — |
+| E-mail e hora no certificado | O certificado mostra nome, CPF mascarado, nota final em percentual e data, sem e-mail nem hora da emissão | RF18 | #81, #82 |
+| Hora das respostas e data do certificado | O banco grava em UTC em colunas sem fuso (`timestamp without time zone`), e o navegador lê o valor como horário de Brasília. A hora de cada resposta no histórico aparece 3 horas adiantada, e a data do certificado passa para o dia seguinte quando a emissão ocorre depois das 21h. Vale para o Docker e o Supabase | RF18, RF20 | — |
 | QR Code lido em outro aparelho | Só funciona se `AGILCERT_PUBLIC_BASE_URL` tiver o endereço público ou de rede do site. Com `localhost`, o QR Code só abre no próprio computador. No Docker, o `compose.yaml` publica o portal só em `127.0.0.1`, então outro aparelho não acessa nem com o endereço configurado | RF19, RP08 | #84, #85 |
-| Mostrar a resposta correta logo após cada questão da prova | Não implementado na prova, embora as instruções da tela digam que a alternativa correta é exibida. Ela aparece no histórico, depois da prova finalizada, e no quiz de fixação | RF09, RF11 | #48 |
+| Mostrar a resposta correta logo após cada questão da prova | Não implementado na prova, embora as instruções da tela digam que a alternativa correta é exibida. Ela aparece no histórico, depois da prova finalizada, e no quiz de fixação | RF09, RF11 | #48 (fechada em 18/11/2026, sem mudança no código da prova) |
 | Figuras no texto de estudo | O texto de estudo não tem figuras; as imagens aparecem nas questões | RF07 | — |
 | Scripts de validação desatualizados | `validar-container.mjs` não responde ao quiz antes de concluir o tema, e a primeira verificação de `provas-db.test.js` espera as questões em rascunho. O portal está certo; os testes precisam acompanhar as regras atuais | — | #94 |
-| Menu da página do certificado | Destaca "Estudos" em vez de "Certificação" | — | — |
 | Teste completo do sistema e teste de interrupções | Pendentes como entregas próprias; parte do fluxo foi conferida em 18/11/2026 (seção 5) | — | #94, #95 |
 | Documentação completa da API | Pendente | RNF06 | #96 |
 
-A emissão do certificado, o QR Code e a validação pública entraram na `main` pela PR #103. As issues #80 a #86 continuavam abertas no GitHub em 17/11/2026.
+A emissão do certificado, o QR Code e a validação pública entraram na `main` pela PR #103 e foram ajustados em 17 e 18/11. As issues #80 a #86 foram fechadas em 18/11/2026.
 
 ## 7. Roteiro de demonstração
 
@@ -295,7 +294,7 @@ Tempo estimado: 10 a 12 minutos. Antes de começar, suba o ambiente (seção 2) 
 | 8 | Responder a duas questões e clicar em **Continuar depois** | Progresso salvo |
 | 9 | Clicar em **Retomar prova** | A prova segue do próximo tema |
 | 10 | Terminar e clicar em **Ver resultado** | Acertos, percentual e situação |
-| 11 | Com uma conta aprovada, clicar em **Gerar certificado** | Certificado com nome, acertos, percentual, data e hora, código e QR Code |
+| 11 | Com uma conta aprovada, clicar em **Gerar certificado** | Certificado com nome, CPF mascarado, nota final, data, código e QR Code; acertos no resumo ao lado |
 | 12 | Clicar em **Baixar certificado** e escolher "Salvar como PDF" | Certificado salvo pela impressão do navegador |
 | 13 | Abrir o link **Consultar autenticidade** em uma janela anônima | Validação pública, sem login |
 | 14 | Abrir **Histórico** e **Ver questões** | Resposta escolhida, resposta correta e data |
