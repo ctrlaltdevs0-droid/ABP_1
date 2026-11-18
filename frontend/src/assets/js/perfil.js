@@ -1,18 +1,22 @@
+
 const iconeOlhoAberto = `
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+    stroke="#536169" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
     <circle cx="12" cy="12" r="3"></circle>
   </svg>
 `;
 
 const iconeOlhoFechado = `
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+    stroke="#536169" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
     <line x1="1" y1="1" x2="23" y2="23"></line>
   </svg>
 `;
 
-// Função global para alternar visibilidade nos botões de senha
 window.toggleSenha = function (inputId, btn) {
   const input = document.getElementById(inputId);
   if (!input) return;
@@ -26,28 +30,125 @@ window.toggleSenha = function (inputId, btn) {
   }
 };
 
-// Formatação do CPF (000.000.000-00)
 function formatarCPF(cpf) {
   if (!cpf) return '—';
+
   const limpo = String(cpf).replace(/\D/g, '');
+
   if (limpo.length !== 11) return cpf;
-  return limpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '\$1.\$2.\$3-\$4');
+
+  return limpo.replace(
+    /(\d{3})(\d{3})(\d{3})(\d{2})/,
+    '$1.$2.$3-$4'
+  );
 }
 
-// Extração segura das iniciais do nome sem erros
 function obterIniciais(nome) {
   if (!nome) return '—';
+
   const partes = String(nome).trim().split(/\s+/).filter(Boolean);
+
   if (partes.length === 0) return '—';
-  if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
-  return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+
+  if (partes.length === 1) {
+    return partes[0].slice(0, 2).toUpperCase();
+  }
+
+  return (
+    partes[0][0] +
+    partes[partes.length - 1][0]
+  ).toUpperCase();
 }
 
-// ==========================================
+// ============================================================
+// PROGRESSO DA JORNADA
+// ============================================================
+
+async function atualizarProgressoJornada() {
+  const barra = document.getElementById('journey-progress');
+  const preenchimento = document.getElementById('journey-fill');
+  const descricao = document.getElementById('journey-description');
+
+  const etapaEstudos = document.getElementById('milestone-studies');
+  const etapaProva = document.getElementById('milestone-exam');
+  const etapaCertificado = document.getElementById('milestone-certificate');
+
+  if (!barra || !preenchimento) return;
+
+  let progresso = 0;
+  let mensagem = 'Você ainda não iniciou seus estudos.';
+
+  try {
+    // Busca os temas concluídos na API.
+    const resposta = await AgilCertAPI.request('estudos/progresso');
+
+    const temasConcluidos = Array.isArray(resposta)
+      ? resposta
+      : resposta.temasConcluidos || resposta.progresso || [];
+
+    const quantidadeConcluida = temasConcluidos.length;
+
+    // Etapa 1: estudos iniciados.
+    const estudosIniciados =
+      localStorage.getItem('agilcert_estudos_iniciados') === 'true' ||
+      quantidadeConcluida > 0;
+
+    if (estudosIniciados) {
+      progresso = 1;
+      mensagem = 'Você iniciou seus estudos. Continue avançando!';
+    }
+
+    // Etapa 2: os 12 temas foram concluídos.
+    if (quantidadeConcluida >= 12) {
+      progresso = 2;
+      mensagem = 'Parabéns! Você concluiu os 12 temas. Agora pode fazer a prova!';
+    }
+
+    // Etapa 3: certificado gerado.
+    const certificadoGerado =
+      localStorage.getItem('agilcert_certificado_gerado') === 'true';
+
+    if (certificadoGerado) {
+      progresso = 3;
+      mensagem = 'Parabéns! Sua prova foi concluída e seu certificado foi gerado!';
+    }
+
+  } catch (erro) {
+    console.error('Erro ao carregar progresso:', erro);
+
+    if (descricao) {
+      descricao.textContent = 'Não foi possível carregar seu progresso.';
+    }
+
+    return;
+  }
+
+  const porcentagem = (progresso / 3) * 100;
+
+  preenchimento.style.width = `${porcentagem}%`;
+
+  barra.setAttribute('aria-valuenow', porcentagem);
+  barra.setAttribute(
+    'aria-valuetext',
+    `${Math.round(porcentagem)}% concluído`
+  );
+
+  if (descricao) {
+    descricao.textContent = mensagem;
+  }
+
+  [etapaEstudos, etapaProva, etapaCertificado].forEach((etapa, indice) => {
+    if (!etapa) return;
+
+    etapa.classList.toggle('completed', indice < progresso);
+  });
+}
+
+// ============================================================
 // GERENCIAMENTO DO PERFIL
-// ==========================================
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', async () => {
-  // Mapeamento dos elementos do HTML
   const profileName = document.getElementById('profile-name');
   const profileAvatar = document.getElementById('profile-avatar');
   const profileFullname = document.getElementById('profile-fullname');
@@ -69,60 +170,96 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let usuarioOriginal = null;
 
-  // Redireciona para o login caso não exista token de sessão
   const token = localStorage.getItem('token');
+
   if (!token) {
     window.location.href = 'login.html';
     return;
   }
 
-  // Preenche todos os campos na tela
   function preencherCampos(usuario) {
     if (!usuario) return;
+
     usuarioOriginal = usuario;
 
-    // Preenche Nome, E-mail e CPF
     if (profileFullname) profileFullname.value = usuario.nome || '';
     if (profileEmail) profileEmail.value = usuario.email || '';
     if (profileCpf) profileCpf.textContent = formatarCPF(usuario.cpf);
 
-    // Preenche Título e Avatar
     if (profileName) profileName.textContent = usuario.nome || 'Minha conta';
     if (profileAvatar) profileAvatar.textContent = obterIniciais(usuario.nome);
-  }
 
-  // 1. Carrega o cache salvo no localStorage instantaneamente
-  const usuarioSalvo = localStorage.getItem('usuario');
-  if (usuarioSalvo) {
-    try {
-      const u = JSON.parse(usuarioSalvo);
-      preencherCampos(u.usuario || u);
-    } catch (e) {
-      console.error('Erro ao ler cache do usuário:', e);
+    const displayEmail = document.getElementById('profile-display-email');
+    if (displayEmail) {
+      displayEmail.textContent = usuario.email || '';
+    }
+
+    const accountName = document.getElementById('account-name-display');
+    if (accountName) {
+      accountName.textContent = (usuario.nome || 'Vitoria').trim().split(/\s+/)[0];
+    }
+
+    const accountIcon = document.querySelector('.account-icon');
+
+    if (accountIcon) {
+      let initials = accountIcon.querySelector('.account-initials');
+
+      if (!initials) {
+        initials = document.createElement('span');
+        initials.className = 'account-initials';
+        accountIcon.appendChild(initials);
+      }
+
+      initials.textContent = obterIniciais(usuario.nome);
     }
   }
 
-  // 2. Busca os dados atualizados do banco via API (GET /api/usuarios/me)
+  // Carrega o cache do usuário.
+  const usuarioSalvo = localStorage.getItem('usuario');
+
+  if (usuarioSalvo) {
+    try {
+      const usuario = JSON.parse(usuarioSalvo);
+      preencherCampos(usuario.usuario || usuario);
+    } catch (erro) {
+      console.error('Erro ao ler cache do usuário:', erro);
+    }
+  }
+
+  // Busca os dados atualizados do usuário.
   try {
-    const res = await AgilCertAPI.request('usuarios/me');
-    const usuarioAtualizado = res.usuario || res;
+    const resposta = await AgilCertAPI.request('usuarios/me');
+    const usuarioAtualizado = resposta.usuario || resposta;
 
     preencherCampos(usuarioAtualizado);
+
     localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
-    if (profileStatus) profileStatus.textContent = '';
-  } catch (err) {
-    console.error('Erro ao buscar perfil na API:', err);
+
+    if (profileStatus) {
+      profileStatus.textContent = '';
+    }
+  } catch (erro) {
+    console.error('Erro ao buscar perfil:', erro);
+
     if (!usuarioOriginal && profileStatus) {
       profileStatus.textContent = 'Erro ao carregar dados do usuário.';
       profileStatus.style.color = '#e74c3c';
     }
   }
 
-  // Habilita o botão "Salvar alterações" se Nome ou E-mail forem modificados
+  // Atualiza a barra ao abrir o perfil.
+  await atualizarProgressoJornada();
+
+  // Verifica alterações no perfil.
   function checarMudancas() {
     if (!usuarioOriginal) return;
-    const nomeMudou = profileFullname.value.trim() !== (usuarioOriginal.nome || '');
-    const emailMudou = profileEmail.value.trim().toLowerCase() !== (usuarioOriginal.email || '');
+
+    const nomeMudou =
+      profileFullname.value.trim() !== (usuarioOriginal.nome || '');
+
+    const emailMudou =
+      profileEmail.value.trim().toLowerCase() !==
+      (usuarioOriginal.email || '').toLowerCase();
 
     if (saveProfileBtn) {
       saveProfileBtn.disabled = !(nomeMudou || emailMudou);
@@ -132,16 +269,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   profileFullname?.addEventListener('input', checarMudancas);
   profileEmail?.addEventListener('input', checarMudancas);
 
-  // 3. Salvar alterações de Nome e E-mail (PATCH /api/usuarios/me)
-  profileForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // Salva nome e e-mail.
+  profileForm?.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+
     if (profileStatus) profileStatus.textContent = '';
 
     try {
       if (saveProfileBtn) saveProfileBtn.disabled = true;
 
-      // Envia APENAS nome e email para cumprir as regras estritas do backend
-      const res = await AgilCertAPI.request('usuarios/me', {
+      const resposta = await AgilCertAPI.request('usuarios/me', {
         method: 'PATCH',
         body: {
           nome: profileFullname.value.trim(),
@@ -149,31 +286,38 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       });
 
-      const usuarioAtualizado = res.usuario || res;
+      const usuarioAtualizado = resposta.usuario || resposta;
+
       preencherCampos(usuarioAtualizado);
+
       localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
 
       if (profileStatus) {
         profileStatus.textContent = 'Perfil atualizado com sucesso!';
         profileStatus.style.color = '#2ecc71';
       }
-    } catch (err) {
+    } catch (erro) {
       if (profileStatus) {
-        profileStatus.textContent = err.message || 'Erro ao salvar alterações.';
+        profileStatus.textContent = erro.message || 'Erro ao salvar alterações.';
         profileStatus.style.color = '#e74c3c';
       }
+
       if (saveProfileBtn) saveProfileBtn.disabled = false;
     }
   });
 
-  // Habilita "Alterar senha" apenas se a nova senha tiver 8+ caracteres e coincidir
+  // Valida os campos de senha.
   function checarValidacaoSenha() {
     const atual = currentPasswordInput?.value || '';
     const nova = newPasswordInput?.value || '';
     const confirma = confirmPasswordInput?.value || '';
 
     if (savePasswordBtn) {
-      savePasswordBtn.disabled = !(atual && nova.length >= 8 && nova === confirma);
+      savePasswordBtn.disabled = !(
+        atual &&
+        nova.length >= 8 &&
+        nova === confirma
+      );
     }
   }
 
@@ -181,16 +325,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   newPasswordInput?.addEventListener('input', checarValidacaoSenha);
   confirmPasswordInput?.addEventListener('input', checarValidacaoSenha);
 
-  // 4. Alterar Senha (PATCH /api/usuarios/me/senha)
-  passwordForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // Altera a senha.
+  passwordForm?.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+
     if (passwordStatus) passwordStatus.textContent = '';
 
     if (newPasswordInput.value !== confirmPasswordInput.value) {
       if (passwordStatus) {
-        passwordStatus.textContent = 'A nova senha e a confirmação não coincidem.';
+        passwordStatus.textContent =
+          'A nova senha e a confirmação não coincidem.';
         passwordStatus.style.color = '#e74c3c';
       }
+
       return;
     }
 
@@ -206,31 +353,65 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
 
       if (passwordStatus) {
-        passwordStatus.textContent = 'Senha alterada. Entre novamente com a nova senha.';
+        passwordStatus.textContent =
+          'Senha alterada. Entre novamente com a nova senha.';
         passwordStatus.style.color = '#2ecc71';
       }
 
       passwordForm.reset();
+
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');
+
       window.location.assign('login.html');
-      if (savePasswordBtn) savePasswordBtn.disabled = true;
-    } catch (err) {
+
+    } catch (erro) {
       if (passwordStatus) {
-        passwordStatus.textContent = err.message || 'Erro ao alterar senha.';
+        passwordStatus.textContent =
+          erro.message || 'Erro ao alterar senha.';
         passwordStatus.style.color = '#e74c3c';
       }
+
       if (savePasswordBtn) savePasswordBtn.disabled = false;
     }
   });
 
-  // 5. Botão de Logout
+  // Logout.
   logoutBtn?.addEventListener('click', async () => {
     logoutBtn.disabled = true;
-    try { await AgilCertAPI.logout(); }
-    catch (error) {
-      if (profileStatus) profileStatus.textContent = error.message;
+
+    try {
+      await AgilCertAPI.logout();
+    } catch (erro) {
+      if (profileStatus) {
+        profileStatus.textContent = erro.message;
+      }
+
       logoutBtn.disabled = false;
     }
   });
+
+  // Menu da conta.
+  const accountContainer = document.getElementById('account-container');
+  const accountToggle = document.getElementById('account-toggle');
+
+  if (accountToggle && accountContainer) {
+    accountToggle.addEventListener('click', (evento) => {
+      evento.stopPropagation();
+
+      accountContainer.classList.toggle('active');
+
+      accountToggle.setAttribute(
+        'aria-expanded',
+        accountContainer.classList.contains('active')
+      );
+    });
+
+    document.addEventListener('click', (evento) => {
+      if (!accountContainer.contains(evento.target)) {
+        accountContainer.classList.remove('active');
+        accountToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 });

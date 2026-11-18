@@ -1,6 +1,7 @@
 
 (() => {
   const el = id => document.getElementById(id);
+  localStorage.setItem('agilcert_estudos_iniciados', 'true');
 
   if (!localStorage.getItem('token')) {
     window.location.replace('login.html');

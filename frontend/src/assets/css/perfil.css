@@ -681,9 +681,11 @@ summary:hover {
   stroke: var(--cor-azul-primario);
 }
 
+
 /* ============================================================
-   Painel do Processo da Jornada (Card Inferior)
+   Painel do Processo da Jornada
    ============================================================ */
+
 .journey {
   margin-top: 24px;
   min-height: 200px;
@@ -695,12 +697,13 @@ summary:hover {
   margin-bottom: 6px;
   font-family: var(--fonte-inter);
   font-weight: 500;
-  font-size: 21px; /* h6 */
+  font-size: 21px;
+  color: var(--texto-titulo);
 }
 
 .journey > p {
   font-family: var(--fonte-inter);
-  font-size: 14px; /* body2 */
+  font-size: 14px;
   font-weight: 400;
   color: var(--texto-suave);
   margin-bottom: 24px;
@@ -710,8 +713,10 @@ summary:hover {
   margin-top: 20px;
 }
 
-/* Trilho da Barra de Progresso */
+/* Trilho da barra */
+
 .track {
+  width: 100%;
   height: 24px;
   background-color: #E2E8F0;
   border-radius: var(--raio-pilula);
@@ -720,36 +725,41 @@ summary:hover {
   position: relative;
 }
 
-/* Preenchimento Dinâmico da Barra */
+/* Preenchimento verde */
+
 .fill {
+  width: 0%;
   height: 100%;
   background-color: var(--cor-verde-menta);
   border-radius: var(--raio-pilula);
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+  transition: width 0.6s ease;
 }
 
-/* Linhas Marcadoras de Fases */
-.fill::before,
-.fill::after {
+/* Divisões das três etapas */
+
+.track::before,
+.track::after {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2.5px;
-  background-color: rgba(255, 255, 255, 0.7);
+  width: 3px;
+  background-color: #FFFFFF;
+  z-index: 2;
 }
 
-.fill::before {
-  left: 21.5%;
+.track::before {
+  left: 33.333%;
 }
 
-.fill::after {
-  left: 85%;
+.track::after {
+  left: 66.666%;
 }
 
-/* Rótulos dos Marcos da Jornada */
+/* Textos das etapas */
+
 .milestones {
   display: flex;
   justify-content: space-between;
@@ -757,7 +767,7 @@ summary:hover {
   padding: 12px 14px 0;
   font-family: var(--fonte-inter);
   font-weight: 500;
-  font-size: 15px; /* subtitle2 */
+  font-size: 15px;
   color: var(--texto-rotulo);
 }
 
@@ -765,6 +775,34 @@ summary:hover {
   text-align: center;
   flex: 1;
 }
+
+/* Etapas concluídas */
+
+.milestones span.completed {
+  color: var(--cor-verde-escuro);
+  font-weight: 700;
+}
+
+/* Responsividade da jornada */
+
+@media (max-width: 760px) {
+  .journey {
+    margin-top: 18px;
+    padding: 22px 18px 26px;
+    min-height: auto;
+  }
+
+  .milestones {
+    font-size: 12px;
+    padding: 10px 0 0;
+    gap: 6px;
+  }
+
+  .track {
+    height: 20px;
+  }
+}
+
 
 /* ============================================================
    Caixa de Diálogo Modal (<dialog>)
