@@ -6,7 +6,6 @@ Projeto desenvolvido pelo grupo CTRL ALT DEVS.
 
 </div>👥 Integrantes
 
-- Evellyn Silva Moreira
 - Isabella Silva Andreotti
 - Júlio César Gregório Pereira
 - Luana Ferreira de Andrade
