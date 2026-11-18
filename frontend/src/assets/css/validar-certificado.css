@@ -1,16 +1,171 @@
-* { box-sizing: border-box; }
-body { margin: 0; padding: 32px 16px; background: #f5f8fc; color: #17344d; font: 16px/1.5 Arial, sans-serif; }
-main { max-width: 640px; margin: auto; padding: 32px; background: white; border: 1px solid #d8e2ee; border-radius: 16px; }
-.logo { width: 180px; height: auto; }
-h1 { font-size: 26px; }
-form { display: grid; gap: 12px; margin: 24px 0; }
-input, button { font: inherit; padding: 12px; border-radius: 6px; }
-input { width: 100%; border: 1px solid #859bb2; }
-button { background: #005ac0; border: 0; color: white; cursor: pointer; }
-button:disabled { opacity: .6; cursor: wait; }
-section { background: #effaf4; border: 1px solid #88bd9c; padding: 20px; border-radius: 8px; }
-h2 { color: #146636; margin-top: 0; }
-dt { font-weight: bold; }
-dd { margin: 0 0 14px; overflow-wrap: anywhere; }
-[hidden] { display: none !important; }
-@media (max-width: 480px) { main { padding: 20px; } }
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 32px 16px;
+    background: #f5f8fc;
+    color: #17344d;
+    font: 16px/1.5 Arial, sans-serif;
+}
+
+main {
+    max-width: 640px;
+    margin: auto;
+    padding: 32px;
+    background: white;
+    border: 1px solid #d8e2ee;
+    border-radius: 16px;
+}
+
+.logo {
+    width: 180px;
+    height: auto;
+}
+
+h1 {
+    font-size: 26px;
+}
+
+form {
+    display: grid;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+input,
+button {
+    font: inherit;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+input {
+    width: 100%;
+    border: 1px solid #859bb2;
+}
+
+/* ==========================================================================
+   BOTÃO VALIDAR CERTIFICADO
+   ========================================================================== */
+
+#validar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: 12px 20px;
+
+    background: #005ac0;
+    color: #ffffff;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+
+    border: none;
+    border-radius: 6px;
+
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#validar:hover:not(:disabled) {
+    background: #004a9e;
+    transform: translateY(-1px);
+}
+
+#validar:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+#validar:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
+#validar:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 3px;
+}
+
+section {
+    background: #effaf4;
+    border: 1px solid #88bd9c;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+h2 {
+    color: #146636;
+    margin-top: 0;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin: 0 0 14px;
+    overflow-wrap: anywhere;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 20px;
+    }
+}
+
+/* ==========================================================================
+   BOTÃO VOLTAR — CANTO SUPERIOR ESQUERDO
+   ========================================================================== */
+
+.btn-voltar {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    color: #005ac0;
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.btn-voltar:hover {
+    background: #dbeafe;
+    transform: translateY(-2px);
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+    .btn-voltar {
+        top: 12px;
+        left: 12px;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    body {
+        padding-top: 65px;
+    }
+}

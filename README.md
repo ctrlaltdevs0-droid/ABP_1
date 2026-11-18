@@ -6,7 +6,6 @@ Projeto desenvolvido pelo grupo CTRL ALT DEVS.
 
 </div>👥 Integrantes
 
-- Evellyn Silva Moreira
 - Isabella Silva Andreotti
 - Júlio César Gregório Pereira
 - Luana Ferreira de Andrade
@@ -65,16 +64,16 @@ A plataforma aborda 12 temas relacionados às metodologias ágeis:
 
 1. Fundamentos da Agilidade;
 2. Introdução ao Scrum;
-3. Papéis no Scrum;
+3. Papéis do Scrum;
 4. Eventos do Scrum;
 5. Artefatos do Scrum;
 6. User Stories;
-7. Product Backlog;
+7. Gestão do Product Backlog;
 8. Kanban;
 9. Planejamento Ágil;
 10. Métricas Ágeis;
-11. Ferramentas Ágeis;
-12. Boas Práticas.
+11. Ferramentas para Equipes Ágeis;
+12. Boas Práticas em Projetos Ágeis.
 
 📂 Documentação
 

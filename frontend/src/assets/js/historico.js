@@ -58,8 +58,11 @@
         acoes.append(botao);
         if (tentativa.aprovado) {
           const certificado = document.createElement('a');
+
           certificado.href = `certificado.html?tentativa=${tentativa.idtentativas}`;
-          certificado.textContent = ' Ver certificado';
+          certificado.textContent = 'Ver certificado';
+          certificado.className = 'btn-ver-certificado';
+
           acoes.append(certificado);
         }
       }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -9,84 +8,52 @@
     <title>ÁgilCert | Certificação Final</title>
 
     <link rel="stylesheet" href="assets/css/certificado.css">
+    <link rel="stylesheet" href="assets/css/home.css">
 </head>
 
 <body>
 
-    <!-- CABEÇALHO DO SITE -->
+    <!-- HEADER -->
     <header class="site-header">
 
-        <a href="home.html">
-            <img
-                class="header-logo"
-                src="assets/img/logo-transparente.png"
-                alt="ÁgilCert">
+        <a href="home.html" class="logo-link">
+            <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
         </a>
 
-        <!-- MENU MOBILE -->
-        <button
-            class="nav-toggle"
-            type="button"
-            aria-controls="main-nav"
-            aria-expanded="false">
+        <button class="nav-toggle" type="button" aria-controls="main-nav" aria-expanded="false">
             Menu
         </button>
 
-        <!-- NAVEGAÇÃO -->
-        <nav
-            id="main-nav"
-            class="header-nav"
-            aria-label="Navegação principal">
-
+        <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
             <a class="nav-link" href="home.html">Início</a>
-
             <a class="nav-link" href="estudos.html">Estudos</a>
-
-            <a
-                class="nav-link active"
-                href="certificacao.html"
-                aria-current="page">
-                Certificação
-            </a>
-
+            <a class="nav-link active" href="certificacao.html" aria-current="page">Certificação</a>
             <a class="nav-link" href="historico.html">Histórico</a>
-
             <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
-
         </nav>
 
-        <!-- AÇÕES DO CABEÇALHO -->
-        <div class="header-actions" style="margin-left: auto; display: flex; align-items: center;">
+        <div class="header-actions header-actions-custom">
 
             <!-- USUÁRIO DESLOGADO -->
-            <div
-                id="authButtons"
-                style="display:none; gap:16px; align-items:center;">
-
+            <div id="authButtons" class="auth-buttons-custom">
                 <a href="login.html" class="nav-link">Entrar</a>
-
                 <a href="cadastro.html" class="nav-link">Cadastrar</a>
-
             </div>
 
             <!-- MENU DO PERFIL -->
-            <div
-                class="profile-menu"
-                id="profileMenu"
-                style="display:none;">
+            <div class="profile-menu" id="profileMenu" style="display:none;">
 
-                <button
-                    class="profile-trigger"
-                    type="button"
-                    id="profileTrigger"
-                    aria-expanded="false"
-                    aria-label="Menu do perfil">
+                <button class="profile-trigger" type="button" id="profileTrigger" aria-expanded="false"
+                    aria-controls="userProfileMenu" aria-label="Menu do perfil">
 
-                    <img
-                        src="assets/img/estudos.png"
-                        alt="Foto de perfil"
-                        class="profile-avatar-img"
-                        id="userAvatar">
+                    <div class="profile-avatar profile-avatar-img">
+                        <span id="userInitials" class="account-initials-span">—</span>
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path
+                                d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                        </svg>
+                    </div>
 
                     <span class="profile-name">
                         Olá, <span id="userName">Usuário</span>
@@ -96,21 +63,16 @@
 
                 </button>
 
-                <!-- MENU SUSPENSO -->
-                <div class="dropdown">
+                <div class="dropdown" id="userProfileMenu">
 
                     <div class="dropdown-header">
-
-                        <div
-                            class="profile-username"
-                            id="dropdownUserName">
+                        <div class="profile-username" id="dropdownUserName">
                             Usuário
                         </div>
 
                         <div class="profile-greeting">
                             Minha conta
                         </div>
-
                     </div>
 
                     <div class="dropdown-body">
@@ -121,10 +83,7 @@
 
                         <div class="divider"></div>
 
-                        <button
-                            class="danger"
-                            type="button"
-                            id="sair">
+                        <button class="danger" type="button" id="sair">
                             Sair
                         </button>
 
@@ -146,37 +105,19 @@
         <div class="breadcrumb">
 
             <a href="estudos.html" class="back-link">
-
-                <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-
-                    <polyline points="12 19 5 12 12 5"></polyline>
-
-                </svg>
-
+                <img src="assets/img/certificado/voltar.svg" alt="">
                 Área de estudos
-
             </a>
 
             <span class="separator">/</span>
-
             <span>Certificação final</span>
-
             <span class="separator">/</span>
-
             <span class="current">Certificado</span>
 
         </div>
 
 
-        <!-- TÍTULO DA PÁGINA E BOTÕES -->
+        <!-- TÍTULO E BOTÕES -->
         <section class="page-header">
 
             <div class="header-info">
@@ -193,29 +134,14 @@
 
             <div class="header-actions">
 
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="btn-baixar" disabled hidden>
+                <a class="btn btn-secondary" id="btn-validar" hidden>
+                    Validar certificado
+                    <img src="assets/img/certificado/externo.svg" alt="">
+                </a>
 
-                    Salvar em PDF
-
-                    <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2">
-
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-
-                        <polyline points="7 10 12 15 17 10"></polyline>
-
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-
-                    </svg>
-
+                <button type="button" class="btn btn-primary" id="btn-baixar" disabled hidden>
+                    Baixar certificado
+                    <img src="assets/img/certificado/baixar.svg" alt="">
                 </button>
 
             </div>
@@ -224,20 +150,52 @@
 
 
         <p id="certificado-mensagem" role="status" aria-live="polite"></p>
+
         <p id="certificado-acoes" hidden>
             <a href="historico.html">Consultar histórico</a> ·
             <a href="certificacao.html">Ir para certificação</a>
         </p>
-        <!-- ÁREA DO CERTIFICADO -->
-        <div class="content-grid">
 
-            <section class="certificate-wrapper">
 
-                <div
-                    id="container-certificado"
-                    class="certificate-slot" hidden>
+        <!-- CERTIFICADO -->
+        <div id="container-certificado" hidden>
 
-                    <article class="certificado" aria-label="Certificado de conclusão">
+            <section class="approval-summary" aria-label="Resumo da aprovação">
+
+                <div class="approval-status">
+                    <span class="approval-icon" aria-hidden="true">
+                        <img src="assets/img/certificado/aprovado.svg" alt="">
+                    </span>
+
+                    <span class="approval-label">Aprovado</span>
+                </div>
+
+                <div>
+                    <strong>12 de 12</strong>
+                    <span>temas avaliados</span>
+                </div>
+
+                <div>
+                    <strong id="resumo-acertos"></strong>
+                    <span>acertos na prova final</span>
+                </div>
+
+                <div>
+                    <strong id="resumo-percentual"></strong>
+                    <span>aproveitamento</span>
+                </div>
+
+                <div>
+                    <strong>65%</strong>
+                    <span>mínimo para aprovação</span>
+                </div>
+
+            </section>
+
+
+            <div class="content-grid">
+
+                <section class="certificate-wrapper"><div class="certificate-slot"><article class="certificado" aria-label="Certificado de conclusão">
                         <svg class="certificado-faixa certificado-faixa-superior" viewBox="0 0 942 100" preserveAspectRatio="none" aria-hidden="true">
                             <path fill="#12bbaa" d="M0 0H942V31C772 120 568 72 404 52C245 33 118 38 0 76Z"/>
                             <path fill="#09afd5" d="M0 0H942V29C772 107 568 62 404 43C245 24 118 29 0 69Z"/>
@@ -269,12 +227,55 @@
                             <path fill="#124b90" d="M0 91C176 35 374 29 549 63C710 93 840 82 942 42V100H0Z"/>
                             <path fill="#14345e" d="M0 95C176 43 374 37 549 70C710 100 840 89 942 49V100H0Z"/>
                         </svg>
-                    </article>
-                    <!-- FIM DO CERTIFICADO -->
+                    </article></div></section>
 
-                </div>
 
-            </section>
+                <aside class="authenticity-card">
+
+                    <h2>
+                        <img src="assets/img/certificado/escudo.svg" alt="">
+                        Autenticidade
+                    </h2>
+
+                    <p>
+                        Validar certificado abre a página pública de consulta,
+                        sem exigir login.
+                    </p>
+
+                    <div class="authenticity-code">
+                        <a id="painel-validacao">/validar-certificado</a>
+
+                        <p>
+                            Ou informe o código:
+                            <span id="painel-codigo"></span>
+                        </p>
+                    </div>
+
+                    <p class="authenticity-note">
+                        A consulta exibe nome, formação, data, identificador,
+                        resultado e situação do certificado.
+                    </p>
+
+                    <p class="authenticity-note">
+                        Você também pode escanear o QR Code com a câmera do celular.
+                    </p>
+
+                </aside>
+
+            </div>
+
+
+            <div class="certificate-history" id="certificado-historico">
+
+                <p>
+                    Consulte sua certificação novamente pelo histórico.
+                </p>
+
+                <a href="historico.html" class="btn btn-secondary">
+                    Ver histórico de certificação
+                </a>
+
+            </div>
 
         </div>
 
@@ -290,7 +291,7 @@
                 ÁgilCert • Aprenda no seu ritmo.
             </span>
 
-            <a href="#ajuda" class="footer-link">
+            <a href="home.html#rodape" class="footer-link">
                 Precisa de ajuda?
             </a>
 
@@ -305,5 +306,184 @@
     <script src="assets/js/vendor/qrcode.js"></script>
     <script src="assets/js/certificado.js"></script>
 
+
+    <!-- FUNCIONALIDADES DO HEADER -->
+    <script>
+
+        // MENU RESPONSIVO
+        const navToggle = document.querySelector('.nav-toggle');
+        const mainNav = document.getElementById('main-nav');
+
+        navToggle.addEventListener('click', () => {
+
+            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+
+            navToggle.setAttribute('aria-expanded', String(!expanded));
+            mainNav.classList.toggle('is-open', !expanded);
+
+        });
+
+        document.querySelectorAll('#main-nav a').forEach(link => {
+
+            link.addEventListener('click', () => {
+
+                navToggle.setAttribute('aria-expanded', 'false');
+                mainNav.classList.remove('is-open');
+
+            });
+
+        });
+
+
+        // MENU DO PERFIL
+        const profileMenu = document.getElementById('profileMenu');
+        const profileTrigger = document.getElementById('profileTrigger');
+
+        profileTrigger.addEventListener('click', function (e) {
+
+            e.stopPropagation();
+
+            profileMenu.classList.toggle('open');
+
+            const aberto = profileMenu.classList.contains('open');
+
+            profileTrigger.setAttribute('aria-expanded', String(aberto));
+
+        });
+
+        document.addEventListener('click', function (e) {
+
+            if (!profileMenu.contains(e.target)) {
+
+                profileMenu.classList.remove('open');
+                profileTrigger.setAttribute('aria-expanded', 'false');
+
+            }
+
+        });
+
+
+        // PERSISTÊNCIA DO USUÁRIO
+        document.addEventListener('DOMContentLoaded', async function () {
+
+            const token = localStorage.getItem('token');
+            const usuarioSalvo = localStorage.getItem('usuario');
+
+            const authButtons = document.getElementById('authButtons');
+            const userNameSpan = document.getElementById('userName');
+            const dropdownUserName = document.getElementById('dropdownUserName');
+
+            function exibirLogado(usuario) {
+
+                if (!usuario) return;
+
+                const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
+                const primeiroNome = nomeCompleto.trim().split(' ')[0];
+
+                userNameSpan.textContent = primeiroNome;
+                dropdownUserName.textContent = nomeCompleto;
+
+                const partes = nomeCompleto.trim().split(/\s+/);
+
+                const iniciais = partes[0][0] +
+                    (partes.length > 1
+                        ? partes[partes.length - 1][0]
+                        : partes[0].slice(1, 2));
+
+                document.getElementById('userInitials').textContent =
+                    iniciais.toUpperCase();
+
+                authButtons.style.display = 'none';
+                profileMenu.style.display = 'flex';
+
+            }
+
+            function exibirDeslogado() {
+
+                profileMenu.style.display = 'none';
+                authButtons.style.display = 'flex';
+
+            }
+
+            if (token && usuarioSalvo) {
+
+                try {
+
+                    const usuario = JSON.parse(usuarioSalvo);
+
+                    exibirLogado(usuario.usuario || usuario);
+
+                } catch (error) {
+
+                    console.error('Erro ao carregar usuário:', error);
+
+                }
+
+            } else if (!token) {
+
+                exibirDeslogado();
+                return;
+
+            }
+
+            if (token && typeof AgilCertAPI !== 'undefined') {
+
+                try {
+
+                    const resposta = await AgilCertAPI.request('usuarios/me');
+
+                    const usuarioAtualizado = resposta.usuario || resposta;
+
+                    if (usuarioAtualizado && usuarioAtualizado.nome) {
+
+                        localStorage.setItem(
+                            'usuario',
+                            JSON.stringify(usuarioAtualizado)
+                        );
+
+                        exibirLogado(usuarioAtualizado);
+
+                    }
+
+                } catch (error) {
+
+                    console.warn('API indisponível, usando dados salvos:', error);
+
+                    if (!usuarioSalvo) exibirDeslogado();
+
+                }
+
+            }
+
+        });
+
+
+        // SAIR DA CONTA
+        async function logout() {
+
+            const button = document.getElementById('sair');
+
+            button.disabled = true;
+
+            try {
+
+                await AgilCertAPI.logout();
+
+            } catch (error) {
+
+                document.getElementById('certificado-mensagem').textContent =
+                    error.message;
+
+                button.disabled = false;
+
+            }
+
+        }
+
+        document.getElementById('sair').addEventListener('click', logout);
+
+    </script>
+
 </body>
+
 </html>
