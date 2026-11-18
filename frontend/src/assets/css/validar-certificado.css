@@ -121,3 +121,50 @@ dd {
         padding: 20px;
     }
 }
+
+/* ==========================================================================
+   BOTÃO VOLTAR — CANTO SUPERIOR ESQUERDO
+   ========================================================================== */
+
+.btn-voltar {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    color: #005ac0;
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.btn-voltar:hover {
+    background: #dbeafe;
+    transform: translateY(-2px);
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+    .btn-voltar {
+        top: 12px;
+        left: 12px;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    body {
+        padding-top: 65px;
+    }
+}
