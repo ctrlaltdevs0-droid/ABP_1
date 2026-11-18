@@ -1,8 +1,8 @@
 # Funcionalidades e operação do ÁgilCert (PB-068)
 
 - **Issue:** #97
-- **Data:** 17/11/2026
-- **Base:** branch `main` no commit `64dcdb2`, com os textos de estudo da PB-057 (PR #101)
+- **Data:** 17/11/2026, atualizado em 18/11/2026
+- **Base:** branch `main` no commit `202d62f`, com os textos de estudo da PB-057 (PR #101) e os ajustes do certificado de 17/11
 - **Requisito do desafio:** RNF06 (instruções de instalação e descrição das funcionalidades implementadas)
 
 Este documento explica como executar o portal, como o banco é carregado, como rodar os testes e o que cada funcionalidade faz hoje. O que ainda não está pronto aparece em [Limitações conhecidas](#limitações-conhecidas).
@@ -132,7 +132,7 @@ O projeto **não usa migrations separadas**. Tudo está em dois arquivos:
 npm run seed:gerar
 ```
 
-- O seed não sobrescreve um texto de estudo que já existe no banco. Para atualizar os textos em um banco já carregado, veja [Coerência entre conteúdos e avaliações](COERENCIA_CONTEUDOS_AVALIACOES.md#bancos-que-já-têm-os-conteúdos).
+- O seed não sobrescreve um texto de estudo que já existe no banco. No Supabase do grupo, o material está cadastrado por seção e não deve receber a carga de textos por cima; veja [Bancos que já têm os conteúdos](COERENCIA_CONTEUDOS_AVALIACOES.md#bancos-que-já-têm-os-conteúdos).
 - O certificado usa as tabelas que já estão no `schema.sql`; não há passo extra de banco para ele.
 
 ## 5. Testes
@@ -143,16 +143,15 @@ npm run seed:gerar
 | `bash scripts/validar-seguranca.sh` (na raiz) | Regras da prova direto em um PostgreSQL temporário: concorrência, tempo, permissões e senha | Docker e Bash (no Windows, Git Bash) |
 | `node scripts/validar-container.mjs` (na raiz) | Cadastro, login, temas, estudos e logout no ambiente do Docker em execução | Ambiente da seção 2.1 no ar |
 
-### Evidência de 17/11/2026
+### Evidência de 17/11/2026, repetida em 18/11/2026
 
-`npm test` na pasta `backend`, com Node.js 24.19.0 no Windows 11:
+`npm test` na pasta `backend`, com Node.js 24.19.0 no Windows 11. O resultado foi o mesmo nas duas datas, a segunda já com os ajustes do certificado:
 
 ```text
 tests 39
 pass 36
 fail 0
 skipped 3
-duration ~2,1 s
 ```
 
 Os três testes ignorados são os que exigem PostgreSQL em Docker. Eles não contam como aprovados.
@@ -214,8 +213,8 @@ Ao terminar os 12 temas, **Ver resultado** mostra os acertos, o percentual e a s
 `certificado.html` abre por **Gerar certificado**, na tela de resultado, ou por **Ver certificado**, no histórico.
 
 - **Quem recebe:** só o dono de uma prova finalizada e aprovada. A aprovação e o titular são conferidos de novo no banco no momento da emissão.
-- **O que o certificado mostra:** nome do candidato, percentual de aproveitamento, data de emissão, código de validação e QR Code.
-- **Baixar:** o botão **Salvar em PDF** abre a impressão do navegador; escolha "Salvar como PDF".
+- **O que o certificado mostra:** nome do candidato, número de acertos (de 12), percentual de aproveitamento, data e hora de emissão, código de validação e QR Code.
+- **Baixar:** o botão **Baixar certificado** abre a impressão do navegador; escolha "Salvar como PDF".
 - **Sem duplicar:** emitir de novo a mesma prova devolve o mesmo certificado.
 - **Revogados:** um certificado inativo ou revogado não é exibido.
 
@@ -233,15 +232,13 @@ A consulta pública devolve apenas nome, acertos, percentual, data e código. CP
 
 | Item | Situação | Requisito | Issue |
 |---|---|---|---|
-| CPF, e-mail e hora da emissão no certificado | O certificado mostra nome, percentual e data, sem CPF, e-mail nem hora | RF18 | #81, #82 |
-| Nota final no certificado | Aparece o percentual; o número de acertos não é exibido | RF18 | #82 |
+| CPF e e-mail no certificado | O certificado mostra nome, acertos, percentual, data e hora, sem CPF nem e-mail | RF18 | #81 |
 | QR Code lido em outro aparelho | Só funciona se `AGILCERT_PUBLIC_BASE_URL` tiver o endereço público ou de rede do site. Com `localhost`, o QR Code só abre no próprio computador | RF19, RP08 | #84, #85 |
 | Mostrar a resposta correta logo após cada questão da prova | Não implementado na prova, embora as instruções da tela digam que a alternativa correta é exibida. Ela aparece no histórico, depois da prova finalizada, e no quiz de fixação | RF09, RF11 | #48 |
 | Figuras no texto de estudo | O texto de estudo não tem figuras; as imagens aparecem nas questões | RF07 | — |
 | Teste completo do sistema e teste de interrupções | Pendentes | — | #94, #95 |
 | Documentação completa da API | Pendente | RNF06 | #96 |
 | Execução pelo Docker nesta verificação | Não executada em 17/11/2026 (seção 5) | RNF07, RP05 | — |
-| Textos de estudo no Supabase do grupo | Precisam ser atualizados depois da PR #101 | RP07 | #88 |
 
 A emissão do certificado, o QR Code e a validação pública entraram na `main` pela PR #103. As issues #80 a #86 continuavam abertas no GitHub em 17/11/2026.
 
@@ -261,8 +258,8 @@ Tempo estimado: 10 a 12 minutos. Antes de começar, suba o ambiente (seção 2) 
 | 8 | Responder a duas questões e clicar em **Continuar depois** | Progresso salvo |
 | 9 | Clicar em **Retomar prova** | A prova segue do próximo tema |
 | 10 | Terminar e clicar em **Ver resultado** | Acertos, percentual e situação |
-| 11 | Com uma conta aprovada, clicar em **Gerar certificado** | Certificado com nome, percentual, data, código e QR Code |
-| 12 | Clicar em **Salvar em PDF** | Certificado salvo pela impressão do navegador |
+| 11 | Com uma conta aprovada, clicar em **Gerar certificado** | Certificado com nome, acertos, percentual, data e hora, código e QR Code |
+| 12 | Clicar em **Baixar certificado** e escolher "Salvar como PDF" | Certificado salvo pela impressão do navegador |
 | 13 | Abrir o link **Consultar autenticidade** em uma janela anônima | Validação pública, sem login |
 | 14 | Abrir **Histórico** e **Ver questões** | Resposta escolhida, resposta correta e data |
 | 15 | Abrir o perfil e sair | Dados do candidato e encerramento da sessão |
