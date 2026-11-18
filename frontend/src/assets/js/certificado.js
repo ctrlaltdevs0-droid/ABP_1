@@ -86,7 +86,7 @@
       el('btn-baixar').hidden = false;
       el('btn-validar').hidden = false;
       informar(['localhost', '127.0.0.1', '[::1]'].includes(validacao.hostname)
-        ? 'Para ler o QR Code pelo celular, configure o endereço público do site em assets/js/config.js.'
+        ? 'Para validar seu certificado, escaneie o QR code abaixo: '
         : '');
     } catch (erro) {
       if (!codigo && !localStorage.getItem('token')) { window.location.replace('login.html'); return; }
