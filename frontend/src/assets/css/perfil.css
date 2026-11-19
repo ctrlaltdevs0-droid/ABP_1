@@ -1,3 +1,4 @@
+
 /* ============================================================
    ÁgilCert - Perfil do Aluno | Folha de Estilos (perfil.css)
    Baseado na estrutura do perfil.html e Sistema de Tipografia
@@ -454,23 +455,36 @@ input:focus-visible {
 
 /* Botão de Ação Primária */
 .primary {
-  width: 100%;
-  min-height: 48px;
-  padding: 12px 24px;
-  border: 0;
-  border-radius: var(--raio-botao);
-  background-color: var(--cor-azul-primario);
-  color: #FFFFFF;
-  font-family: var(--fonte-inter);
-  font-size: 13px; /* button */
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  box-shadow: var(--sombra-botao);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color var(--transicao-rapida), transform var(--transicao-rapida), box-shadow var(--transicao-rapida);
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 24px;
+    box-sizing: border-box;
+
+    border: 0;
+    border-radius: var(--raio-botao);
+
+    background-color: var(--cor-azul-primario);
+    color: #FFFFFF;
+
+    font-family: var(--fonte-inter);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+
+    box-shadow: var(--sombra-botao);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+
+    cursor: pointer;
+    transition: background-color var(--transicao-rapida),
+                transform var(--transicao-rapida),
+                box-shadow var(--transicao-rapida);
 }
 
 .primary:hover:not(:disabled) {
@@ -681,11 +695,9 @@ summary:hover {
   stroke: var(--cor-azul-primario);
 }
 
-
 /* ============================================================
-   Painel do Processo da Jornada
+   Painel do Processo da Jornada (Card Inferior)
    ============================================================ */
-
 .journey {
   margin-top: 24px;
   min-height: 200px;
@@ -697,13 +709,12 @@ summary:hover {
   margin-bottom: 6px;
   font-family: var(--fonte-inter);
   font-weight: 500;
-  font-size: 21px;
-  color: var(--texto-titulo);
+  font-size: 21px; /* h6 */
 }
 
 .journey > p {
   font-family: var(--fonte-inter);
-  font-size: 14px;
+  font-size: 14px; /* body2 */
   font-weight: 400;
   color: var(--texto-suave);
   margin-bottom: 24px;
@@ -713,8 +724,7 @@ summary:hover {
   margin-top: 20px;
 }
 
-/* Trilho da barra */
-
+/* Trilho da Barra de Progresso */
 .track {
   width: 100%;
   height: 24px;
@@ -725,8 +735,7 @@ summary:hover {
   position: relative;
 }
 
-/* Preenchimento verde */
-
+/* Preenchimento Dinâmico da Barra */
 .fill {
   width: 0%;
   height: 100%;
@@ -734,32 +743,29 @@ summary:hover {
   border-radius: var(--raio-pilula);
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: width 0.6s ease;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
 }
 
-/* Divisões das três etapas */
-
-.track::before,
-.track::after {
+/* Linhas Marcadoras de Fases */
+.fill::before,
+.fill::after {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 3px;
-  background-color: #FFFFFF;
-  z-index: 2;
+  width: 2.5px;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
-.track::before {
-  left: 33.333%;
+.fill::before {
+  left: 21.5%;
 }
 
-.track::after {
-  left: 66.666%;
+.fill::after {
+  left: 85%;
 }
 
-/* Textos das etapas */
-
+/* Rótulos dos Marcos da Jornada */
 .milestones {
   display: flex;
   justify-content: space-between;
@@ -767,7 +773,7 @@ summary:hover {
   padding: 12px 14px 0;
   font-family: var(--fonte-inter);
   font-weight: 500;
-  font-size: 15px;
+  font-size: 15px; /* subtitle2 */
   color: var(--texto-rotulo);
 }
 
@@ -776,33 +782,11 @@ summary:hover {
   flex: 1;
 }
 
-/* Etapas concluídas */
-
+/* Destaque para etapas já concluídas */
 .milestones span.completed {
   color: var(--cor-verde-escuro);
   font-weight: 700;
 }
-
-/* Responsividade da jornada */
-
-@media (max-width: 760px) {
-  .journey {
-    margin-top: 18px;
-    padding: 22px 18px 26px;
-    min-height: auto;
-  }
-
-  .milestones {
-    font-size: 12px;
-    padding: 10px 0 0;
-    gap: 6px;
-  }
-
-  .track {
-    height: 20px;
-  }
-}
-
 
 /* ============================================================
    Caixa de Diálogo Modal (<dialog>)
@@ -1040,6 +1024,7 @@ footer {
     height: 20px;
   }
 }
+
 /* ============================================================
    Adições para Correção do Menu Account e Remoção de Inline Styles
    ============================================================ */
@@ -1171,4 +1156,277 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ============================================================
+   RESPONSIVIDADE - MENU OLÁ, USUÁRIO
+   ============================================================ */
+
+/* Telas menores e tablets */
+@media (max-width: 1050px) {
+  .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 80px;
+    padding: 12px 24px;
+    row-gap: 10px;
+  }
+
+  .account {
+    margin-left: auto;
+    flex-shrink: 0;
+    max-width: 100%;
+  }
+
+  .account-toggle-btn {
+    white-space: nowrap;
+  }
+
+  .account-links {
+    right: 0;
+    top: calc(100% + 4px);
+  }
+}
+
+/* Celulares */
+@media (max-width: 760px) {
+  .topbar {
+    position: sticky;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .account {
+    margin-left: auto;
+    padding: 5px 9px;
+    gap: 7px;
+    max-width: calc(100% - 100px);
+  }
+
+  .account-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .account-toggle-btn {
+    min-width: 0;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  #account-name-display {
+    display: inline-block;
+    max-width: 95px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+  }
+
+  .account-links {
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 140px;
+    z-index: 1000;
+  }
+
+  #logout-button {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Celulares muito estreitos */
+@media (max-width: 380px) {
+  .account {
+    padding: 4px 7px;
+    gap: 5px;
+  }
+
+  .account-toggle-btn {
+    font-size: 11px;
+  }
+
+  #account-name-display {
+    max-width: 65px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVIDADE DO HEADER - PERFIL
+   Menu principal + menu Olá, usuário
+   ============================================================ */
+
+/* Telas menores e notebooks */
+@media (max-width: 1200px) {
+  .topbar {
+    gap: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .nav {
+    flex: 1;
+    justify-content: center;
+    margin-left: 0;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .nav a {
+    padding: 9px 10px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .account {
+    gap: 8px;
+    padding: 6px 9px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1050px) {
+  .topbar {
+    height: auto;
+    min-height: 80px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    row-gap: 8px;
+  }
+
+  .brand {
+    height: 55px;
+  }
+
+  .nav {
+    order: 3;
+    flex: 0 0 100%;
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .account {
+    margin-left: auto;
+  }
+
+  .account-links {
+    right: 0 !important;
+    left: auto !important;
+  }
+}
+
+/* Celulares */
+@media (max-width: 760px) {
+  .topbar {
+    padding: 10px 14px 12px;
+    gap: 8px;
+  }
+
+  .brand {
+    max-width: 45%;
+    height: 48px;
+  }
+
+  .nav {
+    order: 3;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+    flex: 0 0 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 8px 0 5px;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav a {
+    flex: 0 0 auto;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .account {
+    margin-left: auto;
+    max-width: 55%;
+    padding: 5px 8px;
+    gap: 6px;
+  }
+
+  .account-icon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .account-toggle-btn {
+    min-width: 0;
+    max-width: 100%;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  #account-name-display {
+    display: inline-block;
+    max-width: 85px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+  }
+
+  .account-links {
+    min-width: 140px !important;
+    right: 0 !important;
+    left: auto !important;
+  }
+}
+
+/* Celulares menores */
+@media (max-width: 380px) {
+  .topbar {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .account {
+    gap: 4px;
+    padding: 4px 6px;
+  }
+
+  .account-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .account-toggle-btn {
+    font-size: 11px;
+  }
+
+  #account-name-display {
+    max-width: 65px;
+  }
+
+  .nav {
+    gap: 4px;
+  }
+
+  .nav a {
+    font-size: 12px;
+    padding: 7px 9px;
+  }
 }
