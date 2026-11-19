@@ -454,23 +454,36 @@ input:focus-visible {
 
 /* Botão de Ação Primária */
 .primary {
-  width: 100%;
-  min-height: 48px;
-  padding: 12px 24px;
-  border: 0;
-  border-radius: var(--raio-botao);
-  background-color: var(--cor-azul-primario);
-  color: #FFFFFF;
-  font-family: var(--fonte-inter);
-  font-size: 13px; /* button */
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  box-shadow: var(--sombra-botao);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color var(--transicao-rapida), transform var(--transicao-rapida), box-shadow var(--transicao-rapida);
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 24px;
+    box-sizing: border-box;
+
+    border: 0;
+    border-radius: var(--raio-botao);
+
+    background-color: var(--cor-azul-primario);
+    color: #FFFFFF;
+
+    font-family: var(--fonte-inter);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+
+    box-shadow: var(--sombra-botao);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+
+    cursor: pointer;
+    transition: background-color var(--transicao-rapida),
+                transform var(--transicao-rapida),
+                box-shadow var(--transicao-rapida);
 }
 
 .primary:hover:not(:disabled) {
