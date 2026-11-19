@@ -17,9 +17,10 @@ const iconeOlhoFechado = `
   </svg>
 `;
 
+// Alterna a visibilidade da senha.
 window.toggleSenha = function (inputId, btn) {
   const input = document.getElementById(inputId);
-  if (!input) return;
+  if (!input || !btn) return;
 
   if (input.type === 'password') {
     input.type = 'text';
@@ -30,6 +31,7 @@ window.toggleSenha = function (inputId, btn) {
   }
 };
 
+// Formatação do CPF.
 function formatarCPF(cpf) {
   if (!cpf) return '—';
 
@@ -43,6 +45,7 @@ function formatarCPF(cpf) {
   );
 }
 
+// Extrai as iniciais do nome.
 function obterIniciais(nome) {
   if (!nome) return '—';
 
@@ -149,6 +152,8 @@ async function atualizarProgressoJornada() {
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+  // Mapeamento dos elementos do HTML.
   const profileName = document.getElementById('profile-name');
   const profileAvatar = document.getElementById('profile-avatar');
   const profileFullname = document.getElementById('profile-fullname');
@@ -170,6 +175,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let usuarioOriginal = null;
 
+  // Redireciona para o login caso não exista token.
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -177,28 +183,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
+  // Preenche os dados do usuário na tela.
   function preencherCampos(usuario) {
     if (!usuario) return;
 
     usuarioOriginal = usuario;
 
+    // Nome, e-mail e CPF.
     if (profileFullname) profileFullname.value = usuario.nome || '';
     if (profileEmail) profileEmail.value = usuario.email || '';
     if (profileCpf) profileCpf.textContent = formatarCPF(usuario.cpf);
 
+    // Título e avatar.
     if (profileName) profileName.textContent = usuario.nome || 'Minha conta';
     if (profileAvatar) profileAvatar.textContent = obterIniciais(usuario.nome);
 
+    // E-mail exibido no menu da conta.
     const displayEmail = document.getElementById('profile-display-email');
+
     if (displayEmail) {
       displayEmail.textContent = usuario.email || '';
     }
 
+    // Nome exibido no menu da conta.
     const accountName = document.getElementById('account-name-display');
+
     if (accountName) {
-      accountName.textContent = (usuario.nome || 'Vitoria').trim().split(/\s+/)[0];
+      accountName.textContent = (usuario.nome || 'Vitoria')
+        .trim()
+        .split(/\s+/)[0];
     }
 
+    // Iniciais do ícone da conta.
     const accountIcon = document.querySelector('.account-icon');
 
     if (accountIcon) {
@@ -214,7 +230,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Carrega o cache do usuário.
+  // 1. Carrega os dados salvos no localStorage.
   const usuarioSalvo = localStorage.getItem('usuario');
 
   if (usuarioSalvo) {
@@ -226,7 +242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Busca os dados atualizados do usuário.
+  // 2. Busca os dados atualizados do usuário na API.
   try {
     const resposta = await AgilCertAPI.request('usuarios/me');
     const usuarioAtualizado = resposta.usuario || resposta;
@@ -238,6 +254,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (profileStatus) {
       profileStatus.textContent = '';
     }
+
   } catch (erro) {
     console.error('Erro ao buscar perfil:', erro);
 
@@ -247,12 +264,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Atualiza a barra ao abrir o perfil.
+  // Atualiza a barra de progresso ao abrir o perfil.
   await atualizarProgressoJornada();
 
-  // Verifica alterações no perfil.
+  // 3. Verifica alterações no nome e no e-mail.
   function checarMudancas() {
-    if (!usuarioOriginal) return;
+    if (!usuarioOriginal || !profileFullname || !profileEmail) return;
 
     const nomeMudou =
       profileFullname.value.trim() !== (usuarioOriginal.nome || '');
@@ -269,14 +286,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   profileFullname?.addEventListener('input', checarMudancas);
   profileEmail?.addEventListener('input', checarMudancas);
 
-  // Salva nome e e-mail.
+  // 4. Salva alterações de nome e e-mail.
   profileForm?.addEventListener('submit', async (evento) => {
     evento.preventDefault();
 
-    if (profileStatus) profileStatus.textContent = '';
+    if (profileStatus) {
+      profileStatus.textContent = '';
+    }
 
     try {
-      if (saveProfileBtn) saveProfileBtn.disabled = true;
+      if (saveProfileBtn) {
+        saveProfileBtn.disabled = true;
+      }
 
       const resposta = await AgilCertAPI.request('usuarios/me', {
         method: 'PATCH',
@@ -296,17 +317,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         profileStatus.textContent = 'Perfil atualizado com sucesso!';
         profileStatus.style.color = '#2ecc71';
       }
+
     } catch (erro) {
       if (profileStatus) {
-        profileStatus.textContent = erro.message || 'Erro ao salvar alterações.';
+        profileStatus.textContent =
+          erro.message || 'Erro ao salvar alterações.';
         profileStatus.style.color = '#e74c3c';
       }
 
-      if (saveProfileBtn) saveProfileBtn.disabled = false;
+      if (saveProfileBtn) {
+        saveProfileBtn.disabled = false;
+      }
     }
   });
 
-  // Valida os campos de senha.
+  // 5. Valida os campos de senha.
   function checarValidacaoSenha() {
     const atual = currentPasswordInput?.value || '';
     const nova = newPasswordInput?.value || '';
@@ -325,11 +350,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   newPasswordInput?.addEventListener('input', checarValidacaoSenha);
   confirmPasswordInput?.addEventListener('input', checarValidacaoSenha);
 
-  // Altera a senha.
+  // 6. Altera a senha.
   passwordForm?.addEventListener('submit', async (evento) => {
     evento.preventDefault();
 
-    if (passwordStatus) passwordStatus.textContent = '';
+    if (passwordStatus) {
+      passwordStatus.textContent = '';
+    }
 
     if (newPasswordInput.value !== confirmPasswordInput.value) {
       if (passwordStatus) {
@@ -342,7 +369,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      if (savePasswordBtn) savePasswordBtn.disabled = true;
+      if (savePasswordBtn) {
+        savePasswordBtn.disabled = true;
+      }
 
       await AgilCertAPI.request('usuarios/me/senha', {
         method: 'PATCH',
@@ -372,16 +401,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         passwordStatus.style.color = '#e74c3c';
       }
 
-      if (savePasswordBtn) savePasswordBtn.disabled = false;
+      if (savePasswordBtn) {
+        savePasswordBtn.disabled = false;
+      }
     }
   });
 
-  // Logout.
+  // 7. Botão de logout.
   logoutBtn?.addEventListener('click', async () => {
     logoutBtn.disabled = true;
 
     try {
       await AgilCertAPI.logout();
+
     } catch (erro) {
       if (profileStatus) {
         profileStatus.textContent = erro.message;
@@ -391,7 +423,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Menu da conta.
+  // 8. Menu da conta.
   const accountContainer = document.getElementById('account-container');
   const accountToggle = document.getElementById('account-toggle');
 
@@ -414,4 +446,5 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
   }
+
 });
