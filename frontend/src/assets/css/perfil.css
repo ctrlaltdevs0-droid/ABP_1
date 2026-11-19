@@ -1147,3 +1147,276 @@ footer {
   align-items: center;
   justify-content: center;
 }
+
+/* ============================================================
+   RESPONSIVIDADE - MENU OLÁ, USUÁRIO
+   ============================================================ */
+
+/* Telas menores e tablets */
+@media (max-width: 1050px) {
+  .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 80px;
+    padding: 12px 24px;
+    row-gap: 10px;
+  }
+
+  .account {
+    margin-left: auto;
+    flex-shrink: 0;
+    max-width: 100%;
+  }
+
+  .account-toggle-btn {
+    white-space: nowrap;
+  }
+
+  .account-links {
+    right: 0;
+    top: calc(100% + 4px);
+  }
+}
+
+/* Celulares */
+@media (max-width: 760px) {
+  .topbar {
+    position: sticky;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .account {
+    margin-left: auto;
+    padding: 5px 9px;
+    gap: 7px;
+    max-width: calc(100% - 100px);
+  }
+
+  .account-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .account-toggle-btn {
+    min-width: 0;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  #account-name-display {
+    display: inline-block;
+    max-width: 95px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+  }
+
+  .account-links {
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 140px;
+    z-index: 1000;
+  }
+
+  #logout-button {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Celulares muito estreitos */
+@media (max-width: 380px) {
+  .account {
+    padding: 4px 7px;
+    gap: 5px;
+  }
+
+  .account-toggle-btn {
+    font-size: 11px;
+  }
+
+  #account-name-display {
+    max-width: 65px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVIDADE DO HEADER - PERFIL
+   Menu principal + menu Olá, usuário
+   ============================================================ */
+
+/* Telas menores e notebooks */
+@media (max-width: 1200px) {
+  .topbar {
+    gap: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .nav {
+    flex: 1;
+    justify-content: center;
+    margin-left: 0;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .nav a {
+    padding: 9px 10px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .account {
+    gap: 8px;
+    padding: 6px 9px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1050px) {
+  .topbar {
+    height: auto;
+    min-height: 80px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    row-gap: 8px;
+  }
+
+  .brand {
+    height: 55px;
+  }
+
+  .nav {
+    order: 3;
+    flex: 0 0 100%;
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .account {
+    margin-left: auto;
+  }
+
+  .account-links {
+    right: 0 !important;
+    left: auto !important;
+  }
+}
+
+/* Celulares */
+@media (max-width: 760px) {
+  .topbar {
+    padding: 10px 14px 12px;
+    gap: 8px;
+  }
+
+  .brand {
+    max-width: 45%;
+    height: 48px;
+  }
+
+  .nav {
+    order: 3;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+    flex: 0 0 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 8px 0 5px;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav a {
+    flex: 0 0 auto;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .account {
+    margin-left: auto;
+    max-width: 55%;
+    padding: 5px 8px;
+    gap: 6px;
+  }
+
+  .account-icon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .account-toggle-btn {
+    min-width: 0;
+    max-width: 100%;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  #account-name-display {
+    display: inline-block;
+    max-width: 85px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+  }
+
+  .account-links {
+    min-width: 140px !important;
+    right: 0 !important;
+    left: auto !important;
+  }
+}
+
+/* Celulares menores */
+@media (max-width: 380px) {
+  .topbar {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .account {
+    gap: 4px;
+    padding: 4px 6px;
+  }
+
+  .account-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .account-toggle-btn {
+    font-size: 11px;
+  }
+
+  #account-name-display {
+    max-width: 65px;
+  }
+
+  .nav {
+    gap: 4px;
+  }
+
+  .nav a {
+    font-size: 12px;
+    padding: 7px 9px;
+  }
+}

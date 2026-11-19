@@ -176,16 +176,32 @@
       </div>
 
       <section class="journey panel" id="jornada" aria-labelledby="journey-title">
-        <h2 id="journey-title">Processo da jornada</h2>
-        <p>Progresso ainda não disponibilizado pelo serviço.</p>
-        <div class="progress-wrap">
-          <div class="track" role="progressbar" aria-label="Progresso da jornada" aria-valuemin="0" aria-valuemax="100"
-            aria-valuetext="Progresso não disponível">
-            <div class="fill" style="width:0"></div>
-          </div>
-          <div class="milestones"><span>Estudos Iniciados</span><span>Simulado Concluído</span><span>Certificação Ágil</span></div>
-        </div>
-      </section>
+  <h2 id="journey-title">Processo da jornada</h2>
+
+  <p id="journey-description">Carregando seu progresso...</p>
+
+  <div class="progress-wrap">
+    <div
+      class="track"
+      id="journey-progress"
+      role="progressbar"
+      aria-label="Progresso da jornada"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+    >
+      <div class="fill" id="journey-fill" style="width: 0%"></div>
+    </div>
+
+    <div class="milestones">
+      <span id="milestone-studies">Estudos Iniciados</span>
+      <span id="milestone-simulation">Simulado Concluído</span>
+      <span id="milestone-certification">Certificação Ágil</span>
+    </div>
+
+    <p id="journey-percentage">0% concluído</p>
+  </div>
+</section>
     </main>
   </div>
 

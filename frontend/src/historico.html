@@ -17,55 +17,96 @@
 
 <body>
 
-  <!-- CABEÇALHO -->
+  <!-- HEADER -->
   <header class="site-header">
 
-    <a href="home.html" class="header-logo">
-      <img src="assets/img/logo-transparente.png" alt="ÁgilCert" width="130">
+    <a href="home.html" class="logo-link">
+      <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
     </a>
 
+    <button class="nav-toggle" type="button" aria-controls="main-nav" aria-expanded="false">
+      Menu
+    </button>
+
     <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
-      <a href="home.html" class="nav-link">Início</a>
-      <a href="estudos.html" class="nav-link">Estudos</a>
-      <a href="certificacao.html" class="nav-link">Certificação</a>
-      <a href="historico.html" class="nav-link active" aria-current="page">Histórico</a>
-      <a href="home.html#sobre-nos" class="nav-link">Sobre nós</a>
+      <a class="nav-link" href="home.html">Início</a>
+      <a class="nav-link" href="estudos.html">Estudos</a>
+      <a class="nav-link" href="certificacao.html">Certificação</a>
+      <a class="nav-link active" href="historico.html" aria-current="page">Histórico</a>
+      <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
     </nav>
 
-    <!-- PERFIL DO USUÁRIO -->
-    <div class="profile-menu" id="profileMenu">
+    <div class="header-actions header-actions-custom">
 
-      <button type="button" class="profile-trigger" id="profileTrigger" aria-expanded="false"
-        aria-controls="userProfileMenu">
-        <span class="profile-avatar account-initials-box" id="userAvatar"></span>
-
-        <span class="profile-name">
-          Olá, <span id="userName">Usuário</span>
-        </span>
-
-        <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-          stroke-width="2">
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
-
-      <div class="dropdown">
-        <div class="dropdown-header">
-          <div class="profile-username" id="dropdownUserName">Usuário</div>
-          <div class="profile-greeting">Minha conta</div>
-        </div>
-
-        <div class="dropdown-body">
-          <a href="perfil.html">Meu Perfil</a>
-          <a href="historico.html">Histórico</a>
-          <div class="divider"></div>
-          <button class="danger" type="button" id="sair">Sair</button>
-        </div>
+      <!-- USUÁRIO DESLOGADO -->
+      <div id="authButtons" class="auth-buttons-custom">
+        <a href="login.html" class="nav-link">Entrar</a>
+        <a href="cadastro.html" class="nav-link">Cadastrar</a>
       </div>
+
+      <!-- MENU DO PERFIL -->
+      <div class="profile-menu" id="profileMenu" style="display: none;">
+
+        <button
+          class="profile-trigger"
+          type="button"
+          id="profileTrigger"
+          aria-expanded="false"
+          aria-controls="userProfileMenu"
+          aria-label="Menu do perfil">
+
+          <div class="profile-avatar profile-avatar-img">
+            <span id="userInitials" class="account-initials-span">—</span>
+
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+            </svg>
+
+          </div>
+
+          <span class="profile-name">
+            Olá, <span id="userName">Usuário</span>
+          </span>
+
+          <span class="chevron">▼</span>
+
+        </button>
+
+        <div class="dropdown" id="userProfileMenu">
+
+          <div class="dropdown-header">
+            <div class="profile-username" id="dropdownUserName">
+              Usuário
+            </div>
+
+            <div class="profile-greeting">
+              Minha conta
+            </div>
+          </div>
+
+          <div class="dropdown-body">
+
+            <a href="perfil.html">Meu Perfil</a>
+
+            <a href="historico.html">Histórico</a>
+
+            <div class="divider"></div>
+
+            <button class="danger" type="button" id="sair">
+              Sair
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
-  </div>
 
   </header>
+
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="study-main">
@@ -80,7 +121,9 @@
 
     <!-- LISTA DAS TENTATIVAS -->
     <div class="tabela-historico">
+
       <table id="lista" hidden>
+
         <thead>
           <tr>
             <th>Data</th>
@@ -92,13 +135,18 @@
         </thead>
 
         <tbody id="tentativas"></tbody>
+
       </table>
+
     </div>
 
     <!-- DETALHE DE UMA TENTATIVA -->
     <section id="detalhe" hidden aria-labelledby="titulo-detalhe">
+
       <h2 id="titulo-detalhe">Questões da prova</h2>
+
       <ol id="questoes" class="questoes-historico"></ol>
+
     </section>
 
     <noscript>
@@ -108,89 +156,203 @@
   </main>
 
 
-<script>
-(() => {
-  const profileMenu = document.getElementById('profileMenu');
-  const profileTrigger = document.getElementById('profileTrigger');
+  <!-- JAVASCRIPT DO HEADER -->
+  <script>
 
-  const userName = document.getElementById('userName');
-  const dropdownUserName = document.getElementById('dropdownUserName');
-  const userAvatar = document.getElementById('userAvatar');
+    // =====================================================
+    // MENU RESPONSIVO
+    // =====================================================
 
-  // Preencher informações do usuário
-  function preencherNome(usuario) {
-    if (!usuario) return;
+    const navToggle = document.querySelector('.nav-toggle');
+    const mainNav = document.getElementById('main-nav');
 
-    const nome = usuario.nome || usuario.name || 'Usuário';
-    const partes = nome.trim().split(/\s+/);
+    navToggle.addEventListener('click', () => {
 
-    // Primeiro nome
-    userName.textContent = partes[0];
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
 
-    // Nome completo no menu
-    dropdownUserName.textContent = nome;
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      mainNav.classList.toggle('is-open', !expanded);
 
-    // Gerar iniciais
-    const iniciais = (
-      partes[0][0] +
-      (partes.length > 1
-        ? partes[partes.length - 1][0]
-        : partes[0].slice(1, 2))
-    ).toUpperCase();
+    });
 
-    userAvatar.textContent = iniciais;
-  }
+    document.querySelectorAll('#main-nav a').forEach(link => {
 
-  // Recuperar usuário salvo
-  const usuarioSalvo = localStorage.getItem('usuario');
+      link.addEventListener('click', () => {
 
-  if (usuarioSalvo) {
-    try {
-      const usuario = JSON.parse(usuarioSalvo);
-      preencherNome(usuario.usuario || usuario);
-    } catch (error) {
-      console.error('Erro ao carregar usuário:', error);
-    }
-  }
+        navToggle.setAttribute('aria-expanded', 'false');
+        mainNav.classList.remove('is-open');
 
-  // Atualizar informações pela API
-  const token = localStorage.getItem('token');
-
-  if (token && window.AgilCertAPI) {
-    window.AgilCertAPI.request('usuarios/me')
-      .then(res => {
-        const usuario = res.usuario || res;
-
-        if (usuario && usuario.nome) {
-          localStorage.setItem('usuario', JSON.stringify(usuario));
-          preencherNome(usuario);
-        }
-      })
-      .catch(error => {
-        console.warn('Erro ao atualizar perfil:', error);
       });
-  }
 
-  // Abrir e fechar menu
-  profileTrigger.addEventListener('click', event => {
-    event.stopPropagation();
+    });
 
-    const aberto = profileMenu.classList.toggle('open');
 
-    profileTrigger.setAttribute('aria-expanded', String(aberto));
-  });
+    // =====================================================
+    // MENU DO PERFIL
+    // =====================================================
 
-  // Fechar ao clicar fora
-  document.addEventListener('click', event => {
-    if (!profileMenu.contains(event.target)) {
-      profileMenu.classList.remove('open');
-      profileTrigger.setAttribute('aria-expanded', 'false');
+    const profileMenu = document.getElementById('profileMenu');
+    const profileTrigger = document.getElementById('profileTrigger');
+
+    profileTrigger.addEventListener('click', function (event) {
+
+      event.stopPropagation();
+
+      profileMenu.classList.toggle('open');
+
+      const aberto = profileMenu.classList.contains('open');
+
+      profileTrigger.setAttribute('aria-expanded', String(aberto));
+
+    });
+
+    document.addEventListener('click', function (event) {
+
+      if (!profileMenu.contains(event.target)) {
+
+        profileMenu.classList.remove('open');
+        profileTrigger.setAttribute('aria-expanded', 'false');
+
+      }
+
+    });
+
+
+    // =====================================================
+    // PERSISTÊNCIA DO USUÁRIO
+    // =====================================================
+
+    document.addEventListener('DOMContentLoaded', async function () {
+
+      const token = localStorage.getItem('token');
+      const usuarioSalvo = localStorage.getItem('usuario');
+
+      const authButtons = document.getElementById('authButtons');
+      const userNameSpan = document.getElementById('userName');
+      const dropdownUserName = document.getElementById('dropdownUserName');
+      const userInitials = document.getElementById('userInitials');
+
+      // Exibe os dados do usuário logado
+      function exibirLogado(usuario) {
+
+        if (!usuario) return;
+
+        const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
+        const partes = nomeCompleto.trim().split(/\s+/);
+
+        const primeiroNome = partes[0];
+
+        userNameSpan.textContent = primeiroNome;
+        dropdownUserName.textContent = nomeCompleto;
+
+        const iniciais = partes[0][0] +
+          (partes.length > 1
+            ? partes[partes.length - 1][0]
+            : partes[0].slice(1, 2));
+
+        userInitials.textContent = iniciais.toUpperCase();
+
+        authButtons.style.display = 'none';
+        profileMenu.style.display = 'flex';
+
+      }
+
+      // Exibe os botões de login e cadastro
+      function exibirDeslogado() {
+
+        profileMenu.style.display = 'none';
+        authButtons.style.display = 'flex';
+
+      }
+
+      // Recupera os dados salvos no navegador
+      if (token && usuarioSalvo) {
+
+        try {
+
+          const usuario = JSON.parse(usuarioSalvo);
+
+          exibirLogado(usuario.usuario || usuario);
+
+        } catch (error) {
+
+          console.error('Erro ao carregar usuário:', error);
+
+          exibirDeslogado();
+
+        }
+
+      } else if (!token) {
+
+        exibirDeslogado();
+
+        return;
+
+      }
+
+      // Atualiza os dados pela API
+      if (token && typeof AgilCertAPI !== 'undefined') {
+
+        try {
+
+          const resposta = await AgilCertAPI.request('usuarios/me');
+
+          const usuarioAtualizado = resposta.usuario || resposta;
+
+          if (usuarioAtualizado && usuarioAtualizado.nome) {
+
+            localStorage.setItem(
+              'usuario',
+              JSON.stringify(usuarioAtualizado)
+            );
+
+            exibirLogado(usuarioAtualizado);
+
+          }
+
+        } catch (error) {
+
+          console.warn('API indisponível, usando dados salvos:', error);
+
+          if (!usuarioSalvo) {
+            exibirDeslogado();
+          }
+
+        }
+
+      }
+
+    });
+
+
+    // =====================================================
+    // SAIR DA CONTA
+    // =====================================================
+
+    async function logout() {
+
+      const button = document.getElementById('sair');
+      const mensagem = document.getElementById('mensagem');
+
+      button.disabled = true;
+
+      try {
+
+        await AgilCertAPI.logout();
+
+      } catch (error) {
+
+        mensagem.textContent = error.message;
+
+        button.disabled = false;
+
+      }
+
     }
-  });
 
-})();
-</script>
+    document.getElementById('sair').addEventListener('click', logout);
 
+  </script>
 
 </body>
 
