@@ -20,7 +20,8 @@ Para cada questão, foram conferidos três pontos:
 
 - **48 de 48** questões estão no tema certo e têm a resposta ensinada no material "Cursos - ABP". Os enunciados, as alternativas e os gabaritos são iguais aos do documento.
 - Os 12 temas do portal correspondem aos temas 1, 3 a 11, 14 e 15 da tabela de sugestões do desafio, e as questões cobram o conteúdo indicado para cada um.
-- **Divergência encontrada:** o texto de estudo que o portal exibia era um resumo diferente do material "Cursos - ABP". Com ele, 23 questões tinham a resposta no texto do tema, 14 tinham só em parte e 11 cobravam um assunto que o texto não apresentava.
+- **Divergência encontrada:** o texto de estudo da carga do repositório (`seed.sql`), usado pelo Docker e por qualquer banco novo, era um resumo diferente do material "Cursos - ABP". Com ele, 23 questões tinham a resposta no texto do tema, 14 tinham só em parte e 11 cobravam um assunto que o texto não apresentava.
+- **No Supabase do grupo**, o material "Cursos - ABP" já estava cadastrado por seção; o resumo da carga aparecia no fim de cada tema. Veja [Bancos que já têm os conteúdos](#bancos-que-já-têm-os-conteúdos).
 - **Depois da correção:** os 12 textos de estudo passaram a seguir o material "Cursos - ABP", e as **48 questões** têm a resposta no texto do seu tema.
 - Nenhuma questão foi alterada, então o histórico das provas já feitas continua igual.
 
@@ -81,7 +82,7 @@ Legenda da coluna "Texto anterior": ✅ o texto ensinava a resposta · ⚠️ a 
 
 ## Divergências
 
-1. **Texto de estudo incompleto no portal.** Os textos em `content-estudos.json` não traziam os conceitos marcados com ❌ e ⚠️ na tabela. Um candidato que estudasse só pelo portal encontraria na prova termos que não viu, como Crise do Software, Story Points, Planning Poker, Velocity, Trello e Jira.
+1. **Texto de estudo incompleto na carga do repositório.** Os textos em `content-estudos.json` não traziam os conceitos marcados com ❌ e ⚠️ na tabela. Em um banco carregado pelo repositório, um candidato que estudasse só pelo portal encontraria na prova termos que não viu, como Crise do Software, Story Points, Planning Poker, Velocity, Trello e Jira.
 2. **Formatação do texto de estudo.** A página de estudos insere o texto como HTML. Como o texto da carga usava apenas quebras de linha, os três parágrafos de cada tema apareciam juntos em um bloco só.
 3. **Nomes dos temas no README principal.** O README listava "Papéis no Scrum", "Product Backlog", "Ferramentas Ágeis" e "Boas Práticas"; no banco e na prova os nomes são "Papéis do Scrum", "Gestão do Product Backlog", "Ferramentas para Equipes Ágeis" e "Boas Práticas em Projetos Ágeis".
 
@@ -112,14 +113,31 @@ O que **não** entrou nos textos do portal:
 
 ### Bancos que já têm os conteúdos
 
-O `seed.sql` não sobrescreve um conteúdo que já existe (`ON CONFLICT (codigo_seed) DO NOTHING`). Um banco novo recebe os textos atualizados. Em um banco que já tem a carga anterior, como o Supabase do grupo ou um volume antigo do Docker, é preciso remover os 12 materiais da carga e executar o `seed.sql` de novo:
+O `seed.sql` não sobrescreve um conteúdo que já existe (`ON CONFLICT (codigo_seed) DO NOTHING`). Um banco novo, como o do Docker, recebe o texto completo pela carga e não precisa de nenhum passo extra.
+
+**Supabase do grupo.** Em 18/11/2026, a consulta à tabela `conteudos` mostrou que o material "Cursos - ABP" já estava cadastrado em seções (de 4 a 10 por tema), sem `codigo_seed`, e que cada tema também exibia no fim o resumo antigo da carga (`PB056-1` a `PB056-12`). Os 12 resumos foram desativados, sem apagar registros:
 
 ```sql
-DELETE FROM conteudos WHERE codigo_seed LIKE 'PB056-%';
--- depois, executar backend/database/seed.sql
+UPDATE conteudos SET status = false WHERE codigo_seed LIKE 'PB056-%';
 ```
 
-O comando apaga somente os 12 materiais criados pela carga. Nenhuma outra tabela referencia `conteudos`, então progresso de estudos, tentativas e histórico não são afetados. **Este passo ainda não foi executado no Supabase do grupo.**
+Depois disso, a mesma consulta confirmou os 12 temas com as seções ativas e nenhum resumo antigo ativo. A conclusão dos temas, o quiz, as provas e o histórico não dependem dessas linhas. Para desfazer, basta trocar `false` por `true`.
+
+> **Atenção:** não carregar os textos novos por cima de um banco que já tem as seções (por exemplo, apagando as linhas `PB056-*` e executando o `seed.sql` de novo). O material apareceria duas vezes em cada tema.
+
+Consulta usada na conferência, que não altera dados:
+
+```sql
+SELECT t.ordem, t.nome,
+  count(*) FILTER (WHERE c.codigo_seed IS NULL AND c.status) AS secoes_ativas,
+  count(*) FILTER (WHERE c.codigo_seed IS NULL AND NOT c.status) AS secoes_inativas,
+  bool_or(c.codigo_seed LIKE 'PB056-%' AND c.status) AS resumo_antigo_ativo
+FROM temas t
+LEFT JOIN conteudos c ON c.temas_idtemas = t.idtemas
+WHERE t.ativo
+GROUP BY t.ordem, t.nome
+ORDER BY t.ordem;
+```
 
 ## Histórico das provas
 

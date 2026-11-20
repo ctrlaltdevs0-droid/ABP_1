@@ -84,7 +84,7 @@ A documentação do projeto está organizada por sprint, reunindo os materiais d
 | [Documentação geral](docs/geral/) | Backlog do produto, refinamento das três sprints, protótipo e requisitos |
 | [Sprint 1 — Fundação e acesso](docs/sprint-1/) | Planejamento, review, evidências e burndown da Sprint 1 |
 | [Sprint 2 — Motor da certificação](docs/sprint-2/) | Planejamento, review, validação, dívida técnica e burndown da Sprint 2 |
-| [Sprint 3 — Certificação e entrega](docs/sprint-3/) | Documentos e registros da Sprint 3 |
+| [Sprint 3 — Certificação e entrega](docs/sprint-3/) | Revisão das questões, coerência entre conteúdos e avaliações, funcionalidades e operação |
 
 O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
 O [registro consolidado da Sprint 2](docs/sprint-2/SPRINT_2_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) apresenta o escopo, os responsáveis e o estado final das issues.
@@ -100,43 +100,51 @@ Ctrl Alt Devs
 
 Apresentações e planejamento
 
-- [▶️ Sprint 1 — ABP-1] (https://youtu.be/mRPE58jU3zM?si=8tJALptV5QcUEH29)
-- [▶️ Sprint 2 — ABP-2] (https://youtu.be/sX606tKYDiU?si=PtFGuOJlH06fYAC7)
-- [▶️ Poker Planning — Sprint 1] (https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
+- [▶️ Sprint 1 — ABP-1](https://youtu.be/mRPE58jU3zM?si=8tJALptV5QcUEH29)
+- [▶️ Sprint 2 — ABP-2](https://youtu.be/sX606tKYDiU?si=PtFGuOJlH06fYAC7)
+- [▶️ Poker Planning — Sprint 1](https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
 
 Demonstrações e funcionalidades
 
-- [▶️ Apresentação — ABP-2 Sprint 1] (https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
-- [▶️ Funcionalidade — Sprint 2] (https://youtu.be/3Thw2jTHmCM?si=SaEbJtgj4c8TzK0f)
+- [▶️ Apresentação — ABP-2 Sprint 1](https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
+- [▶️ Funcionalidade — Sprint 2](https://youtu.be/3Thw2jTHmCM?si=SaEbJtgj4c8TzK0f)
 
 🎨 Protótipo no Figma
 
 Acesse o protótipo desenvolvido pelo grupo:
 
--[🔗 ÁgilCert — CTRL ALT DEVS] (https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
+- [🔗 ÁgilCert — CTRL ALT DEVS](https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
 
 💻 Executar o projeto completo localmente
 
-Para executar o ambiente completo, é necessário ter o Node.js e o Docker Desktop instalados.
+Para executar o ambiente completo, é necessário ter o Node.js 22 ou superior e o Docker Desktop aberto.
 
 Na raiz do projeto, execute:
 
+```bash
 node scripts/preparar-compose.mjs
 docker compose --env-file .env.compose up --build -d
+```
 
-Após a inicialização, acesse:
+Após a inicialização, acesse <http://localhost:3000>.
 
-"http://localhost:3000/home.html"
+O primeiro comando cria o arquivo `.env.compose` com senhas aleatórias só para a sua máquina; nenhum segredo fica no repositório.
 
-O ambiente local inclui banco de dados, provisionamento com migrações e cargas, API de dados, backend e frontend.
+O passo a passo completo, com a execução sem Docker, as variáveis de ambiente, os testes, a descrição das funcionalidades, as limitações conhecidas e o roteiro de demonstração, está em [Funcionalidades e operação](docs/sprint-3/FUNCIONALIDADES_E_OPERACAO.md).
 
-O ".env" do Supabase remoto e o banco local antigo não são alterados.
+O ambiente local inclui banco de dados, carga do `schema.sql` e do `seed.sql`, API de dados, backend e frontend.
+
+O `.env` do Supabase remoto não é alterado.
 
 Documentação técnica complementar
 
-- [Arquitetura e reprodução do ambiente" (docs/geral/ARQUITETURA_EXECUCAO.md)
-- [Correções da devolutiva] (docs/sprint-1/CORRECOES_DEVOLUTIVA.md)
-- [Review, retrospectiva e Definition of Done (DoD)] (docs/sprint-1/REVIEW_RETROSPECTIVA_DOD.md)
+- [Funcionalidades e operação](docs/sprint-3/FUNCIONALIDADES_E_OPERACAO.md)
+- [Coerência entre conteúdos e avaliações](docs/sprint-3/COERENCIA_CONTEUDOS_AVALIACOES.md)
+- [Arquitetura e banco de dados](docs/geral/ARQUITETURA_EXECUCAO.md)
+- [API do backend](backend/README.md)
+- [Modelo de dados: diagrama de classes](docs/geral/Diagramas/DiagramaClasse.png)
+- [Correções da devolutiva](docs/sprint-1/CORRECOES_DEVOLUTIVA.md)
+- [Review, retrospectiva e Definition of Done (DoD)](docs/sprint-1/REVIEW_RETROSPECTIVA_DOD.md)
 
 📊 Status do projeto
 
@@ -151,6 +159,7 @@ O projeto está sendo desenvolvido de forma incremental, seguindo a metodologia 
 Transformando conhecimento em certificação!
 
 </div>
+
 ## Acesso ao certificado
 
 Após a aprovação, o botão **Gerar certificado** abre o documento emitido pela
