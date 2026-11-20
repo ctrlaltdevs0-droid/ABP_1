@@ -1,305 +1,450 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Minha conta | ÁgilCert</title>
+
   <link rel="stylesheet" href="./assets/css/typography.css">
   <link rel="stylesheet" href="./assets/css/perfil.css">
 </head>
 
 <body>
+
+  <!-- Ícones SVG -->
   <svg class="svg-sprite-hidden" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <symbol id="user" viewBox="0 0 24 24">
         <circle cx="12" cy="7" r="4" />
         <path d="M3 22v-3c0-5 18-5 18 0v3Z" />
       </symbol>
+
       <symbol id="email" viewBox="0 0 24 24">
         <rect x="3" y="5" width="18" height="14" rx="1" />
         <path d="m3 6 9 7 9-7" />
       </symbol>
+
       <symbol id="list" viewBox="0 0 24 24">
         <path d="M9 6h12M9 12h12M9 18h12" />
         <circle cx="4" cy="6" r=".5" />
         <circle cx="4" cy="12" r=".5" />
         <circle cx="4" cy="18" r=".5" />
       </symbol>
+
       <symbol id="password" viewBox="0 0 24 24">
         <path
           d="M3 20h18M5 8v6m-3-3h6m-5-2 4 4m0-4-4 4M12 8v6m-3-3h6m-5-2 4 4m0-4-4 4M19 8v6m-3-3h6m-5-2 4 4m0-4-4 4" />
       </symbol>
     </defs>
   </svg>
+
   <div class="page">
+
+    <!-- CABEÇALHO -->
     <header class="topbar">
+
       <a class="brand" href="home.html" aria-label="ÁgilCert — início">
-        <a href="home.html">
-          <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
-        </a>
+        <img
+          class="header-logo"
+          src="assets/img/logo-transparente.png"
+          alt="ÁgilCert">
       </a>
-        
+
       <nav class="nav" aria-label="Navegação principal">
         <a href="home.html">Início</a>
         <a href="estudos.html">Estudos</a>
-        <a href="home.html#certificacao">Certificação</a>
-        <a href="estudos.html">Progresso</a>
-        <a href="home.html#sobre-nos">Sobre</a>
+        <a href="certificacao.html">Certificação</a>
+        <a href="historico.html">Histórico</a>
+        <a href="home.html#sobre-nos">Sobre nós</a>
       </nav>
 
+      <!-- MENU DA CONTA -->
       <div class="account" id="account-container">
+
         <a class="account-icon" href="#informacoes" aria-label="Minha conta">
           <svg fill="none" stroke="currentColor" stroke-width="2.4">
             <use href="#user" />
           </svg>
         </a>
-        <button type="button" class="account-toggle-btn" id="account-toggle" aria-expanded="false">
-          Olá, <strong id="account-name-display">Vitoria</strong> <span class="chevron">▼</span>
+
+        <button
+          type="button"
+          class="account-toggle-btn"
+          id="account-toggle"
+          aria-expanded="false">
+
+          Olá,
+          <strong id="account-name-display">Vitoria</strong>
+          <span class="chevron">▼</span>
+
         </button>
+
         <div class="account-links">
           <button type="button" id="logout-button">Sair</button>
         </div>
+
       </div>
+
     </header>
 
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="content" id="inicio">
+
       <div class="profile-grid">
-        <!-- Painel de Perfil (Lado Esquerdo) -->
+
+        <!-- PAINEL DO PERFIL -->
         <section class="profile panel" aria-labelledby="profile-name">
-          <div class="portrait portrait-custom" id="profile-avatar" aria-label="Iniciais do usuário">—</div>
-          
+
+          <div
+            class="portrait portrait-custom"
+            id="profile-avatar"
+            aria-label="Iniciais do usuário">
+            —
+          </div>
+
           <h1 id="profile-name">Minha conta</h1>
-          <p id="profile-display-email" class="profile-display-email">email@exemplo.com</p>
-        
-          <button class="primary" type="button" data-modal="certificacoes">Minhas certificações</button>
+
+          <p id="profile-display-email" class="profile-display-email">
+            email@exemplo.com
+          </p>
+
+          <a class="primary" href="historico.html">
+            Minhas certificações
+          </a>
+
         </section>
 
-        <section class="details panel" id="informacoes" aria-labelledby="details-title">
+        <!-- INFORMAÇÕES PESSOAIS -->
+        <section
+          class="details panel"
+          id="informacoes"
+          aria-labelledby="details-title">
+
           <h2 id="details-title">Informações pessoais</h2>
+
           <p id="profile-status" role="status"></p>
+
           <form id="profile-form">
+
             <dl class="fields">
-              <div class="field"><svg class="icon" fill="none" stroke="currentColor" stroke-width="2.3"
+
+              <!-- NOME -->
+              <div class="field">
+
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.3"
                   aria-hidden="true">
                   <use href="#user" />
                 </svg>
+
                 <div>
                   <dt>Nome</dt>
-                  <dd><input id="profile-fullname" aria-label="Nome" required maxlength="50" autocomplete="name"></dd>
+
+                  <dd>
+                    <input
+                      id="profile-fullname"
+                      aria-label="Nome"
+                      required
+                      maxlength="50"
+                      autocomplete="name">
+                  </dd>
                 </div>
+
               </div>
-              <div class="field"><svg class="icon" fill="none" stroke="currentColor" stroke-width="2"
+
+              <!-- EMAIL -->
+              <div class="field">
+
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
                   aria-hidden="true">
                   <use href="#email" />
                 </svg>
+
                 <div>
                   <dt>Email</dt>
-                  <dd><input id="profile-email" aria-label="Email" type="email" required maxlength="254"
-                      autocomplete="email"></dd>
+
+                  <dd>
+                    <input
+                      id="profile-email"
+                      aria-label="Email"
+                      type="email"
+                      required
+                      maxlength="254"
+                      autocomplete="email">
+                  </dd>
                 </div>
+
               </div>
-              <div class="field"><svg class="icon" fill="none" stroke="currentColor" stroke-width="2"
+
+              <!-- CPF -->
+              <div class="field">
+
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
                   aria-hidden="true">
                   <use href="#list" />
                 </svg>
+
                 <div>
                   <dt>CPF</dt>
                   <dd id="profile-cpf">—</dd>
                 </div>
+
               </div>
-              <div class="field"><svg class="icon" fill="none" stroke="currentColor" stroke-width="1.5"
+
+              <!-- SENHA -->
+              <div class="field">
+
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
                   aria-hidden="true">
                   <use href="#password" />
                 </svg>
+
                 <div>
                   <dt>Senha</dt>
                   <dd aria-label="Senha protegida">**********</dd>
                 </div>
+
               </div>
+
             </dl>
-            <button class="primary" id="save-profile" disabled>Salvar alterações</button>
+
+            <button
+              class="primary"
+              id="save-profile"
+              disabled>
+              Salvar alterações
+            </button>
+
           </form>
-        
+
+          <!-- ALTERAÇÃO DE SENHA -->
           <details class="details-password-accordion">
+
             <summary>Alterar senha</summary>
+
             <form id="password-form">
+
+              <!-- SENHA ATUAL -->
               <p>
-                <label>Senha atual
+                <label>
+                  Senha atual
+
                   <div class="password-input-wrap">
-                    <input id="current-password" class="password-input-field" type="password" required autocomplete="current-password">
-                    <button type="button" class="toggle-password-btn" onclick="window.toggleSenha('current-password', this)" aria-label="Mostrar/Ocultar senha">
-                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+                    <input
+                      id="current-password"
+                      class="password-input-field"
+                      type="password"
+                      required
+                      autocomplete="current-password">
+
+                    <button
+                      type="button"
+                      class="toggle-password-btn"
+                      onclick="window.toggleSenha('current-password', this)"
+                      aria-label="Mostrar/Ocultar senha">
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="#536169"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
+
                       </svg>
+
                     </button>
+
                   </div>
                 </label>
               </p>
 
+              <!-- NOVA SENHA -->
               <p>
-                <label>Nova senha
+                <label>
+                  Nova senha
+
                   <div class="password-input-wrap">
-                    <input id="new-password" class="password-input-field" type="password" minlength="8" required autocomplete="new-password">
-                    <button type="button" class="toggle-password-btn" onclick="window.toggleSenha('new-password', this)" aria-label="Mostrar/Ocultar senha">
-                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+                    <input
+                      id="new-password"
+                      class="password-input-field"
+                      type="password"
+                      minlength="8"
+                      required
+                      autocomplete="new-password">
+
+                    <button
+                      type="button"
+                      class="toggle-password-btn"
+                      onclick="window.toggleSenha('new-password', this)"
+                      aria-label="Mostrar/Ocultar senha">
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="#536169"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
+
                       </svg>
+
                     </button>
+
                   </div>
                 </label>
               </p>
 
+              <!-- CONFIRMAR SENHA -->
               <p>
-                <label>Confirmar nova senha
+                <label>
+                  Confirmar nova senha
+
                   <div class="password-input-wrap">
-                    <input id="confirm-password" class="password-input-field" type="password" minlength="8" required autocomplete="new-password">
-                    <button type="button" class="toggle-password-btn" onclick="window.toggleSenha('confirm-password', this)" aria-label="Mostrar/Ocultar senha">
-                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#536169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+                    <input
+                      id="confirm-password"
+                      class="password-input-field"
+                      type="password"
+                      minlength="8"
+                      required
+                      autocomplete="new-password">
+
+                    <button
+                      type="button"
+                      class="toggle-password-btn"
+                      onclick="window.toggleSenha('confirm-password', this)"
+                      aria-label="Mostrar/Ocultar senha">
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="#536169"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
+
                       </svg>
+
                     </button>
+
                   </div>
                 </label>
               </p>
 
               <p id="password-status" role="status"></p>
-              <button class="primary" id="save-password" disabled>Alterar senha</button>
+
+              <button
+                class="primary"
+                id="save-password"
+                disabled>
+                Alterar senha
+              </button>
+
             </form>
+
           </details>
+
         </section>
+
       </div>
 
-      
-<section class="journey panel" id="jornada" aria-labelledby="journey-title">
-  <h2 id="journey-title">Processo da jornada</h2>
+      <!-- PROGRESSO DA JORNADA -->
+      <section
+        class="journey panel"
+        id="jornada"
+        aria-labelledby="journey-title">
 
-  <p id="journey-description">
-    Você ainda não iniciou seus estudos.
-  </p>
+        <h2 id="journey-title">Processo da jornada</h2>
 
-  <div class="progress-wrap">
-    <div
-      class="track"
-      id="journey-progress"
-      role="progressbar"
-      aria-label="Progresso da jornada"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      aria-valuenow="0"
-      aria-valuetext="0% concluído"
-    >
-      <div class="fill" id="journey-fill" style="width: 0%"></div>
-    </div>
+        <p id="journey-description">
+          Carregando seu progresso...
+        </p>
 
-    <div class="milestones">
-      <span id="milestone-studies">Estudos iniciados</span>
-      <span id="milestone-exam">Estudos concluídos</span>
-      <span id="milestone-certificate">Certificado gerado</span>
-    </div>
-  </div>
-</section>
+        <div class="progress-wrap">
+
+          <div
+            class="track"
+            id="journey-progress"
+            role="progressbar"
+            aria-label="Progresso da jornada"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            aria-valuetext="0% concluído">
+
+            <div
+              class="fill"
+              id="journey-fill"
+              style="width: 0%">
+            </div>
+
+          </div>
+
+          <div class="milestones">
+
+            <span id="milestone-studies">
+              Estudos iniciados
+            </span>
+
+            <span id="milestone-exam">
+              Estudos concluídos
+            </span>
+
+            <span id="milestone-certificate">
+              Certificado gerado
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
 
     </main>
+
   </div>
 
-  <dialog id="info-dialog" aria-labelledby="dialog-title">
-    <h2 id="dialog-title"></h2>
-    <p id="dialog-text"></p>
-    <form method="dialog"><button class="primary">Fechar</button></form>
-  </dialog>
-
-  <script>
-    const messages = { certificacoes: ['Minhas certificações', 'Nenhuma certificação foi vinculada a esta página demonstrativa.'], historico: ['Histórico', 'O histórico será exibido após a integração com os dados da sua conta.'], sobre: ['Sobre a ÁgilCert', 'Uma jornada de estudos e certificação ágil.'], logout: ['Sair da conta', 'Esta é uma página demonstrativa, sem sessão de login ativa.'] };
-    document.querySelectorAll('[data-modal]:not([data-modal="certificacoes"]):not([data-modal="logout"])').forEach(button => button.addEventListener('click', event => { event.preventDefault(); const [title, text] = messages[button.dataset.modal]; document.getElementById('dialog-title').textContent = title; document.getElementById('dialog-text').textContent = text; document.getElementById('info-dialog').showModal(); }));
-  </script>
-
+  <!-- SCRIPTS -->
   <script src="assets/js/config.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/perfil.js"></script>
 
-  <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const getInitials = (fullName) => {
-      if (!fullName) return '—';
-      const parts = fullName.trim().split(/\s+/);
-      if (parts.length === 1) {
-        return parts[0].substring(0, 2).toUpperCase();
-      }
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    };
-
-    const inputEmail = document.getElementById('profile-email');
-    const displayEmail = document.getElementById('profile-display-email');
-    if (inputEmail && displayEmail) {
-      displayEmail.textContent = inputEmail.value || 'vivi@gmail.com';
-    }
-
-    const inputNome = document.getElementById('profile-fullname') || document.getElementById('profile-name');
-    const nome = inputNome ? (inputNome.value || inputNome.textContent || 'vitoria') : 'vitoria';
-    const primeiroNome = nome.trim().split(' ')[0];
-    const iniciais = getInitials(nome);
-
-    const spanPrimeiroNome = document.getElementById('account-name-display');
-    if (spanPrimeiroNome) {
-      spanPrimeiroNome.textContent = primeiroNome;
-    }
-
-    const profileAvatar = document.getElementById('profile-avatar');
-    if (profileAvatar) {
-      profileAvatar.textContent = iniciais;
-    }
-
-    const accountIcon = document.querySelector('.account-icon');
-    if (accountIcon) {
-      let spanIniciais = accountIcon.querySelector('.account-initials');
-      if (!spanIniciais) {
-        spanIniciais = document.createElement('span');
-        spanIniciais.className = 'account-initials';
-        accountIcon.appendChild(spanIniciais);
-      }
-      spanIniciais.textContent = iniciais;
-    }
-
-    if (inputNome && inputNome.tagName === 'INPUT') {
-      inputNome.addEventListener('input', () => {
-        const novasIniciais = getInitials(inputNome.value);
-        const novoPrimeiro = inputNome.value.trim().split(' ')[0] || 'Vitoria';
-        if (profileAvatar) profileAvatar.textContent = novasIniciais;
-        if (spanPrimeiroNome) spanPrimeiroNome.textContent = novoPrimeiro;
-        const spanIniciais = accountIcon ? accountIcon.querySelector('.account-initials') : null;
-        if (spanIniciais) spanIniciais.textContent = novasIniciais;
-      });
-    }
-
-    const accountContainer = document.getElementById('account-container');
-    const accountToggle = document.getElementById('account-toggle');
-    const chevron = accountToggle ? accountToggle.querySelector('.chevron') : null;
-
-    if (accountToggle && accountContainer) {
-      accountToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        accountContainer.classList.toggle('active');
-        const isActive = accountContainer.classList.contains('active');
-        accountToggle.setAttribute('aria-expanded', isActive);
-        if (chevron) {
-          chevron.textContent = isActive ? '▲' : '▼';
-        }
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!accountContainer.contains(e.target)) {
-          accountContainer.classList.remove('active');
-          accountToggle.setAttribute('aria-expanded', 'false');
-          if (chevron) chevron.textContent = '▼';
-        }
-      });
-    }
-  });
-  </script>
 </body>
 
 </html>
