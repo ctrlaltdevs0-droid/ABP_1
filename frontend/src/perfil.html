@@ -7,6 +7,7 @@
   <title>Minha conta | ÁgilCert</title>
   <link rel="stylesheet" href="./assets/css/typography.css">
   <link rel="stylesheet" href="./assets/css/perfil.css">
+  <link rel="stylesheet" href="./assets/css/home.css">
 </head>
 
 <body>
@@ -33,35 +34,76 @@
     </defs>
   </svg>
   <div class="page">
-    <header class="topbar">
-      <a class="brand" href="home.html" aria-label="ÁgilCert — início">
-        <a href="home.html">
-          <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
-        </a>
-      </a>
-        
-      <nav class="nav" aria-label="Navegação principal">
-        <a href="home.html">Início</a>
-        <a href="estudos.html">Estudos</a>
-        <a href="certificacao.html">Certificação</a>
-        <a href="historico.html">Histórico</a>
-        <a href="home.html#sobre-nos">Sobre nós</a>
-      </nav>
 
-      <div class="account" id="account-container">
-        <a class="account-icon" href="#informacoes" aria-label="Minha conta">
-          <svg fill="none" stroke="currentColor" stroke-width="2.4">
-            <use href="#user" />
+    
+    
+<header class="site-header">
+
+  <a href="home.html">
+    <img class="header-logo" src="assets/img/logo-transparente.png" alt="ÁgilCert">
+  </a>
+
+  <button class="nav-toggle" type="button"
+    aria-controls="main-nav" aria-expanded="false">
+    Menu
+  </button>
+
+  <nav id="main-nav" class="header-nav" aria-label="Navegação principal">
+    <a class="nav-link" href="home.html">Início</a>
+    <a class="nav-link" href="estudos.html">Estudos</a>
+    <a class="nav-link" href="certificacao.html">Certificação</a>
+    <a class="nav-link" href="historico.html">Histórico</a>
+    <a class="nav-link" href="home.html#sobre-nos">Sobre nós</a>
+  </nav>
+
+  <div class="header-actions-custom">
+
+    <div id="authButtons" class="auth-buttons-custom">
+      <a href="login.html" class="nav-link">Entrar</a>
+      <a href="cadastro.html" class="nav-link">Cadastrar</a>
+    </div>
+
+    <div class="profile-menu" id="profileMenu" style="display:none;">
+
+      <button class="profile-trigger" type="button"
+        id="profileTrigger"
+        aria-expanded="false"
+        aria-controls="userProfileMenu"
+        aria-label="Menu do perfil">
+
+        <div class="profile-avatar profile-avatar-img">
+          <span id="userInitials" class="account-initials-span">—</span>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
           </svg>
-        </a>
-        <button type="button" class="account-toggle-btn" id="account-toggle" aria-expanded="false">
-          Olá, <strong id="account-name-display">Vitoria</strong> <span class="chevron">▼</span>
-        </button>
-        <div class="account-links">
-          <button type="button" id="logout-button">Sair</button>
         </div>
+
+        <span class="profile-name">
+          Olá, <span id="userName">Usuário</span>
+        </span>
+
+        <span class="chevron">▼</span>
+      </button>
+
+      <div class="dropdown" id="userProfileMenu">
+
+        <div class="dropdown-header">
+          <div class="profile-username" id="dropdownUserName">Usuário</div>
+          <div class="profile-greeting">Minha conta</div>
+        </div>
+
+        <div class="dropdown-body">
+          <a href="perfil.html" aria-current="page">Meu Perfil</a>
+          <a href="historico.html">Histórico</a>
+          <div class="divider"></div>
+          <button class="danger" type="button" id="logout-button">Sair</button>
+        </div>
+
       </div>
-    </header>
+    </div>
+  </div>
+</header>
+
 
     <main class="content" id="inicio">
       <div class="profile-grid">
@@ -220,85 +262,150 @@
   <script src="assets/js/api.js"></script>
   <script src="assets/js/perfil.js"></script>
 
-  <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const getInitials = (fullName) => {
-      if (!fullName) return '—';
-      const parts = fullName.trim().split(/\s+/);
-      if (parts.length === 1) {
-        return parts[0].substring(0, 2).toUpperCase();
+  
+<script>
+  // MENU RESPONSIVO
+  const navToggle = document.querySelector('.nav-toggle');
+  const mainNav = document.getElementById('main-nav');
+
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      mainNav.classList.toggle('is-open', !expanded);
+    });
+
+    document.querySelectorAll('#main-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.setAttribute('aria-expanded', 'false');
+        mainNav.classList.remove('is-open');
+      });
+    });
+  }
+
+  // MENU OLÁ, USUÁRIO
+  const profileMenu = document.getElementById('profileMenu');
+  const profileTrigger = document.getElementById('profileTrigger');
+
+  if (profileMenu && profileTrigger) {
+    profileTrigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+
+      profileMenu.classList.toggle('open');
+
+      const aberto = profileMenu.classList.contains('open');
+
+      profileTrigger.setAttribute('aria-expanded', String(aberto));
+    });
+
+    // Fecha ao clicar fora
+    document.addEventListener('click', function (e) {
+      if (!profileMenu.contains(e.target)) {
+        profileMenu.classList.remove('open');
+        profileTrigger.setAttribute('aria-expanded', 'false');
       }
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    };
+    });
+  }
 
-    const inputEmail = document.getElementById('profile-email');
-    const displayEmail = document.getElementById('profile-display-email');
-    if (inputEmail && displayEmail) {
-      displayEmail.textContent = inputEmail.value || 'vivi@gmail.com';
+  // CARREGAMENTO DO USUÁRIO
+  document.addEventListener('DOMContentLoaded', async function () {
+
+    const token = localStorage.getItem('token');
+    const usuarioSalvo = localStorage.getItem('usuario');
+
+    const authButtons = document.getElementById('authButtons');
+    const userNameSpan = document.getElementById('userName');
+    const dropdownUserName = document.getElementById('dropdownUserName');
+    const userInitials = document.getElementById('userInitials');
+
+    function exibirLogado(usuario) {
+      if (!usuario) return;
+
+      const nomeCompleto = usuario.nome || usuario.name || 'Usuário';
+      const partes = nomeCompleto.trim().split(/\s+/);
+      const primeiroNome = partes[0];
+
+      userNameSpan.textContent = primeiroNome;
+      dropdownUserName.textContent = nomeCompleto;
+
+      const iniciais = (
+        partes[0][0] +
+        (partes.length > 1 ? partes[partes.length - 1][0] : partes[0].slice(1, 2))
+      ).toUpperCase();
+
+      userInitials.textContent = iniciais;
+
+      authButtons.style.display = 'none';
+      profileMenu.style.display = 'flex';
     }
 
-    const inputNome = document.getElementById('profile-fullname') || document.getElementById('profile-name');
-    const nome = inputNome ? (inputNome.value || inputNome.textContent || 'vitoria') : 'vitoria';
-    const primeiroNome = nome.trim().split(' ')[0];
-    const iniciais = getInitials(nome);
-
-    const spanPrimeiroNome = document.getElementById('account-name-display');
-    if (spanPrimeiroNome) {
-      spanPrimeiroNome.textContent = primeiroNome;
+    function exibirDeslogado() {
+      profileMenu.style.display = 'none';
+      authButtons.style.display = 'flex';
     }
 
-    const profileAvatar = document.getElementById('profile-avatar');
-    if (profileAvatar) {
-      profileAvatar.textContent = iniciais;
-    }
-
-    const accountIcon = document.querySelector('.account-icon');
-    if (accountIcon) {
-      let spanIniciais = accountIcon.querySelector('.account-initials');
-      if (!spanIniciais) {
-        spanIniciais = document.createElement('span');
-        spanIniciais.className = 'account-initials';
-        accountIcon.appendChild(spanIniciais);
+    // Dados salvos no navegador
+    if (token && usuarioSalvo) {
+      try {
+        const usuario = JSON.parse(usuarioSalvo);
+        exibirLogado(usuario.usuario || usuario);
+      } catch (error) {
+        console.error('Erro ao carregar usuário:', error);
       }
-      spanIniciais.textContent = iniciais;
+    } else if (!token) {
+      exibirDeslogado();
+      return;
     }
 
-    if (inputNome && inputNome.tagName === 'INPUT') {
-      inputNome.addEventListener('input', () => {
-        const novasIniciais = getInitials(inputNome.value);
-        const novoPrimeiro = inputNome.value.trim().split(' ')[0] || 'Vitoria';
-        if (profileAvatar) profileAvatar.textContent = novasIniciais;
-        if (spanPrimeiroNome) spanPrimeiroNome.textContent = novoPrimeiro;
-        const spanIniciais = accountIcon ? accountIcon.querySelector('.account-initials') : null;
-        if (spanIniciais) spanIniciais.textContent = novasIniciais;
-      });
-    }
+    // Atualiza os dados pela API
+    if (token && typeof AgilCertAPI !== 'undefined') {
+      try {
+        const resposta = await AgilCertAPI.request('usuarios/me');
+        const usuarioAtualizado = resposta.usuario || resposta;
 
-    const accountContainer = document.getElementById('account-container');
-    const accountToggle = document.getElementById('account-toggle');
-    const chevron = accountToggle ? accountToggle.querySelector('.chevron') : null;
-
-    if (accountToggle && accountContainer) {
-      accountToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        accountContainer.classList.toggle('active');
-        const isActive = accountContainer.classList.contains('active');
-        accountToggle.setAttribute('aria-expanded', isActive);
-        if (chevron) {
-          chevron.textContent = isActive ? '▲' : '▼';
+        if (usuarioAtualizado && usuarioAtualizado.nome) {
+          localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
+          exibirLogado(usuarioAtualizado);
         }
-      });
 
-      document.addEventListener('click', (e) => {
-        if (!accountContainer.contains(e.target)) {
-          accountContainer.classList.remove('active');
-          accountToggle.setAttribute('aria-expanded', 'false');
-          if (chevron) chevron.textContent = '▼';
+      } catch (error) {
+        console.warn('API indisponível, usando dados salvos:', error);
+
+        if (!usuarioSalvo) {
+          exibirDeslogado();
         }
-      });
+      }
     }
   });
-  </script>
+
+  // SAIR DA CONTA
+  async function logout() {
+    const button = document.getElementById('sair');
+
+    button.disabled = true;
+
+    try {
+      await AgilCertAPI.logout();
+
+    } catch (error) {
+      const status = document.getElementById('profile-status');
+
+      if (status) {
+        status.textContent = error.message;
+      }
+
+      button.disabled = false;
+    }
+  }
+
+  const botaoSair = document.getElementById('sair');
+
+  if (botaoSair) {
+    botaoSair.addEventListener('click', logout);
+  }
+</script>
+
 </body>
 
 </html>
