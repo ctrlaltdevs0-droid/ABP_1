@@ -6,8 +6,7 @@
 
 Projeto acadêmico desenvolvido pelo grupo **CTRL ALT DEVS**.
 
-[![Assista à Apresentação no YouTube](https://img.shields.io/badge/YouTube-Apresentação_do_Projeto-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)
-[![Protótipo no Figma](https://img.shields.io/badge/Figma-Protótipo_Interativo-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
+📺 **[Assista à Apresentação no YouTube](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)** &nbsp;|&nbsp; 🎨 **[Acesse o Protótipo no Figma](https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)**
 
 </div>
 
@@ -96,22 +95,17 @@ A plataforma aborda **12 temas** relacionados às metodologias ágeis:
 
 ## 📺 Vídeos do projeto
 
-Confira os vídeos de apresentação acadêmica, planejamento das sprints e demonstração das funcionalidades desenvolvidas pelo grupo no canal **Ctrl Alt Devs**:
+Confira todos os vídeos de apresentação acadêmica, planejamento e demonstração das funcionalidades desenvolvidas pelo grupo no canal do YouTube **Ctrl Alt Devs**:
 
-### 🎓 Apresentação Geral do Projeto (Faculdade)
+### 🎓 Apresentação do Projeto (Faculdade)
+- [▶️ Apresentação Geral — ÁgilCert (Faculdade)](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)
 
-[![Apresentação ÁgilCert - Faculdade](https://img.youtube.com/vi/T1-knBlZC-E/maxresdefault.jpg)](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)
-
-> ▶️ **[Clique aqui para assistir à apresentação completa no YouTube](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)**
-
-### 📋 Apresentações e planejamento das Sprints
-
+### 📋 Apresentações e planejamento
 - [▶️ Sprint 1 — ABP-1](https://youtu.be/mRPE58jU3zM?si=8tJALptV5QcUEH29)
 - [▶️ Sprint 2 — ABP-2](https://youtu.be/sX606tKYDiU?si=PtFGuOJlH06fYAC7)
 - [▶️ Poker Planning — Sprint 1](https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
 
 ### 💻 Demonstrações e funcionalidades
-
 - [▶️ Apresentação — ABP-2 Sprint 1](https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
 - [▶️ Funcionalidade — Sprint 2](https://youtu.be/3Thw2jTHmCM?si=SaEbJtgj4c8TzK0f)
 
