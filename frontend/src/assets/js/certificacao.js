@@ -161,11 +161,14 @@
     const alternativa = el('alternativas').querySelector('input:checked');
     if (!alternativa) return;
     executar(async versao => {
-      await chamar('respostas', { questoes_idquestoes: questao.idquestoes, alternativas_idalternativas: Number(alternativa.value) });
+      const resposta = await chamar('respostas', { questoes_idquestoes: questao.idquestoes, alternativas_idalternativas: Number(alternativa.value) });
       if (versao !== geracao) return;
       questao = null;
       aplicar(await chamar('estado'));
-      mensagem('Resposta salva. Deseja continuar agora ou depois?');
+      const feedback = resposta.feedback;
+      mensagem(feedback?.alternativa_correta
+        ? `${feedback.acertou ? 'Você acertou!' : 'Você errou.'} Alternativa correta: ${feedback.alternativa_correta}. Deseja continuar agora ou depois?`
+        : 'Resposta salva. Deseja continuar agora ou depois?');
     });
   });
   el('pausar').addEventListener('click', () => executar(async () => {

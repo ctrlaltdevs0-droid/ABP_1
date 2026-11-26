@@ -22,7 +22,9 @@
   }
 
   function formatarData(valor) {
-    return valor ? new Date(valor).toLocaleString('pt-BR') : '—';
+    if (!valor) return '—';
+    const utc = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(valor) ? valor : `${valor}Z`;
+    return new Date(utc).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
   }
 
   function celula(texto, classe) {

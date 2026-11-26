@@ -155,3 +155,26 @@ Na raiz do projeto, execute:
 ```bash
 node scripts/preparar-compose.mjs
 docker compose --env-file .env.compose up --build -d
+```
+
+Acesse <http://localhost:3000>. O comando de preparação cria as credenciais locais em `.env.compose`.
+
+Para executar sem Docker e configurar o backend, consulte [Funcionalidades e operação](docs/sprint-3/FUNCIONALIDADES_E_OPERACAO.md).
+
+Para executar os testes disponíveis sem banco real:
+
+```bash
+cd backend
+npm ci
+npm test
+```
+
+Os testes de integração PostgreSQL dependem de `SECURITY_TEST_CONTAINER` e ficam ignorados sem essa configuração.
+
+### Certificado e validação
+
+O certificado pode ser aberto pelo resultado ou histórico. O botão **Baixar certificado** abre a impressão do navegador; selecione **Salvar como PDF**.
+
+O QR Code usa a origem do site por padrão. Para um endereço diferente, configure `AGILCERT_PUBLIC_BASE_URL` em `frontend/src/assets/js/config.js`. O endereço deve ser acessível pelo aparelho que fará a leitura; `localhost` não funciona em outro aparelho.
+
+Consulte a [documentação da API](docs/Documentacao_API_AgilCert.md). A homologação final ainda exige evidências dos testes com banco real, leitura do QR Code em celular e aceite da equipe/PO.

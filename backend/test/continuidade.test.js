@@ -4,6 +4,34 @@ import { tentativasRoutes } from '../src/routes/tentativas.js';
 const sessao = '11111111-1111-4111-8111-111111111111';
 const response = () => ({ writeHead(code, headers) { this.code=code; this.headers=headers; }, end(body) { this.body=JSON.parse(body); } });
 
+test('feedback: consulta apenas a questão encerrada após validar identidade e sessão', async () => {
+  const calls = [];
+  const q = { select(value) { calls.push(['select', value]); return q; },
+    eq(...args) { calls.push(args); return q; },
+    async maybeSingle() { return { data: { resposta_correta: 'B', acertou: false } }; } };
+  const db = { async rpc(name, params) { calls.push(['rpc', params]); return { data: { respondida: true } }; },
+    from(table) { calls.push(['table', table]); return q; } };
+  const res = response();
+  await tentativasRoutes({ method:'POST', usuario:{id:7}, body:{sessao,questoes_idquestoes:12,alternativas_idalternativas:23} }, res, '/api/tentativas/42/respostas', db);
+  assert.equal(res.code, 201);
+  assert.equal(calls[0][0], 'rpc');
+  assert.equal(calls[0][1].p_usuario, 7);
+  assert.ok(calls.some(x => x[0] === 'tentativas_idtentativas' && x[1] === 42));
+  assert.ok(calls.some(x => x[0] === 'questoes_idquestoes' && x[1] === 12));
+  assert.ok(calls.some(x => x[0] === 'respondida' && x[1] === true));
+  assert.deepEqual(res.body.feedback, { alternativa_correta:'B', acertou:false });
+});
+
+test('feedback: sessão inválida não consulta nem revela gabarito', async () => {
+  const res = response();
+  await tentativasRoutes({ method:'POST', usuario:{id:7}, body:{sessao,questoes_idquestoes:12,alternativas_idalternativas:23} }, res, '/api/tentativas/42/respostas', {
+    async rpc() { return { data:{erro_codigo:'SESSAO_INVALIDA'} }; },
+    from() { throw new Error('Gabarito não pode ser consultado'); }
+  });
+  assert.equal(res.code, 409);
+  assert.equal(res.body.feedback, undefined);
+});
+
 test('continuidade: ações usam identidade autenticada, sessão e questão exata', async () => {
   const calls=[];
   const db={ async rpc(name, params) { calls.push({name,params}); return {data:{tentativa:{idtentativas:42,status:'INTERROMPIDA'}}}; } };

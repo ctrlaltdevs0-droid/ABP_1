@@ -28,6 +28,7 @@ async function pagina() {
         calls.push({path,options});
         if(path==='tentativas/atual')return {tentativa:null};
         if(path.endsWith('proxima-questao'))return proxima;
+        if(path.endsWith('/respostas')) return {feedback:{alternativa_correta:'B',acertou:false}};
         return structuredClone(estado);
       }}},
     localStorage:{getItem:()=> 'token-teste'},navigator,
@@ -77,4 +78,17 @@ test('web: resposta atrasada de abertura não reativa questão após offline',as
   assert.equal(p.get('prova-questao').hidden,true);
   assert.equal(p.get('prova-recuperar').hidden,false);
   assert.match(p.get('prova-mensagem').textContent,/Conexão perdida/);
+});
+
+test('web: resposta exibe gabarito do servidor e duplo envio não duplica pedido', async () => {
+  const p = await pagina();
+  p.setProxima(questao());
+  await p.get('prova-proxima').events.click();
+  p.get('prova-alternativas').querySelector = () => ({value:'2'});
+  const submit = p.get('prova-form').events.submit;
+  submit({preventDefault(){}});
+  submit({preventDefault(){}});
+  await flush();
+  assert.equal(p.calls.filter(c => c.path.endsWith('/respostas')).length, 1);
+  assert.match(p.get('prova-mensagem').textContent, /Você errou.*Alternativa correta: B/);
 });

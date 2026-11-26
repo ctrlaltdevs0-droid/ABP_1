@@ -13,6 +13,7 @@
     try {
       let certificado;
       let cpfMascarado = "";
+      let email = '';
       if (codigo) {
         if (!/^[a-f0-9-]{36}$/i.test(codigo)) throw new Error('Código de validação inválido.');
         const dados = await api.request(`certificados/validar/${encodeURIComponent(codigo)}`, { authenticated: false });
@@ -23,6 +24,7 @@
         if (!localStorage.getItem('token')) { window.location.replace('login.html'); return; }
         const perfil = await api.request('usuarios/me');
         const usuario = perfil.usuario || perfil;
+        email = usuario.email || '';
         const cpf = String(usuario.cpf || '').replace(/\D/g, '');
         if (cpf.length === 11) cpfMascarado = `${cpf.slice(0, 3)}.***.***-${cpf.slice(-2)}`;
         const primeiroNome = usuario.nome.trim().split(/\s+/)[0];
@@ -57,12 +59,16 @@
       el('nomeAluno').classList.toggle('nome-extenso', (certificado.usuarios?.nome || '').length > 40);
       el('certificado-cpf').textContent = cpfMascarado ? `CPF: ${cpfMascarado}` : '';
       el('certificado-cpf').hidden = !cpfMascarado;
+      el('certificado-email').textContent = email ? `E-mail: ${email}` : '';
+      el('certificado-email').hidden = !email;
       el('certificado-percentual').textContent = `${percentual}%`;
       el('resumo-acertos').textContent = `${certificado.score} de 12`;
       el('resumo-percentual').textContent = `${percentual}%`;
       el('certificado-historico').hidden = Boolean(codigo);
-      const emissao = new Date(certificado.emitido_em);
-      el('certificado-data').textContent = emissao.toLocaleDateString('pt-BR');
+      // O contrato legado persiste timestamps em UTC sem indicar o fuso.
+      const valorEmissao = certificado.emitido_em;
+      const emissao = new Date(/(?:Z|[+-]\d{2}:?\d{2})$/i.test(valorEmissao) ? valorEmissao : `${valorEmissao}Z`);
+      el('certificado-data').textContent = emissao.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
       const basePublica = window.AGILCERT_PUBLIC_BASE_URL?.trim();
       const validacao = new URL('validar-certificado.html', basePublica ? `${basePublica.replace(/\/+$/, '')}/` : window.location.href);
       if (!['https:', 'http:'].includes(validacao.protocol)) throw new Error('Endereço público de validação inválido.');

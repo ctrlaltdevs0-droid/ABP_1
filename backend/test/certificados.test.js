@@ -54,6 +54,18 @@ async function pagina(search, request, token = 'token') {
   return {el, prints:()=>prints};
 }
 const certificado = { idcertificados:3, usuarios:{nome:'Pessoa <Teste>'}, codigo_validacao:codigo, emitido_em:'2026-11-17T12:00:00', percentual:75 };
+
+test('certificado: emissão UTC vira data e hora de Brasília; e-mail é privado', async () => {
+  for (const emitido_em of ['2026-11-18T01:30:00', '2026-11-18T01:30:00Z', '2026-11-17T22:30:00-03:00']) {
+    const p = await pagina('?id=3', async path => path === 'usuarios/me'
+      ? {id:7,nome:'Pessoa',email:'pessoa@example.com'} : {...certificado,emitido_em});
+    assert.match(p.el('certificado-data').textContent, /17\/11\/2026.*22:30:00/);
+    assert.equal(p.el('certificado-email').textContent, 'E-mail: pessoa@example.com');
+  }
+  const publico = await pagina(`?codigo=${codigo}`, async () => ({certificado}), null);
+  assert.equal(publico.el('certificado-email').hidden, true);
+  assert.equal(publico.el('certificado-cpf').hidden, true);
+});
 test('página carrega certificado do histórico e habilita PDF somente após consulta válida', async () => {
   const paths = [];
   const p = await pagina('?tentativa=42', async path => {

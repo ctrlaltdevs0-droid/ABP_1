@@ -37,7 +37,7 @@ O ÁgilCert oferece estudo orientado de metodologias ágeis e Scrum, acompanhame
 | RN09 | A emissão do certificado depende de tentativa finalizada e aprovada. A emissão repetida não cria duplicata. | Certificado |
 | RN10 | A validação por código UUID é pública, mas a consulta por ID e a lista de certificados pertencem ao titular ou administrador. | Segurança e validação |
 
-Os resultados e o gabarito da prova são disponibilizados no histórico somente depois da finalização. O quiz de fixação, por outro lado, informa o acerto ao responder.
+O histórico completo da prova é disponibilizado depois da finalização. Após uma resposta aceita em `POST /api/tentativas/:id/respostas`, a API também devolve `feedback: { alternativa_correta: "B", acertou: false }` para aquela questão encerrada. A consulta ocorre somente após a RPC validar titular, sessão e resposta; questões ainda abertas não são expostas. O quiz de fixação também informa o acerto ao responder.
 
 ## 3. Autenticação, autorização e segurança
 

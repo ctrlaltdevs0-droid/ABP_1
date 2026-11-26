@@ -502,6 +502,7 @@ a {
 .certificado-nome-aluno { color: #ee9700; font-size: 4.65cqw; line-height: 1.14; font-weight: 400; margin: 2cqw auto 1.9cqw; max-width: 95%; overflow-wrap: anywhere; }
 .certificado-nome-aluno.nome-extenso { font-size: 3.4cqw; }
 .certificado-cpf { font-size: 1.7cqw; line-height: 1.4; min-height: 2.4cqw; margin-bottom: 1.7cqw; }
+#certificado-email { overflow-wrap: anywhere; margin-bottom: .8cqw; }
 .certificado-desempenho { font-size: 1.7cqw; line-height: 1.5; margin: 0 auto; }
 .certificado-desempenho strong { color: #3164c8; }
 .certificado-rodape { display: grid; grid-template-columns: 1fr 1.15fr 17cqw; gap: 2.2cqw; align-items: start; padding-left: 20%; margin-top: 3.1cqw; margin-right: 2cqw; }

@@ -20,7 +20,8 @@
       const c = dados.certificado;
       el('validacao-nome').textContent = c.usuarios?.nome || 'Nome não informado';
       el('validacao-percentual').textContent = `${Number(c.percentual).toLocaleString('pt-BR')}%`;
-      el('validacao-data').textContent = new Date(c.emitido_em).toLocaleDateString('pt-BR');
+      const utc = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(c.emitido_em) ? c.emitido_em : `${c.emitido_em}Z`;
+      el('validacao-data').textContent = new Date(utc).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
       el('validacao-dados').hidden = false;
       el('validacao-status').textContent = 'Autenticidade confirmada. Este certificado está ativo no ÁgilCert.';
     } catch (erro) {

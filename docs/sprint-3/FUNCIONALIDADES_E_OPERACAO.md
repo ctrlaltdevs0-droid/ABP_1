@@ -226,7 +226,7 @@ Em `certificacao.html`:
 - A prova tem **12 questões, uma de cada tema**, sorteada entre as quatro do tema.
 - Cada questão tem imagem, quatro alternativas e **150 segundos**. O tempo é controlado pelo servidor.
 - Se o tempo acabar, a questão é encerrada como incorreta.
-- Depois de cada resposta, o candidato escolhe **Próxima questão** ou **Continuar depois**.
+- Depois de cada resposta aceita, o candidato vê se acertou e a letra correta fornecida pelo backend; então escolhe **Próxima questão** ou **Continuar depois**.
 - **Continuar depois** salva o progresso. Ao voltar, **Retomar prova** segue do próximo tema ainda não respondido.
 - Se a conexão cair ou a página for fechada com uma questão aberta, essa questão é encerrada como incorreta e não pode ser respondida de novo.
 - Cada tema é respondido uma única vez.
@@ -237,7 +237,7 @@ Ao terminar os 12 temas, **Ver resultado** mostra os acertos, o percentual e a s
 
 ### 6.6 Histórico
 
-`historico.html` lista as provas do candidato. Em **Ver questões**, cada item mostra o tema, o enunciado, a resposta escolhida, a resposta correta e a data e a hora da resposta. O gabarito só aparece depois que a prova é finalizada. As provas aprovadas têm o link **Ver certificado**.
+`historico.html` lista as provas do candidato. Em **Ver questões**, cada item mostra o tema, o enunciado, a resposta escolhida, a resposta correta e a data e a hora da resposta. O histórico completo só aparece depois que a prova é finalizada; o retorno individual já aparece após cada resposta aceita. As provas aprovadas têm o link **Ver certificado**.
 
 ### 6.7 Perfil
 
@@ -248,7 +248,7 @@ Ao terminar os 12 temas, **Ver resultado** mostra os acertos, o percentual e a s
 `certificado.html` abre por **Gerar certificado**, na tela de resultado, ou por **Ver certificado**, no histórico.
 
 - **Quem recebe:** só o dono de uma prova finalizada e aprovada. A aprovação e o titular são conferidos de novo no banco no momento da emissão.
-- **O que o certificado mostra:** nome do candidato, CPF parcialmente mascarado (por exemplo, 123.***.***-01), nota final em percentual, data de emissão, código de validação e QR Code. O número de acertos (de 12) aparece no resumo ao lado do certificado.
+- **O que o certificado mostra:** nome do candidato, CPF parcialmente mascarado (por exemplo, 123.***.***-01), e-mail do perfil autenticado, nota final em percentual, data e hora de emissão em Brasília, código de validação e QR Code. CPF e e-mail ficam ocultos na consulta pública. O número de acertos (de 12) aparece no resumo ao lado do certificado.
 - **Baixar:** o botão **Baixar certificado** abre a impressão do navegador; escolha "Salvar como PDF".
 - **Sem duplicar:** emitir de novo a mesma prova devolve o mesmo certificado.
 - **Revogados:** um certificado inativo ou revogado não é exibido.
@@ -263,18 +263,22 @@ Ao terminar os 12 temas, **Ver resultado** mostra os acertos, o percentual e a s
 
 A consulta pública devolve apenas nome, acertos, percentual, data e código. CPF e e-mail não são expostos.
 
+## Correções locais de 26/11/2026
+
+- A resposta aceita pela API agora inclui a letra correta da questão encerrada e informa acerto/erro na prova. O backend só consulta esse retorno depois da validação de titular, sessão e resposta pela RPC.
+- A visualização autenticada do certificado inclui o e-mail do perfil e data/hora da emissão em Brasília. A consulta pública continua sem CPF e e-mail.
+- Datas legadas sem fuso são interpretadas como UTC e exibidas em `America/Sao_Paulo`, inclusive no histórico e na validação pública. Essa correção pressupõe o contrato UTC documentado do banco; não altera dados existentes.
+- README reparado e documentação da API disponível. As correções locais ainda precisam ser publicadas e homologadas no ambiente de entrega.
+
 ## Limitações conhecidas
 
 | Item | Situação | Requisito | Issue |
 |---|---|---|---|
-| E-mail e hora no certificado | O certificado mostra nome, CPF mascarado, nota final em percentual e data, sem e-mail nem hora da emissão | RF18 | #81, #82 |
-| Hora das respostas e data do certificado | O banco grava em UTC em colunas sem fuso (`timestamp without time zone`), e o navegador lê o valor como horário de Brasília. A hora de cada resposta no histórico aparece 3 horas adiantada, e a data do certificado passa para o dia seguinte quando a emissão ocorre depois das 21h. Vale para o Docker e o Supabase | RF18, RF20 | — |
-| QR Code lido em outro aparelho | Só funciona se `AGILCERT_PUBLIC_BASE_URL` tiver o endereço público ou de rede do site. Com `localhost`, o QR Code só abre no próprio computador. No Docker, o `compose.yaml` publica o portal só em `127.0.0.1`, então outro aparelho não acessa nem com o endereço configurado | RF19, RP08 | #84, #85 |
-| Mostrar a resposta correta logo após cada questão da prova | Não implementado na prova, embora as instruções da tela digam que a alternativa correta é exibida. Ela aparece no histórico, depois da prova finalizada, e no quiz de fixação | RF09, RF11 | #48 (fechada em 18/11/2026, sem mudança no código da prova) |
+| QR Code lido em outro aparelho | Usa a origem atual do site ou o endereço definido em `AGILCERT_PUBLIC_BASE_URL`. É necessário um endereço acessível pelo celular; `localhost` não serve. Teste real ainda pendente. A configuração de rede do Docker ficou fora desta correção | RF19, RP08 | #84, #85 |
 | Figuras no texto de estudo | O texto de estudo não tem figuras; as imagens aparecem nas questões | RF07 | — |
 | Scripts de validação desatualizados | `validar-container.mjs` não responde ao quiz antes de concluir o tema, e a primeira verificação de `provas-db.test.js` espera as questões em rascunho. O portal está certo; os testes precisam acompanhar as regras atuais | — | #94 |
-| Teste completo do sistema e teste de interrupções | Pendentes como entregas próprias; parte do fluxo foi conferida em 18/11/2026 (seção 5) | — | #94, #95 |
-| Documentação completa da API | Pendente | RNF06 | #96 |
+| Teste completo do sistema e teste de interrupções | Issues encerradas no GitHub, mas as evidências precisam ser reconciliadas: o comentário da #95 ainda aponta perda de conexão, fechamento e duplo clique pendentes. Testes simulados não substituem homologação integrada | — | #94, #95 |
+| Documentação completa da API | Disponível em [Documentação da API](../Documentacao_API_AgilCert.md); validar exemplos no ambiente de entrega | RNF06 | #96 |
 
 A emissão do certificado, o QR Code e a validação pública entraram na `main` pela PR #103 e foram ajustados em 17 e 18/11. As issues #80 a #86 foram fechadas em 18/11/2026.
 

@@ -35,6 +35,16 @@ export async function continuidadeRoutes(req, res, pathname, db) {
       p_sessao: sessao ?? null, p_questao: body.questoes_idquestoes ?? null,
       p_alternativa: body.alternativas_idalternativas ?? null, p_motivo: body.motivo ?? null,
     });
+    if (acao === 'responder') {
+      // A RPC já validou titular, sessão e resposta. Nunca consultar gabarito antes dela.
+      const { data, error } = await db.from('tentativas_questoes')
+        .select('resposta_correta,acertou')
+        .eq('tentativas_idtentativas', tentativa)
+        .eq('questoes_idquestoes', body.questoes_idquestoes)
+        .eq('respondida', true).maybeSingle();
+      if (error) throw error;
+      if (data) resultado.feedback = { alternativa_correta: data.resposta_correta, acertou: data.acertou === true };
+    }
     responder(res, ['iniciar', 'responder'].includes(acao) ? 201 : 200, resultado, { 'Cache-Control': 'no-store' });
   } catch (error) { tratarErro(res, error); }
   return true;
