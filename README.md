@@ -1,10 +1,19 @@
-🚀 ABP_1 — CTRL ALT DEVS
+# 🚀 ABP_1 — CTRL ALT DEVS
 
-<div align="center">ÁGILCERT — Portal de Certificação em Metodologias Ágeis
+<div align="center">
 
-Projeto desenvolvido pelo grupo CTRL ALT DEVS.
+### **ÁGILCERT — Portal de Certificação em Metodologias Ágeis**
 
-</div>👥 Integrantes
+Projeto acadêmico desenvolvido pelo grupo **CTRL ALT DEVS**.
+
+[![Assista à Apresentação no YouTube](https://img.shields.io/badge/YouTube-Apresentação_do_Projeto-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)
+[![Protótipo no Figma](https://img.shields.io/badge/Figma-Protótipo_Interativo-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
+
+</div>
+
+---
+
+## 👥 Integrantes
 
 - Isabella Silva Andreotti
 - Júlio César Gregório Pereira
@@ -16,15 +25,17 @@ Projeto desenvolvido pelo grupo CTRL ALT DEVS.
 
 ---
 
-📌 Sobre o projeto
+## 📌 Sobre o projeto
 
-O ÁgilCert consiste no desenvolvimento de um portal de aprendizagem e certificação em metodologias ágeis, com foco nos conceitos e práticas do Scrum.
+O **ÁgilCert** consiste no desenvolvimento de um portal de aprendizagem e certificação em metodologias ágeis, com foco nos conceitos e práticas do Scrum, desenvolvido como projeto da faculdade.
 
 A plataforma permite que os usuários acessem conteúdos educacionais, acompanhem seu progresso nos estudos e realizem uma avaliação para obter sua certificação.
 
 O projeto busca proporcionar uma experiência intuitiva, acessível e responsiva, reunindo aprendizado e avaliação em um único ambiente.
 
-🎯 Objetivos
+---
+
+## 🎯 Objetivos
 
 Desenvolver uma plataforma que permita:
 
@@ -36,31 +47,37 @@ Desenvolver uma plataforma que permita:
 - Realizar uma prova de certificação;
 - Emitir certificados conforme os critérios de aprovação estabelecidos.
 
-👥 Público-alvo
+---
+
+## 👥 Público-alvo
 
 - Estudantes interessados em metodologias ágeis;
 - Pessoas que desejam aprender sobre Scrum;
 - Profissionais que buscam aprimorar seus conhecimentos;
 - Interessados em obter conhecimentos e certificação na área.
 
-🛠️ Tecnologias utilizadas
+---
+
+## 🛠️ Tecnologias utilizadas
 
 O projeto utiliza as seguintes tecnologias e ferramentas:
 
-- HTML5 — Estruturação das páginas;
-- CSS3 — Estilização e responsividade;
-- JavaScript — Interatividade e funcionalidades;
-- Node.js — Execução do ambiente backend;
-- Express — Desenvolvimento da API;
-- PostgreSQL / Supabase — Banco de dados;
-- Docker e Docker Compose — Containerização e execução do ambiente;
-- Git e GitHub — Versionamento e colaboração;
-- GitHub Projects — Organização e acompanhamento das atividades;
-- Figma — Prototipação da interface.
+- **HTML5** — Estruturação das páginas;
+- **CSS3** — Estilização e responsividade;
+- **JavaScript** — Interatividade e funcionalidades;
+- **Node.js** — Execução do ambiente backend;
+- **Express** — Desenvolvimento da API;
+- **PostgreSQL / Supabase** — Banco de dados;
+- **Docker e Docker Compose** — Containerização e execução do ambiente;
+- **Git e GitHub** — Versionamento e colaboração;
+- **GitHub Projects** — Organização e acompanhamento das atividades;
+- **Figma** — Prototipação da interface.
 
-📚 Conteúdos disponíveis
+---
 
-A plataforma aborda 12 temas relacionados às metodologias ágeis:
+## 📚 Conteúdos disponíveis
+
+A plataforma aborda **12 temas** relacionados às metodologias ágeis:
 
 1. Fundamentos da Agilidade;
 2. Introdução ao Scrum;
@@ -75,7 +92,40 @@ A plataforma aborda 12 temas relacionados às metodologias ágeis:
 11. Ferramentas para Equipes Ágeis;
 12. Boas Práticas em Projetos Ágeis.
 
-📂 Documentação
+---
+
+## 📺 Vídeos do projeto
+
+Confira os vídeos de apresentação acadêmica, planejamento das sprints e demonstração das funcionalidades desenvolvidas pelo grupo no canal **Ctrl Alt Devs**:
+
+### 🎓 Apresentação Geral do Projeto (Faculdade)
+
+[![Apresentação ÁgilCert - Faculdade](https://img.youtube.com/vi/T1-knBlZC-E/maxresdefault.jpg)](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)
+
+> ▶️ **[Clique aqui para assistir à apresentação completa no YouTube](https://youtu.be/T1-knBlZC-E?si=DuJj5UL9UYLOSIPX)**
+
+### 📋 Apresentações e planejamento das Sprints
+
+- [▶️ Sprint 1 — ABP-1](https://youtu.be/mRPE58jU3zM?si=8tJALptV5QcUEH29)
+- [▶️ Sprint 2 — ABP-2](https://youtu.be/sX606tKYDiU?si=PtFGuOJlH06fYAC7)
+- [▶️ Poker Planning — Sprint 1](https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
+
+### 💻 Demonstrações e funcionalidades
+
+- [▶️ Apresentação — ABP-2 Sprint 1](https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
+- [▶️ Funcionalidade — Sprint 2](https://youtu.be/3Thw2jTHmCM?si=SaEbJtgj4c8TzK0f)
+
+---
+
+## 🎨 Protótipo no Figma
+
+Acesse o protótipo desenvolvido pelo grupo:
+
+- [🔗 ÁgilCert — CTRL ALT DEVS](https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
+
+---
+
+## 📂 Documentação
 
 A documentação do projeto está organizada por sprint, reunindo os materiais de planejamento, desenvolvimento e acompanhamento.
 
@@ -86,57 +136,11 @@ A documentação do projeto está organizada por sprint, reunindo os materiais d
 | [Sprint 2 — Motor da certificação](docs/sprint-2/) | Planejamento, review, validação, dívida técnica e burndown da Sprint 2 |
 | [Sprint 3 — Certificação e entrega](docs/sprint-3/) | Revisão das questões, coerência entre conteúdos e avaliações, funcionalidades e operação |
 
-O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
-O [registro consolidado da Sprint 2](docs/sprint-2/SPRINT_2_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) apresenta o escopo, os responsáveis e o estado final das issues.
-Os gráficos [Burndown da Sprint 1](docs/sprint-1/BURNDOWN.md) e [Burndown da Sprint 2](docs/sprint-2/BURNDOWN.md) foram reconstruídos pelas datas de fechamento das issues.
+- O [planejamento detalhado da Sprint 1](docs/sprint-1/SPRINT_1_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) reúne os PBIs, as tarefas e a organização sugerida do GitHub Projects.
+- O [registro consolidado da Sprint 2](docs/sprint-2/SPRINT_2_GITHUB_PROJECTS_CTRL_ALT_DEVS.md) apresenta o escopo, os responsáveis e o estado final das issues.
+- Os gráficos [Burndown da Sprint 1](docs/sprint-1/BURNDOWN.md) e [Burndown da Sprint 2](docs/sprint-2/BURNDOWN.md) foram reconstruídos pelas datas de fechamento das issues.
 
-📺 Vídeos do projeto
-
-Confira os vídeos de apresentação, planejamento e demonstração das funcionalidades desenvolvidas pelo grupo.
-
-Canal no YouTube
-
-Ctrl Alt Devs
-
-Apresentações e planejamento
-
-- [▶️ Sprint 1 — ABP-1](https://youtu.be/mRPE58jU3zM?si=8tJALptV5QcUEH29)
-- [▶️ Sprint 2 — ABP-2](https://youtu.be/sX606tKYDiU?si=PtFGuOJlH06fYAC7)
-- [▶️ Poker Planning — Sprint 1](https://youtu.be/fKjHofrkEoY?si=1Qim3ktghWUGbOtb)
-
-Demonstrações e funcionalidades
-
-- [▶️ Apresentação — ABP-2 Sprint 1](https://youtu.be/3Thw2jTHmCM?si=2xwKLjnK2kRUzVeM)
-- [▶️ Funcionalidade — Sprint 2](https://youtu.be/3Thw2jTHmCM?si=SaEbJtgj4c8TzK0f)
-
-🎨 Protótipo no Figma
-
-Acesse o protótipo desenvolvido pelo grupo:
-
-- [🔗 ÁgilCert — CTRL ALT DEVS](https://www.figma.com/design/SwcF0Sngo2feMs0szTAkwC/ABP_ctrl_alt_devs?node-id=6-27&t=DRw4OZrbT7jy5gQb-1)
-
-💻 Executar o projeto completo localmente
-
-Para executar o ambiente completo, é necessário ter o Node.js 22 ou superior e o Docker Desktop aberto.
-
-Na raiz do projeto, execute:
-
-```bash
-node scripts/preparar-compose.mjs
-docker compose --env-file .env.compose up --build -d
-```
-
-Após a inicialização, acesse <http://localhost:3000>.
-
-O primeiro comando cria o arquivo `.env.compose` com senhas aleatórias só para a sua máquina; nenhum segredo fica no repositório.
-
-O passo a passo completo, com a execução sem Docker, as variáveis de ambiente, os testes, a descrição das funcionalidades, as limitações conhecidas e o roteiro de demonstração, está em [Funcionalidades e operação](docs/sprint-3/FUNCIONALIDADES_E_OPERACAO.md).
-
-O ambiente local inclui banco de dados, carga do `schema.sql` e do `seed.sql`, API de dados, backend e frontend.
-
-O `.env` do Supabase remoto não é alterado.
-
-Documentação técnica complementar
+### Documentação técnica complementar
 
 - [Funcionalidades e operação](docs/sprint-3/FUNCIONALIDADES_E_OPERACAO.md)
 - [Coerência entre conteúdos e avaliações](docs/sprint-3/COERENCIA_CONTEUDOS_AVALIACOES.md)
@@ -146,45 +150,14 @@ Documentação técnica complementar
 - [Correções da devolutiva](docs/sprint-1/CORRECOES_DEVOLUTIVA.md)
 - [Review, retrospectiva e Definition of Done (DoD)](docs/sprint-1/REVIEW_RETROSPECTIVA_DOD.md)
 
-📊 Status do projeto
-
-Em desenvolvimento.
-
-O projeto está sendo desenvolvido de forma incremental, seguindo a metodologia Scrum e organizado em três sprints.
-
 ---
 
-<div align="center">CTRL ALT DEVS
+## 💻 Executar o projeto completo localmente
 
-Transformando conhecimento em certificação!
+Para executar o ambiente completo, é necessário ter o **Node.js 22** ou superior e o **Docker Desktop** aberto.
 
-</div>
+Na raiz do projeto, execute:
 
-## Acesso ao certificado
-
-Após a aprovação, o botão **Gerar certificado** abre o documento emitido pela
-finalização da prova. Também é possível acessá-lo por **Histórico → Ver certificado**.
-A página consulta a API, exibe nome, aproveitamento, emissão e código de validação.
-**Salvar em PDF** abre a impressão do navegador: selecione **Salvar como PDF**.
-O endereço de validação impresso pode ser compartilhado e não exige login.
-Certificados inativos ou revogados não são exibidos. A consulta privada por ID
-continua restrita ao titular (ou administrador).
-
-O fluxo usa as tabelas e funções já existentes em `backend/database/schema.sql`;
-não é necessário criar uma nova migração para esta integração. O backend deve estar
-configurado e o banco deve conter o schema do projeto. Os testes de interface e API
-usam dados simulados; os testes reais de PostgreSQL exigem `SECURITY_TEST_CONTAINER`.
-
-
-## Certificado e validação por QR Code
-
-O resultado aprovado e o histórico abrem o certificado da tentativa. A emissão
-consulta a aprovação e o titular no banco; repetir a emissão não duplica registros
-nem reativa certificados revogados. O documento inclui um QR Code que abre
-`validar-certificado.html`, consultando a autenticidade sem exigir login.
-Use **Salvar em PDF** e escolha **Salvar como PDF** na impressão do navegador.
-
-Para leitura do QR Code em outro dispositivo, configure `AGILCERT_PUBLIC_BASE_URL`
-em `frontend/src/assets/js/config.js` com a URL pública ou de rede do site.
-O endereço `localhost` só funciona no computador que executa a aplicação.
-A biblioteca QR está incluída no projeto e não envia dados a serviços externos.
+```bash
+node scripts/preparar-compose.mjs
+docker compose --env-file .env.compose up --build -d
